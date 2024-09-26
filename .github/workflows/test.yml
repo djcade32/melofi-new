@@ -1,0 +1,31 @@
+name: Run Tests on Develop Branch
+
+# Trigger this workflow on pushes to the 'develop' branch
+on:
+  push:
+    branches:
+      - develop
+
+# Define jobs to run in this workflow
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # # Step 2: Set up Node.js environment (assuming you are using Node.js for your project)
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '16'  # You can change this to the version your project uses
+
+      # Step 3: Install project dependencies
+      - name: Install dependencies
+        run: npm install # Change this if you use yarn or another package manager
+
+      # Step 4: Run your tests
+      - name: Run tests
+        run: npm test # Adjust this command to your test script (e.g., jest, mocha, etc.)
