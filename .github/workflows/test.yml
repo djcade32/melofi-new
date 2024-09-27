@@ -6,13 +6,11 @@ on:
     branches:
       - develop
     types:
-      - closed # This ensures it only runs after the PR is merged
+      - opened # Trigger when a pull request is opened
 
 # Define jobs to run in this workflow
 jobs:
   test:
-    if: github.event.pull_request.merged == true # Only run if the PR was merged
-
     runs-on: ubuntu-latest
 
     steps:
