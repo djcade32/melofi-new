@@ -1,6 +1,6 @@
-name: Run Tests on Merge to Develop Branch
+name: Run Tests on Pull Request to Develop Branch
 
-# Trigger the workflow when a pull request is merged into 'develop'
+# Trigger the workflow when a pull request is detected for 'develop'
 on:
   pull_request:
     branches:
