@@ -1,0 +1,35 @@
+name: Run Tests on Merge to Develop Branch
+
+# Trigger the workflow when a pull request is merged into 'develop'
+on:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - closed # This ensures it only runs after the PR is merged
+
+# Define jobs to run in this workflow
+jobs:
+  test:
+    if: github.event.pull_request.merged == true # Only run if the PR was merged
+
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js environment (assuming you are using Node.js)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      # Step 3: Install project dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Run your tests
+      - name: Run tests
+        run: npm test
