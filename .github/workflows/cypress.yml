@@ -1,0 +1,32 @@
+name: Cypress E2E Tests
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - opened # Trigger when a pull request is opened
+      - synchronize # Trigger when a pull request is updated
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        #Use the latest version of Node.js
+        node-version: [18.x]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Cypress tests
+        run: npm run test:e2e:headless
