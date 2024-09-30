@@ -14,8 +14,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16]
-
+        #Use the latest version of Node.js
+        node-version: [18.x]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
