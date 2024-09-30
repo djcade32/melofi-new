@@ -1,12 +1,12 @@
 name: Cypress E2E Tests
 
 on:
-  push:
-    branches:
-      - develop
   pull_request:
     branches:
       - develop
+    types:
+      - opened # Trigger when a pull request is opened
+      - synchronize # Trigger when a pull request is updated
 
 jobs:
   cypress-run:

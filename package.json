@@ -4,8 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "test": "jest",
-    "test:e2e": "cypress open",
+    "test:unit": "jest",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "test:e2e": "start-server-and-test dev http://localhost:3000 cy:open",
+    "test:e2e:headless": "start-server-and-test dev http://localhost:3000 cy:run",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -23,6 +26,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.13",
     "jest": "^29.7.0",
+    "start-server-and-test": "^2.0.8",
     "typescript": "^5"
   }
 }
