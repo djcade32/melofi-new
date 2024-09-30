@@ -1,6 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Cardo&family=Lobster+Two:wght@400;700&family=Patrick+Hand&family=Poppins:wght@300;400;500;700&family=Signika:wght@300;400;500;700&family=Yatra+One&display=swap');
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --font-primary: "Poppins", sans-serif;
+  --font-signika: "Signika", sans-serif;
+  --font-patrick-hand: "Patrick Hand", sans-serif;
+  --font-lobster-two: "Lobster Two", sans-serif;
+  --font-cardo: "Cardo", sans-serif;
+  --font-bruno-ace: "Bruno Ace", sans-serif;
+  --font-yatra-one: "Yatra One", sans-serif;
+  
+  --color-primary: rgb(35,35,35,88%);
+  --color-secondary: #7B777A;
+  --color-secondary-opacity: rgb(112,108,111, 30%);
+  --color-effect : #FEA539;
+  --color-effect-opacity : rgba(254, 165, 57, 0.88);
+  --color-secondary-white: rgb(255,255,255,89%);
+ 
 }
 
 @media (prefers-color-scheme: dark) {
