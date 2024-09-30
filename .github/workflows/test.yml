@@ -31,4 +31,4 @@ jobs:
 
       # Step 4: Run your tests
       - name: Run unit tests
-        run: npm test:unit
+        run: npm run test:unit
