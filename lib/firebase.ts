@@ -7,7 +7,7 @@ import { getAnalytics } from "firebase/analytics";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCXFGQ9CSIp32yIIEMoqSlxurr_auSJXoM",
+  apiKey: process.env.FIREBASE_API_KEY || process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: "melofi-v2.firebaseapp.com",
   projectId: "melofi-v2",
   storageBucket: "melofi-v2.appspot.com",
