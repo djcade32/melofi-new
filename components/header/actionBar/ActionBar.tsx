@@ -15,7 +15,7 @@ const ActionBar = () => {
   useEffect(() => {
     const handleClickOutside = (event: Event) => {
       const targetId = (event.target as HTMLElement).id;
-      if (targetId === "background-video" || targetId === "header") {
+      if (targetId === "melofi-app" || targetId === "header") {
         toggleSceneModal(false);
       }
     };

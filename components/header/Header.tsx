@@ -1,13 +1,17 @@
 import React from "react";
 import ActionBar from "./actionBar/ActionBar";
 import styles from "./header.module.css";
+import logo from "@/public/assets/logos/melofi-logo.png";
+import Image from "next/image";
 
 const Header = () => {
   return (
-    <div className={styles.header__container} id="header">
-      <h1>Melofi logo</h1>
+    <nav className={styles.header__container} id="header">
+      <div className={styles.header_logo}>
+        <Image src={logo} alt="melofi logo" width={122} height={122} priority />
+      </div>
       <ActionBar />
-    </div>
+    </nav>
   );
 };
 
