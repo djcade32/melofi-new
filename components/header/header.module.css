@@ -4,5 +4,18 @@
     align-items: center;
     height: 4rem;
     padding: 0 1rem;
-    height: 4rem;
+    margin-top: 2rem;
 }
+
+.header_logo {
+    animation: logo-spin 5s linear infinite;
+}
+
+@keyframes logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }

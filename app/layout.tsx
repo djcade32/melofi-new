@@ -27,10 +27,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`} id="melofi__app">
-        <nav>
-          <Header />
-        </nav>
+      <body className={`${geistSans.variable} ${geistMono.variable}`} id="melofi-app">
+        <Header />
         <SceneBackground />
         {children}
       </body>

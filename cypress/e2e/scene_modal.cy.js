@@ -15,7 +15,7 @@ describe("Testing Scene Modal", () => {
 
     pressSceneButton();
     cy.get("#scene-modal").should("be.visible");
-    cy.get("#background-video").click();
+    cy.get("#melofi-app").click();
     cy.get("#scene-modal").should("not.be.visible");
   });
 
