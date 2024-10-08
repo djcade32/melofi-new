@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Header from "@/components/header/Header";
+import SceneBackground from "@/components/sceneBackground/SceneBackground";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,7 +27,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>{children}</body>
+      <body className={`${geistSans.variable} ${geistMono.variable}`} id="melofi__app">
+        <nav>
+          <Header />
+        </nav>
+        <SceneBackground />
+        {children}
+      </body>
     </html>
   );
 }

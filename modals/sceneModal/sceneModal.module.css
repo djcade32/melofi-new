@@ -1,0 +1,23 @@
+.sceneModal__container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    right: 28px;
+    bottom: 0;
+    margin: auto;
+    width: 300px;
+    height: 65%;
+    border-radius: 10px;
+    padding: 15px 15px 15px 15px;
+    z-index: 4;
+    
+
+}
+
+.sceneModal__carousel_itemsContainer{
+    gap: 15px
+}
+
