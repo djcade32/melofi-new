@@ -1,23 +1,46 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./sceneBackground.module.css";
 import useSceneStore from "../../stores/scene-store";
 
-//TODO: When scene is changed, fade out the video and fade in the new video
-
 const SceneBackground = () => {
   const { currentScene } = useSceneStore();
+  const [videoSrc, setVideoSrc] = useState(currentScene.video);
+  const [isFadingIn, setIsFadingIn] = useState(false);
+
+  useEffect(() => {
+    if (currentScene.video !== videoSrc) {
+      // Trigger fade-in
+      setIsFadingIn(true);
+      setTimeout(() => {
+        setVideoSrc(currentScene.video);
+        setIsFadingIn(false);
+      }, 600); // This timeout should match the CSS transition duration
+    }
+  }, [currentScene.video, videoSrc]);
+
   return (
-    <video
-      id="background-video"
-      src={currentScene.video}
-      className={styles.melofi_background_video}
-      autoPlay
-      loop
-      muted
-      playsInline
-    />
+    <div>
+      <video
+        id="background-video"
+        src={currentScene.video}
+        className={styles.melofi_background_video}
+        autoPlay
+        loop
+        muted
+        playsInline
+      />
+      <video
+        id="background-video"
+        src={videoSrc}
+        className={`${styles.melofi_background_video} ${isFadingIn ? styles.fade_in : ""}`}
+        autoPlay
+        loop
+        muted
+        playsInline
+      />
+    </div>
   );
 };
 
