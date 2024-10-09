@@ -28,7 +28,7 @@ describe("Testing Scene Modal", () => {
       });
   });
 
-  it("should change background on scene tumbnail click", () => {
+  it("should change background on scene thumbnail click", () => {
     pressSceneButton();
     cy.get("#background-video").should("have.attr", "src").and("include", "girl-in-cafe");
     cy.get("#scene-modal-carousel").find("#carousel-item").siblings().first().click();
