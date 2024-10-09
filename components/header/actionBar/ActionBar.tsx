@@ -5,6 +5,7 @@ import styles from "./actionBar.module.css";
 import ActionBarButton from "./actionBarButton/ActionBarButton";
 import { MdLandscape } from "@/imports/icons";
 import useSceneStore from "@/stores/scene-store";
+import TimeDisplay from "@/components/timeDisplay/TimeDisplay";
 
 const iconProps = { size: 20, color: "white", style: { cursor: "pointer" } };
 
@@ -33,6 +34,7 @@ const ActionBar = () => {
         onClick={() => toggleSceneModal(!sceneModalOpen)}
         isActive={sceneModalOpen}
       />
+      <TimeDisplay />
     </div>
   );
 };

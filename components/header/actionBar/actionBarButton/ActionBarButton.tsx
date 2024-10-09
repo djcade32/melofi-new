@@ -37,8 +37,14 @@ const ActionBarButton = ({
       className={styles.actionBarButton_container}
       onClick={handleOnClick}
       style={isClicked ? { border: "1px solid var(--color-effect-opacity)" } : {}}
+      tabIndex={1}
+      // onKeyDown={(e) => {
+      //   if (e.key === "Enter" || e.key === " ") {
+      //     handleOnClick();
+      //   }
+      // }}
     >
-      <Tooltip text={label} show={!tooltipShown}>
+      <Tooltip text={label} disabled={!tooltipShown}>
         {icon}
       </Tooltip>
     </div>

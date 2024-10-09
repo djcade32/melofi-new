@@ -11,10 +11,10 @@ interface TooltipProps {
   textAlign?: "center" | "left" | "right";
   width?: string;
   noFlex?: boolean;
-  show?: boolean;
+  disabled?: boolean;
 }
 
-const Tooltip = ({ show = false, ...props }: TooltipProps) => {
+const Tooltip = ({ disabled = false, ...props }: TooltipProps) => {
   //   const premiumTooltip = (
   //     <div style={{ display: "flex", columnGap: 5 }}>
   //       <p>{props.text}</p> <FaCrown size={15} color="var(--color-effect-opacity)" />
@@ -23,7 +23,7 @@ const Tooltip = ({ show = false, ...props }: TooltipProps) => {
   return (
     <TooltipMui
       describeChild
-      disableHoverListener={show}
+      disableHoverListener={disabled}
       title={props.text}
       TransitionComponent={Zoom}
       slotProps={{
@@ -41,7 +41,18 @@ const Tooltip = ({ show = false, ...props }: TooltipProps) => {
         },
       }}
     >
-      <div style={props.noFlex ? {} : { display: "flex", alignItems: "center" }}>
+      {/*Could potentially be a problem in the future if tooltip is not working correctlty*/}
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+        }}
+      >
+        {/* <div style={props.noFlex ? {} : { display: "flex", alignItems: "center" }}> */}
         {props.children}
       </div>
     </TooltipMui>
