@@ -6,6 +6,7 @@ import ActionBarButton from "./actionBarButton/ActionBarButton";
 import { MdLandscape } from "@/imports/icons";
 import useSceneStore from "@/stores/scene-store";
 import TimeDisplay from "@/components/timeDisplay/TimeDisplay";
+import MusicControls from "@/components/musicControls/MusicControls";
 
 const iconProps = { size: 20, color: "white", style: { cursor: "pointer" } };
 
@@ -28,6 +29,7 @@ const ActionBar = () => {
 
   return (
     <div className={styles.actionBar__container}>
+      <MusicControls />
       <ActionBarButton
         icon={<MdLandscape {...iconProps} />}
         label="Scenes"

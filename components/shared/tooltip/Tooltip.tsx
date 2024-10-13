@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Zoom } from "@mui/material";
 import TooltipMui from "@mui/material/Tooltip";
 // import { FaCrown } from "../../imports/icons";
@@ -14,18 +14,23 @@ interface TooltipProps {
   disabled?: boolean;
 }
 
-const Tooltip = ({ disabled = false, ...props }: TooltipProps) => {
+const Tooltip = ({ disabled = false, textAlign = "center", ...props }: TooltipProps) => {
+  const [open, setOpen] = useState(false);
   //   const premiumTooltip = (
   //     <div style={{ display: "flex", columnGap: 5 }}>
   //       <p>{props.text}</p> <FaCrown size={15} color="var(--color-effect-opacity)" />
   //     </div>
   //   );
+
   return (
     <TooltipMui
       describeChild
       disableHoverListener={disabled}
       title={props.text}
       TransitionComponent={Zoom}
+      open={open}
+      onOpen={() => setOpen(true)}
+      onClose={() => setOpen(false)}
       slotProps={{
         tooltip: {
           sx: {
@@ -33,9 +38,9 @@ const Tooltip = ({ disabled = false, ...props }: TooltipProps) => {
             bgcolor: props.bgColor || "var(--color-primary)",
             fontFamily: "var(--font-primary)",
             fontWeight: 400,
-            fontSize: 12,
+            fontSize: 14,
             userSelect: "none",
-            textAlign: props.textAlign ? props.textAlign : "center",
+            textAlign: textAlign,
             maxWidth: props.width ? props.width : "25ch",
           },
         },
@@ -50,6 +55,9 @@ const Tooltip = ({ disabled = false, ...props }: TooltipProps) => {
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
+        }}
+        onClick={() => {
+          setOpen(false);
         }}
       >
         {/* <div style={props.noFlex ? {} : { display: "flex", alignItems: "center" }}> */}

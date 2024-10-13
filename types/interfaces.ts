@@ -9,3 +9,18 @@ export interface Scene {
   fontFamily: string;
   premium: boolean;
 }
+
+export interface Song {
+  id: number;
+  mp3Path: string;
+  artist: string;
+  title: string;
+  provider: string;
+  providerUrl: string;
+}
+
+export interface Playlist {
+  id: number;
+  name: string;
+  songs: Song[];
+}
