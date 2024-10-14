@@ -26,7 +26,7 @@ const SceneThumbnail = ({ scene, setSelectedScene }: SceneThumbnailProps) => {
           observer.disconnect(); // Stop observing once loaded
         }
       },
-      { threshold: 0.1 } // Trigger when 10% of the element is visible
+      { threshold: 0.01 }
     );
     if (ref.current) {
       observer.observe(ref.current);
