@@ -7,6 +7,7 @@ interface HoverIconProps {
   icon: IconType;
   size: number;
 
+  id: string;
   showTooltip?: boolean;
   tooltipText?: string;
   iconStyle?: React.CSSProperties;
@@ -17,6 +18,7 @@ interface HoverIconProps {
 const HoverIcon = ({
   icon,
   size,
+  id,
   showTooltip = false,
   tooltipText = "",
   iconStyle,
@@ -29,6 +31,7 @@ const HoverIcon = ({
       {showTooltip ? (
         <Tooltip text={tooltipText}>
           <div
+            id={id}
             className={styles.hoverIcon__iconContainer}
             onClick={onClick}
             onMouseOver={() => setIsHovered(true)}
@@ -43,6 +46,7 @@ const HoverIcon = ({
         </Tooltip>
       ) : (
         <div
+          id={id}
           className={styles.hoverIcon__iconContainer}
           onClick={onClick}
           onMouseOver={() => setIsHovered(true)}

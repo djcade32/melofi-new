@@ -7,6 +7,7 @@ interface TooltipProps {
   text: string;
   children: React.ReactNode;
 
+  // id: string;
   bgColor?: string;
   textAlign?: "center" | "left" | "right";
   width?: string;
@@ -24,6 +25,7 @@ const Tooltip = ({ disabled = false, textAlign = "center", ...props }: TooltipPr
 
   return (
     <TooltipMui
+      // id={props.id}
       describeChild
       disableHoverListener={disabled}
       title={props.text}

@@ -124,6 +124,7 @@ const MusicControls = () => {
       )}
       <div className={styles.musicControls__container_buttons}>
         <HoverIcon
+          id="music-controls-previous"
           showTooltip
           tooltipText="Previous"
           icon={BsFillSkipBackwardFill}
@@ -134,6 +135,7 @@ const MusicControls = () => {
 
         {isPlaying ? (
           <HoverIcon
+            id="music-controls-pause"
             showTooltip
             tooltipText="Pause"
             icon={FaPause}
@@ -143,6 +145,7 @@ const MusicControls = () => {
           />
         ) : (
           <HoverIcon
+            id="music-controls-play"
             showTooltip
             tooltipText="Play"
             icon={FaPlay}
@@ -153,6 +156,7 @@ const MusicControls = () => {
         )}
 
         <HoverIcon
+          id="music-controls-next"
           showTooltip
           tooltipText="Next"
           icon={BsSkipForwardFill}
@@ -162,6 +166,7 @@ const MusicControls = () => {
         />
 
         <HoverIcon
+          id="music-controls-volume"
           showTooltip
           tooltipText={volumePressed ? "Hide volume" : "Show volume"}
           icon={IoVolumeMedium}
@@ -174,6 +179,7 @@ const MusicControls = () => {
         />
 
         <HoverIcon
+          id="music-controls-mute-all"
           showTooltip
           tooltipText={isMuted ? "Unmute all" : "Mute all"}
           icon={IoVolumeMute}
@@ -188,9 +194,13 @@ const MusicControls = () => {
       </div>
 
       {volumePressed && (
-        <div className={styles.musicControls__volumeSlider}>
+        <div
+          id="music-controls-volume-slider-container"
+          className={styles.musicControls__volumeSlider}
+        >
           <div style={{ width: "75%" }}>
             <VolumeSlider
+              id="music-controls-volume-slider"
               style={{ cursor: "pointer" }}
               onChange={handleVolumeChange}
               value={musicVolume}
