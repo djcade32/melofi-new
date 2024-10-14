@@ -1,3 +1,4 @@
+import NowPlaying from "@/components/nowPlaying/NowPlaying";
 import SceneModal from "@/modals/sceneModal/SceneModal";
 import React from "react";
 
@@ -8,6 +9,7 @@ export default function Home() {
   return (
     <div>
       <SceneModal />
+      <NowPlaying />
     </div>
   );
 }
