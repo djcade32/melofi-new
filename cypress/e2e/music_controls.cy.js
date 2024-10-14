@@ -80,14 +80,14 @@ describe("Testing Music Controls", () => {
     });
   });
 
-  it.only("Should mute and unmute music", () => {
+  it("Should mute and unmute music", () => {
     cy.get("#music-controls-mute-all").click();
     cy.get("#main-audio").then(($audio) => {
       expect($audio[0].muted).to.equal(true);
     });
     cy.get("#music-controls-mute-all").click();
     cy.get("#main-audio").then(($audio) => {
-      expect($audio[0].mute).to.equal(false);
+      expect($audio[0].muted).to.equal(false);
     });
   });
 });
