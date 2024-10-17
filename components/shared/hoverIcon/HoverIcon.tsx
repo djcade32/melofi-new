@@ -7,11 +7,12 @@ interface HoverIconProps {
   icon: IconType;
   size: number;
 
-  id: string;
+  id?: string;
   showTooltip?: boolean;
   tooltipText?: string;
   iconStyle?: React.CSSProperties;
   hoverColor?: string;
+  color?: string;
   onClick?: () => void;
 }
 
@@ -23,6 +24,7 @@ const HoverIcon = ({
   tooltipText = "",
   iconStyle,
   hoverColor,
+  color = "white",
   onClick,
 }: HoverIconProps) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -39,7 +41,7 @@ const HoverIcon = ({
           >
             {React.createElement(icon, {
               style: { ...iconStyle },
-              color: isHovered ? hoverColor : "white",
+              color: isHovered ? hoverColor : color,
               size: size,
             })}
           </div>
@@ -54,7 +56,7 @@ const HoverIcon = ({
         >
           {React.createElement(icon, {
             style: { ...iconStyle },
-            color: isHovered ? hoverColor : "white",
+            color: isHovered ? hoverColor : color,
             size: size,
           })}
         </div>

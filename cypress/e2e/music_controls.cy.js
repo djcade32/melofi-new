@@ -1,14 +1,17 @@
 import { navigateToMelofi } from "../utils/general";
+import "cypress-real-events/support";
 
 describe("Testing Music Controls", () => {
-  beforeEach(() => {
+  before(() => {
     navigateToMelofi();
   });
+  // Preserve cookies and local/session storage across tests
+
   it("Should play and pause music", () => {
-    cy.get("#music-controls-play").click();
+    cy.get("#music-controls-play").realClick();
     cy.get("#music-controls-pause").should("be.visible");
     cy.wait(2000);
-    cy.get("#music-controls-pause").click();
+    cy.get("#music-controls-pause").realClick();
     cy.get("#music-controls-play").should("be.visible");
   });
 
@@ -19,7 +22,7 @@ describe("Testing Music Controls", () => {
       .then((src) => {
         songSrc = src;
       });
-    cy.get("#music-controls-next").click();
+    cy.get("#music-controls-next").realClick();
     cy.get("#main-audio")
       .invoke("attr", "src")
       .then((newSrc) => {
@@ -34,7 +37,7 @@ describe("Testing Music Controls", () => {
       .then((src) => {
         songSrc = src;
       });
-    cy.get("#music-controls-previous").click();
+    cy.get("#music-controls-previous").realClick();
     cy.get("#main-audio")
       .invoke("attr", "src")
       .then((newSrc) => {
@@ -46,7 +49,7 @@ describe("Testing Music Controls", () => {
     let currentSliderValue = 0;
     let currentVolume = 0;
     //Open volume slider
-    cy.get("#music-controls-volume").click();
+    cy.get("#music-controls-volume").realClick();
     cy.get("#music-controls-volume-slider-container").should("be.visible");
 
     //Get current volume
@@ -61,12 +64,12 @@ describe("Testing Music Controls", () => {
     });
 
     //Get rid of volume tooltip
-    cy.get("#melofi-app").click();
+    cy.get("#melofi-app").realClick();
 
     //Change volume
     cy.get("#music-controls-volume-slider")
       .get(".MuiSlider-track") // Replace with your actual selector
-      .click();
+      .realClick();
 
     //Check if volume has changed
     cy.get("#music-controls-volume-slider")
@@ -81,11 +84,11 @@ describe("Testing Music Controls", () => {
   });
 
   it("Should mute and unmute music", () => {
-    cy.get("#music-controls-mute-all").click();
+    cy.get("#music-controls-mute-all").realClick();
     cy.get("#main-audio").then(($audio) => {
       expect($audio[0].muted).to.equal(true);
     });
-    cy.get("#music-controls-mute-all").click();
+    cy.get("#music-controls-mute-all").realClick();
     cy.get("#main-audio").then(($audio) => {
       expect($audio[0].muted).to.equal(false);
     });

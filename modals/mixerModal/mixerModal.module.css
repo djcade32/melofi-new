@@ -1,0 +1,37 @@
+.mixerModal__container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border-radius: 10px;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 425px;
+    height: 600px;
+}
+
+.mixerModal__title {
+    color: var(--color-secondary-white);
+    font-family: var(--font-primary);
+    font-size: 21px;
+    font-weight: 500;
+}
+
+.mixerModal__content_container {
+    overflow-y: scroll;
+    /* display: flex; */
+    /* flex-direction: column; */
+    height: 100%;
+    margin-top: 15px;
+    margin-right: 22px;
+    margin-left: 22px;
+}
+
+.mixerModal__content_playlist_container{
+    display: flex;
+    justify-content: space-around;
+}

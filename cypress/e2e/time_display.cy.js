@@ -2,7 +2,7 @@ import { navigateToMelofi } from "../utils/general";
 import "cypress-real-events/support";
 
 describe("Testing Time Display", () => {
-  beforeEach(() => {
+  before(() => {
     navigateToMelofi();
   });
   it("Should change time to 24-hour format", () => {
