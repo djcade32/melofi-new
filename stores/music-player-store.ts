@@ -42,6 +42,8 @@ const useMusicPlayerStore = create<MusicPlayerState>((set) => ({
   },
   setCurrentPlaylist: (newPlaylist: Playlist) => {
     set({ currentPlaylist: newPlaylist });
+    // set({ currentSong: newPlaylist.songs[0] });
+    // set({ isPlaying: false });
   },
   shufflePlaylist: () => {
     set((state) => {

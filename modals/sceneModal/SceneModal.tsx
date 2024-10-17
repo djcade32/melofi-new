@@ -18,7 +18,12 @@ const SceneModal = () => {
   }, [selectedScene]);
 
   return (
-    <Modal className={styles.sceneModal__container} isOpen={sceneModalOpen} id="scene-modal">
+    <Modal
+      className={styles.sceneModal__container}
+      isOpen={sceneModalOpen}
+      id="scene-modal"
+      showCloseIcon={false}
+    >
       <Carousel
         orientation="vertical"
         itemsContainer={styles.sceneModal__carousel_itemsContainer}

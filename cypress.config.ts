@@ -6,5 +6,6 @@ export default defineConfig({
       // implement node event listeners here
     },
     baseUrl: "http://localhost:3000", // Use the port your app runs on
+    testIsolation: false,
   },
 });

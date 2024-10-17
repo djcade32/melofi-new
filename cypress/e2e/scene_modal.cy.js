@@ -2,7 +2,7 @@
 import { pressSceneButton, navigateToMelofi } from "../utils/general";
 
 describe("Testing Scene Modal", () => {
-  beforeEach(() => {
+  before(() => {
     navigateToMelofi();
   });
 
@@ -20,7 +20,6 @@ describe("Testing Scene Modal", () => {
   });
 
   it("should have scene thumbnails showing", () => {
-    pressSceneButton();
     cy.get("#scene-modal-carousel")
       .find("#carousel-item")
       .should(($items) => {

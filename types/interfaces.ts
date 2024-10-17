@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import { IconType } from "react-icons";
 
 export interface Scene {
   id: number;
@@ -22,5 +23,7 @@ export interface Song {
 export interface Playlist {
   id: number;
   name: string;
+  icon: IconType;
+  spotifyPlaylistId: string;
   songs: Song[];
 }

@@ -1,7 +1,7 @@
 import { navigateToMelofi } from "../utils/general";
 
 describe("Testing Now Playing", () => {
-  beforeEach(() => {
+  before(() => {
     navigateToMelofi();
   });
 

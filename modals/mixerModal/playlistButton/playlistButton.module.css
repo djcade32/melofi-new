@@ -1,0 +1,40 @@
+.playlistButton__container {
+    display: flex;
+    align-items: center;
+   flex-direction: column;
+   row-gap: 5px;
+}
+
+.playlistButton__container div {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    
+    transition: background-color 0.3s;
+}
+
+.playlistButton__container p {
+    font-family: var(--font-primary);
+    transition: color 0.3s;
+}
+
+.playlistButton__container div:hover{
+    background-color: var(--color-effect-opacity);
+}
+
+.playlistButton__container div:hover ~ p {
+    color: white;
+}
+
+.playlistButton__container_text_active {
+    color: white;
+}
+
+.playlistButton__container_text_not_active {
+    color: var(--color-secondary);
+}

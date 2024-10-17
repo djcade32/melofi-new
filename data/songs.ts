@@ -1,4 +1,5 @@
 import { Playlist } from "@/types/interfaces";
+import { IoBookSharp, PiMoonFill, FaHeadphones } from "@/imports/icons";
 import {
   fallenHorizon_gCoope_oddPanda_earlyGarden,
   illMeetYouAtTheStation_glimlip_louk,
@@ -59,6 +60,8 @@ import {
 const Study: Playlist = {
   id: 0,
   name: "Study",
+  icon: IoBookSharp,
+  spotifyPlaylistId: "6JMt2yxWecgTXAzkDW0TrZ",
   songs: [
     {
       id: 0,
@@ -306,6 +309,8 @@ const Study: Playlist = {
 const Relax: Playlist = {
   id: 1,
   name: "Relax",
+  icon: FaHeadphones,
+  spotifyPlaylistId: "1OyBZa9DEbKT6ye47QDQgR",
   songs: [
     {
       id: 0,
@@ -417,6 +422,8 @@ const Relax: Playlist = {
 const Sleepy: Playlist = {
   id: 2,
   name: "Sleepy",
+  icon: PiMoonFill,
+  spotifyPlaylistId: "1rg4Z5eRMGgD6k58cNiaL6",
   songs: [
     {
       id: 0,

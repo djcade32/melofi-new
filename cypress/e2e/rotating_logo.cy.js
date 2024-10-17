@@ -2,7 +2,7 @@ import { navigateToMelofi } from "../utils/general";
 import "cypress-real-events/support";
 
 describe("Testing Rotating Logo", () => {
-  beforeEach(() => {
+  before(() => {
     navigateToMelofi();
   });
   it("Should see logo rotating clockwise", () => {
