@@ -34,8 +34,8 @@ const PlaylistButton = ({
         <HoverIcon
           icon={icon}
           size={iconSize}
-          color={isActive ? "white" : "var(--color-secondary)"}
-          hoverColor="white"
+          color={isActive ? "var(--color-secondary-white)" : "var(--color-secondary)"}
+          hoverColor="var(--color-secondary-white)"
         />
       </div>
       <p

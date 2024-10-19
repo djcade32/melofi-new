@@ -7,5 +7,7 @@ export default defineConfig({
     },
     baseUrl: "http://localhost:3000", // Use the port your app runs on
     testIsolation: false,
+    viewportHeight: 1012,
+    viewportWidth: 1440,
   },
 });

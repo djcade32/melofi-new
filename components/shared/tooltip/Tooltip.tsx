@@ -40,7 +40,7 @@ const Tooltip = ({ disabled = false, textAlign = "center", ...props }: TooltipPr
             bgcolor: props.bgColor || "var(--color-primary)",
             fontFamily: "var(--font-primary)",
             fontWeight: 400,
-            fontSize: 14,
+            fontSize: 12,
             userSelect: "none",
             textAlign: textAlign,
             maxWidth: props.width ? props.width : "25ch",

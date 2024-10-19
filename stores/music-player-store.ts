@@ -2,21 +2,14 @@ import { create } from "zustand";
 import { Playlist, Song } from "@/types/interfaces";
 import { Study } from "@/data/songs";
 
-enum MusicSource {
-  MELOFI = "melofi",
-  SPOTIFY = "spotify",
-}
-
 export interface MusicPlayerState {
   currentSong: Song;
   currentPlaylist: Playlist;
-  musicSource: MusicSource.MELOFI | MusicSource.SPOTIFY;
   isMuted: boolean;
   isPlaying: boolean;
   musicVolume: number;
 
   setCurrentSong: (newSong: Song) => void;
-  setMusicSource: (newSource: MusicSource) => void;
   setCurrentPlaylist: (newPlaylist: Playlist) => void;
   shufflePlaylist: () => void;
   goToNextSong: () => void;
@@ -29,7 +22,6 @@ export interface MusicPlayerState {
 const useMusicPlayerStore = create<MusicPlayerState>((set) => ({
   currentPlaylist: Study,
   currentSong: Study.songs[0],
-  musicSource: MusicSource.MELOFI,
   isMuted: false,
   isPlaying: false,
   musicVolume: 50,
@@ -37,13 +29,9 @@ const useMusicPlayerStore = create<MusicPlayerState>((set) => ({
   setCurrentSong: (newSong: Song) => {
     set({ currentSong: newSong });
   },
-  setMusicSource: (newSource: MusicSource) => {
-    set({ musicSource: newSource });
-  },
+
   setCurrentPlaylist: (newPlaylist: Playlist) => {
     set({ currentPlaylist: newPlaylist });
-    // set({ currentSong: newPlaylist.songs[0] });
-    // set({ isPlaying: false });
   },
   shufflePlaylist: () => {
     set((state) => {

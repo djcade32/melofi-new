@@ -13,9 +13,10 @@
     justify-content: center;
     display: flex;
     flex-direction: column;
+    border: 1px solid var(--color-secondary-opacity);
     cursor: pointer;
     
-    transition: background-color 0.3s;
+    transition: all 0.3s;
 }
 
 .playlistButton__container p {
@@ -24,7 +25,7 @@
 }
 
 .playlistButton__container div:hover{
-    background-color: var(--color-effect-opacity);
+    border: 1px solid var(--color-effect-opacity);
 }
 
 .playlistButton__container div:hover ~ p {

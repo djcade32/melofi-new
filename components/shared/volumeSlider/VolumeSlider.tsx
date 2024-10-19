@@ -1,5 +1,5 @@
 import React from "react";
-import Slider, { SliderOwnProps } from "@mui/material/Slider";
+import Slider from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
 import styles from "./volumeSlider.module.css";
 

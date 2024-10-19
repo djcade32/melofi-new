@@ -6,13 +6,23 @@ describe("Testing Mixer Modal", () => {
     navigateToMelofi();
   });
 
+  it("should open and close Mixer Modal", () => {
+    pressMixerButton();
+    cy.get("#mixer-modal").should("be.visible");
+    pressMixerButton();
+    cy.get("#mixer-modal").should("not.be.visible");
+    pressMixerButton();
+    cy.get(".modal_modal__title_container__bWI8Q").get("svg").realClick();
+    cy.get("#mixer-modal").should("not.be.visible");
+  });
+
   describe("Testing Playlist Section", () => {
     it("Playlist button should highlight when active", () => {
       pressMixerButton();
       cy.get("#playlist-button-Relax").realClick();
       cy.get("#playlist-button-Relax").should(
         "have.css",
-        "background-color",
+        "border-color",
         "rgba(254, 165, 57, 0.88)"
       );
     });
@@ -32,6 +42,91 @@ describe("Testing Mixer Modal", () => {
         .then((newSongTitle) => {
           expect(newSongTitle).to.not.equal(currentSongTitle);
         });
+    });
+  });
+
+  describe("Testing Music Source Section", () => {
+    it("Should switch to Melofi music source while showing music controls and now playing components ", () => {
+      cy.get("#music-source-button-melofi").realClick();
+      cy.get("#music-source-button-melofi").should(
+        "have.css",
+        "background-color",
+        "rgba(254, 165, 57, 0.88)"
+      );
+      cy.get("#music-controls").should("be.visible");
+      cy.get("#now-playing").should("be.visible");
+    });
+
+    it("Should switch to Spotify music source and music controls and now playing components should not show ", () => {
+      cy.get("#music-source-button-spotify").realClick();
+      cy.get("#music-source-button-spotify").should(
+        "have.css",
+        "background-color",
+        "rgba(254, 165, 57, 0.88)"
+      );
+      cy.get("#music-controls").should("not.exist");
+      cy.get("#now-playing").should("not.exist");
+    });
+
+    it("Should show volume section when Melofi music source is selected", () => {
+      cy.get("#music-source-button-melofi").realClick();
+      cy.get("#mixer-modal-volume-slider").should("be.visible");
+    });
+
+    it("Should show Spotify section when Spotify music source is selected", () => {
+      cy.get("#music-source-button-spotify").realClick();
+      cy.get("#mixer-modal-spotify-widget").should("be.visible");
+    });
+
+    it("Should change Spotify playlist", () => {
+      const playlistInput =
+        "https://open.spotify.com/playlist/0WcchMXMGm91OoxZFN93gv?si=eafeddcf22dc45fa";
+
+      cy.get("#mixer-modal-spotify-widget").then(($iframe) => {
+        const src = $iframe.attr("src");
+      });
+      cy.get("#spotify-widget-input").type(playlistInput);
+      cy.get("#spotify-widget-input-go").realClick();
+      cy.get("#mixer-modal-spotify-widget").then(($iframe) => {
+        expect($iframe.attr("src")).to.include("0WcchMXMGm91OoxZFN93gv");
+      });
+    });
+  });
+
+  describe("Testing Volume Section", () => {
+    it("Should show volume slide and change volume", () => {
+      let currentSliderValue = 0;
+      let currentVolume = 0;
+
+      //Switch to Melofi source
+      cy.get("#music-source-button-melofi").realClick();
+
+      //Get current volume
+      cy.get("#mixer-modal-volume-slider")
+        .get("input")
+        .invoke("attr", "value")
+        .then((value) => {
+          currentSliderValue = value;
+        });
+      cy.get("#main-audio").then(($audio) => {
+        currentVolume = $audio[0].volume; // Access the volume property of the first audio element
+      });
+
+      //Change volume
+      cy.get("#mixer-modal-volume-slider")
+        .get(".MuiSlider-track") // Replace with your actual selector
+        .realClick();
+
+      //Check if volume has changed
+      cy.get("#mixer-modal-volume-slider")
+        .get("input")
+        .invoke("attr", "value")
+        .then((value) => {
+          expect(value).to.not.equal(currentSliderValue);
+        });
+      cy.get("#main-audio").then(($audio) => {
+        expect($audio[0].volume).to.not.equal(currentVolume);
+      });
     });
   });
 });
