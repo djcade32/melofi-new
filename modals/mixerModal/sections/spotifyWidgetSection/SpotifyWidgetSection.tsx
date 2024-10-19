@@ -47,6 +47,7 @@ const SpotifyWidgetSection = () => {
         onSubmit={handleSpotifyPlaylistChange}
       />
       <iframe
+        id="mixer-modal-spotify-widget"
         src={`https://open.spotify.com/embed/playlist/${spotifyPlaylistId}?utm_source=generator`}
         allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture;"
         className={styles.spotifyWidgetSection__spotify_widget}

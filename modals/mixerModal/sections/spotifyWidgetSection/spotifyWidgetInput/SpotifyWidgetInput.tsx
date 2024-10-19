@@ -43,7 +43,12 @@ const SpotifyWidgetInput = ({ value, onChange, onSubmit }: SpotifyWidgetInputPro
         onFocus={() => setIsInputFocused(true)}
         onBlur={() => setIsInputFocused(false)}
       />
-      <p ref={goRef} className={styles.spotifyWidgetInput__input_button} onClick={onSubmit}>
+      <p
+        id="spotify-widget-input-go"
+        ref={goRef}
+        className={styles.spotifyWidgetInput__input_button}
+        onClick={onSubmit}
+      >
         Go
       </p>
     </div>

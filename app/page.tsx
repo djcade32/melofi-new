@@ -19,7 +19,6 @@ export default function Home() {
       <SceneModal />
       <MixerModal />
       {musicSource === MusicSource.MELOFI && <NowPlaying />}
-      <Toaster message="test" type="success" />
     </div>
   );
 }

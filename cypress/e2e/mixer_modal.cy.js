@@ -68,8 +68,29 @@ describe("Testing Mixer Modal", () => {
       cy.get("#now-playing").should("not.exist");
     });
 
-    it("Should show volume section when Melofi music source is selected", () => {});
-    it("Should show Spotify section when Spotify music source is selected", () => {});
+    it("Should show volume section when Melofi music source is selected", () => {
+      cy.get("#music-source-button-melofi").realClick();
+      cy.get("#mixer-modal-volume-slider").should("be.visible");
+    });
+
+    it("Should show Spotify section when Spotify music source is selected", () => {
+      cy.get("#music-source-button-spotify").realClick();
+      cy.get("#mixer-modal-spotify-widget").should("be.visible");
+    });
+
+    it("Should change Spotify playlist", () => {
+      const playlistInput =
+        "https://open.spotify.com/playlist/0WcchMXMGm91OoxZFN93gv?si=eafeddcf22dc45fa";
+
+      cy.get("#mixer-modal-spotify-widget").then(($iframe) => {
+        const src = $iframe.attr("src");
+      });
+      cy.get("#spotify-widget-input").type(playlistInput);
+      cy.get("#spotify-widget-input-go").realClick();
+      cy.get("#mixer-modal-spotify-widget").then(($iframe) => {
+        expect($iframe.attr("src")).to.include("0WcchMXMGm91OoxZFN93gv");
+      });
+    });
   });
 
   describe("Testing Volume Section", () => {
