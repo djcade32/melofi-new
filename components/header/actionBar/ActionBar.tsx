@@ -8,12 +8,13 @@ import useSceneStore from "@/stores/scene-store";
 import TimeDisplay from "@/components/timeDisplay/TimeDisplay";
 import MusicControls from "@/components/musicControls/MusicControls";
 import useMixerStore from "@/stores/mixer-store";
+import { MusicSource } from "@/enums/general";
 
-const iconProps = { size: 20, color: "white", style: { cursor: "pointer" } };
+const iconProps = { size: 20, color: "var(--color-secondary-white)", style: { cursor: "pointer" } };
 
 const ActionBar = () => {
   const { toggleSceneModal, sceneModalOpen } = useSceneStore();
-  const { toggleMixerModal, mixerModalOpen } = useMixerStore();
+  const { toggleMixerModal, mixerModalOpen, musicSource } = useMixerStore();
 
   // Close scene modal when clicking outside of the modal
   useEffect(() => {
@@ -37,7 +38,7 @@ const ActionBar = () => {
         onClick={() => toggleMixerModal(!mixerModalOpen)}
         isActive={mixerModalOpen}
       />
-      <MusicControls />
+      {musicSource === MusicSource.MELOFI && <MusicControls />}
       <ActionBarButton
         icon={<MdLandscape {...iconProps} />}
         label="Scenes"

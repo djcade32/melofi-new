@@ -4,13 +4,18 @@ import React from "react";
 import Modal from "@/components/shared/modal/Modal";
 import styles from "./mixerModal.module.css";
 import useMixerStore from "@/stores/mixer-store";
-import PlaylistSection from "./sections/PlaylistSection";
+import PlaylistSection from "./sections/playlistSection/PlaylistSection";
+import MusicSourceSection from "./sections/musicSourceSection/MusicSourceSection";
+import MusicVolumeSection from "./sections/musicVolumeSection/MusicVolumeSection";
+import SpotifyWidgetSection from "./sections/spotifyWidgetSection/SpotifyWidgetSection";
+import { MusicSource } from "@/enums/general";
 
 const MixerModal = () => {
-  const { mixerModalOpen, toggleMixerModal } = useMixerStore();
+  const { mixerModalOpen, toggleMixerModal, musicSource } = useMixerStore();
 
   return (
     <Modal
+      id="mixer-modal"
       isOpen={mixerModalOpen}
       close={() => toggleMixerModal(!mixerModalOpen)}
       className={styles.mixerModal__container}
@@ -20,6 +25,8 @@ const MixerModal = () => {
     >
       <div className={styles.mixerModal__content_container}>
         <PlaylistSection />
+        <MusicSourceSection />
+        {musicSource === MusicSource.MELOFI ? <MusicVolumeSection /> : <SpotifyWidgetSection />}
       </div>
     </Modal>
   );

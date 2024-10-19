@@ -9,7 +9,7 @@
     color: white
 }
 
-.hoverIcon__iconContainer:hover svg{
+/* .hoverIcon__iconContainer:hover svg{
     color: var(--color-effect-opacity);
     transition: color 0.3s;
-}
+} */

@@ -18,6 +18,8 @@
   --color-effect : #FEA539;
   --color-effect-opacity : rgba(254, 165, 57, 0.88);
   --color-secondary-white: rgb(255,255,255,89%);
+  --color-error: rgb(239, 83, 80, 0.88);
+  --color-success: rgb(74, 147, 74, .88);
 
   --box-shadow-primary: 0 4px 4px #00000040; 
  
@@ -43,7 +45,11 @@ body {
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none;
+}
 
+p {
+  font-family: var(--font-primary);
+  color: var(--color-secondary-white);
 }
 
 body {

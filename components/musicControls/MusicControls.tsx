@@ -103,6 +103,7 @@ const MusicControls = () => {
 
   return (
     <div
+      id="music-controls"
       className={styles.musicControls__container}
       style={
         volumePressed
@@ -131,6 +132,7 @@ const MusicControls = () => {
           size={iconProps.size}
           iconStyle={iconProps.style}
           onClick={handleSkipBackward}
+          hoverColor="var(--color-effect-opacity)"
         />
 
         {isPlaying ? (
@@ -142,6 +144,7 @@ const MusicControls = () => {
             size={iconProps.size}
             iconStyle={iconProps.style}
             onClick={handleTogglePlay}
+            hoverColor="var(--color-effect-opacity)"
           />
         ) : (
           <HoverIcon
@@ -152,6 +155,7 @@ const MusicControls = () => {
             size={iconProps.size}
             iconStyle={iconProps.style}
             onClick={handleTogglePlay}
+            hoverColor="var(--color-effect-opacity)"
           />
         )}
 
@@ -163,6 +167,7 @@ const MusicControls = () => {
           size={iconProps.size}
           iconStyle={iconProps.style}
           onClick={handleSkipForward}
+          hoverColor="var(--color-effect-opacity)"
         />
 
         <HoverIcon
@@ -176,6 +181,7 @@ const MusicControls = () => {
             color: volumePressed ? "var(--color-effect-opacity)" : "",
           }}
           onClick={toggleVolumeDisplay}
+          hoverColor="var(--color-effect-opacity)"
         />
 
         <HoverIcon
@@ -201,7 +207,6 @@ const MusicControls = () => {
           <div style={{ width: "75%" }}>
             <VolumeSlider
               id="music-controls-volume-slider"
-              style={{ cursor: "pointer" }}
               onChange={handleVolumeChange}
               value={musicVolume}
             />

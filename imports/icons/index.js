@@ -36,6 +36,7 @@ import {
   IoThunderstormOutline,
   IoBookSharp,
   IoCloudyNightOutline,
+  IoCheckmarkCircle,
 } from "react-icons/io5";
 import {
   RiSoundModuleFill,
@@ -65,6 +66,8 @@ import {
   MdEmail,
   MdOutlineWaterDrop,
   MdLibraryMusic,
+  MdOutlineDisabledByDefault,
+  MdError,
 } from "react-icons/md";
 import {
   AiFillTool,
@@ -108,6 +111,7 @@ export {
   LuFan,
   CgEditNoise,
   IoThunderstormOutline,
+  IoCheckmarkCircle,
   LuWaves,
   GiTacos,
   MdLandscape,
@@ -130,6 +134,7 @@ export {
   FaCommentDots,
   BsFillInfoCircleFill,
   MdTimer,
+  MdOutlineDisabledByDefault,
   RxCaretLeft,
   RxCaretRight,
   RxCaretDown,
@@ -147,6 +152,7 @@ export {
   FaCrown,
   IoBookSharp,
   MdLibraryMusic,
+  MdError,
   RiPlayListFill,
   BsSoundwave,
   HiTemplate,

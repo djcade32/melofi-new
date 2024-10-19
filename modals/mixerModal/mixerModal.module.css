@@ -29,5 +29,12 @@
     margin-top: 15px;
     margin-right: 22px;
     margin-left: 22px;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.mixerModal__content_container::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
 }
 

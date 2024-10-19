@@ -24,7 +24,7 @@ const HoverIcon = ({
   tooltipText = "",
   iconStyle,
   hoverColor,
-  color = "white",
+  color = "var(--color-secondary-white)",
   onClick,
 }: HoverIconProps) => {
   const [isHovered, setIsHovered] = useState(false);
