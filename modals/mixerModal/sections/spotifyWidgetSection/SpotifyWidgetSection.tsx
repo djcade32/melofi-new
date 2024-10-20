@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import useMusicPlayerStore from "@/stores/music-player-store";
 import styles from "./spotifyWidgetSection.module.css";
 import SpotifyWidgetInput from "./spotifyWidgetInput/SpotifyWidgetInput";
+import useNotificationProviderStore from "@/stores/notification-provider-store";
 
 const SpotifyWidgetSection = () => {
   const { currentPlaylist } = useMusicPlayerStore();
+  const { addNotification } = useNotificationProviderStore();
 
   const [spotifyPlaylistId, setSpotifyPlaylistId] = useState("");
   const [spotifyPlaylistInput, setSpotifyPlaylistInput] = useState("");
+  const [inputError, setInputError] = useState(false);
 
   useEffect(() => {
     if (currentPlaylist && currentPlaylist.spotifyPlaylistId !== "") {
@@ -15,26 +18,37 @@ const SpotifyWidgetSection = () => {
     }
   }, [currentPlaylist]);
 
-  const handleSpotifyPlaylistChange = () => {
+  const handleSpotifyPlaylistChange = (): Promise<boolean> => {
+    // If the input is empty, do nothing
     if (spotifyPlaylistInput === "") {
-      return;
+      return Promise.resolve(true);
     }
+
     const id = extractSpotifyPlaylistId(spotifyPlaylistInput);
+    // If the id is valid, set the new playlist id
     if (id && id !== "") {
       setSpotifyPlaylistId(id);
       setSpotifyPlaylistInput("");
+      return Promise.resolve(true);
+    } else {
+      // If the id is invalid, show an error
+      addNotification({
+        message: "Invalid Spotify Playlist Link",
+        type: "error",
+      });
+      return Promise.resolve(false);
     }
   };
 
   const extractSpotifyPlaylistId = (spotifyPlaylistLink: string) => {
-    const url = spotifyPlaylistLink;
-    const regex = /(?:playlist\/)?([^/?]+)(?:\?.*)?$/;
-    const result = regex.exec(url);
+    const regex = /^https:\/\/open\.spotify\.com\/playlist\/([a-zA-Z0-9]+)(?:\?.*)?$/;
+    const result = regex.exec(spotifyPlaylistLink);
 
-    if (result && result.length > 1 && result[0].includes("playlist")) {
+    if (result && result.length > 1) {
       const extractedValue = result[1];
       return extractedValue;
     } else {
+      console.log("Invalid Spotify Playlist Link");
       return "";
     }
   };

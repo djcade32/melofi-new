@@ -91,6 +91,15 @@ describe("Testing Mixer Modal", () => {
         expect($iframe.attr("src")).to.include("0WcchMXMGm91OoxZFN93gv");
       });
     });
+
+    it("Should show error message when invalid Spotify playlist is entered", () => {
+      const playlistInput = "this is an invalid playlist";
+
+      cy.get("#spotify-widget-input").type(playlistInput);
+      cy.get("#spotify-widget-input-go").realClick();
+      cy.get("#melofi-toaster").should("be.visible");
+      cy.get("#melofi-toaster").should("have.text", "Invalid Spotify Playlist Link");
+    });
   });
 
   describe("Testing Volume Section", () => {

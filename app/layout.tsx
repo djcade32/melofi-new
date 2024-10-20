@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/header/Header";
 import SceneBackground from "@/components/sceneBackground/SceneBackground";
+import NotificationProvider from "@/providers/notificationProvider/NotificationProvider";
 
 export const metadata: Metadata = {
   title: "Melofi",
@@ -17,9 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body id="melofi-app">
-        <Header />
-        <SceneBackground />
-        {children}
+        <NotificationProvider>
+          <Header />
+          <SceneBackground />
+          {children}
+        </NotificationProvider>
       </body>
     </html>
   );
