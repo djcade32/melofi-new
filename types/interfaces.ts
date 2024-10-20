@@ -27,3 +27,9 @@ export interface Playlist {
   spotifyPlaylistId: string;
   songs: Song[];
 }
+
+export interface NotificationType {
+  message: string;
+  type: "success" | "error" | "normal";
+  icon?: ReactElement;
+}

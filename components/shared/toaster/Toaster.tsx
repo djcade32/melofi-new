@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import styles from "./toaster.module.css";
 import { Slide, Snackbar, SnackbarCloseReason, SnackbarContent } from "@mui/material";
 import { IoCloseOutline, MdError, IoCheckmarkCircle } from "@/imports/icons";
 
 interface ToasterProps {
   message: string;
+  show: boolean;
   type?: "success" | "error" | "normal";
-  title?: string;
   icon?: React.ReactNode;
 }
 
@@ -14,14 +16,14 @@ function SlideTransition(props: any) {
   return <Slide {...props} direction="up" />;
 }
 
-const Toaster = ({ message, type = "normal", title, icon }: ToasterProps) => {
-  const [open, setOpen] = useState(true);
+const Toaster = ({ message, type = "normal", icon, show }: ToasterProps) => {
+  const [open, setOpen] = useState(show);
+
+  useEffect(() => {
+    setOpen(show);
+  }, [show]);
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
     setOpen(false);
   };
 
@@ -47,7 +49,7 @@ const Toaster = ({ message, type = "normal", title, icon }: ToasterProps) => {
         <IoCloseOutline
           size={25}
           color="var(--color-secondary-white)"
-          onClick={() => {}}
+          onClick={handleClose}
           style={{ cursor: "pointer", zIndex: 1 }}
         />
       </div>
@@ -72,9 +74,9 @@ const Toaster = ({ message, type = "normal", title, icon }: ToasterProps) => {
       onClose={handleClose}
       TransitionComponent={SlideTransition}
       key={"bottom" + "right"}
-      onClick={() => console.log("clicked achievement")}
     >
       <SnackbarContent
+        id="melofi-toaster"
         style={{ backgroundColor: backgroundColor() }}
         classes={{ message: styles.toaster__message_container, root: styles.toaster__container }}
         message={messageContent()}
