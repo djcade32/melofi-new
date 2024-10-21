@@ -1,0 +1,22 @@
+.timeDisplay__container {
+    display: flex;
+    background-color: var(--color-primary);
+    width: 108px;
+    height: 32px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow-primary);
+    transition: background-color 0.3s;
+}
+
+.timeDisplay__container:hover {
+   cursor: pointer;
+   background-color: var(--color-effect-opacity);
+}
+
+.timeDisplay__container p {
+   font-family: var(--font-primary);
+   font-weight: 500;
+}
+

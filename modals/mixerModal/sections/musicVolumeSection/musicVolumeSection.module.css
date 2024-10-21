@@ -1,0 +1,20 @@
+.musicVolumeSection__container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    margin-top: 20px;
+}
+
+.musicVolumeSection__volume_container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.musicVolumeSection__title {
+    font-family: var(--font-primary);
+    font-size: 18px;
+    font-weight: 500;
+}

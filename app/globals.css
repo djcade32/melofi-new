@@ -1,25 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Cardo&family=Lobster+Two:wght@400;700&family=Patrick+Hand&family=Poppins:wght@300;400;500;700&family=Signika:wght@300;400;500;700&family=Yatra+One&display=swap');
+
 :root {
-  --background: #ffffff;
+  --background: white;
   --foreground: #171717;
+
+  --font-primary: "Poppins", sans-serif;
+  --font-signika: "Signika", sans-serif;
+  --font-patrick-hand: "Patrick Hand", sans-serif;
+  --font-lobster-two: "Lobster Two", sans-serif;
+  --font-cardo: "Cardo", sans-serif;
+  --font-bruno-ace: "Bruno Ace", sans-serif;
+  --font-yatra-one: "Yatra One", sans-serif;
+  
+  --color-primary: rgb(35,35,35,88%);
+  --color-secondary: #7B777A;
+  --color-secondary-opacity: rgb(112,108,111, 30%);
+  --color-effect : #FEA539;
+  --color-effect-opacity : rgba(254, 165, 57, 0.88);
+  --color-secondary-white: rgb(255,255,255,89%);
+  --color-error: rgb(239, 83, 80, 0.88);
+  --color-success: rgb(74, 147, 74, .88);
+
+  --box-shadow-primary: 0 4px 4px #00000040; 
+ 
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: white
+    ;
   }
+}
+
+#melofi-app {
+  min-height: 100vh;
+  position: relative;
 }
 
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none;
+}
+
+p {
+  font-family: var(--font-primary);
+  color: var(--color-secondary-white);
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
