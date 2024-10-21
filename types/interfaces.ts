@@ -6,8 +6,21 @@ export interface Scene {
   name: string;
   thumbnail: string;
   video: string;
-  soundIcons: ReactElement[];
+  soundIcons: SoundIcon[];
   fontFamily: string;
+  premium: boolean;
+}
+
+export interface SoundIcon {
+  name: string;
+  icon: IconType;
+}
+
+export interface Sound {
+  name: string;
+  path: string;
+  icon: IconType;
+  volume: number;
   premium: boolean;
 }
 

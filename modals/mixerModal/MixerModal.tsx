@@ -9,6 +9,7 @@ import MusicSourceSection from "./sections/musicSourceSection/MusicSourceSection
 import MusicVolumeSection from "./sections/musicVolumeSection/MusicVolumeSection";
 import SpotifyWidgetSection from "./sections/spotifyWidgetSection/SpotifyWidgetSection";
 import { MusicSource } from "@/enums/general";
+import SceneSoundsSection from "./sections/sceneSoundsSection/SceneSoundsSection";
 
 const MixerModal = () => {
   const { mixerModalOpen, toggleMixerModal, musicSource } = useMixerStore();
@@ -27,6 +28,7 @@ const MixerModal = () => {
         <PlaylistSection />
         <MusicSourceSection />
         {musicSource === MusicSource.MELOFI ? <MusicVolumeSection /> : <SpotifyWidgetSection />}
+        <SceneSoundsSection />
       </div>
     </Modal>
   );

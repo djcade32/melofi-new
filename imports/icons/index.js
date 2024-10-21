@@ -7,12 +7,13 @@ import {
   FaHeadphones,
   FaCrown,
   FaLock,
+  FaFan,
 } from "react-icons/fa";
 import {
   BsFillSkipBackwardFill,
   BsSkipForwardFill,
-  BsCloudRain,
-  BsTree,
+  BsCloudRainFill,
+  BsFillTreeFill,
   BsPhoneFill,
   BsFillCalendarDateFill,
   BsInfoCircle,
@@ -24,19 +25,20 @@ import {
   BsLightningCharge,
   BsArrowRepeat,
   BsCheck2,
-  BsKeyboard,
-  BsAirplane,
-  BsTrainFront,
+  BsKeyboardFill,
+  BsAirplaneFill,
+  BsTrainFrontFill,
 } from "react-icons/bs";
 import {
   IoVolumeMedium,
   IoVolumeMute,
   IoVolumeOff,
   IoCloseOutline,
-  IoThunderstormOutline,
+  IoThunderstorm,
   IoBookSharp,
-  IoCloudyNightOutline,
+  IoCloudyNight,
   IoCheckmarkCircle,
+  IoSnowSharp,
 } from "react-icons/io5";
 import {
   RiSoundModuleFill,
@@ -44,17 +46,12 @@ import {
   RiFullscreenExitLine,
   RiPlayListFill,
 } from "react-icons/ri";
-import {
-  HiOutlineChatBubbleLeftRight,
-  HiOutlineBuildingOffice2,
-  HiClipboardDocumentList,
-} from "react-icons/hi2";
+import { HiChatBubbleLeftRight, HiBuildingOffice2, HiClipboardDocumentList } from "react-icons/hi2";
 import { HiTemplate } from "react-icons/hi";
-import { SlSocialTwitter } from "react-icons/sl";
+import { ImTwitter } from "react-icons/im";
 import { WiNightAltStormShowers } from "react-icons/wi";
-import { LuFan, LuWaves } from "react-icons/lu";
 import { CgEditNoise } from "react-icons/cg";
-import { GiTacos, GiBigWave } from "react-icons/gi";
+import { GiTacos, GiBigWave, GiSubmarine } from "react-icons/gi";
 import {
   MdLandscape,
   MdDelete,
@@ -64,7 +61,7 @@ import {
   MdSettings,
   MdTimer,
   MdEmail,
-  MdOutlineWaterDrop,
+  MdWaterDrop,
   MdLibraryMusic,
   MdOutlineDisabledByDefault,
   MdError,
@@ -73,8 +70,9 @@ import {
   AiFillTool,
   AiOutlineGoogle,
   AiFillInstagram,
-  AiOutlineClockCircle,
-  AiOutlineFire,
+  AiFillClockCircle,
+  AiFillFire,
+  AiFillThunderbolt,
 } from "react-icons/ai";
 import { FiPlus } from "react-icons/fi";
 import { FaCommentDots, FaHandsHelping } from "react-icons/fa";
@@ -86,9 +84,8 @@ import {
   RxCaretDown,
   RxCaretUp,
 } from "react-icons/rx";
-import { PiMoonFill, PiSunHorizonLight, PiSnowflakeThin } from "react-icons/pi";
+import { PiMoonFill, PiSunHorizonFill, PiWavesDuotone } from "react-icons/pi";
 import { VscDebugRestart } from "react-icons/vsc";
-import { TbSubmarine } from "react-icons/tb";
 
 export {
   FaPause,
@@ -99,20 +96,20 @@ export {
   IoVolumeMute,
   RiSoundModuleFill,
   IoVolumeOff,
-  BsCloudRain,
-  BsTree,
+  BsCloudRainFill,
+  BsFillTreeFill,
   IoCloseOutline,
-  HiOutlineChatBubbleLeftRight,
-  HiOutlineBuildingOffice2,
-  SlSocialTwitter,
+  HiChatBubbleLeftRight,
+  HiBuildingOffice2,
+  ImTwitter,
   RiFullscreenFill,
   RiFullscreenExitLine,
   WiNightAltStormShowers,
-  LuFan,
+  FaFan,
   CgEditNoise,
-  IoThunderstormOutline,
+  IoThunderstorm,
   IoCheckmarkCircle,
-  LuWaves,
+  PiWavesDuotone,
   GiTacos,
   MdLandscape,
   BsPhoneFill,
@@ -146,7 +143,7 @@ export {
   FaMedal,
   AiFillInstagram,
   MdEmail,
-  MdOutlineWaterDrop,
+  MdWaterDrop,
   PiMoonFill,
   FaHeadphones,
   FaCrown,
@@ -161,14 +158,15 @@ export {
   BsLightningCharge,
   BsArrowRepeat,
   BsCheck2,
-  BsKeyboard,
-  BsAirplane,
-  AiOutlineClockCircle,
-  AiOutlineFire,
-  PiSunHorizonLight,
-  PiSnowflakeThin,
-  IoCloudyNightOutline,
-  BsTrainFront,
-  TbSubmarine,
+  BsKeyboardFill,
+  BsAirplaneFill,
+  AiFillClockCircle,
+  AiFillFire,
+  PiSunHorizonFill,
+  IoSnowSharp,
+  IoCloudyNight,
+  BsTrainFrontFill,
+  GiSubmarine,
   FaLock,
+  AiFillThunderbolt,
 };

@@ -56,8 +56,8 @@ const SceneThumbnail = ({ scene, setSelectedScene }: SceneThumbnailProps) => {
           {scene.name}
         </p>
         <div className={styles.sceneThumbnail__container_soundIcons}>
-          {scene.soundIcons.map((icon, index) =>
-            React.cloneElement(icon, { key: index, ...iconProps })
+          {scene.soundIcons.map((sound, index) =>
+            React.createElement(sound.icon, { key: index, ...iconProps })
           )}
         </div>
       </div>
