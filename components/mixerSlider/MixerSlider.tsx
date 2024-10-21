@@ -1,10 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./mixerSlider.module.css";
 import { Slider, SliderThumb, styled } from "@mui/material";
 import { FaLock } from "@/imports/icons";
 import { IconType } from "react-icons";
 import useMixerStore from "@/stores/mixer-store";
-import HoverIcon from "../shared/hoverIcon/HoverIcon";
 
 const StyledSlider = styled(Slider)({
   color: "var(--color-effect-opacity)",
@@ -51,6 +50,15 @@ const MixerSlider = ({
 
   const [volume, setVolume] = useState(soundVolume);
   const [thumbClicked, setThumbClicked] = useState(false); // Track if the thumb is clicked
+
+  useEffect(() => {
+    if (!audioRef.current) return;
+    setVolume(soundVolume * 100);
+    if (soundVolume <= 0 && thumbClicked) {
+      audioRef.current.pause();
+      setThumbClicked(false);
+    }
+  }, [soundVolume]);
 
   function IconThumb(iconThumbProps: any) {
     const { children, ...other } = iconThumbProps;

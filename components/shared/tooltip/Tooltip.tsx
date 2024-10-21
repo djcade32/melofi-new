@@ -13,9 +13,15 @@ interface TooltipProps {
   width?: string;
   noFlex?: boolean;
   disabled?: boolean;
+  disableCloseOnClick?: boolean;
 }
 
-const Tooltip = ({ disabled = false, textAlign = "center", ...props }: TooltipProps) => {
+const Tooltip = ({
+  disabled = false,
+  textAlign = "center",
+  disableCloseOnClick = false,
+  ...props
+}: TooltipProps) => {
   const [open, setOpen] = useState(false);
   //   const premiumTooltip = (
   //     <div style={{ display: "flex", columnGap: 5 }}>
@@ -50,19 +56,22 @@ const Tooltip = ({ disabled = false, textAlign = "center", ...props }: TooltipPr
     >
       {/*Could potentially be a problem in the future if tooltip is not working correctlty*/}
       <div
-        style={{
-          width: "100%",
-          display: "flex",
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-        }}
+        style={
+          props.noFlex
+            ? {}
+            : {
+                width: "100%",
+                display: "flex",
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+              }
+        }
         onClick={() => {
-          setOpen(false);
+          !disableCloseOnClick && setOpen(false);
         }}
       >
-        {/* <div style={props.noFlex ? {} : { display: "flex", alignItems: "center" }}> */}
         {props.children}
       </div>
     </TooltipMui>

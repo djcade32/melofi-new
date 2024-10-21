@@ -12,7 +12,9 @@ export interface MixerState {
   toggleMixerModal: (bool: boolean) => void;
   setMusicSource: (newSource: MusicSource) => void;
   getSceneSounds: (currentScene: Scene) => Sound[];
+  getOtherSounds: (currentScene: Scene) => Sound[];
   changeSoundVolume: (soundName: string, newVolume: number) => void;
+  resetSoundVolumes: () => void;
 }
 
 const useMixerStore = create<MixerState>((set, get) => ({
@@ -30,10 +32,25 @@ const useMixerStore = create<MixerState>((set, get) => ({
       (soundIcon) => mixerSoundsConfig[toSnakeCase(soundIcon.name).toUpperCase()]
     );
   },
+  getOtherSounds: (currentScene: Scene) => {
+    const { mixerSoundsConfig } = get();
+    return Object.values(mixerSoundsConfig).filter(
+      (sound) => !currentScene.soundIcons.map((soundIcon) => soundIcon.name).includes(sound.name)
+    );
+  },
   changeSoundVolume: (soundName: string, newVolume: number) => {
     set((state) => {
       const newMixerSoundsConfig = { ...state.mixerSoundsConfig };
       newMixerSoundsConfig[toSnakeCase(soundName).toUpperCase()].volume = newVolume;
+      return { mixerSoundsConfig: newMixerSoundsConfig };
+    });
+  },
+  resetSoundVolumes: () => {
+    set((state) => {
+      const newMixerSoundsConfig = { ...state.mixerSoundsConfig };
+      Object.values(newMixerSoundsConfig).forEach((sound) => {
+        sound.volume = 0;
+      });
       return { mixerSoundsConfig: newMixerSoundsConfig };
     });
   },

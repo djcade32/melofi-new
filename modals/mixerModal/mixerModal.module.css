@@ -36,3 +36,17 @@
     background: transparent; /* make scrollbar transparent */
 }
 
+.mixerModal__reset_button {
+    color: var(--color-secondary);
+    font-family: var(--font-primary);
+    font-size: 18px;
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
+    width: fit-content
+}
+
+.mixerModal__reset_button:hover {
+    color: var(--color-secondary-white);
+}
+
