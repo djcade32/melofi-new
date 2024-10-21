@@ -138,4 +138,77 @@ describe("Testing Mixer Modal", () => {
       });
     });
   });
+
+  describe("Testing Scene Sounds Section", () => {
+    it("Should show the correct scene sounds", () => {
+      cy.get("#Rain-mixer-slider").should("be.visible");
+      cy.get("#Chatter-mixer-slider").should("be.visible");
+      cy.get("#Nature-mixer-slider").should("be.visible");
+    });
+
+    it("Each mixer slider should change the volume of the corresponding sound", () => {
+      let currentRainVolume = 0;
+      let currentChatterVolume = 0;
+      let currentNatureVolume = 0;
+
+      //Get current volume
+      cy.get("#Rain-mixer-slider")
+        .find("input")
+        .invoke("attr", "value")
+        .then((value) => {
+          currentRainVolume = value;
+        });
+
+      cy.get("#Chatter-mixer-slider")
+        .find("input")
+        .invoke("attr", "value")
+        .then((value) => {
+          currentChatterVolume = value;
+        });
+
+      cy.get("#Nature-mixer-slider")
+        .find("input")
+        .invoke("attr", "value")
+        .then((value) => {
+          currentNatureVolume = value;
+        });
+
+      //Change volume
+      cy.get("#Rain-mixer-slider")
+        .find(".MuiSlider-rail") // Replace with your actual selector
+        .realClick();
+
+      cy.get("#Chatter-mixer-slider")
+        .find(".MuiSlider-rail") // Replace with your actual selector
+        .realClick();
+
+      cy.get("#Nature-mixer-slider")
+        .find(".MuiSlider-rail") // Replace with your actual selector
+        .realClick();
+
+      //Check if volume has changed
+      cy.get("#Rain-mixer-slider")
+        .find("input")
+        .invoke("attr", "value")
+        .then((value) => {
+          expect(value).to.not.equal(currentRainVolume);
+        });
+
+      cy.get("#Chatter-mixer-slider")
+        .find("input")
+        .invoke("attr", "value")
+        .then((value) => {
+          expect(value).to.not.equal(currentChatterVolume);
+        });
+
+      cy.get("#Nature-mixer-slider")
+        .find("input")
+        .invoke("attr", "value")
+        .then((value) => {
+          expect(value).to.not.equal(currentNatureVolume);
+        });
+    });
+
+    it("Should reset all scene sounds", () => {});
+  });
 });

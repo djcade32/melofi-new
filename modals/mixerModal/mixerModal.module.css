@@ -23,12 +23,10 @@
 
 .mixerModal__content_container {
     overflow-y: scroll;
-    /* display: flex; */
-    /* flex-direction: column; */
     height: 100%;
     margin-top: 15px;
-    margin-right: 22px;
-    margin-left: 22px;
+    padding-right: 22px;
+    padding-left: 22px;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
