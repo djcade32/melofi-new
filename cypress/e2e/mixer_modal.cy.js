@@ -209,6 +209,28 @@ describe("Testing Mixer Modal", () => {
         });
     });
 
-    it("Should reset all scene sounds", () => {});
+    it("Should reset all sounds", () => {
+      cy.get("#mixer-reset-button").realClick();
+      cy.get("#Rain-mixer-slider")
+        .find("input")
+        .invoke("attr", "value")
+        .then((value) => {
+          expect(value).to.equal("0");
+        });
+
+      cy.get("#Chatter-mixer-slider")
+        .find("input")
+        .invoke("attr", "value")
+        .then((value) => {
+          expect(value).to.equal("0");
+        });
+
+      cy.get("#Nature-mixer-slider")
+        .find("input")
+        .invoke("attr", "value")
+        .then((value) => {
+          expect(value).to.equal("0");
+        });
+    });
   });
 });

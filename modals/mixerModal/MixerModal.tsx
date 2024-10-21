@@ -10,9 +10,10 @@ import MusicVolumeSection from "./sections/musicVolumeSection/MusicVolumeSection
 import SpotifyWidgetSection from "./sections/spotifyWidgetSection/SpotifyWidgetSection";
 import { MusicSource } from "@/enums/general";
 import SceneSoundsSection from "./sections/sceneSoundsSection/SceneSoundsSection";
+import AllSoundsSection from "./sections/allSoundsSection/AllSoundsSection";
 
 const MixerModal = () => {
-  const { mixerModalOpen, toggleMixerModal, musicSource } = useMixerStore();
+  const { mixerModalOpen, toggleMixerModal, musicSource, resetSoundVolumes } = useMixerStore();
 
   return (
     <Modal
@@ -29,6 +30,16 @@ const MixerModal = () => {
         <MusicSourceSection />
         {musicSource === MusicSource.MELOFI ? <MusicVolumeSection /> : <SpotifyWidgetSection />}
         <SceneSoundsSection />
+        <AllSoundsSection />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <p
+            id="mixer-reset-button"
+            className={styles.mixerModal__reset_button}
+            onClick={() => resetSoundVolumes()}
+          >
+            Reset
+          </p>
+        </div>
       </div>
     </Modal>
   );
