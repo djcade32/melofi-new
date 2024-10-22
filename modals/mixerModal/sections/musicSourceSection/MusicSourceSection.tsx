@@ -5,9 +5,11 @@ import melofiLogo from "@/public/assets/logos/logo-white.png";
 import { BsSpotify } from "@/imports/icons";
 import useMixerStore from "@/stores/mixer-store";
 import { MusicSource } from "@/enums/general";
+import useMusicPlayerStore from "@/stores/music-player-store";
 
 const MusicSourceSection = () => {
   const { musicSource, setMusicSource } = useMixerStore();
+  const { setIsPlaying } = useMusicPlayerStore();
   return (
     <div className={styles.musicSourceSection__container}>
       <MusicSourceButton
@@ -22,7 +24,10 @@ const MusicSourceSection = () => {
         label="Spotify"
         icon={BsSpotify}
         isActive={musicSource === MusicSource.SPOTIFY}
-        onClick={() => setMusicSource(MusicSource.SPOTIFY)}
+        onClick={() => {
+          setIsPlaying(false);
+          setMusicSource(MusicSource.SPOTIFY);
+        }}
         showInfo={true}
       />
     </div>
