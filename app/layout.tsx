@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/header/Header";
 import SceneBackground from "@/components/sceneBackground/SceneBackground";
 import NotificationProvider from "@/providers/notificationProvider/NotificationProvider";
+import FullscreenProvider from "@/providers/fullscreenProvider/FullscreenProvider";
 
 export const metadata: Metadata = {
   title: "Melofi",
@@ -18,11 +19,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body id="melofi-app">
-        <NotificationProvider>
-          <Header />
-          <SceneBackground />
-          {children}
-        </NotificationProvider>
+        <FullscreenProvider>
+          <NotificationProvider>
+            <Header />
+            <SceneBackground />
+            {children}
+          </NotificationProvider>
+        </FullscreenProvider>
       </body>
     </html>
   );

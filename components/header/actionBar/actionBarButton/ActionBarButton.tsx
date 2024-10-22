@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./actionBarButton.module.css";
 
 interface ActionBarButtonProps {
+  id: string;
   icon: React.ReactNode;
   label: string;
   onClick: () => void;
@@ -12,6 +13,7 @@ interface ActionBarButtonProps {
 }
 
 const ActionBarButton = ({
+  id,
   icon,
   label,
   onClick,
@@ -33,7 +35,7 @@ const ActionBarButton = ({
   };
   return (
     <div
-      id={`actionBarButton-${label}`}
+      id={id}
       className={styles.actionBarButton_container}
       onClick={handleOnClick}
       style={isClicked ? { border: "1px solid var(--color-effect-opacity)" } : {}}
