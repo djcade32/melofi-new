@@ -7,5 +7,5 @@ export const navigateToMelofi = () => {
   //   cy.wait(8000);
 };
 
-export const pressSceneButton = () => cy.get("#actionBarButton-Scenes").click({ timeout: 8000 });
-export const pressMixerButton = () => cy.get("#actionBarButton-Mixer").click({ timeout: 8000 });
+export const pressSceneButton = () => cy.get("#scenes-button").click({ timeout: 8000 });
+export const pressMixerButton = () => cy.get("#mixer-button").click({ timeout: 8000 });
