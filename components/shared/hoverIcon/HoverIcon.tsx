@@ -13,7 +13,7 @@ interface HoverIconProps {
   iconStyle?: React.CSSProperties;
   hoverColor?: string;
   color?: string;
-  onClick?: () => void;
+  onClick?: (e: any) => void;
 }
 
 const HoverIcon = ({

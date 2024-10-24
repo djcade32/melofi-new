@@ -31,7 +31,10 @@ const Tooltip = ({
 
   return (
     <TooltipMui
-      // id={props.id}
+      // This is a workaround to fix the tooltip not showing up in fullscreen mode
+      PopperProps={{
+        disablePortal: true,
+      }}
       describeChild
       disableHoverListener={disabled}
       title={props.text}

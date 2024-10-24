@@ -50,7 +50,7 @@ import { HiChatBubbleLeftRight, HiBuildingOffice2, HiClipboardDocumentList } fro
 import { HiTemplate } from "react-icons/hi";
 import { ImTwitter } from "react-icons/im";
 import { WiNightAltStormShowers } from "react-icons/wi";
-import { CgEditNoise } from "react-icons/cg";
+import { CgEditNoise, CgArrowsExpandDownRight, CgArrowsExpandUpLeft } from "react-icons/cg";
 import { GiTacos, GiBigWave, GiSubmarine } from "react-icons/gi";
 import {
   MdLandscape,
@@ -65,6 +65,7 @@ import {
   MdLibraryMusic,
   MdOutlineDisabledByDefault,
   MdError,
+  MdMoreHoriz,
 } from "react-icons/md";
 import {
   AiFillTool,
@@ -83,9 +84,11 @@ import {
   RxTimer,
   RxCaretDown,
   RxCaretUp,
+  RxDragHandleDots2,
 } from "react-icons/rx";
 import { PiMoonFill, PiSunHorizonFill, PiWavesDuotone } from "react-icons/pi";
 import { VscDebugRestart } from "react-icons/vsc";
+import { LuGalleryVertical, LuGalleryHorizontal } from "react-icons/lu";
 
 export {
   FaPause,
@@ -169,4 +172,10 @@ export {
   GiSubmarine,
   FaLock,
   AiFillThunderbolt,
+  MdMoreHoriz,
+  CgArrowsExpandDownRight,
+  CgArrowsExpandUpLeft,
+  RxDragHandleDots2,
+  LuGalleryVertical,
+  LuGalleryHorizontal,
 };
