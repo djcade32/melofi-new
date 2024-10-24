@@ -1,4 +1,3 @@
-import { FullScreenHandle } from "react-full-screen";
 import { create } from "zustand";
 
 export interface AppState {

@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import styles from "./actionBar.module.css";
 import ActionBarButton from "./actionBarButton/ActionBarButton";
 import {
+  AiFillTool,
   MdLandscape,
   RiFullscreenExitLine,
   RiFullscreenFill,
@@ -15,6 +16,8 @@ import MusicControls from "@/components/musicControls/MusicControls";
 import useMixerStore from "@/stores/mixer-store";
 import { MusicSource } from "@/enums/general";
 import useAppStore from "@/stores/app-store";
+import ToolsActionBarButton from "./toolsActionBarButton/ToolsActionBarButton";
+import useToolsStore from "@/stores/tools-store";
 
 const iconProps = { size: 20, color: "var(--color-secondary-white)", style: { cursor: "pointer" } };
 
@@ -22,6 +25,7 @@ const ActionBar = () => {
   const { toggleSceneModal, sceneModalOpen } = useSceneStore();
   const { toggleMixerModal, mixerModalOpen, musicSource } = useMixerStore();
   const { toggleFullscreen, isFullscreen } = useAppStore();
+  const { isToolsOpen, toggleTools } = useToolsStore();
 
   // Close scene modal when clicking outside of the modal
   useEffect(() => {
@@ -54,6 +58,12 @@ const ActionBar = () => {
         label="Scenes"
         onClick={() => toggleSceneModal(!sceneModalOpen)}
         isActive={sceneModalOpen}
+      />
+      <ToolsActionBarButton
+        id="tools-button"
+        iconProps={iconProps}
+        onClick={() => toggleTools(!isToolsOpen)}
+        isActive={isToolsOpen}
       />
       <ActionBarButton
         id="fullscreen-button"

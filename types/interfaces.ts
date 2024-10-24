@@ -46,3 +46,10 @@ export interface NotificationType {
   type: "success" | "error" | "normal";
   icon?: ReactElement;
 }
+
+export interface MenuOption {
+  id: string;
+  label: string;
+  icon: ReactElement;
+  onClick: () => void;
+}
