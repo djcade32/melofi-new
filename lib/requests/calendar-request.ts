@@ -1,0 +1,91 @@
+import axios from "axios";
+import { openDB } from "idb";
+
+const dbPromise = openDB("calendarDB", 1, {
+  upgrade(db) {
+    db.createObjectStore("calendar", { keyPath: "id" });
+  },
+});
+
+export const fetchCalendarsList = async (token: string) => {
+  const db = await dbPromise;
+  const calendarsList = await db.get("calendar", "user_calendar_list");
+
+  try {
+    // Check if data more than 5 minutes old
+    if (calendarsList && Date.now() - calendarsList.lastFetched < 5 * 60 * 1000) {
+      // Load from IndexedDB if data is fresh
+      console.log("Loading calendars list from IndexedDB");
+      return calendarsList.data;
+    }
+    console.log("Fetching calendars list from API");
+    // Fetch from API if data is stale
+    const response = await axios.get(
+      "https://www.googleapis.com/calendar/v3/users/me/calendarList",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+    // Save to IndexedDB
+    const data = {
+      id: "user_calendar_list",
+      data: response.data,
+      lastFetched: Date.now(),
+    };
+    await db.put("calendar", data);
+
+    return response.data;
+  } catch (error: any) {
+    console.error("Error fetching calendars list:", error.response?.data || error.message);
+    return null;
+  }
+};
+
+export const fetchCalendarEvents = async (token: string, calendarId: string) => {
+  const date = new Date();
+  let timeMin = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0).toISOString();
+  let timeMax = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59).toISOString();
+
+  const db = await dbPromise;
+  const calendarEvents = await db.get("calendar", calendarId);
+
+  try {
+    // Check if data more than 5 minutes old
+    if (calendarEvents && Date.now() - calendarEvents.lastFetched < 5 * 60 * 1000) {
+      // Load from IndexedDB if data is fresh
+      console.log("Loading calendar events from IndexedDB");
+      return calendarEvents.data;
+    }
+    console.log("Fetching calendar events from API");
+    const response = await axios.get(
+      `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`,
+      {
+        params: {
+          orderBy: "startTime",
+          singleEvents: true,
+          timeMax: timeMax,
+          timeMin: timeMin,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+    // Save to IndexedDB
+    const data = {
+      id: calendarId,
+      data: response.data,
+      lastFetched: Date.now(),
+    };
+    await db.put("calendar", data);
+
+    return response.data;
+  } catch (error: any) {
+    console.error("Error fetching calendar events:", error.response?.data || error.message);
+    return null;
+  }
+};

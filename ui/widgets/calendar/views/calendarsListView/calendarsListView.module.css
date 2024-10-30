@@ -1,0 +1,11 @@
+.calendarsListView__container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+    overflow-y: scroll;
+    margin-top: 10px;
+    row-gap: 10px;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}

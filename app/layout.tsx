@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Header from "@/components/header/Header";
-import SceneBackground from "@/components/sceneBackground/SceneBackground";
+import Header from "@/ui/components/header/Header";
+import SceneBackground from "@/ui/components/sceneBackground/SceneBackground";
 import NotificationProvider from "@/providers/notificationProvider/NotificationProvider";
 import FullscreenProvider from "@/providers/fullscreenProvider/FullscreenProvider";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export const metadata: Metadata = {
   title: "Melofi",
@@ -19,13 +20,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body id="melofi-app">
-        <FullscreenProvider>
-          <NotificationProvider>
-            <Header />
-            <SceneBackground />
-            {children}
-          </NotificationProvider>
-        </FullscreenProvider>
+        <GoogleOAuthProvider clientId="922776747697-hbq7p19u2jmjjb1ksf4s0h95mmiu4pht.apps.googleusercontent.com">
+          <FullscreenProvider>
+            <NotificationProvider>
+              <Header />
+              <SceneBackground />
+              {children}
+            </NotificationProvider>
+          </FullscreenProvider>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );

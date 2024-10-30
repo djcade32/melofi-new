@@ -1,0 +1,14 @@
+.button__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--color-secondary);
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.button__container:hover {
+    background-color: var(--color-effect-opacity);
+}

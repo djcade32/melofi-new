@@ -1,0 +1,68 @@
+.calendarListItem__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-secondary-opacity);
+    border-radius: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    min-height: 50px;
+    transition: all 0.3s;
+    box-shadow: var(--box-shadow-primary);
+}
+
+.calendarListItem__container:hover {
+    background-color: var(--color-secondary);
+}
+
+.calendarListItem__text_container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+}
+
+
+.calendarListItem__container p {
+    font-family: var(--font-primary);
+    color: var(--color-secondary-white);
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.calendarListItem__color {
+    min-width: 12px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendarListItem__caret_icon {
+    display: none;
+    transition: all 0.3s;
+}
+
+.calendarListItem__container:hover .calendarListItem__color {
+   animation: widen-color-div 0.3s forwards;
+}
+
+.calendarListItem__container:hover .calendarListItem__caret_icon {
+    display: block;
+}
+
+@keyframes widen-color-div {
+    0% {
+        width: 12px;
+    }
+    100% {
+        width: 40px;
+    }
+    
+}
+
