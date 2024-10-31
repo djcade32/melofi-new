@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "summary": "Team Meeting",
+      "start": { "dateTime": "2024-11-01T09:00:00" },
+      "end": { "dateTime": "2024-11-01T10:00:00" }
+    },
+    {
+      "id": "2",
+      "summary": "Project Review",
+      "start": { "dateTime": "2024-11-02T14:00:00" },
+      "end": { "dateTime": "2024-11-02T15:30:00" }
+    },
+    {
+      "id": "3",
+      "summary": "Yoga Class",
+      "start": { "dateTime": "2024-11-03T07:30:00" },
+      "end": { "dateTime": "2024-11-03T08:30:00" }
+    },
+    {
+      "id": "4",
+      "summary": "Lunch with Client",
+      "start": { "dateTime": "2024-11-03T12:00:00" },
+      "end": { "dateTime": "2024-11-03T13:00:00" }
+    },
+    {
+      "id": "5",
+      "summary": "Dentist Appointment",
+      "start": { "dateTime": "2024-11-04T16:00:00" },
+      "end": { "dateTime": "2024-11-04T16:30:00" }
+    },
+    {
+      "id": "6",
+      "summary": "Flight to New York",
+      "start": { "dateTime": "2024-11-05T06:00:00" },
+      "end": { "dateTime": "2024-11-05T09:00:00" }
+    }
+  ]
+}

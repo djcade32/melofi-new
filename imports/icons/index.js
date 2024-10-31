@@ -39,6 +39,8 @@ import {
   IoCloudyNight,
   IoCheckmarkCircle,
   IoSnowSharp,
+  IoAlarm,
+  IoLogoYoutube,
 } from "react-icons/io5";
 import {
   RiSoundModuleFill,
@@ -48,7 +50,7 @@ import {
 } from "react-icons/ri";
 import { HiChatBubbleLeftRight, HiBuildingOffice2, HiClipboardDocumentList } from "react-icons/hi2";
 import { HiTemplate } from "react-icons/hi";
-import { ImTwitter } from "react-icons/im";
+import { ImTwitter, ImCalculator } from "react-icons/im";
 import { WiNightAltStormShowers } from "react-icons/wi";
 import { CgEditNoise, CgArrowsExpandDownRight, CgArrowsExpandUpLeft } from "react-icons/cg";
 import { GiTacos, GiBigWave, GiSubmarine } from "react-icons/gi";
@@ -178,4 +180,7 @@ export {
   RxDragHandleDots2,
   LuGalleryVertical,
   LuGalleryHorizontal,
+  ImCalculator,
+  IoAlarm,
+  IoLogoYoutube,
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import Toaster from "@/components/shared/toaster/Toaster";
+import Toaster from "@/ui/components/shared/toaster/Toaster";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
 import { NotificationType } from "@/types/interfaces";
 import React, { useEffect, useState } from "react";
