@@ -4,6 +4,7 @@ import { Slider, SliderThumb, styled } from "@mui/material";
 import { FaLock } from "@/imports/icons";
 import { IconType } from "react-icons";
 import useMixerStore from "@/stores/mixer-store";
+import useMusicPlayerStore from "@/stores/music-player-store";
 
 const StyledSlider = styled(Slider)({
   color: "var(--color-effect-opacity)",
@@ -47,6 +48,7 @@ const MixerSlider = ({
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const { changeSoundVolume } = useMixerStore();
+  const { isMuted } = useMusicPlayerStore();
 
   const [volume, setVolume] = useState(soundVolume);
   const [thumbClicked, setThumbClicked] = useState(false); // Track if the thumb is clicked
@@ -95,7 +97,14 @@ const MixerSlider = ({
 
   return (
     <div id={`${soundName}-mixer-slider`} className={styles.mixerSlider__container}>
-      <audio id={`${soundName}-audio`} ref={audioRef} src={soundPath} typeof="audio/mpeg" loop />
+      <audio
+        id={`${soundName}-audio`}
+        ref={audioRef}
+        src={soundPath}
+        typeof="audio/mpeg"
+        loop
+        muted={isMuted}
+      />
 
       <div className={styles.mixerSlider__label}>
         <p>{soundName}</p>
