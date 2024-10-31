@@ -10,6 +10,7 @@ const NowPlaying = () => {
     <div id="now-playing" className={styles.nowPlaying__container}>
       <p className={styles.nowPlaying__header_title}>Now Playing</p>
       <p
+        id="now-playing-song-title"
         className={styles.nowPlaying__song_title}
       >{`${currentSong.title} by ${currentSong.artist}`}</p>
       <div>

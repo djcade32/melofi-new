@@ -12,7 +12,7 @@ describe("Testing Mixer Modal", () => {
     pressMixerButton();
     cy.get("#mixer-modal").should("not.be.visible");
     pressMixerButton();
-    cy.get(".modal_modal__title_container__bWI8Q").get("svg").realClick();
+    cy.get("#mixer-modal-close-icon").realClick();
     cy.get("#mixer-modal").should("not.be.visible");
   });
 
@@ -29,15 +29,13 @@ describe("Testing Mixer Modal", () => {
 
     it("Playlist should change", () => {
       let currentSongTitle = "";
-      cy.get("#now-playing")
-        .get(".nowPlaying_nowPlaying__song_title__HU3pq")
+      cy.get("#now-playing-song-title")
         .invoke("text")
         .then((songTitle) => {
           currentSongTitle = songTitle;
         });
       cy.get("#playlist-button-Study").realClick();
-      cy.get("#now-playing")
-        .get(".nowPlaying_nowPlaying__song_title__HU3pq")
+      cy.get("#now-playing-song-title")
         .invoke("text")
         .then((newSongTitle) => {
           expect(newSongTitle).to.not.equal(currentSongTitle);

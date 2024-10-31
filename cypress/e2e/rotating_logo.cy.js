@@ -6,7 +6,7 @@ describe("Testing Rotating Logo", () => {
     navigateToMelofi();
   });
   it("Should see logo rotating clockwise", () => {
-    cy.get("#rotating-logo").should("have.class", "rotatingLogo_header_logo_clockwise__Z3NMS");
+    cy.get('[class*="header_logo_clockwise"]').should("exist");
   });
 
   it("Should see logo stop on hover", () => {
@@ -16,8 +16,7 @@ describe("Testing Rotating Logo", () => {
   });
 
   it("Should see logo rotating counter clockwise", () => {
-    cy.get("#rotating-logo")
-      .click()
-      .should("have.class", "rotatingLogo_header_logo_counter_clockwise__UmD0H");
+    cy.get("#rotating-logo").click();
+    cy.get('[class*="header_logo_counter_clockwise"]').should("exist");
   });
 });
