@@ -7,14 +7,15 @@ export const dateInPast = (time: string) => {
   return convertISOToISOLocal(currentDate) > convertISOToISOLocal(endTime);
 };
 
-export const convertISOToISOLocal = (t: any) => {
-  let z = t.getTimezoneOffset() * 60 * 1000;
-  let tlocal = t - z;
-  tlocal = new Date(tlocal);
-  let iso = tlocal.toISOString();
-  iso = iso.split(".")[0];
+export const convertISOToISOLocal = (t: Date) => {
+  if (!(t instanceof Date)) {
+    throw new Error("Expected a Date object");
+  }
+  const localISO = t.toISOString().slice(0, -1); // Removes the "Z"
+  const offsetInMs = t.getTimezoneOffset() * 60 * 1000;
+  const localDate = new Date(t.getTime() - offsetInMs);
 
-  return iso + "Z";
+  return localDate.toISOString().split(".")[0]; // Formats as local ISO without milliseconds
 };
 
 export const convertISOTimestamp = (timestamp: string) => {

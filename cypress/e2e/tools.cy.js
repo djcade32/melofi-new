@@ -15,13 +15,25 @@ describe("Testing Tools", () => {
       cy.get("#toolbar").should("exist");
     });
 
-    it("Should undock toolbar", () => {
+    it("Should undock and dock toolbar", () => {
       // Wait for the toolbar animation to finish
       cy.wait(2000);
 
+      // Undock toolbar
       cy.get("#toolbar-more-button").realClick();
       cy.get("#menu-option-1").realClick();
       cy.get("#toolbar-handle").should("exist");
+
+      // Dock toolbar
+      cy.get("#toolbar-more-button").realClick();
+      cy.get("#menu-option-1").realClick();
+      cy.get("#toolbar-handle").should("not.exist");
+    });
+
+    it("Should set toolbar vertical", () => {
+      cy.get("#toolbar-more-button").realClick();
+      cy.get("#menu-option-2").realClick();
+      cy.get("#toolbar").should("have.class", "toolbar_vertical__DqMHv");
     });
   });
 });

@@ -1,13 +1,41 @@
 import axios from "axios";
 import { openDB } from "idb";
 
-const dbPromise = openDB("calendarDB", 1, {
-  upgrade(db) {
-    db.createObjectStore("calendar", { keyPath: "id" });
-  },
-});
+let dbPromise = null;
+
+// Conditionally initialize `idb` only if `indexedDB` is available
+if (typeof indexedDB !== "undefined") {
+  dbPromise = openDB("calendarDB", 1, {
+    upgrade(db) {
+      db.createObjectStore("calendar", { keyPath: "id" });
+    },
+  });
+} else {
+  console.warn(
+    "IndexedDB is not supported in this environment. Database functions will be unavailable."
+  );
+}
+
+// This is only for testing purposes
+export const getDb = async () => {
+  if (!dbPromise) {
+    console.warn(
+      "IndexedDB is not supported in this environment. Database functions will be unavailable."
+    );
+    return null;
+  }
+
+  return await dbPromise;
+};
 
 export const fetchCalendarsList = async (token: string) => {
+  if (!dbPromise) {
+    console.warn(
+      "IndexedDB is not supported in this environment. Database functions will be unavailable."
+    );
+    return null;
+  }
+
   const db = await dbPromise;
   const calendarsList = await db.get("calendar", "user_calendar_list");
 
@@ -45,6 +73,13 @@ export const fetchCalendarsList = async (token: string) => {
 };
 
 export const fetchCalendarEvents = async (token: string, calendarId: string) => {
+  if (!dbPromise) {
+    console.warn(
+      "IndexedDB is not supported in this environment. Database functions will be unavailable."
+    );
+    return null;
+  }
+
   const date = new Date();
   let timeMin = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0).toISOString();
   let timeMax = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59).toISOString();
@@ -75,6 +110,7 @@ export const fetchCalendarEvents = async (token: string, calendarId: string) => 
         },
       }
     );
+
     // Save to IndexedDB
     const data = {
       id: calendarId,

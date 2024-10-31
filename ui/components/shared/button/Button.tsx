@@ -3,6 +3,7 @@ import styles from "./button.module.css";
 import { IconType } from "react-icons";
 
 interface ButtonProps {
+  id: string;
   text: string;
   onClick: () => void;
 
@@ -13,6 +14,7 @@ interface ButtonProps {
 }
 
 const Button = ({
+  id,
   text,
   onClick,
   containerClassName,
@@ -21,7 +23,7 @@ const Button = ({
   postpendIcon,
 }: ButtonProps) => {
   return (
-    <div onClick={onClick} className={`${styles.button__container} ${containerClassName}`}>
+    <div id={id} onClick={onClick} className={`${styles.button__container} ${containerClassName}`}>
       {prependIcon &&
         React.createElement(prependIcon, {
           size: 25,

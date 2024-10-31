@@ -32,6 +32,7 @@ const ToolbarWidgetButtons = () => {
       }}
     >
       <ToolbarButton
+        id="sticky-notes"
         label="Sticky Notes"
         icon={FaStickyNote}
         iconProps={{
@@ -41,12 +42,14 @@ const ToolbarWidgetButtons = () => {
         onClick={() => toggleCalendar(!isCalendarOpen)}
       />
       <ToolbarButton
+        id="to-do-list"
         label="To-Do List"
         icon={HiClipboardDocumentList}
         iconProps={{ color: "var--secondary-white", size: 30 }}
         onClick={() => toggleCalendar(!isCalendarOpen)}
       />
       <ToolbarButton
+        id="calendar"
         label="Calendar"
         icon={BsFillCalendarDateFill}
         iconProps={{
@@ -56,30 +59,35 @@ const ToolbarWidgetButtons = () => {
         onClick={() => handleWidgetButtonPress(() => toggleCalendar(!isCalendarOpen))}
       />
       <ToolbarButton
+        id="timer"
         label="Timer"
         icon={MdTimer}
         iconProps={{ color: "var--secondary-white", size: 30 }}
         onClick={() => toggleCalendar(!isCalendarOpen)}
       />
       <ToolbarButton
+        id="templates"
         label="Templates"
         icon={HiTemplate}
         iconProps={{ color: "var--secondary-white", size: 30 }}
         onClick={() => toggleCalendar(!isCalendarOpen)}
       />
       <ToolbarButton
+        id="calculator"
         label="Calculator"
         icon={ImCalculator}
         iconProps={{ color: "var--secondary-white", size: 30 }}
         onClick={() => toggleCalendar(!isCalendarOpen)}
       />
       <ToolbarButton
+        id="alarm"
         label="Alarm"
         icon={IoAlarm}
         iconProps={{ color: "var--secondary-white", size: 30 }}
         onClick={() => toggleCalendar(!isCalendarOpen)}
       />
       <ToolbarButton
+        id="watch-youtube"
         label="Watch Youtube"
         icon={IoLogoYoutube}
         iconProps={{ color: "var--secondary-white", size: 30 }}

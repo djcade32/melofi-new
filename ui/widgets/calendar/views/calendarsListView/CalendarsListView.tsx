@@ -6,6 +6,7 @@ import CalendarEventsView from "../calendarEventsView/CalendarEventsView";
 
 const CalendarsListView = () => {
   const { calendarsList, selectedCalendar, setSelectedCalendar } = useCalendarStore();
+
   return (
     <>
       {!selectedCalendar ? (

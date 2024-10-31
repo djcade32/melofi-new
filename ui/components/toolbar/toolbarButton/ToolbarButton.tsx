@@ -7,16 +7,17 @@ import Tooltip from "@/ui/components/shared/tooltip/Tooltip";
 import useToolsStore from "@/stores/tools-store";
 
 interface ToolbarButtonProps {
+  id: string;
   icon: IconType;
   label: string;
   onClick: () => void;
   iconProps?: IconBaseProps;
 }
 
-const ToolbarButton = ({ icon: Icon, label, onClick, iconProps }: ToolbarButtonProps) => {
+const ToolbarButton = ({ id, icon: Icon, label, onClick, iconProps }: ToolbarButtonProps) => {
   const { isVertical } = useToolsStore();
   return (
-    <div className={styles.toolbarButton__container} onClick={onClick}>
+    <div id={`${id}-widget-button`} className={styles.toolbarButton__container} onClick={onClick}>
       <Tooltip placement={isVertical ? "left" : "bottom"} text={label}>
         {React.createElement(Icon, { ...iconProps })}
       </Tooltip>

@@ -67,6 +67,7 @@ const Modal = ({
           {title && <p className={`${titleClassName}`}>{title}</p>}
           {showCloseIcon && (
             <IoCloseOutline
+              id={`${id}-close-icon`}
               size={25}
               color="var(--color-secondary)"
               onClick={close}

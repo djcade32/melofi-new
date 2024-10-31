@@ -24,7 +24,7 @@ const CalendarEventsView = ({ calendar }: CalendarEventsViewProps) => {
     setIsLoading(true);
     getCalendarEvents(googleCalendarUser.access_token, calendar.id);
     return;
-  }, [calendar]);
+  }, []);
 
   useEffect(() => {
     if (calendarEvents) {
@@ -42,7 +42,7 @@ const CalendarEventsView = ({ calendar }: CalendarEventsViewProps) => {
       return <p>...Loading</p>;
     } else if (calendarEvents && calendarEvents?.length > 0) {
       return calendarEvents?.map((event) => (
-        <CalendarEventItem key={event.id} event={event} color={selectedCalendar?.color} />
+        <CalendarEventItem key={event.id} event={event} color={calendar.color} />
       ));
     } else {
       return <p>No events today</p>;

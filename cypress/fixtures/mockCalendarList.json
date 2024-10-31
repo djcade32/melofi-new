@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "summary": "Work Calendar",
+      "backgroundColor": "#ff9e80",
+      "primary": true
+    },
+    {
+      "id": "2",
+      "summary": "Personal Calendar",
+      "backgroundColor": "#fbc02d",
+      "primary": false
+    },
+    {
+      "id": "3",
+      "summary": "Fitness Schedule",
+      "backgroundColor": "#8e24aa",
+      "primary": false
+    },
+    {
+      "id": "4",
+      "summary": "Travel Plans",
+      "backgroundColor": "#039be5",
+      "primary": false
+    }
+  ]
+}

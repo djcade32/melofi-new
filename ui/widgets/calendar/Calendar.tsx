@@ -60,6 +60,7 @@ const Calendar = () => {
 
   return (
     <Modal
+      id="calendar-widget"
       isOpen={isCalendarOpen}
       className={styles.calendar__container}
       title={date.toLocaleDateString("en-US", options)}

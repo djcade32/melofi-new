@@ -13,7 +13,7 @@ export const buildCalendarEventList = (events: any[]): CalendarEvent[] => {
   return events.map((event) => ({
     id: event.id,
     summary: event.summary,
-    start: event.start.dateTime,
-    end: event.end.dateTime,
+    start: event.start.dateTime ? event.start.dateTime : event.start.date,
+    end: event.end.dateTime ? event.end.dateTime : event.end.date,
   }));
 };

@@ -29,6 +29,7 @@ const CalendarAuthView = ({ login }: CalendarAuthViewProps) => {
         />
       </div>
       <Button
+        id="google-login-button"
         text="Continue with Google"
         textClassName={styles.calendarAuthView__google_login_button_text}
         onClick={login}
