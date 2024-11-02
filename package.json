@@ -9,7 +9,7 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "test:e2e": "start-server-and-test dev http://localhost:3000 cy:open",
-    "test:e2e:headless": "start-server-and-test dev http://localhost:3000 cy:run",
+    "test:e2e:headless": "start-server-and-test dev http://localhost:3000 cy:run --headless",
     "electron": "electron .",
     "dev:electron": "concurrently \"npm run dev\" \"wait-on http://localhost:3000 && npm run electron\"",
     "start": "next start",

@@ -19,14 +19,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body id="melofi-app">
+      <body
+        // id="melofi-app"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+        }}
+      >
         <GoogleOAuthProvider clientId="922776747697-hbq7p19u2jmjjb1ksf4s0h95mmiu4pht.apps.googleusercontent.com">
           <FullscreenProvider>
-            <NotificationProvider>
-              <Header />
-              <SceneBackground />
-              {children}
-            </NotificationProvider>
+            <NotificationProvider>{children}</NotificationProvider>
           </FullscreenProvider>
         </GoogleOAuthProvider>
       </body>

@@ -1,25 +1,28 @@
 "use client";
 
-import NowPlaying from "@/ui/components/nowPlaying/NowPlaying";
-import { MusicSource } from "@/enums/general";
-import MixerModal from "@/ui/modals/mixerModal/MixerModal";
-import SceneModal from "@/ui/modals/sceneModal/SceneModal";
-import useMixerStore from "@/stores/mixer-store";
 import React from "react";
-import Calendar from "@/ui/widgets/calendar/Calendar";
+import SceneBackground from "@/ui/components/sceneBackground/SceneBackground";
+import LoggedInView from "@/ui/Views/LoggedInView";
+import LoggedOutView from "@/ui/Views/AuthViews.tsx/LoggedOutView";
+import useUserStore from "@/stores/user-store";
 
 // If performance is a concern, use React.lazy to load the component only when needed
 // const SceneModal = React.lazy(() => import("@/modals/sceneModal/SceneModal"));
 
 export default function Home() {
-  const { musicSource } = useMixerStore();
+  const { isUserLoggedIn } = useUserStore();
 
   return (
-    <div>
-      <SceneModal />
-      <MixerModal />
-      {musicSource === MusicSource.MELOFI && <NowPlaying />}
-      <Calendar />
+    <div
+      id="melofi-app"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+      }}
+    >
+      {isUserLoggedIn ? <LoggedInView /> : <LoggedOutView />}
+      <SceneBackground />
     </div>
   );
 }
