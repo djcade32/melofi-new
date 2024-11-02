@@ -5,10 +5,16 @@
     border: 1px solid var(--color-secondary);
     border-radius: 10px;
     padding: 10px 20px;
-    cursor: pointer;
     transition: all 0.3s;
 }
 
-.button__container:hover {
-    background-color: var(--color-effect-opacity);
+.button__hover {
+    opacity: 0.8;
+    background-color: var(--color-primary);
+    cursor: pointer;
+}
+
+.button__disabled {
+    opacity: 0.5;
+    cursor: "default";
 }

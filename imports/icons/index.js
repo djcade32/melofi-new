@@ -68,6 +68,8 @@ import {
   MdOutlineDisabledByDefault,
   MdError,
   MdMoreHoriz,
+  MdOutlineCheckBoxOutlineBlank,
+  MdCheckBox,
 } from "react-icons/md";
 import {
   AiFillTool,
@@ -91,6 +93,7 @@ import {
 import { PiMoonFill, PiSunHorizonFill, PiWavesDuotone } from "react-icons/pi";
 import { VscDebugRestart } from "react-icons/vsc";
 import { LuGalleryVertical, LuGalleryHorizontal } from "react-icons/lu";
+import { BiSolidHide, BiSolidShow } from "react-icons/bi";
 
 export {
   FaPause,
@@ -183,4 +186,8 @@ export {
   ImCalculator,
   IoAlarm,
   IoLogoYoutube,
+  BiSolidHide,
+  BiSolidShow,
+  MdOutlineCheckBoxOutlineBlank,
+  MdCheckBox,
 };

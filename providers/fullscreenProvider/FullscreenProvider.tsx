@@ -3,6 +3,7 @@
 import useAppStore from "@/stores/app-store";
 import React, { useEffect } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import styles from "./fullscreenProvider.module.css";
 
 interface FullscreenProviderProps {
   children: React.ReactNode;
@@ -27,7 +28,11 @@ const FullscreenProvider = ({ children }: FullscreenProviderProps) => {
     }
   }, [handle]);
 
-  return <FullScreen handle={handle}>{children}</FullScreen>;
+  return (
+    <FullScreen className={styles.fullscreenProvider__container} handle={handle}>
+      {children}
+    </FullScreen>
+  );
 };
 
 export default FullscreenProvider;

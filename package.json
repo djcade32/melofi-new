@@ -7,7 +7,7 @@
     "dev": "next dev",
     "test:unit": "jest",
     "cy:open": "cypress open",
-    "cy:run": "cypress run",
+    "cy:run": "cypress run --headless",
     "test:e2e": "start-server-and-test dev http://localhost:3000 cy:open",
     "test:e2e:headless": "start-server-and-test dev http://localhost:3000 cy:run",
     "electron": "electron .",

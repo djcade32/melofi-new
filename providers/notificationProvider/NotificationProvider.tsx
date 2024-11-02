@@ -43,7 +43,13 @@ const NotificationProvider = ({ children }: NotificationProviderProps) => {
   }, [showNotification]);
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+      }}
+    >
       {children}
       <Toaster
         message={currentNotification?.message || ""}
