@@ -31,6 +31,7 @@ declare global {
       mockIndexedDB(): Chainable<void>;
       mockGetCalendarList(): Chainable<void>;
       mockGetCalendarEvents(): Chainable<void>;
+      deleteCalendarDB(): Chainable<void>;
     }
   }
 }
@@ -87,4 +88,12 @@ Cypress.Commands.add("mockGetCalendarEvents", () => {
       fixture: "mockCalendarEvents.json",
     }
   ).as("getCalendarEvents");
+});
+
+Cypress.Commands.add("deleteCalendarDB", () => {
+  cy.window().then((win) => {
+    const request = win.indexedDB.deleteDatabase("calendarDB"); // Replace "calendarDB" with your database name
+    request.onsuccess = () => console.log("IndexedDB cleared successfully");
+    request.onerror = () => console.error("Error clearing IndexedDB");
+  });
 });

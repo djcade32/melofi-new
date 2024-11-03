@@ -26,6 +26,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         MelofiUser.authUser.emailVerified
           ? setCurrentUser(MelofiUser)
           : setShowEmailVerification(true);
+      } else if (MelofiUser.skippedOnboarding) {
+        setCurrentUser(MelofiUser);
       }
     }
   }, []);

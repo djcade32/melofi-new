@@ -4,6 +4,16 @@ export const navigateToMelofi = () => {
   // cy.clearLocalStorage();
 
   cy.visit("/");
+  // Add user key to local storage
+  cy.window().then((win) => {
+    win.localStorage.setItem(
+      "user",
+      JSON.stringify({
+        name: "John",
+        skippedOnboarding: true,
+      })
+    );
+  });
   // If you get failed test. Try code below
   //   cy.wait(8000);
 };
