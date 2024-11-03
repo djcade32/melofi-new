@@ -83,5 +83,6 @@ describe("Calendar Widget Tests", () => {
   after(() => {
     pressToolsButton();
     pressToolbarButton("calendar");
+    cy.deleteCalendarDB();
   });
 });

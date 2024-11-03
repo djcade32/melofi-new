@@ -21,8 +21,7 @@ export default function Home() {
         flex: 1,
       }}
     >
-      {isUserLoggedIn ? <LoggedInView /> : <LoggedOutView />}
-      <SceneBackground />
+      <LoggedInView />
     </div>
   );
 }

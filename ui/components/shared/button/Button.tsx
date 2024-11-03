@@ -8,6 +8,7 @@ interface ButtonProps extends React.HTMLProps<HTMLDivElement> {
   onClick: () => void;
 
   containerClassName?: string;
+  hoverClassName?: string;
   textClassName?: string;
   prependIcon?: IconType;
   postpendIcon?: IconType;
@@ -22,16 +23,18 @@ const Button = ({
   textClassName,
   prependIcon,
   postpendIcon,
+  hoverClassName,
   disable = false,
   ...props
 }: ButtonProps) => {
   const [hover, setHover] = useState(false);
+  const buttonHoverClassName = hoverClassName ? hoverClassName : styles.button__hover;
   return (
     <div
       id={id}
       onClick={onClick}
       className={`${styles.button__container} ${containerClassName} ${
-        hover && !disable && styles.button__hover
+        hover && !disable && buttonHoverClassName
       } ${disable && styles.button__disabled}`}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}

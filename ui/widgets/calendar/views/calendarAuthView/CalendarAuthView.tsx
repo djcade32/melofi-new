@@ -34,6 +34,7 @@ const CalendarAuthView = ({ login }: CalendarAuthViewProps) => {
         textClassName={styles.calendarAuthView__google_login_button_text}
         onClick={login}
         prependIcon={AiOutlineGoogle}
+        style={{ backgroundColor: "var(--color-effect-opacity)" }}
       />
     </div>
   );
