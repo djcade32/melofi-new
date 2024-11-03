@@ -5,6 +5,7 @@
     justify-content: center;
     flex: 1;
     width: 100%;
+    background-image: url('/assets/thumbnails/girl-in-cafe_pic.webp');
 }
 
 .loggedOutView__login_signup_modal {

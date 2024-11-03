@@ -8,10 +8,11 @@ interface CheckboxProps {
   onClick: () => void;
 
   textClassName?: string;
+  value?: boolean;
 }
 
-const Checkbox = ({ id, text, onClick, textClassName }: CheckboxProps) => {
-  const [checked, setChecked] = useState(false);
+const Checkbox = ({ id, text, onClick, textClassName, value }: CheckboxProps) => {
+  const [checked, setChecked] = useState(value ?? false);
   const handleClick = () => {
     setChecked((prev) => !prev);
     onClick();

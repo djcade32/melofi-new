@@ -1,3 +1,4 @@
+import { User } from "firebase/auth";
 import { ReactElement } from "react";
 import { IconType } from "react-icons";
 
@@ -66,4 +67,17 @@ export interface CalendarEvent {
   summary: string;
   start: string;
   end: string;
+}
+
+export interface AuthViewProps {
+  setOnboardingStep: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export interface MelofiUser {
+  // isPremium: boolean;
+  // playlists: Playlist[];
+  // likedSongs: Song[];
+  name: string;
+  skippedOnboarding?: boolean;
+  authUser?: User;
 }

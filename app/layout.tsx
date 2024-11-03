@@ -6,6 +6,7 @@ import SceneBackground from "@/ui/components/sceneBackground/SceneBackground";
 import NotificationProvider from "@/providers/notificationProvider/NotificationProvider";
 import FullscreenProvider from "@/providers/fullscreenProvider/FullscreenProvider";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import AuthProvider from "@/providers/authProvider/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Melofi",
@@ -24,13 +25,15 @@ export default function RootLayout({
         style={{
           display: "flex",
           flexDirection: "column",
-          flex: 1,
+          height: "100vh",
         }}
       >
         <GoogleOAuthProvider clientId="922776747697-hbq7p19u2jmjjb1ksf4s0h95mmiu4pht.apps.googleusercontent.com">
-          <FullscreenProvider>
-            <NotificationProvider>{children}</NotificationProvider>
-          </FullscreenProvider>
+          <AuthProvider>
+            <FullscreenProvider>
+              <NotificationProvider>{children}</NotificationProvider>
+            </FullscreenProvider>
+          </AuthProvider>
         </GoogleOAuthProvider>
       </body>
     </html>

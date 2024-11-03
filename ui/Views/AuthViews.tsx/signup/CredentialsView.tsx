@@ -4,19 +4,37 @@ import { RxCaretLeft, RxCaretRight } from "@/imports/icons";
 import Input from "@/ui/components/shared/input/Input";
 import Button from "@/ui/components/shared/button/Button";
 import Checkbox from "@/ui/components/shared/checkbox/Checkbox";
+import { AuthViewProps } from "@/types/interfaces";
+import useUserStore from "@/stores/user-store";
 
-const CredentialsView = () => {
+interface CredentialsViewProps extends AuthViewProps {
+  setAuthViewStep: React.Dispatch<React.SetStateAction<number>>;
+  firstName: string;
+}
+
+const CredentialsView = ({
+  setOnboardingStep,
+  setAuthViewStep,
+  firstName,
+}: CredentialsViewProps) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPasswordRules, setShowPasswordRules] = useState(false);
+
+  const { setCurrentUser } = useUserStore();
 
   return (
     <div className={styles.signup__container}>
       <div className={styles.signup__header}>
-        <div className={styles.signup__back_button} onClick={() => {}}>
+        <div
+          className={styles.signup__back_button}
+          onClick={() => setOnboardingStep((prev) => prev - 1)}
+        >
           <RxCaretLeft size={25} color="var(--color-secondary-white)" />
           <p>Back</p>
         </div>
       </div>
-      <div className={styles.signup__credentials_content_container}>
+      <div className={styles.signup__content_container}>
         <p className={styles.signup__title}>Your Access to Lo-fi Focus Awaits</p>
         <p
           className={styles.signup__subtitle}
@@ -34,6 +52,8 @@ const CredentialsView = () => {
             placeholder="Email Address"
             className={styles.signup__credentials_input}
             type="text"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
           />
           <Input
             placeholder="Create Password"
@@ -41,6 +61,8 @@ const CredentialsView = () => {
             type="password"
             onFocus={() => setShowPasswordRules(true)}
             onBlur={() => setShowPasswordRules(false)}
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
           />
           {showPasswordRules && (
             <p className={styles.signup__credentials_input_rules}>
@@ -54,12 +76,14 @@ const CredentialsView = () => {
             text="Subscribe to our weekly newsletter to receive productivity tips."
             onClick={() => {}}
             textClassName={styles.signup__credentials_checkbox}
+            value={true}
           />
           <Button
             id="sign-up-button"
             text="Let's Go!"
-            onClick={() => {}}
+            onClick={() => setOnboardingStep((prev) => prev + 1)}
             containerClassName={styles.signup__continue_button}
+            hoverClassName={styles.signup__continue_button_hover}
           />
 
           <p className={styles.signup__terms_and_policy_text}>By proceeding, you agree to our </p>
@@ -78,7 +102,7 @@ const CredentialsView = () => {
             onMouseLeave={(e) => {
               e.currentTarget.style.textDecoration = "underline";
             }}
-            onClick={() => {}}
+            onClick={() => setAuthViewStep(1)}
           >
             Already have and account?
           </p>
@@ -90,7 +114,12 @@ const CredentialsView = () => {
               onMouseLeave={(e) => {
                 e.currentTarget.style.textDecoration = "none";
               }}
-              onClick={() => {}}
+              onClick={() =>
+                setCurrentUser({
+                  name: firstName,
+                  skippedOnboarding: true,
+                })
+              }
               className={`${styles.signup__have_account_text} ${styles.signup__skip_and_continue_text}`}
             >
               Skip and continue as guest

@@ -1,14 +1,25 @@
 import React, { ChangeEvent, CSSProperties, useState } from "react";
 import styles from "./signup.module.css";
 import Button from "@/ui/components/shared/button/Button";
+import { AuthViewProps } from "@/types/interfaces";
 
-const FirstNameView = () => {
+interface FirstNameViewProps extends AuthViewProps {
+  setAuthViewStep: React.Dispatch<React.SetStateAction<number>>;
+  setFirstName: React.Dispatch<React.SetStateAction<string>>;
+  firstName: string;
+}
+
+const FirstNameView = ({
+  setOnboardingStep,
+  setAuthViewStep,
+  setFirstName,
+  firstName,
+}: FirstNameViewProps) => {
   const [align, setAlign] = useState<CSSProperties["textAlign"]>("center"); // Set default alignment to center
   const [width, setWidth] = useState(253);
-  const [name, setName] = useState("");
 
   const handleFocus = () => {
-    if (name === "") {
+    if (firstName === "") {
       setAlign("left"); // Align cursor to the left when focused
     }
   };
@@ -22,7 +33,7 @@ const FirstNameView = () => {
       setAlign("center");
       setWidth(400);
     }
-    setName(event.target.value);
+    setFirstName(event.target.value);
   };
 
   return (
@@ -40,15 +51,17 @@ const FirstNameView = () => {
           onBlur={handleInput} // Check alignment when the input loses focus
           onInput={handleInput} // Check alignment as user types
           style={{ textAlign: align, width: width }}
+          value={firstName}
         />
       </div>
       <div style={{ marginTop: 30 }}>
         <Button
           id="sign-up-button"
           text="Continue"
-          onClick={() => {}}
+          onClick={() => setOnboardingStep((prev: number) => prev + 1)}
           containerClassName={styles.signup__continue_button}
-          disable={name === ""}
+          disable={firstName === ""}
+          hoverClassName={styles.signup__continue_button_hover}
         />
       </div>
 
@@ -64,7 +77,7 @@ const FirstNameView = () => {
           onMouseLeave={(e) => {
             e.currentTarget.style.textDecoration = "underline";
           }}
-          onClick={() => {}}
+          onClick={() => setAuthViewStep((prev) => prev + 1)}
         >
           Already have and account?
         </p>
