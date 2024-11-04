@@ -7,18 +7,24 @@ interface CheckboxProps {
   text: string;
   onClick: () => void;
 
+  ariaLabel?: string;
   textClassName?: string;
   value?: boolean;
 }
 
-const Checkbox = ({ id, text, onClick, textClassName, value }: CheckboxProps) => {
+const Checkbox = ({ id, text, onClick, textClassName, value, ariaLabel }: CheckboxProps) => {
   const [checked, setChecked] = useState(value ?? false);
   const handleClick = () => {
     setChecked((prev) => !prev);
     onClick();
   };
   return (
-    <div id={id} className={`${styles.checkbox__container} `} onClick={handleClick}>
+    <div
+      aria-label={ariaLabel}
+      id={id}
+      className={`${styles.checkbox__container} `}
+      onClick={handleClick}
+    >
       {checked ? (
         <MdCheckBox size={25} color="var(--color-effect)" />
       ) : (

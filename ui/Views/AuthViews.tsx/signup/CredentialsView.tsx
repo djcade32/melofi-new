@@ -4,8 +4,11 @@ import { RxCaretLeft, RxCaretRight } from "@/imports/icons";
 import Input from "@/ui/components/shared/input/Input";
 import Button from "@/ui/components/shared/button/Button";
 import Checkbox from "@/ui/components/shared/checkbox/Checkbox";
-import { AuthViewProps } from "@/types/interfaces";
+import { AuthViewProps, Error } from "@/types/interfaces";
 import useUserStore from "@/stores/user-store";
+import { signup } from "@/lib/firebase/actions";
+import { isValidEmail } from "@/utils/general";
+import { ERROR_MESSAGES } from "@/enums/general";
 
 interface CredentialsViewProps extends AuthViewProps {
   setAuthViewStep: React.Dispatch<React.SetStateAction<number>>;
@@ -20,8 +23,82 @@ const CredentialsView = ({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPasswordRules, setShowPasswordRules] = useState(false);
+  const [errorState, setErrorState] = useState<{ name: string; message: string }[] | null>(null);
+  const [newsletterChecked, setNewsletterChecked] = useState(true);
 
   const { setCurrentUser } = useUserStore();
+
+  const handleSignupPress = async () => {
+    if (!checkInputsValid()) {
+      return false;
+    }
+    try {
+      const user = await signup(email, password, firstName, newsletterChecked);
+      console.log("User created: ", user);
+      setOnboardingStep((prev) => prev + 1);
+      return true;
+    } catch (error: any) {
+      if (error.code === "auth/email-already-in-use") {
+        setErrorState([
+          {
+            name: "email",
+            message: ERROR_MESSAGES.EMAIL_ALREADY_IN_USE,
+          },
+        ]);
+      }
+      console.log("Error creating account: ", error);
+      return false;
+    }
+  };
+
+  const getErrorMessage = (): Error[] => {
+    let errors: Error[] = [];
+
+    if (email === "") {
+      errors.push({
+        name: "email",
+        message: ERROR_MESSAGES.EMAIL_REQUIRED,
+      });
+    }
+    if (password === "") {
+      errors.push({
+        name: "password",
+        message: ERROR_MESSAGES.PASSWORD_REQUIRED,
+      });
+    }
+
+    if (!isValidEmail(email)) {
+      errors.push({
+        name: "email",
+        message: ERROR_MESSAGES.INVALID_EMAIL,
+      });
+    }
+
+    // Check if password is invalid
+    if (password === "") {
+      errors.push({
+        name: "password",
+        message: ERROR_MESSAGES.PASSWORD_REQUIRED,
+      });
+    } else if (password.length < 8 || !password.match(/[A-Z]/) || !password.match(/[0-9]/)) {
+      errors.push({
+        name: "password",
+        message: ERROR_MESSAGES.PASSWORD_WEAK,
+      });
+    }
+    return errors;
+  };
+
+  const checkInputsValid = () => {
+    const errors = getErrorMessage();
+    setErrorState(errors.length ? errors : null);
+    return errors.length === 0;
+  };
+
+  const removeError = (field: string) => {
+    if (!errorState) return;
+    setErrorState(errorState.filter((error) => error.name !== field));
+  };
 
   return (
     <div className={styles.signup__container}>
@@ -29,6 +106,7 @@ const CredentialsView = ({
         <div
           className={styles.signup__back_button}
           onClick={() => setOnboardingStep((prev) => prev - 1)}
+          aria-label="back-button"
         >
           <RxCaretLeft size={25} color="var(--color-secondary-white)" />
           <p>Back</p>
@@ -49,20 +127,34 @@ const CredentialsView = ({
         </p>
         <form autoComplete="off" className={styles.signup__credentials_inputs_container}>
           <Input
+            aria-label="email"
+            name="email"
             placeholder="Email Address"
             className={styles.signup__credentials_input}
             type="text"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              removeError("email");
+              setEmail(e.target.value);
+            }}
             value={email}
+            errorState={errorState}
           />
           <Input
+            aria-label="password"
+            name="password"
             placeholder="Create Password"
             className={styles.signup__credentials_input}
             type="password"
-            onFocus={() => setShowPasswordRules(true)}
+            onFocus={() => {
+              !errorState?.find((error) => error.name === "password") && setShowPasswordRules(true);
+            }}
             onBlur={() => setShowPasswordRules(false)}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              removeError("password");
+              setPassword(e.target.value);
+            }}
             value={password}
+            errorState={errorState}
           />
           {showPasswordRules && (
             <p className={styles.signup__credentials_input_rules}>
@@ -70,20 +162,28 @@ const CredentialsView = ({
             </p>
           )}
         </form>
-        <div className={styles.signup__credentials_button_checkbox_container}>
+        <div
+          className={styles.signup__credentials_button_checkbox_container}
+          style={{
+            marginTop: errorState?.find((error) => error.name === "password") ? 35 : 65,
+          }}
+        >
           <Checkbox
+            aria-label="credentials-newsletter-checkbox"
             id="credentials-newsletter-checkbox"
             text="Subscribe to our weekly newsletter to receive productivity tips."
-            onClick={() => {}}
+            onClick={() => setNewsletterChecked((prev) => !prev)}
             textClassName={styles.signup__credentials_checkbox}
-            value={true}
+            value={newsletterChecked}
           />
           <Button
+            aria-label="sign-up-button"
             id="sign-up-button"
             text="Let's Go!"
-            onClick={() => setOnboardingStep((prev) => prev + 1)}
+            onClick={handleSignupPress}
             containerClassName={styles.signup__continue_button}
             hoverClassName={styles.signup__continue_button_hover}
+            showLoadingState={true}
           />
 
           <p className={styles.signup__terms_and_policy_text}>By proceeding, you agree to our </p>
@@ -103,8 +203,9 @@ const CredentialsView = ({
               e.currentTarget.style.textDecoration = "underline";
             }}
             onClick={() => setAuthViewStep(1)}
+            aria-label="Already have an account?"
           >
-            Already have and account?
+            Already have an account?
           </p>
           <div>
             <p
@@ -121,6 +222,7 @@ const CredentialsView = ({
                 })
               }
               className={`${styles.signup__have_account_text} ${styles.signup__skip_and_continue_text}`}
+              aria-label="Skip and continue as guest"
             >
               Skip and continue as guest
               <RxCaretRight size={25} color="var(--color-secondary-white)" />
