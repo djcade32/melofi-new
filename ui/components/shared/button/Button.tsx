@@ -35,6 +35,7 @@ const Button = ({
   const buttonHoverClassName = hoverClassName ? hoverClassName : styles.button__hover;
 
   const handleOnClick = async () => {
+    if (disable || showLoading) return;
     showLoadingState && setShowLoading(true);
     await onClick();
     showLoadingState && setShowLoading(false);

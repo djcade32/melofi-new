@@ -6,7 +6,7 @@ import Button from "@/ui/components/shared/button/Button";
 import Checkbox from "@/ui/components/shared/checkbox/Checkbox";
 import { AuthViewProps, Error } from "@/types/interfaces";
 import useUserStore from "@/stores/user-store";
-import { signup } from "@/lib/firebase/actions";
+import { signup } from "@/lib/firebase/actions/auth-actions";
 import { isValidEmail } from "@/utils/general";
 import { ERROR_MESSAGES } from "@/enums/general";
 
@@ -23,7 +23,7 @@ const CredentialsView = ({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPasswordRules, setShowPasswordRules] = useState(false);
-  const [errorState, setErrorState] = useState<{ name: string; message: string }[] | null>(null);
+  const [errorState, setErrorState] = useState<Error[] | null>(null);
   const [newsletterChecked, setNewsletterChecked] = useState(true);
 
   const { setCurrentUser } = useUserStore();

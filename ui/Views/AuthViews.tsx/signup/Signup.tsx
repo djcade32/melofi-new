@@ -30,7 +30,12 @@ const Signup = (props: AuthViewProps) => {
           />
         );
       case 2:
-        return <VerifyEmailView setAuthViewStep={props.setOnboardingStep} />;
+        return (
+          <VerifyEmailView
+            setAuthViewStep={props.setOnboardingStep}
+            setOnboardingStep={setOnboardingStep}
+          />
+        );
       case 3:
         return <WelcomeView setOnboardingStep={setOnboardingStep} firstName={firstName} />;
 

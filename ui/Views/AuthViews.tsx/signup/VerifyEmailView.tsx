@@ -1,15 +1,32 @@
-import { AuthViewProps } from "@/types/interfaces";
 import React from "react";
 import styles from "./signup.module.css";
 import Button from "@/ui/components/shared/button/Button";
+import { sendEmailVerification } from "@/lib/firebase/actions/auth-actions";
 
 interface VerifyEmailViewProps {
   setAuthViewStep: React.Dispatch<React.SetStateAction<number>>;
+  setShowEmailVerification?: React.Dispatch<React.SetStateAction<boolean>>;
+  setOnboardingStep?: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const VerifyEmailView = ({ setAuthViewStep }: VerifyEmailViewProps) => {
+const VerifyEmailView = ({
+  setAuthViewStep,
+  setShowEmailVerification,
+  setOnboardingStep,
+}: VerifyEmailViewProps) => {
   const handleContinueClicked = () => {
+    setShowEmailVerification && setShowEmailVerification(false);
+    setOnboardingStep && setOnboardingStep(0);
     setAuthViewStep(1);
+  };
+
+  const handleResendVerificationClicked = async () => {
+    try {
+      await sendEmailVerification();
+      console.log("Verification email sent");
+    } catch (error: any) {
+      console.log("Error sending verification email: ", error);
+    }
   };
 
   return (
@@ -40,7 +57,7 @@ const VerifyEmailView = ({ setAuthViewStep }: VerifyEmailViewProps) => {
             onMouseLeave={(e) => {
               e.currentTarget.style.textDecoration = "underline";
             }}
-            onClick={() => {}}
+            onClick={handleResendVerificationClicked}
           >
             resend verification
           </span>

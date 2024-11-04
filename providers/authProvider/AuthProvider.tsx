@@ -2,10 +2,11 @@
 
 import React, { ReactNode, useEffect, useState } from "react";
 import styles from "./authProvider.module.css";
-import { getFirebaseAuth } from "@/lib/firebase/firebaseClient";
 import useUserStore from "@/stores/user-store";
 import LoggedOutView from "@/ui/Views/AuthViews.tsx/LoggedOutView";
 import { MelofiUser } from "@/types/interfaces";
+import { logout } from "@/lib/firebase/actions/auth-actions";
+import SceneBackground from "@/ui/components/sceneBackground/SceneBackground";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -13,28 +14,47 @@ interface AuthProviderProps {
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [showEmailVerification, setShowEmailVerification] = useState(false);
+  const [grantAccess, setGrantAccess] = useState(false);
 
-  const { setCurrentUser, currentUser, isUserLoggedIn } = useUserStore();
+  const { setCurrentUser, currentUser, checkIfUserIsInDb, isUserLoggedIn } = useUserStore();
 
+  // Check if user is logged in
   useEffect(() => {
     // Check if localStorage has user key
     const user = localStorage.getItem("user");
     if (user) {
       const MelofiUser = JSON.parse(user) as MelofiUser;
-      // Check if user is email verified
-      if (MelofiUser.authUser) {
-        MelofiUser.authUser.emailVerified
-          ? setCurrentUser(MelofiUser)
-          : setShowEmailVerification(true);
-      } else if (MelofiUser.skippedOnboarding) {
-        setCurrentUser(MelofiUser);
-      }
+      setCurrentUser(MelofiUser);
     }
   }, []);
 
+  // Check if user's email is verified and if user is in db
+  useEffect(() => {
+    // Get current user
+    if (currentUser?.authUser && isUserLoggedIn) {
+      // Check if user's email is verified
+      if (!currentUser.authUser.emailVerified) {
+        setShowEmailVerification(true);
+      } else if (currentUser?.authUser?.email) {
+        // Check if user is in db
+        checkIfUserIsInDb(currentUser.authUser?.email).then((isInDb) => {
+          if (isInDb) {
+            setGrantAccess(true);
+          } else {
+            logout();
+            // Remove user from localStorage
+            localStorage.removeItem("user");
+          }
+        });
+      }
+    } else if (currentUser?.skippedOnboarding) {
+      setGrantAccess(true);
+    }
+  }, [currentUser]);
+
   return (
     <div className={styles.authProvider__container}>
-      {isUserLoggedIn ? (
+      {grantAccess ? (
         children
       ) : (
         <LoggedOutView
@@ -42,6 +62,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
           setShowEmailVerification={setShowEmailVerification}
         />
       )}
+      <SceneBackground />
     </div>
   );
 };

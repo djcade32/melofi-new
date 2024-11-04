@@ -8,12 +8,11 @@ import NowPlaying from "../components/nowPlaying/NowPlaying";
 import Calendar from "../widgets/calendar/Calendar";
 import useMixerStore from "@/stores/mixer-store";
 import { MusicSource } from "@/enums/general";
-import useUserStore from "@/stores/user-store";
+
 import SceneBackground from "../components/sceneBackground/SceneBackground";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
-  const { isUserLoggedIn } = useUserStore();
 
   return (
     <div>
@@ -22,7 +21,6 @@ const LoggedInView = () => {
       <MixerModal />
       {musicSource === MusicSource.MELOFI && <NowPlaying />}
       <Calendar />
-      <SceneBackground />
     </div>
   );
 };
