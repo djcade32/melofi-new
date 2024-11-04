@@ -81,3 +81,8 @@ export interface MelofiUser {
   skippedOnboarding?: boolean;
   authUser?: User;
 }
+
+export interface Error {
+  name: string;
+  message: string;
+}

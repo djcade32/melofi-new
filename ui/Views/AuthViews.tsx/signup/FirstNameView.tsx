@@ -44,6 +44,7 @@ const FirstNameView = ({
       </div>
       <div>
         <input
+          aria-label="First Name"
           className={styles.signup__input}
           type="text"
           placeholder="First Name"
@@ -56,6 +57,7 @@ const FirstNameView = ({
       </div>
       <div style={{ marginTop: 30 }}>
         <Button
+          aria-label="Continue"
           id="sign-up-button"
           text="Continue"
           onClick={() => setOnboardingStep((prev: number) => prev + 1)}
@@ -70,6 +72,7 @@ const FirstNameView = ({
         className={styles.signup__have_account_container}
       >
         <p
+          aria-label="Already have an account?"
           className={styles.signup__have_account_text}
           onMouseEnter={(e) => {
             e.currentTarget.style.textDecoration = "none";
