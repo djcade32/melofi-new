@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./button.module.css";
 import { IconType } from "react-icons";
-import LoadingSpinner from "../loadingSpinner/loadingSpinner";
+import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 
 interface ButtonProps extends React.HTMLProps<HTMLDivElement> {
   id: string;
