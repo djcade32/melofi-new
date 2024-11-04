@@ -67,7 +67,9 @@ const Input = ({ prependIcon, postpendIcon, errorState, ...props }: InputProps) 
           {getPostpendIcon()}
         </div>
       </div>
-      {error && <p className={styles.input__error_text}>{error.message}</p>}
+      {error && error.message.trim().length > 0 && (
+        <p className={styles.input__error_text}>{error.message}</p>
+      )}
     </div>
   );
 };

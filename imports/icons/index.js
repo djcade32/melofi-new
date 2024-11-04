@@ -41,6 +41,7 @@ import {
   IoSnowSharp,
   IoAlarm,
   IoLogoYoutube,
+  IoCheckmarkCircleSharp,
 } from "react-icons/io5";
 import {
   RiSoundModuleFill,
@@ -190,4 +191,5 @@ export {
   BiSolidShow,
   MdOutlineCheckBoxOutlineBlank,
   MdCheckBox,
+  IoCheckmarkCircleSharp,
 };

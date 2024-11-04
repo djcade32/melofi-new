@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./loggedOutView.module.css";
 import Signup from "./signup/Signup";
 import Signin from "./Signin";
@@ -12,10 +12,15 @@ interface LoggedOutViewProps {
 
 const LoggedOutView = ({ showEmailVerification, setShowEmailVerification }: LoggedOutViewProps) => {
   const [onboardingStep, setOnboardingStep] = useState<number>(0);
+
   const content = () => {
     if (showEmailVerification) {
-      setShowEmailVerification(false);
-      return <VerifyEmailView setAuthViewStep={setOnboardingStep} />;
+      return (
+        <VerifyEmailView
+          setAuthViewStep={setOnboardingStep}
+          setShowEmailVerification={setShowEmailVerification}
+        />
+      );
     }
     switch (onboardingStep) {
       case 0:

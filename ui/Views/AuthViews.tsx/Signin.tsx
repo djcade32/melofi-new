@@ -3,11 +3,76 @@ import styles from "./signin.module.css";
 import Input from "@/ui/components/shared/input/Input";
 import Button from "@/ui/components/shared/button/Button";
 import { AuthViewProps } from "@/types/interfaces";
+import { login } from "@/lib/firebase/actions/auth-actions";
+import useUserStore from "@/stores/user-store";
+import { ERROR_MESSAGES } from "@/enums/general";
 
 const Signin = ({ setOnboardingStep }: AuthViewProps) => {
+  const { setCurrentUser, setIsUserLoggedIn } = useUserStore();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPasswordRules, setShowPasswordRules] = useState(false);
+  const [errorState, setErrorState] = useState<Error[] | null>(null);
+
+  const handleLoginClick = async () => {
+    if (!checkInputsValid()) {
+      return;
+    }
+
+    try {
+      const user = await login(email, password);
+      console.log("User logged in: ", user);
+      setCurrentUser(user);
+      setIsUserLoggedIn(true);
+    } catch (error: any) {
+      console.log("Error logging in: ", error);
+      setErrorState([
+        {
+          name: "email",
+          message: "",
+        },
+        {
+          name: "password",
+          message: "",
+        },
+        {
+          name: "form",
+          message: "",
+        },
+      ]);
+    }
+  };
+
+  const checkInputsValid = () => {
+    let errors: Error[] = [];
+
+    if (email === "") {
+      errors.push({
+        name: "email",
+        message: ERROR_MESSAGES.EMAIL_REQUIRED,
+      });
+    }
+
+    if (password === "") {
+      errors.push({
+        name: "password",
+        message: ERROR_MESSAGES.PASSWORD_REQUIRED,
+      });
+    }
+
+    setErrorState(errors);
+
+    return errors.length === 0;
+  };
+
+  const removeError = (field: string) => {
+    if (!errorState) return;
+    if (field === "form") {
+      setErrorState(null);
+      return;
+    }
+    setErrorState(errorState.filter((error) => error.name !== field));
+  };
 
   return (
     <div className={styles.signin__container}>
@@ -26,26 +91,42 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
         </p>
         <form autoComplete="off" className={styles.signin__credentials_inputs_container}>
           <Input
+            name="email"
             placeholder="Email Address"
             className={styles.signin__credentials_input}
             type="text"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              removeError("email");
+              removeError("form");
+              setEmail(e.target.value);
+            }}
+            errorState={errorState}
+            value={email}
           />
           <Input
+            name="password"
             placeholder="Create Password"
             className={styles.signin__credentials_input}
             type="password"
-            onFocus={() => setShowPasswordRules(true)}
-            onBlur={() => setShowPasswordRules(false)}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              removeError("password");
+              removeError("form");
+              setPassword(e.target.value);
+            }}
+            errorState={errorState}
+            value={password}
           />
+          {errorState && errorState.find((error) => error.name === "form") && (
+            <p className={styles.signin__form_error_text}>{ERROR_MESSAGES.INVALID_CREDENTIALS}</p>
+          )}
         </form>
         <div className={styles.signin__credentials_button_checkbox_container}>
           <Button
             id="sign-up-button"
             text="Dive In"
-            onClick={() => {}}
+            onClick={handleLoginClick}
             containerClassName={styles.signin__continue_button}
+            showLoadingState={true}
           />
           <p
             className={styles.signin__have_account_text}

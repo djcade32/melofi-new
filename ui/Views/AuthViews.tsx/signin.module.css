@@ -93,3 +93,11 @@
     color: var(--color-secondary);
 }
 
+.signin__form_error_text {
+    color: var(--color-error);
+    font-size: 12px;
+    margin-top: 5px;
+    width: 35ch;
+    text-align: center;
+}
+

@@ -5,8 +5,12 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { getFirebaseAuth, getFirebaseDB } from "./firebaseClient";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { getFirebaseAuth, getFirebaseDB } from "../firebaseClient";
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { MelofiUser } from "@/types/interfaces";
+import { addUserToNewsletter, changeUserEmailVerificationStatus } from "./newsletter-actions";
+import { getUserFromUserDb } from "../getters/auth-getters";
+import { getUserFromNewsletterDb } from "../getters/newsletter-getters";
 const auth = getFirebaseAuth();
 const db = getFirebaseDB();
 
@@ -55,7 +59,23 @@ export const login = async (email: string, password: string) => {
   }
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    return userCredential.user;
+    const userFoundInUserDb = await getUserFromUserDb(email);
+    const userFoundInNewsletterDb = await getUserFromNewsletterDb(email);
+    if (!userFoundInUserDb) {
+      await addUserToUserDb(email, userCredential.user.displayName || "");
+      if (userFoundInNewsletterDb) {
+        await changeUserEmailVerificationStatus(email, true);
+      }
+    }
+
+    const user: MelofiUser = {
+      name: userCredential.user.displayName || "",
+      authUser: userCredential.user,
+    };
+    // Set user in local storage
+    localStorage.setItem("user", JSON.stringify(user));
+
+    return user;
   } catch (error) {
     throw error;
   }
@@ -103,17 +123,20 @@ export const updateUserProfile = async (displayName: string, photoURL: string) =
   }
 };
 
-// Add user to newsletter Collection
-export const addUserToNewsletter = async (email: string) => {
-  // Add user to newsletter collection
+// Add user to User db
+export const addUserToUserDb = async (email: string, firstName: string) => {
   if (!db) {
     throw new Error("Firebase DB is not initialized");
   }
   try {
-    const usersDoc = doc(db, `newsletter/${email}`);
-    await setDoc(usersDoc, { email, isEmailVerified: false });
+    const usersDoc = doc(db, `users/${email}`);
+    const userData = {
+      email,
+      firstName,
+    };
+    await setDoc(usersDoc, userData);
   } catch (error) {
-    console.log("Error adding user to newsletter db: ", error);
+    console.log("Error adding user to user db: ", error);
     throw error;
   }
 };
