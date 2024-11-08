@@ -1,8 +1,11 @@
-import { navigateToMelofi } from "../utils/general";
+import { navigateToMelofi } from "../utils/general.ts";
 
 describe("Testing Now Playing", () => {
   before(() => {
     navigateToMelofi();
+  });
+  after(() => {
+    cy.clearLocalStorage();
   });
 
   it("Should show the now playing section", () => {

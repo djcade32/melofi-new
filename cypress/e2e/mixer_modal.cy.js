@@ -1,9 +1,13 @@
-import { navigateToMelofi, pressMixerButton } from "../utils/general";
-import "cypress-real-events/support";
+import { navigateToMelofi, pressMixerButton } from "../utils/general.ts";
+import "cypress-real-events/support.js";
 
 describe("Testing Mixer Modal", () => {
   before(() => {
     navigateToMelofi();
+  });
+
+  after(() => {
+    cy.clearLocalStorage();
   });
 
   it("should open and close Mixer Modal", () => {

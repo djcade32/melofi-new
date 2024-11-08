@@ -1,9 +1,13 @@
-import { navigateToMelofi } from "../utils/general";
-import "cypress-real-events/support";
+import { navigateToMelofi } from "../utils/general.ts";
+import "cypress-real-events/support.js";
 
 describe("Testing Music Controls", () => {
   before(() => {
     navigateToMelofi();
+  });
+
+  after(() => {
+    cy.clearLocalStorage();
   });
   // Preserve cookies and local/session storage across tests
 

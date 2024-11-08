@@ -104,6 +104,7 @@ const CredentialsView = ({
     <div className={styles.signup__container}>
       <div className={styles.signup__header}>
         <div
+          id="back-button"
           className={styles.signup__back_button}
           onClick={() => setOnboardingStep((prev) => prev - 1)}
           aria-label="back-button"
@@ -223,6 +224,7 @@ const CredentialsView = ({
               }
               className={`${styles.signup__have_account_text} ${styles.signup__skip_and_continue_text}`}
               aria-label="Skip and continue as guest"
+              id="skip-and-continue"
             >
               Skip and continue as guest
               <RxCaretRight size={25} color="var(--color-secondary-white)" />

@@ -32,6 +32,8 @@ declare global {
       mockGetCalendarList(): Chainable<void>;
       mockGetCalendarEvents(): Chainable<void>;
       deleteCalendarDB(): Chainable<void>;
+      clearAuthEmulator(): Chainable<void>;
+      signUpUser(email: string, password: string): Chainable<any>;
     }
   }
 }
@@ -96,4 +98,32 @@ Cypress.Commands.add("deleteCalendarDB", () => {
     request.onsuccess = () => console.log("IndexedDB cleared successfully");
     request.onerror = () => console.error("Error clearing IndexedDB");
   });
+});
+
+Cypress.Commands.add("clearAuthEmulator", () => {
+  cy.request("DELETE", "http://localhost:9099/emulator/v1/projects/melofi-v2/accounts").then(
+    (response) => {
+      expect(response.status).to.eq(200); // Check that the request was successful
+    }
+  );
+});
+
+Cypress.Commands.add("signUpUser", (email, password) => {
+  // Step 1: Sign up the user
+  return cy
+    .request({
+      method: "POST",
+      url: "http://localhost:9099/identitytoolkit.googleapis.com/v1/accounts:signUp?key=fake-api-key",
+      body: {
+        email,
+        password,
+        returnSecureToken: true,
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => {
+      expect(response.status).to.eq(200);
+    });
 });

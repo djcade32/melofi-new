@@ -1,10 +1,17 @@
-import { navigateToMelofi } from "../utils/general";
-import "cypress-real-events/support";
+import { navigateToMelofi } from "../utils/general.ts";
+import "cypress-real-events/support.js";
 
 describe("Testing Rotating Logo", () => {
   before(() => {
-    navigateToMelofi();
+    navigateToMelofi({
+      loggedIn: true,
+    });
   });
+
+  after(() => {
+    cy.clearLocalStorage();
+  });
+
   it("Should see logo rotating clockwise", () => {
     cy.get('[class*="header_logo_clockwise"]').should("exist");
   });

@@ -1,19 +1,35 @@
 /// <reference types="cypress" />
 
-export const navigateToMelofi = () => {
-  // cy.clearLocalStorage();
+interface navigateToMelofiOptions {
+  loggedIn?: boolean;
+  clearLocalStorage?: boolean;
+  seedWithUser?: boolean;
+}
 
+export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
+  options = options || {
+    loggedIn: true,
+    clearLocalStorage: false,
+    seedWithUser: false,
+  };
   cy.visit("/");
-  // Add user key to local storage
-  cy.window().then((win) => {
-    win.localStorage.setItem(
-      "user",
-      JSON.stringify({
-        name: "John",
-        skippedOnboarding: true,
-      })
-    );
-  });
+  if (options.loggedIn) {
+    // Add user key to local storage
+    cy.window().then((win) => {
+      win.localStorage.setItem(
+        "user",
+        JSON.stringify({
+          name: "John",
+          skippedOnboarding: true,
+        })
+      );
+    });
+  }
+  // Seed the database
+  options.seedWithUser && cy.signUpUser("test@example.com", "Password123");
+  if (options.clearLocalStorage) {
+    cy.clearLocalStorage();
+  }
   // If you get failed test. Try code below
   //   cy.wait(8000);
 };
@@ -24,3 +40,12 @@ export const pressToolsButton = () => cy.get("#tools-button").click({ timeout: 8
 
 export const pressToolbarButton = (id: string) =>
   cy.get(`#${id}-widget-button`).click({ timeout: 8000 });
+
+export const ERROR_MESSAGES = {
+  EMAIL_REQUIRED: "Email is required",
+  PASSWORD_REQUIRED: "Password is required",
+  INVALID_EMAIL: "Email is invalid",
+  PASSWORD_WEAK: "Password must be at least 8 characters, contain uppercase letters, and numbers",
+  EMAIL_ALREADY_IN_USE: "Email is already in use",
+  INVALID_CREDENTIALS: "Invalid email or password",
+};
