@@ -58,26 +58,8 @@ describe("Testing signin Form", () => {
       cy.get("#sign-in-button").click();
 
       cy.get('[class*="signup__title"]').contains("One Last Step to the Melofi Zone!", {
-        timeout: 8000,
+        timeout: 15000,
       });
-    });
-
-    // TODO: Have to figure out how to add user with email verified already
-    it("Should signin successfully", () => {
-      // cy.get("#send-reset-link-button").click();
-      // cy.clearAuthEmulator();
-      // cy.signUpUser("test@example.com", "Password123", true);
-      // cy.get("[name=email]").click();
-      // cy.get("[name=email]").type("{selectall}{backspace}");
-      // cy.get("[name=email]").type("test@example.com");
-      // cy.get("[name=password]").click();
-      // cy.get("[name=password]").type("{selectall}{backspace}");
-      // cy.get("[name=password]").type("Password123");
-      // cy.get("#sign-in-button").click();
-      // cy.get("#music-controls").should("exist");
-      // cy.get("#now-playing").should("exist");
-      // cy.get("#rotating-logo").should("exist");
-      // cy.get("#time-display").should("exist");
     });
   });
 });

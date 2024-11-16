@@ -27,7 +27,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "electron.js",
-    "scripts/seedAuthUsers.js",
+    "scripts/generateUserEmailVerification.js",
   ],
   "exclude": [
     "node_modules",

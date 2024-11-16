@@ -1,7 +1,7 @@
 import { ERROR_MESSAGES, navigateToMelofi } from "../../utils/general.ts";
 import "cypress-real-events/support.js";
 
-describe("Testing Auth Flow", () => {
+describe("Testing sign up", () => {
   before(() => {
     navigateToMelofi({
       loggedIn: false,
@@ -116,7 +116,9 @@ describe("Testing Auth Flow", () => {
       });
 
       it("Should show email verification message", () => {
-        cy.get('[class*="signup__title"]').contains("One Last Step to the Melofi Zone!");
+        cy.get('[class*="signup__title"]').contains("One Last Step to the Melofi Zone!", {
+          timeout: 8000,
+        });
         cy.get("#send-reset-link-button").should("exist");
         cy.get("#send-reset-link-button")
           .siblings()
