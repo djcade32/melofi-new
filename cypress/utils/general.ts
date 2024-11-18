@@ -26,7 +26,10 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
     });
   }
   // Seed the database
-  options.seedWithUser && cy.signUpUser("test@example.com", "Password123");
+  if (options.seedWithUser) {
+    cy.clearAuthEmulator();
+    cy.signUpUser("test@example.com", "Password123");
+  }
   if (options.clearLocalStorage) {
     cy.clearLocalStorage();
   }
