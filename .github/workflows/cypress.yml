@@ -37,7 +37,7 @@ jobs:
         run: npm install
 
       - name: Start Firebase Emulators
-        run: firebase emulators:start --only auth,firestore --project test-project --port=9099 --host=0.0.0.0 &
+        run: firebase emulators:start --only auth,firestore --project test-project &
         
       - name: Run Cypress tests
         run: npm run test:e2e:headless
