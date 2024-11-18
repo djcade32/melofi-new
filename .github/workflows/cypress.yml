@@ -29,13 +29,7 @@ jobs:
         run: npm install
 
       - name: Start Firebase Emulators
-        run: firebase emulators:start --only auth,firestore --project test-project --port=9099 --host=127.0.0.1 --ui-port=4000 > firebase-emulator.log 2>&1 &
-
-      - name: Check Firebase Emulator Logs
-        run: cat firebase-emulator.log
-
-      - name: Wait for Firebase Emulators
-        run: npx wait-on http-get://localhost:9099/http://localhost:8080
+        run: firebase emulators:start --only auth,firestore --project test-project --port=9099 --host=0.0.0.0 --ui-port=4000
 
       - name: Run Cypress tests
         run: npm run test:e2e:headless
