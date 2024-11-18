@@ -40,7 +40,7 @@ jobs:
         run: firebase emulators:start --only auth,firestore --project test-project &
 
       - name: Wait for Firebase Emulators
-        run: npx wait-on http-get://localhost:9099/http://localhost:8080
+        run: npx wait-on http-get://localhost:9099
         
       - name: Run Cypress tests
         run: npm run test:e2e:headless
