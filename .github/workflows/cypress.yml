@@ -14,8 +14,9 @@ jobs:
 
     strategy:
       matrix:
-        #Use the latest version of Node.js
+        # Use the latest version of Node.js
         node-version: [18.x]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -29,7 +30,12 @@ jobs:
         run: npm install
 
       - name: Start Firebase Emulators
-        run: firebase emulators:start --only auth,firestore --project test-project &
+        run: firebase emulators:start --only auth,firestore --project test-project --port=9099 --host=127.0.0.1 &
 
+      # Wait for the Firebase Emulator to be ready on specified ports
+      - name: Wait for Firebase Emulators
+        run: npx wait-on http://127.0.0.1:9099 http://127.0.0.1:8080 --timeout 60000
+
+      # Run Cypress tests in headless mode
       - name: Run Cypress tests
         run: npm run test:e2e:headless
