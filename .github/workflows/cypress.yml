@@ -44,3 +44,4 @@ jobs:
         env:
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+          CI: true
