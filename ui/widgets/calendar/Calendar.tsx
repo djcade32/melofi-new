@@ -43,7 +43,8 @@ const Calendar = () => {
       setGoogleCalendarUser(codeResponse);
     },
     onError: (error) => console.log("Login Failed:", error),
-    scope: "https://www.googleapis.com/auth/calendar.app.created",
+    scope:
+      "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events",
   });
 
   const logOut = () => {
