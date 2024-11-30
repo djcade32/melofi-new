@@ -77,3 +77,5 @@ jobs:
 
       - name: Run Cypress tests
         run: npm run test:e2e:headless
+        env:
+          CI: true
