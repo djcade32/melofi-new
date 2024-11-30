@@ -1,5 +1,5 @@
-import { navigateToMelofi, pressToolbarButton, pressToolsButton } from "../../utils/general";
-import "cypress-real-events/support";
+import { navigateToMelofi, pressToolbarButton, pressToolsButton } from "../../utils/general.ts";
+import "cypress-real-events/support.js";
 
 describe("Calendar Widget Tests", () => {
   before(() => {

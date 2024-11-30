@@ -45,6 +45,7 @@ const ForgotPassword = ({ setOnboardingStep }: AuthViewProps) => {
             </p>
             <form autoComplete="off" className={styles.forgotPassword__inputs_container}>
               <Input
+                name="email"
                 placeholder="Email Address"
                 className={styles.forgotPassword__input}
                 type="email"

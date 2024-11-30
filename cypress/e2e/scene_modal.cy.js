@@ -1,9 +1,13 @@
 /// <reference types="cypress" />
-import { pressSceneButton, navigateToMelofi } from "../utils/general";
+import { pressSceneButton, navigateToMelofi } from "../utils/general.ts";
 
 describe("Testing Scene Modal", () => {
   before(() => {
     navigateToMelofi();
+  });
+
+  after(() => {
+    cy.clearLocalStorage();
   });
 
   it("should open and close Scene Modal", () => {

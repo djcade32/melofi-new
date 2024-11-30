@@ -1,10 +1,15 @@
-import { navigateToMelofi } from "../utils/general";
-import "cypress-real-events/support";
+import { navigateToMelofi } from "../utils/general.ts";
+import "cypress-real-events/support.js";
 
 describe("Testing Tools", () => {
   before(() => {
     navigateToMelofi();
   });
+
+  after(() => {
+    cy.clearLocalStorage();
+  });
+
   describe("Testing Toolbar functionality", () => {
     it("Should show the tools button", () => {
       cy.get("#tools-button").should("be.visible");

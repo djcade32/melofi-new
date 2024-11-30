@@ -122,7 +122,7 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
         </form>
         <div className={styles.signin__credentials_button_checkbox_container}>
           <Button
-            id="sign-up-button"
+            id="sign-in-button"
             text="Dive In"
             onClick={handleLoginClick}
             containerClassName={styles.signin__continue_button}
