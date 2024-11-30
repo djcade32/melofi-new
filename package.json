@@ -6,11 +6,10 @@
   "scripts": {
     "dev": "next dev",
     "test:unit": "jest",
-    "emulators:start": "firebase emulators:start --only auth,firestore",
     "cy:open": "cypress open",
     "cy:run": "cypress run --headless",
-    "test:e2e": "concurrently \"firebase emulators:start\" \"NODE_ENV=test start-server-and-test dev http://localhost:3000 cy:open\"",
-    "test:e2e:headless": "concurrently \"firebase emulators:start\" \"NODE_ENV=test start-server-and-test dev http://localhost:3000 cy:run\"",
+    "test:e2e": "start-server-and-test dev http://localhost:3000 cy:open",
+    "test:e2e:headless": "start-server-and-test dev http://localhost:3000 cy:run",
     "electron": "electron .",
     "dev:electron": "concurrently \"npm run dev\" \"wait-on http://localhost:3000 && npm run electron\"",
     "start": "next start",
