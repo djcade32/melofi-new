@@ -11,6 +11,7 @@ import { MelofiUser } from "@/types/interfaces";
 import { addUserToNewsletter, changeUserEmailVerificationStatus } from "./newsletter-actions";
 import { getUserFromUserDb } from "../getters/auth-getters";
 import { getUserFromNewsletterDb } from "../getters/newsletter-getters";
+
 const auth = getFirebaseAuth();
 const db = getFirebaseDB();
 

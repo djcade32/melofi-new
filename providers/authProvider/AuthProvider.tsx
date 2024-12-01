@@ -7,6 +7,7 @@ import LoggedOutView from "@/ui/Views/AuthViews.tsx/LoggedOutView";
 import { MelofiUser } from "@/types/interfaces";
 import { logout } from "@/lib/firebase/actions/auth-actions";
 import SceneBackground from "@/ui/components/sceneBackground/SceneBackground";
+import LoadingScreen from "@/ui/Views/loadingScreen/LoadingScreen";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -15,8 +16,10 @@ interface AuthProviderProps {
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [grantAccess, setGrantAccess] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const { setCurrentUser, currentUser, checkIfUserIsInDb, isUserLoggedIn } = useUserStore();
+  const { setCurrentUser, currentUser, checkIfUserIsInDb, isUserLoggedIn, setIsUserLoggedIn } =
+    useUserStore();
 
   // Check if user is logged in
   useEffect(() => {
@@ -25,6 +28,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     if (user) {
       const MelofiUser = JSON.parse(user) as MelofiUser;
       setCurrentUser(MelofiUser);
+      setIsUserLoggedIn(MelofiUser.authUser ? true : false);
     }
   }, []);
 
@@ -50,6 +54,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     } else if (currentUser?.skippedOnboarding) {
       setGrantAccess(true);
     }
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, [currentUser]);
 
   return (
@@ -63,6 +70,22 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         />
       )}
       <SceneBackground />
+      <LoadingScreen loading={loading} />
+      {/* {loading ? (
+        <LoadingScreen />
+      ) : (
+        <>
+          {grantAccess ? (
+            children
+          ) : (
+            <LoggedOutView
+              showEmailVerification={showEmailVerification}
+              setShowEmailVerification={setShowEmailVerification}
+            />
+          )}
+          <SceneBackground />
+        </>
+      )} */}
     </div>
   );
 };
