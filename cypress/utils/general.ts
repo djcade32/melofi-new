@@ -33,8 +33,7 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
   if (options.clearLocalStorage) {
     cy.clearLocalStorage();
   }
-  // If you get failed test. Try code below
-  //   cy.wait(8000);
+  cy.wait(2000);
 };
 
 export const pressSceneButton = () => cy.get("#scenes-button").click({ timeout: 8000 });
