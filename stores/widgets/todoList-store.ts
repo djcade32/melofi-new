@@ -1,5 +1,6 @@
 import { Task } from "@/types/interfaces";
 import { create } from "zustand";
+import { v4 as uuidv4 } from "uuid";
 
 export interface TodoListState {
   isTodoListOpen: boolean;
@@ -7,9 +8,9 @@ export interface TodoListState {
   getTodoListTitle: () => string;
 
   setIsTodoListOpen: (bool: boolean) => void;
-  changeTaskStatus: (id: number, status: boolean) => void;
+  changeTaskStatus: (id: string, status: boolean) => void;
   addTask: (task: string) => void;
-  removeTask: (id: number) => void;
+  removeTask: (id: string) => void;
 }
 
 const useTodoListStore = create<TodoListState>((set, get) => ({
@@ -33,7 +34,7 @@ const useTodoListStore = create<TodoListState>((set, get) => ({
       taskList: [
         ...get().taskList,
         {
-          id: get().taskList.length + 1,
+          id: uuidv4(),
           text: task,
           completed: false,
         },

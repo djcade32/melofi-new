@@ -69,6 +69,7 @@ const TodoList = () => {
           autoSave="off"
         />
         <HoverIcon
+          id="to-do-list-widget-add-task-button"
           icon={FiPlus}
           size={30}
           onClick={() => handleAddTask(taskInput)}
@@ -79,7 +80,7 @@ const TodoList = () => {
       </div>
       <div className={styles.todoList__task_container}>
         {taskList.map((task) => (
-          <TodoListItem key={task.id} position={task.id} text={task.text} />
+          <TodoListItem key={task.id} id={task.id} text={task.text} />
         ))}
       </div>
     </Modal>

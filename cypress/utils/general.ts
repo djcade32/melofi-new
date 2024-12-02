@@ -33,7 +33,7 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
   if (options.clearLocalStorage) {
     cy.clearLocalStorage();
   }
-  cy.wait(2000);
+  cy.wait(3000);
 };
 
 export const pressSceneButton = () => cy.get("#scenes-button").click({ timeout: 8000 });

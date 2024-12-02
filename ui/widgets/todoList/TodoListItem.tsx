@@ -7,26 +7,26 @@ import useTodoListStore from "@/stores/widgets/todoList-store";
 
 interface TodoListItemProps {
   text: string;
-  position: number;
+  id: string;
 }
 
-const TodoListItem = ({ position, text }: TodoListItemProps) => {
+const TodoListItem = ({ id, text }: TodoListItemProps) => {
   const { removeTask, changeTaskStatus } = useTodoListStore();
   const [checked, setChecked] = useState(false);
 
   const handleClick = () => {
     setChecked((prev) => !prev);
-    changeTaskStatus(position, !checked);
+    changeTaskStatus(id, !checked);
   };
 
   const handleDelete = () => {
-    removeTask(position);
+    removeTask(id);
   };
 
   return (
-    <div className={styles.todoListItem__container}>
+    <div id={id} className={styles.todoListItem__container}>
       <Checkbox
-        id="test"
+        id={`to-do-list-item-checkbox-${id}`}
         text={text}
         onClick={handleClick}
         value={checked}
