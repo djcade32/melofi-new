@@ -86,3 +86,9 @@ export interface Error {
   name: string;
   message: string;
 }
+
+export interface Task {
+  id: number;
+  text: string;
+  completed: boolean;
+}

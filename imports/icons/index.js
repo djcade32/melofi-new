@@ -50,7 +50,7 @@ import {
   RiPlayListFill,
 } from "react-icons/ri";
 import { HiChatBubbleLeftRight, HiBuildingOffice2, HiClipboardDocumentList } from "react-icons/hi2";
-import { HiTemplate } from "react-icons/hi";
+import { HiTemplate, HiTrash } from "react-icons/hi";
 import { ImTwitter, ImCalculator } from "react-icons/im";
 import { WiNightAltStormShowers } from "react-icons/wi";
 import { CgEditNoise, CgArrowsExpandDownRight, CgArrowsExpandUpLeft } from "react-icons/cg";
@@ -192,4 +192,5 @@ export {
   MdOutlineCheckBoxOutlineBlank,
   MdCheckBox,
   IoCheckmarkCircleSharp,
+  HiTrash,
 };

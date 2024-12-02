@@ -7,12 +7,23 @@ interface CheckboxProps {
   text: string;
   onClick: () => void;
 
+  centerCheckbox?: boolean;
   ariaLabel?: string;
   textClassName?: string;
   value?: boolean;
+  size?: number;
 }
 
-const Checkbox = ({ id, text, onClick, textClassName, value, ariaLabel }: CheckboxProps) => {
+const Checkbox = ({
+  id,
+  text,
+  onClick,
+  textClassName,
+  value,
+  ariaLabel,
+  centerCheckbox = true,
+  size = 25,
+}: CheckboxProps) => {
   const [checked, setChecked] = useState(value ?? false);
   const handleClick = () => {
     setChecked((prev) => !prev);
@@ -23,12 +34,13 @@ const Checkbox = ({ id, text, onClick, textClassName, value, ariaLabel }: Checkb
       aria-label={ariaLabel}
       id={id}
       className={`${styles.checkbox__container} `}
+      style={{ alignItems: centerCheckbox ? "center" : "flex-start" }}
       onClick={handleClick}
     >
       {checked ? (
-        <MdCheckBox size={25} color="var(--color-effect)" />
+        <MdCheckBox size={size} color="var(--color-effect)" />
       ) : (
-        <MdOutlineCheckBoxOutlineBlank size={25} />
+        <MdOutlineCheckBoxOutlineBlank size={size} />
       )}
       <p className={textClassName}>{text}</p>
     </div>

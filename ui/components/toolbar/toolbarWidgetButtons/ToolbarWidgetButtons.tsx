@@ -13,10 +13,12 @@ import {
 } from "@/imports/icons";
 import useToolsStore from "@/stores/tools-store";
 import useCalendarStore from "@/stores/widgets/calendar-store";
+import useTodoListStore from "@/stores/widgets/todoList-store";
 
 const ToolbarWidgetButtons = () => {
   const { isVertical, toggleTools, isUndocked } = useToolsStore();
   const { isCalendarOpen, toggleCalendar } = useCalendarStore();
+  const { isTodoListOpen, setIsTodoListOpen } = useTodoListStore();
 
   const handleWidgetButtonPress = (toggleWidgetFunction: Function) => {
     toggleWidgetFunction();
@@ -39,14 +41,17 @@ const ToolbarWidgetButtons = () => {
           color: "var(--color-secondary-white)",
           size: 30,
         }}
-        onClick={() => toggleCalendar(!isCalendarOpen)}
+        onClick={() => {}}
       />
       <ToolbarButton
         id="to-do-list"
-        label="To-Do List"
+        label="To - Do List"
         icon={HiClipboardDocumentList}
-        iconProps={{ color: "var--secondary-white", size: 30 }}
-        onClick={() => toggleCalendar(!isCalendarOpen)}
+        iconProps={{
+          color: isTodoListOpen ? "var(--color-effect-opacity)" : "var(--color-secondary-white)",
+          size: 30,
+        }}
+        onClick={() => handleWidgetButtonPress(() => setIsTodoListOpen(!isTodoListOpen))}
       />
       <ToolbarButton
         id="calendar"
