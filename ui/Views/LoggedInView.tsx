@@ -9,7 +9,7 @@ import Calendar from "../widgets/calendar/Calendar";
 import useMixerStore from "@/stores/mixer-store";
 import { MusicSource } from "@/enums/general";
 
-import SceneBackground from "../components/sceneBackground/SceneBackground";
+import TodoList from "../widgets/todoList/TodoList";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
@@ -21,6 +21,7 @@ const LoggedInView = () => {
       <MixerModal />
       {musicSource === MusicSource.MELOFI && <NowPlaying />}
       <Calendar />
+      <TodoList />
     </div>
   );
 };

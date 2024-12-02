@@ -43,6 +43,9 @@ const MusicControls = () => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === " ") {
+        const isTodoListOpen =
+          document.getElementById("to-do-list-widget")?.style.display !== "none";
+        if (isTodoListOpen) return; // Prevent spacebar from toggling play/pause when typing in input
         e.preventDefault(); // Prevent default spacebar behavior (scrolling)
         handleTogglePlay();
       }
