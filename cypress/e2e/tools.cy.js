@@ -36,6 +36,9 @@ describe("Testing Tools", () => {
     });
 
     it("Should set toolbar vertical", () => {
+      // Wait for the toolbar animation to finish
+      cy.wait(2000);
+
       cy.get("#toolbar-more-button").realClick();
       cy.get("#menu-option-2").realClick();
       cy.get("#toolbar").should("have.class", "toolbar_vertical__DqMHv");
