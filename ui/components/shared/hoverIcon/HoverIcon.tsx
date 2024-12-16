@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./hoverIcon.module.css";
 import { IconType } from "react-icons";
 import Tooltip from "../tooltip/Tooltip";
+import { Zoom } from "@mui/material";
 
 interface HoverIconProps {
   icon: IconType;
@@ -13,7 +14,10 @@ interface HoverIconProps {
   iconStyle?: React.CSSProperties;
   hoverColor?: string;
   color?: string;
+  inverted?: boolean;
   onClick?: (e: any) => void;
+  containerClassName?: string;
+  disabled?: boolean;
 }
 
 const HoverIcon = ({
@@ -24,24 +28,63 @@ const HoverIcon = ({
   tooltipText = "",
   iconStyle,
   hoverColor,
-  color = "var(--color-secondary-white)",
+  inverted = false,
+  color = "var(--color-white)",
   onClick,
+  containerClassName,
+  disabled,
 }: HoverIconProps) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  const getIconColor = () => {
+    if (inverted) {
+      return color;
+    } else {
+      return isHovered ? hoverColor : color;
+    }
+  };
+
+  const getBackgroundColor = () => {
+    if (disabled) return;
+
+    if (inverted) {
+      return isHovered ? "var(--color-secondary-opacity)" : "transparent";
+    } else {
+      return "transparent";
+    }
+  };
+
+  const handleOnClick = (e: any) => {
+    if (disabled) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (onClick) {
+      onClick(e);
+    }
+  };
+
   return (
     <>
       {showTooltip ? (
-        <Tooltip text={tooltipText}>
+        <Tooltip
+          text={tooltipText}
+          TransitionComponent={Zoom as React.JSXElementConstructor<React.PropsWithChildren<{}>>}
+        >
           <div
             id={id}
-            className={styles.hoverIcon__iconContainer}
-            onClick={onClick}
+            className={`${styles.hoverIcon__iconContainer} ${containerClassName}`}
+            onClick={handleOnClick}
             onMouseOver={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            style={{
+              backgroundColor: getBackgroundColor(),
+              cursor: disabled ? "default" : "pointer",
+            }}
           >
             {React.createElement(icon, {
               style: { ...iconStyle },
-              color: isHovered ? hoverColor : color,
+              color: getIconColor(),
               size: size,
             })}
           </div>
@@ -49,14 +92,18 @@ const HoverIcon = ({
       ) : (
         <div
           id={id}
-          className={styles.hoverIcon__iconContainer}
-          onClick={onClick}
+          className={`${styles.hoverIcon__iconContainer} ${containerClassName}`}
+          onClick={handleOnClick}
           onMouseOver={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          style={{
+            backgroundColor: getBackgroundColor(),
+            cursor: disabled ? "default" : "pointer",
+          }}
         >
           {React.createElement(icon, {
             style: { ...iconStyle },
-            color: isHovered ? hoverColor : color,
+            color: getIconColor(),
             size: size,
           })}
         </div>

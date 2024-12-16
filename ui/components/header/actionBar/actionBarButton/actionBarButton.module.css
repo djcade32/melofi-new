@@ -2,7 +2,7 @@
     display: flex;
     width: 33px;
     height: 33px;
-    background-color: var(--color-primary);
+    background-color: var(--color-primary-opacity);
     align-items: center;
     justify-content: center;
     border-radius: 50%;

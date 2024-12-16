@@ -57,14 +57,14 @@ const Button = ({
           {prependIcon &&
             React.createElement(prependIcon, {
               size: 25,
-              color: "var(--color-secondary-white)",
+              color: "var(--color-white)",
               style: { marginRight: 10 },
             })}
           <p className={textClassName}>{text}</p>
           {postpendIcon &&
             React.createElement(postpendIcon, {
               size: 25,
-              color: "var(--color-secondary-white)",
+              color: "var(--color-white)",
               style: { marginLeft: 10 },
             })}
         </>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./musicControls.module.css";
 import {
   BsFillSkipBackwardFill,
@@ -34,28 +34,67 @@ const MusicControls = () => {
     setIsMuted,
   } = useMusicPlayerStore();
 
-  // Shuffle playlist on component mount
-  useEffect(() => {
-    shufflePlaylist();
-  }, []);
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      const keysPressed = new Set<string>();
+      keysPressed.add(e.key);
+      const commonBindingKey = e.shiftKey;
 
-  // Handle spacebar press to play/pause
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === " ") {
-        const isTodoListOpen =
-          document.getElementById("to-do-list-widget")?.style.display !== "none";
-        if (isTodoListOpen) return; // Prevent spacebar from toggling play/pause when typing in input
-        e.preventDefault(); // Prevent default spacebar behavior (scrolling)
-        handleTogglePlay();
+      if (commonBindingKey && keysPressed.has(" ")) {
+        e.preventDefault();
+        setIsPlaying(!isPlaying);
       }
-    };
-    document.addEventListener("keydown", handleKeyDown);
 
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isPlaying]);
+      if (commonBindingKey && keysPressed.has("ArrowRight")) {
+        e.preventDefault();
+        goToNextSong();
+      }
+
+      if (commonBindingKey && keysPressed.has("ArrowLeft")) {
+        e.preventDefault();
+        goToPreviousSong();
+      }
+
+      if (commonBindingKey && keysPressed.has("ArrowUp")) {
+        e.preventDefault();
+        if (musicVolume < 100) setMusicVolume(musicVolume + 10);
+      }
+
+      if (commonBindingKey && keysPressed.has("ArrowDown")) {
+        e.preventDefault();
+        if (musicVolume > 0) setMusicVolume(musicVolume - 10);
+      }
+
+      if (commonBindingKey && keysPressed.has("M")) {
+        e.preventDefault();
+        setIsMuted(!isMuted);
+      }
+
+      if (commonBindingKey && keysPressed.has("V")) {
+        e.preventDefault();
+        toggleVolumeDisplay();
+      }
+    },
+    [
+      isPlaying,
+      setIsPlaying,
+      goToNextSong,
+      goToPreviousSong,
+      musicVolume,
+      setMusicVolume,
+      isMuted,
+      setIsMuted,
+      volumePressed,
+    ]
+  );
+
+  // useEffect(() => {
+  //   document.addEventListener("keydown", handleKeyDown);
+
+  //   return () => {
+  //     document.removeEventListener("keydown", handleKeyDown);
+  //   };
+  // }, [handleKeyDown]);
 
   // Play/pause audio when isPlaying changes
   useEffect(() => {

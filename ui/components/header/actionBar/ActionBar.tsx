@@ -19,7 +19,7 @@ import useAppStore from "@/stores/app-store";
 import ToolsActionBarButton from "./toolsActionBarButton/ToolsActionBarButton";
 import useToolsStore from "@/stores/tools-store";
 
-const iconProps = { size: 20, color: "var(--color-secondary-white)", style: { cursor: "pointer" } };
+const iconProps = { size: 20, color: "var(--color-white)", style: { cursor: "pointer" } };
 
 const ActionBar = () => {
   const { toggleSceneModal, sceneModalOpen } = useSceneStore();

@@ -1,6 +1,6 @@
 .toolbar__container {
     position: absolute;
-    background-color: var(--color-primary);
+    background-color: var(--color-primary-opacity);
     box-shadow: var(--box-shadow-primary);
     border-radius: 10px;
     overflow: hidden;

@@ -1,6 +1,7 @@
 import { User } from "firebase/auth";
-import { ReactElement } from "react";
+import { ReactElement, ReactNode } from "react";
 import { IconType } from "react-icons";
+import { Descendant } from "slate";
 
 export interface Scene {
   id: number;
@@ -55,6 +56,15 @@ export interface MenuOption {
   onClick: () => void;
 }
 
+export interface LongMenuOption {
+  id: string;
+  label: string;
+}
+
+export interface LongMenuRenderedOption extends LongMenuOption {
+  element: ReactNode;
+}
+
 export interface CalendarListItem {
   id: string;
   name: string;
@@ -91,4 +101,21 @@ export interface Task {
   id: string;
   text: string;
   completed: boolean;
+}
+
+export interface Note {
+  id: string;
+  title: string;
+  text: Descendant[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UserStats {
+  totalFocusTime: number;
+  totalConsecutiveDays: number;
+  totalTasksCompleted: number;
+  totalNotesCreated: number;
+  favoriteScene: string | null;
+  lastLogin: string;
 }

@@ -10,7 +10,7 @@ interface SceneThumbnailProps {
 
 const iconProps = {
   size: 30,
-  color: "var(--color-secondary-white)",
+  color: "var(--color-white)",
 };
 
 const SceneThumbnail = ({ scene, setSelectedScene }: SceneThumbnailProps) => {

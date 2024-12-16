@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Zoom } from "@mui/material";
 import TooltipMui from "@mui/material/Tooltip";
+import { TransitionProps } from "@mui/material/transitions";
+import { use } from "chai";
+import { PopperProps } from "@mui/material/Popper/BasePopper.types";
 // import { FaCrown } from "../../imports/icons";
 
 interface TooltipProps {
   text: string;
   children: React.ReactNode;
 
-  // id: string;
   bgColor?: string;
   textAlign?: "center" | "left" | "right";
   width?: string;
@@ -15,6 +16,11 @@ interface TooltipProps {
   disabled?: boolean;
   disableCloseOnClick?: boolean;
   placement?: "top" | "bottom" | "left" | "right";
+  TransitionComponent?: React.JSXElementConstructor<TransitionProps>;
+  tooltipClassName?: string;
+  closeOverride?: boolean;
+  disableInteractive?: boolean;
+  offset?: [number, number];
 }
 
 const Tooltip = ({
@@ -22,9 +28,15 @@ const Tooltip = ({
   textAlign = "center",
   disableCloseOnClick = false,
   placement = "bottom",
+  TransitionComponent,
+  tooltipClassName,
+  noFlex,
+  closeOverride = false,
+  disableInteractive,
+  offset = [0, 0],
   ...props
 }: TooltipProps) => {
-  const [open, setOpen] = useState(false);
+  const [openHandler, setOpenHandler] = useState(false);
   const [documentEl, setDocumentEl] = useState<Document | null>(null);
 
   useEffect(() => {
@@ -32,6 +44,7 @@ const Tooltip = ({
       setDocumentEl(document);
     }
   }, []);
+
   //   const premiumTooltip = (
   //     <div style={{ display: "flex", columnGap: 5 }}>
   //       <p>{props.text}</p> <FaCrown size={15} color="var(--color-effect-opacity)" />
@@ -40,6 +53,7 @@ const Tooltip = ({
 
   return (
     <TooltipMui
+      disableInteractive={disableInteractive}
       // This is a workaround to fix the tooltip not showing up in fullscreen mode
       PopperProps={{
         container: documentEl?.querySelector(".fullscreen") as HTMLElement | null,
@@ -48,15 +62,15 @@ const Tooltip = ({
       disableHoverListener={disabled}
       placement={placement}
       title={props.text}
-      TransitionComponent={Zoom}
-      open={open}
-      onOpen={() => setOpen(true)}
-      onClose={() => setOpen(false)}
+      TransitionComponent={TransitionComponent}
+      open={openHandler && !closeOverride}
+      onOpen={() => setOpenHandler(true)}
+      onClose={() => setOpenHandler(false)}
       slotProps={{
         tooltip: {
           sx: {
             cursor: "default",
-            bgcolor: props.bgColor || "var(--color-primary)",
+            bgcolor: props.bgColor || "var(--color-primary-opacity)",
             fontFamily: "var(--font-primary)",
             fontWeight: 400,
             fontSize: 16,
@@ -65,12 +79,24 @@ const Tooltip = ({
             maxWidth: props.width ? props.width : "25ch",
           },
         },
+        popper: {
+          modifiers: [
+            {
+              name: "offset",
+              options: {
+                offset,
+              },
+            },
+          ],
+        },
       }}
+      {...props}
     >
-      {/*Could potentially be a problem in the future if tooltip is not working correctlty*/}
+      {/*Could potentially be a problem in the future if tooltip is not working correctly*/}
       <div
+        className={tooltipClassName}
         style={
-          props.noFlex
+          noFlex
             ? {}
             : {
                 width: "100%",
@@ -82,7 +108,8 @@ const Tooltip = ({
               }
         }
         onClick={() => {
-          !disableCloseOnClick && setOpen(false);
+          // console.log("clicked");
+          !disableCloseOnClick && setOpenHandler(false);
         }}
       >
         {props.children}

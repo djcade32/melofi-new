@@ -14,11 +14,14 @@ import {
 import useToolsStore from "@/stores/tools-store";
 import useCalendarStore from "@/stores/widgets/calendar-store";
 import useTodoListStore from "@/stores/widgets/todoList-store";
+import useNotesStore from "@/stores/widgets/notes-store";
+import { todo } from "node:test";
 
 const ToolbarWidgetButtons = () => {
   const { isVertical, toggleTools, isUndocked } = useToolsStore();
   const { isCalendarOpen, toggleCalendar } = useCalendarStore();
   const { isTodoListOpen, setIsTodoListOpen } = useTodoListStore();
+  const { isNotesOpen, setIsNotesOpen } = useNotesStore();
 
   const handleWidgetButtonPress = (toggleWidgetFunction: Function) => {
     toggleWidgetFunction();
@@ -34,69 +37,60 @@ const ToolbarWidgetButtons = () => {
       }}
     >
       <ToolbarButton
-        id="sticky-notes"
-        label="Sticky Notes"
+        id="notes"
+        label="Notes"
         icon={FaStickyNote}
-        iconProps={{
-          color: "var(--color-secondary-white)",
-          size: 30,
-        }}
-        onClick={() => {}}
+        onClick={() => handleWidgetButtonPress(() => setIsNotesOpen(!isNotesOpen))}
+        active={isNotesOpen}
       />
       <ToolbarButton
         id="to-do-list"
         label="To - Do List"
         icon={HiClipboardDocumentList}
-        iconProps={{
-          color: isTodoListOpen ? "var(--color-effect-opacity)" : "var(--color-secondary-white)",
-          size: 30,
-        }}
         onClick={() => handleWidgetButtonPress(() => setIsTodoListOpen(!isTodoListOpen))}
+        active={isTodoListOpen}
       />
       <ToolbarButton
         id="calendar"
         label="Calendar"
         icon={BsFillCalendarDateFill}
-        iconProps={{
-          color: isCalendarOpen ? "var(--color-effect-opacity)" : "var(--color-secondary-white)",
-          size: 30,
-        }}
         onClick={() => handleWidgetButtonPress(() => toggleCalendar(!isCalendarOpen))}
+        active={isCalendarOpen}
       />
       <ToolbarButton
         id="timer"
         label="Timer"
         icon={MdTimer}
-        iconProps={{ color: "var--secondary-white", size: 30 }}
         onClick={() => toggleCalendar(!isCalendarOpen)}
+        active={false}
       />
       <ToolbarButton
         id="templates"
         label="Templates"
         icon={HiTemplate}
-        iconProps={{ color: "var--secondary-white", size: 30 }}
         onClick={() => toggleCalendar(!isCalendarOpen)}
+        active={false}
       />
       <ToolbarButton
         id="calculator"
         label="Calculator"
         icon={ImCalculator}
-        iconProps={{ color: "var--secondary-white", size: 30 }}
         onClick={() => toggleCalendar(!isCalendarOpen)}
+        active={false}
       />
       <ToolbarButton
         id="alarm"
         label="Alarm"
         icon={IoAlarm}
-        iconProps={{ color: "var--secondary-white", size: 30 }}
         onClick={() => toggleCalendar(!isCalendarOpen)}
+        active={false}
       />
       <ToolbarButton
         id="watch-youtube"
         label="Watch Youtube"
         icon={IoLogoYoutube}
-        iconProps={{ color: "var--secondary-white", size: 30 }}
         onClick={() => toggleCalendar(!isCalendarOpen)}
+        active={false}
       />
     </div>
   );

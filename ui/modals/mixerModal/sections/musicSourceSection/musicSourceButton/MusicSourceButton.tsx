@@ -38,7 +38,7 @@ const MusicSourceButton = ({
         <Image src={imgSrc} alt="melofi" width={40} height={40} />
       ) : (
         React.createElement(icon, {
-          color: "var(--color-secondary-white)",
+          color: "var(--color-white)",
           size: 30,
         })
       )}

@@ -1,6 +1,6 @@
 .timeDisplay__container {
     display: flex;
-    background-color: var(--color-primary);
+    background-color: var(--color-primary-opacity);
     width: 108px;
     height: 32px;
     justify-content: center;

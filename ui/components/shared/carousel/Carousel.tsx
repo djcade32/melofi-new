@@ -67,9 +67,9 @@ const Carousel = ({
         }}
       >
         {isHorizontal ? (
-          <RxCaretLeft size={40} color="var(--color-secondary-white)" />
+          <RxCaretLeft size={40} color="var(--color-white)" />
         ) : (
-          <RxCaretUp size={40} color="var(--color-secondary-white)" />
+          <RxCaretUp size={40} color="var(--color-white)" />
         )}
       </div>
 
@@ -105,9 +105,9 @@ const Carousel = ({
         }}
       >
         {isHorizontal ? (
-          <RxCaretRight size={40} color="var(--color-secondary-white)" />
+          <RxCaretRight size={40} color="var(--color-white)" />
         ) : (
-          <RxCaretDown size={40} color="var(--color-secondary-white)" />
+          <RxCaretDown size={40} color="var(--color-white)" />
         )}
       </div>
     </div>

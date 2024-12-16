@@ -74,7 +74,7 @@ const TodoList = () => {
           size={30}
           onClick={() => handleAddTask(taskInput)}
           iconStyle={{ cursor: "pointer" }}
-          hoverColor="var(--color-secondary-white)"
+          hoverColor="var(--color-white)"
           color="var(--color-secondary)"
         />
       </div>

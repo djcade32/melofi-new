@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import styles from "./toolbarButton.module.css";
-import { IconBaseProps, IconType } from "react-icons";
+import { IconType } from "react-icons";
 import Tooltip from "@/ui/components/shared/tooltip/Tooltip";
 import useToolsStore from "@/stores/tools-store";
 
@@ -11,15 +11,33 @@ interface ToolbarButtonProps {
   icon: IconType;
   label: string;
   onClick: () => void;
-  iconProps?: IconBaseProps;
+  active: boolean;
 }
 
-const ToolbarButton = ({ id, icon: Icon, label, onClick, iconProps }: ToolbarButtonProps) => {
+const ToolbarButton = ({ id, icon: Icon, label, onClick, active }: ToolbarButtonProps) => {
   const { isVertical } = useToolsStore();
+  const [isHovered, setIsHovered] = useState(false);
+
+  const getIconColor = () => {
+    if (active && !isHovered) {
+      return "var(--color-effect-opacity)";
+    }
+    return "var(--color-white)";
+  };
+
   return (
-    <div id={`${id}-widget-button`} className={styles.toolbarButton__container} onClick={onClick}>
+    <div
+      id={`${id}-widget-button`}
+      className={styles.toolbarButton__container}
+      onClick={onClick}
+      onMouseOver={() => setIsHovered(true)}
+      onMouseOut={() => setIsHovered(false)}
+    >
       <Tooltip placement={isVertical ? "left" : "bottom"} text={label}>
-        {React.createElement(Icon, { ...iconProps })}
+        {React.createElement(Icon, {
+          size: 30,
+          color: getIconColor(),
+        })}
       </Tooltip>
     </div>
   );

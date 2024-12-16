@@ -31,9 +31,9 @@ const Toaster = ({ message, type = "normal", icon, show }: ToasterProps) => {
     if (icon) {
       return icon;
     } else if (type === "success") {
-      return <IoCheckmarkCircle size={25} color="var(--color-secondary-white)" />;
+      return <IoCheckmarkCircle size={25} color="var(--color-white)" />;
     } else if (type === "error") {
-      return <MdError size={25} color="var(--color-secondary-white)" />;
+      return <MdError size={25} color="var(--color-white)" />;
     }
     return;
   };
@@ -48,7 +48,7 @@ const Toaster = ({ message, type = "normal", icon, show }: ToasterProps) => {
 
         <IoCloseOutline
           size={25}
-          color="var(--color-secondary-white)"
+          color="var(--color-white)"
           onClick={handleClose}
           style={{ cursor: "pointer", zIndex: 1 }}
         />
@@ -62,7 +62,7 @@ const Toaster = ({ message, type = "normal", icon, show }: ToasterProps) => {
     } else if (type === "error") {
       return "var(--color-error)";
     } else {
-      return "var(--color-primary)";
+      return "var(--color-primary-opacity)";
     }
   };
 

@@ -59,7 +59,7 @@ const CalendarEventsView = ({ calendar }: CalendarEventsViewProps) => {
       >
         <RxCaretLeft
           size={30}
-          color="var(--color-secondary-white)"
+          color="var(--color-white)"
           style={{ cursor: "pointer" }}
           onClick={goBack}
         />

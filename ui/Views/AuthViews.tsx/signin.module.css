@@ -72,7 +72,7 @@
     background:transparent;
     font-family: var(--font-primary);
     font-size: 18px;
-    color: var(--color-secondary-white);
+    color: var(--color-white);
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-bottom: 2px solid var(--color-secondary);
     transition: all 0.3s;
@@ -80,13 +80,13 @@
 }
 
 .signin__credentials_input::selection {
-    background: var(--color-secondary-white);
-    color: var(--color-primary);
+    background: var(--color-white);
+    color: var(--color-primary-opacity);
 }
 
 .signin__credentials_input:focus {
     outline: none;
-    border-bottom: 2px solid var(--color-secondary-white);
+    border-bottom: 2px solid var(--color-white);
 }
 
 .signin__credentials_input::placeholder {

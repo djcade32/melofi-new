@@ -31,7 +31,7 @@ const ForgotPassword = ({ setOnboardingStep }: AuthViewProps) => {
     <div className={styles.forgotPassword__container}>
       <div className={styles.forgotPassword__header}>
         <div className={styles.forgotPassword__back_button} onClick={handleBackButtonClick}>
-          <RxCaretLeft size={25} color="var(--color-secondary-white)" />
+          <RxCaretLeft size={25} color="var(--color-white)" />
           <p>Back</p>
         </div>
       </div>

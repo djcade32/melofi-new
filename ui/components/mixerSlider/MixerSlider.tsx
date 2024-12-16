@@ -66,7 +66,7 @@ const MixerSlider = ({
     const { children, ...other } = iconThumbProps;
     const mixerSliderIconProps = {
       size: 20,
-      color: thumbClicked ? "var(--color-secondary-white)" : "#343338",
+      color: thumbClicked ? "var(--color-white)" : "#343338",
     };
     return (
       <SliderThumb {...other}>
@@ -120,7 +120,7 @@ const MixerSlider = ({
                 : "var(--color-secondary)",
               "& svg": {
                 transition: "all 0.3s",
-                color: thumbClicked ? "var(--color-secondary-white)" : "#343338",
+                color: thumbClicked ? "var(--color-white)" : "#343338",
               },
             },
           }}
