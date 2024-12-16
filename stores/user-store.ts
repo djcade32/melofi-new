@@ -1,11 +1,12 @@
 import { resetPassword } from "@/lib/firebase/actions/auth-actions";
 import { getUserFromUserDb } from "@/lib/firebase/getters/auth-getters";
-import { MelofiUser } from "@/types/interfaces";
+import { MelofiUser, UserStats } from "@/types/interfaces";
 import { create } from "zustand";
 
 export interface UserState {
   isUserLoggedIn: boolean;
   currentUser?: MelofiUser;
+  userStats?: UserStats;
 
   setIsUserLoggedIn: (value: boolean) => void;
   setCurrentUser: (user: MelofiUser) => void;
@@ -16,6 +17,7 @@ export interface UserState {
 const useUserStore = create<UserState>((set, get) => ({
   isUserLoggedIn: false,
   currentUser: undefined,
+  userStats: undefined,
 
   setIsUserLoggedIn: (value) => {
     set({ isUserLoggedIn: value });

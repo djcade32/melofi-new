@@ -29,7 +29,7 @@
 
 .calendarListItem__container p {
     font-family: var(--font-primary);
-    color: var(--color-secondary-white);
+    color: var(--color-white);
     white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis; 

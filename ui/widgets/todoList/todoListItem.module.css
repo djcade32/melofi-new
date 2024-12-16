@@ -13,6 +13,7 @@
 .todoListItem__delete_icon_container {
     opacity: 0;
     transition: opacity 0.3s;
+    padding-right: 5px;
 }
 
 .todoListItem__container:hover  .todoListItem__delete_icon_container {

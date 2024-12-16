@@ -64,7 +64,16 @@ const Modal = ({
           id={draggable ? "handle" : ""}
           style={draggable ? { cursor: "all-scroll" } : {}}
         >
-          {title && <p className={`${titleClassName}`}>{title}</p>}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            {title && <p className={`${titleClassName}`}>{title}</p>}
+          </div>
           {showCloseIcon && (
             <IoCloseOutline
               id={`${id}-close-icon`}

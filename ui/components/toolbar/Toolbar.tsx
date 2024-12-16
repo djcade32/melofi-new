@@ -16,7 +16,7 @@ import ToolbarWidgetButtons from "./toolbarWidgetButtons/ToolbarWidgetButtons";
 
 const iconProps = {
   size: 20,
-  color: "var(--color-primary)",
+  color: "var(--color-primary-opacity)",
   style: { cursor: "pointer" },
 };
 
@@ -35,9 +35,9 @@ const Toolbar = () => {
       id: "menu-option-1",
       label: isUndocked ? "Dock" : "Undock",
       icon: isUndocked ? (
-        <CgArrowsExpandUpLeft size={20} color="var(--color-primary)" />
+        <CgArrowsExpandUpLeft size={20} color="var(--color-primary-opacity)" />
       ) : (
-        <CgArrowsExpandDownRight size={20} color="var(--color-primary)" />
+        <CgArrowsExpandDownRight size={20} color="var(--color-primary-opacity)" />
       ),
       onClick: () => {
         toggleUndocked(!isUndocked);
@@ -48,9 +48,9 @@ const Toolbar = () => {
       id: "menu-option-2",
       label: isVertical ? "Horizontal" : "Vertical",
       icon: isVertical ? (
-        <LuGalleryHorizontal size={20} color="var(--color-primary)" />
+        <LuGalleryHorizontal size={20} color="var(--color-primary-opacity)" />
       ) : (
-        <LuGalleryVertical size={20} color="var(--color-primary)" />
+        <LuGalleryVertical size={20} color="var(--color-primary-opacity)" />
       ),
       onClick: () => {
         toggleVertical(!isVertical);

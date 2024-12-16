@@ -29,13 +29,13 @@ const Input = ({ prependIcon, postpendIcon, errorState, ...props }: InputProps) 
           {showPassword ? (
             <BiSolidShow
               size={25}
-              color="var(--color-secondary-white)"
+              color="var(--color-white)"
               onClick={() => setShowPassword((prev) => !prev)}
             />
           ) : (
             <BiSolidHide
               size={25}
-              color="var(--color-secondary-white)"
+              color="var(--color-white)"
               onClick={() => setShowPassword((prev) => !prev)}
             />
           )}
@@ -54,7 +54,7 @@ const Input = ({ prependIcon, postpendIcon, errorState, ...props }: InputProps) 
           style={{
             paddingLeft: prependIcon ? "30px" : "0px",
             paddingRight: postpendIcon ? "30px" : "0px",
-            borderColor: error ? "var(--color-error)" : "var(--color-secondary-white)",
+            borderColor: error ? "var(--color-error)" : "var(--color-white)",
           }}
           type={showPassword ? "text" : props.type}
         />

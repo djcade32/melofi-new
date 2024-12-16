@@ -15,7 +15,7 @@
 }
 
 .mixerModal__title {
-    color: var(--color-secondary-white);
+    color: var(--color-white);
     font-family: var(--font-primary);
     font-size: 21px;
     font-weight: 500;
@@ -47,6 +47,6 @@
 }
 
 .mixerModal__reset_button:hover {
-    color: var(--color-secondary-white);
+    color: var(--color-white);
 }
 

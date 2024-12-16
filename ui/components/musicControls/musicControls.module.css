@@ -2,7 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: var(--color-primary);
+    background-color: var(--color-primary-opacity);
     width: 255px;
     height: 32px;
     align-items: center;
@@ -23,7 +23,7 @@
 
 .musicControls__volumeSlider {
     position: absolute;
-    background-color: var(--color-primary);
+    background-color: var(--color-primary-opacity);
     border-radius: 0 0 10px 10px;
     width: 255px;
     top:32px;

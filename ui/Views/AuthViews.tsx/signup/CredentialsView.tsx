@@ -109,7 +109,7 @@ const CredentialsView = ({
           onClick={() => setOnboardingStep((prev) => prev - 1)}
           aria-label="back-button"
         >
-          <RxCaretLeft size={25} color="var(--color-secondary-white)" />
+          <RxCaretLeft size={25} color="var(--color-white)" />
           <p>Back</p>
         </div>
       </div>
@@ -227,7 +227,7 @@ const CredentialsView = ({
               id="skip-and-continue"
             >
               Skip and continue as guest
-              <RxCaretRight size={25} color="var(--color-secondary-white)" />
+              <RxCaretRight size={25} color="var(--color-white)" />
             </p>
           </div>
         </div>

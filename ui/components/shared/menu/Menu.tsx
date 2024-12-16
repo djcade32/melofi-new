@@ -26,9 +26,9 @@ const StyledMenu = styled((props: MuiMenuProps) => (
   />
 ))(() => ({
   "& .MuiPaper-root": {
-    backgroundColor: "var(--color-secondary-white)",
+    backgroundColor: "var(--color-white)",
     borderRadius: 10,
-    color: "var(--color-primary)",
+    color: "var(--color-primary-opacity)",
     boxShadow: "var(--box-shadow-primary)",
     "& .MuiMenu-list": {
       padding: "4px 0",
@@ -63,6 +63,7 @@ const Menu = ({ anchorEl, open, onClose, options }: MenuProps) => {
           ? documentEl?.querySelector(".fullscreen")
           : documentEl?.querySelector("#melofi-app")
       }
+      aria-hidden={false}
     >
       {options?.map((option) => (
         <MenuItem id={option.id} key={option.label} onClick={option.onClick}>

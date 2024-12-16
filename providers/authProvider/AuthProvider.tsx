@@ -8,6 +8,7 @@ import { MelofiUser } from "@/types/interfaces";
 import { logout } from "@/lib/firebase/actions/auth-actions";
 import SceneBackground from "@/ui/components/sceneBackground/SceneBackground";
 import LoadingScreen from "@/ui/Views/loadingScreen/LoadingScreen";
+import useUserStatsStore from "@/stores/user-stats-store";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -20,6 +21,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const { setCurrentUser, currentUser, checkIfUserIsInDb, isUserLoggedIn, setIsUserLoggedIn } =
     useUserStore();
+  const { setUserStats } = useUserStatsStore();
 
   // Check if user is logged in
   useEffect(() => {
@@ -43,6 +45,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         // Check if user is in db
         checkIfUserIsInDb(currentUser.authUser?.email).then((isInDb) => {
           if (isInDb) {
+            currentUser?.authUser?.email && setUserStats(currentUser.authUser.email);
             setGrantAccess(true);
           } else {
             logout();

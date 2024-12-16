@@ -24,7 +24,7 @@ const CalendarListItem = ({ item, onClick }: CalendarListItemProps) => {
         <RxCaretRight
           className={styles.calendarListItem__caret_icon}
           size={30}
-          color="var(--color-primary)"
+          color="var(--color-primary-opacity)"
         />
       </div>
     </div>

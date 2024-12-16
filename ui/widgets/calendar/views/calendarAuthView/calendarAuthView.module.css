@@ -9,11 +9,11 @@
 .calendarAuthView__google_login_button_text {
     font-size: 18px;
     font-family: var(--font-primary);
-    color: var(--color-secondary-white);
+    color: var(--color-white);
 }
 
 .calendarAuthView__no_event {
     font-size: 18px;
     font-family: var(--font-primary);
-    color: var(--color-secondary-white);
+    color: var(--color-white);
 }

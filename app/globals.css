@@ -12,12 +12,15 @@
   --font-bruno-ace: "Bruno Ace", sans-serif;
   --font-yatra-one: "Yatra One", sans-serif;
   
-  --color-primary: rgb(35,35,35,88%);
+  --color-primary-opacity: rgb(35,35,35,88%);
+  --color-primary: rgb(35,35,35);
   --color-secondary: #7B777A;
   --color-secondary-opacity: rgb(112,108,111, 30%);
   --color-effect : #FEA539;
   --color-effect-opacity : rgba(254, 165, 57, 0.88);
-  --color-secondary-white: rgb(255,255,255,89%);
+  --color-white: rgb(255,255,255,89%);
+  --color-secondary-white: #aca7ab;
+
   --color-error: rgb(239, 83, 80, 0.88);
   --color-success: rgb(74, 147, 74, .88);
 
@@ -47,9 +50,9 @@ body {
   user-select: none;
 }
 
-p {
+p ,h1 ,h2 ,h3 ,h4 h5, h6 {
   font-family: var(--font-primary);
-  color: var(--color-secondary-white);
+  color: var(--color-white);
 }
 
 body {

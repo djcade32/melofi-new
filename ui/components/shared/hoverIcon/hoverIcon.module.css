@@ -3,13 +3,9 @@
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s;
+    width: max-content;
 }
 
 .hoverIcon__icon{
     color: white
 }
-
-/* .hoverIcon__iconContainer:hover svg{
-    color: var(--color-effect-opacity);
-    transition: color 0.3s;
-} */

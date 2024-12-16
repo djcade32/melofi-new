@@ -25,11 +25,11 @@ export default function RootLayout({
         }}
       >
         <GoogleOAuthProvider clientId="922776747697-hbq7p19u2jmjjb1ksf4s0h95mmiu4pht.apps.googleusercontent.com">
-          <FullscreenProvider>
-            <AuthProvider>
-              <NotificationProvider>{children}</NotificationProvider>
-            </AuthProvider>
-          </FullscreenProvider>
+          {/* <FullscreenProvider> */}
+          <AuthProvider>
+            <NotificationProvider>{children}</NotificationProvider>
+          </AuthProvider>
+          {/* </FullscreenProvider> */}
         </GoogleOAuthProvider>
       </body>
     </html>

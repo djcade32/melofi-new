@@ -11,6 +11,7 @@ import { MelofiUser } from "@/types/interfaces";
 import { addUserToNewsletter, changeUserEmailVerificationStatus } from "./newsletter-actions";
 import { getUserFromUserDb } from "../getters/auth-getters";
 import { getUserFromNewsletterDb } from "../getters/newsletter-getters";
+import { addUserToStats } from "./stats-actions";
 
 const auth = getFirebaseAuth();
 const db = getFirebaseDB();
@@ -32,6 +33,7 @@ export const signup = async (
       displayName: firstName,
     });
     newsLetterChecked && (await addUserToNewsletter(email));
+    await addUserToStats(email);
     return user;
   } catch (error) {
     throw error;

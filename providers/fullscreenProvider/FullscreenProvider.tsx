@@ -1,8 +1,9 @@
 "use client";
 
 import useAppStore from "@/stores/app-store";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import screenfull from "screenfull";
 import styles from "./fullscreenProvider.module.css";
 
 interface FullscreenProviderProps {
@@ -13,25 +14,39 @@ const FullscreenProvider = ({ children }: FullscreenProviderProps) => {
   const handle = useFullScreenHandle();
   const { isFullscreen, toggleFullscreen } = useAppStore();
 
-  useEffect(() => {
-    if (isFullscreen) {
-      handle.enter();
-    } else {
-      handle.exit();
-    }
-  }, [isFullscreen]);
+  // const handleToggleFullscreen = () => {
+  //   if (screenfull.isEnabled) {
+  //     screenfull.toggle();
+  //   }
+  // };
 
-  // Handles setting fullscreen button to inactive when esc key is pressed
-  useEffect(() => {
-    if (!handle.active && isFullscreen) {
-      toggleFullscreen(false);
-    }
-  }, [handle]);
+  // useEffect(() => {
+  //   if (isFullscreen) {
+  //     handleToggleFullscreen();
+  //   }
+  // }, [isFullscreen]);
+
+  // useEffect(() => {
+  //   if (isFullscreen) {
+  //     handle.enter();
+  //   } else {
+  //     handle.exit();
+  //   }
+  // }, [isFullscreen]);
+
+  // // Handles setting fullscreen button to inactive when esc key is pressed
+  // useEffect(() => {
+  //   if (!handle.active && isFullscreen) {
+  //     toggleFullscreen(false);
+  //   }
+  // }, [handle]);
 
   return (
-    <FullScreen className={styles.fullscreenProvider__container} handle={handle}>
+    <div>
+      {/* <FullScreen className={styles.fullscreenProvider__container} handle={handle}> */}
       {children}
-    </FullScreen>
+      {/* </FullScreen> */}
+    </div>
   );
 };
 
