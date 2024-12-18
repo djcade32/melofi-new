@@ -15,6 +15,8 @@ interface HoverIconProps {
   hoverColor?: string;
   color?: string;
   inverted?: boolean;
+  invertedBackgroundColor?: string;
+  invertedHoverColor?: string;
   onClick?: (e: any) => void;
   containerClassName?: string;
   disabled?: boolean;
@@ -29,6 +31,8 @@ const HoverIcon = ({
   iconStyle,
   hoverColor,
   inverted = false,
+  invertedBackgroundColor,
+  invertedHoverColor,
   color = "var(--color-white)",
   onClick,
   containerClassName,
@@ -48,7 +52,9 @@ const HoverIcon = ({
     if (disabled) return;
 
     if (inverted) {
-      return isHovered ? "var(--color-secondary-opacity)" : "transparent";
+      return isHovered
+        ? invertedHoverColor ?? "var(--color-secondary-opacity)"
+        : invertedBackgroundColor ?? "transparent";
     } else {
       return "transparent";
     }
@@ -70,6 +76,7 @@ const HoverIcon = ({
         <Tooltip
           text={tooltipText}
           TransitionComponent={Zoom as React.JSXElementConstructor<React.PropsWithChildren<{}>>}
+          noFlex
         >
           <div
             id={id}

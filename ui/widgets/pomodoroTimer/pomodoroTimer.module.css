@@ -1,0 +1,168 @@
+.pomodoroTimer__container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border-radius: 10px;
+    width: 370px;
+    height: 760px;
+    padding: 20px 24px;
+}
+
+.pomodoroTimer__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pomodorTimer__header_right_side {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notes__selected_task_title_container {
+    display: flex;
+    align-items: center;
+    margin: 15px 0px;
+}
+
+.notes__selected_task_title_container p {
+    font-size: 2em;
+    color: var(--color-white);
+    padding: 5px;
+    width: 100%;
+    text-align: center;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+}
+
+.notes__selected_task_title_container input::placeholder {
+    color: var(--color-secondary-white);
+}
+
+.notes__selected_task_title_container input:hover {
+    background-color: var(--color-secondary-opacity);
+}
+
+.notes__selected_task_title_container input:focus {
+    background-color: var(--color-secondary-opacity);
+    outline: 1px solid var(--color-secondary);
+}
+
+.pomodoroTimer__timer_container {
+    display: flex;
+    justify-content: center;
+}
+
+.pomodoroTimer__timer_info_container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    justify-content: center;
+    align-items: center;
+}
+
+.pomodoroTimer__timer_info_time_display {
+    font-size: 1.75em;
+}
+
+.pomodoroTimer__timer_info_mode_display {
+    background-color: var(--color-effect-opacity);
+    padding: 3px 8px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.pomodoroTimer__timer_info_mode_display p {
+    color: var(--color-primary-opacity);
+    font-weight: bold;
+}
+
+.pomodoroTimer__add_task_button {
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.pomodoroTimer__timer_action_buttons_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0px;
+}
+
+.pomodoroTimer__timer_action_button_outline {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--color-secondary-opacity);           
+    width: 45px;
+    height: 45px;
+    transition: all 0.3s;
+    cursor: pointer;
+
+}
+
+.pomodoroTimer__timer_action_button_outline:hover {
+    background-color: var(--color-secondary-opacity);
+}
+
+.pomodoroTimer__timer_action_button_fill {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.pomodoroTimer__timer_action_button_fill:hover {
+    background-color: var(--color-secondary);
+}
+
+.pomodoroTimer__session_cards_container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    overflow-y: scroll;
+    border-radius: 10px;
+    background-color: var(--color-primary-opacity);
+    height: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-secondary);
+}
+
+.pomodoroTimer__session_cards_container::-webkit-scrollbar {
+    display: none;
+}
+
+.pomodoroTimer__empty_tasks_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.pomodoroTimer__empty_tasks_container p {
+    font-size: 1.5em;
+    color: var(--color-secondary-white);
+}

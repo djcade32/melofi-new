@@ -16,12 +16,14 @@ import useCalendarStore from "@/stores/widgets/calendar-store";
 import useTodoListStore from "@/stores/widgets/todoList-store";
 import useNotesStore from "@/stores/widgets/notes-store";
 import { todo } from "node:test";
+import usePomodoroTimerStore from "@/stores/widgets/pomodoro-timer-store";
 
 const ToolbarWidgetButtons = () => {
   const { isVertical, toggleTools, isUndocked } = useToolsStore();
   const { isCalendarOpen, toggleCalendar } = useCalendarStore();
   const { isTodoListOpen, setIsTodoListOpen } = useTodoListStore();
   const { isNotesOpen, setIsNotesOpen } = useNotesStore();
+  const { isPomodoroTimerOpen, setIsPomodoroTimerOpen } = usePomodoroTimerStore();
 
   const handleWidgetButtonPress = (toggleWidgetFunction: Function) => {
     toggleWidgetFunction();
@@ -58,10 +60,10 @@ const ToolbarWidgetButtons = () => {
         active={isCalendarOpen}
       />
       <ToolbarButton
-        id="timer"
-        label="Timer"
+        id="pomodoro-timer"
+        label="Pomodoro Timer"
         icon={MdTimer}
-        onClick={() => toggleCalendar(!isCalendarOpen)}
+        onClick={() => handleWidgetButtonPress(() => setIsPomodoroTimerOpen(!isPomodoroTimerOpen))}
         active={false}
       />
       <ToolbarButton

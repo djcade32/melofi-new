@@ -45,11 +45,11 @@ const Notes = () => {
   const handleSaveNoteTitle = () => {
     if (!selectedNote) return;
 
-    selectedNoteTitle === ""
+    selectedNoteTitle.trim() === ""
       ? setSelectedNoteTitle(selectedNote.title)
       : updateNote({
           ...selectedNote,
-          title: selectedNoteTitle,
+          title: selectedNoteTitle.trim(),
         } as Note);
   };
 

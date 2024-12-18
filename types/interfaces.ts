@@ -119,3 +119,19 @@ export interface UserStats {
   favoriteScene: string | null;
   lastLogin: string;
 }
+
+export interface PomodoroTimerTaskPayload {
+  title: string;
+  focusTime: number;
+  breakTime: number;
+  sessions: number;
+}
+
+export interface PomodoroTimerTask extends PomodoroTimerTaskPayload {
+  id: string;
+  completed: boolean;
+  completedAt: string | null;
+  sessionsCompleted: number;
+  percentCompleted: number;
+  currentMode: "Focus" | "Break";
+}

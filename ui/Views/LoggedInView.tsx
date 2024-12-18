@@ -11,6 +11,7 @@ import { MusicSource } from "@/enums/general";
 
 import TodoList from "../widgets/todoList/TodoList";
 import Notes from "../widgets/notes/Notes";
+import PomodoroTimer from "../widgets/pomodoroTimer/PomodoroTimer";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
@@ -24,6 +25,7 @@ const LoggedInView = () => {
       <Calendar />
       <TodoList />
       <Notes />
+      <PomodoroTimer />
     </div>
   );
 };
