@@ -49,7 +49,12 @@ const HoverIcon = ({
   };
 
   const getBackgroundColor = () => {
-    if (disabled) return;
+    if (disabled) {
+      if (inverted) {
+        return invertedBackgroundColor ?? "transparent";
+      }
+      return "transparent";
+    }
 
     if (inverted) {
       return isHovered
@@ -64,6 +69,7 @@ const HoverIcon = ({
     if (disabled) {
       e.preventDefault();
       e.stopPropagation();
+      return;
     }
     if (onClick) {
       onClick(e);

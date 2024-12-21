@@ -19,6 +19,7 @@
     justify-content: space-between;
     gap: 10px;
     align-items: center;
+    width: 100%;
 }
 
 .pomoTimerSessionCard__trash_icon {
@@ -28,7 +29,7 @@
 
 .pomoTimerSessionCard__title {
     font-size: 18px;
-    width: 100%;
+    
 
     text-overflow: ellipsis;
     white-space: nowrap;

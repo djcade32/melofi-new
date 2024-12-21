@@ -1,10 +1,15 @@
-import { updateTotalNotesCreated } from "@/lib/firebase/actions/stats-actions";
+import {
+  updatePomodoroTimerStats,
+  updateTotalNotesCreated,
+} from "@/lib/firebase/actions/stats-actions";
 import { getUserStats } from "@/lib/firebase/getters/stats-getters";
 import { buildUserStatsType } from "@/lib/type-builders/user-stats-type-builder";
 import { create } from "zustand";
 import useUserStore from "./user-store";
+import { PomodoroTimerStats } from "@/types/interfaces";
 
 export interface userStatsState {
+  pomodoroTimerStats: PomodoroTimerStats;
   totalFocusTime: number;
   totalConsecutiveDays: number;
   totalTasksCompleted: number;
@@ -14,9 +19,16 @@ export interface userStatsState {
 
   setUserStats: () => Promise<void>;
   incrementTotalNotesCreated: (email: string) => Promise<void>;
+  updatePomodoroTimerStats: (updatedStats: PomodoroTimerStats) => Promise<void>;
 }
 
 const useUserStatsStore = create<userStatsState>((set, get) => ({
+  pomodoroTimerStats: {
+    totalFocusTime: 0,
+    totalBreakTime: 0,
+    totalSessionsCompleted: 0,
+    totalTasksCompleted: 0,
+  },
   totalFocusTime: 0,
   totalConsecutiveDays: 0,
   totalTasksCompleted: 0,
@@ -44,6 +56,20 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       set((state) => ({ totalNotesCreated: state.totalNotesCreated + 1 }));
     } catch (error) {
       console.log("Error incrementing total notes created: ", error);
+    }
+  },
+
+  async updatePomodoroTimerStats(updatedStats: PomodoroTimerStats) {
+    const email = useUserStore.getState().currentUser?.authUser?.email;
+    if (!email) {
+      return;
+    }
+    console.log("Updating pomodoro timer stats: ", updatedStats);
+    try {
+      await updatePomodoroTimerStats(email, updatedStats);
+      set({ pomodoroTimerStats: updatedStats });
+    } catch (error) {
+      console.log("Error updating pomodoro timer stats: ", error);
     }
   },
 }));

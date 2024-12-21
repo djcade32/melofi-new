@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./pomodoroTimerSessionCard.module.css";
 import { RxTimer, BsLightningCharge, BsArrowRepeat, HiTrash } from "@/imports/icons";
 import { LinearProgress, linearProgressClasses } from "@mui/material";
 import HoverIcon from "@/ui/components/shared/hoverIcon/HoverIcon";
 import { PomodoroTimerTask } from "@/types/interfaces";
 import usePomodoroTimerStore from "@/stores/widgets/pomodoro-timer-store";
-import { convertMinsToHrAndMins, convertMinsToHr } from "@/utils/time";
+import { convertSecsToHrMinsSec, convertSecsToMins } from "@/utils/time";
 
 interface PomodoroTimerSessionCardProps {
   task: PomodoroTimerTask;
@@ -15,12 +15,18 @@ interface PomodoroTimerSessionCardProps {
 
 const PomodoroTimerSessionCard = ({ task, active, onClick }: PomodoroTimerSessionCardProps) => {
   const { deletePomodoroTimerTask } = usePomodoroTimerStore();
+  const [progress, setProgress] = useState<number>(0);
+
+  useEffect(() => {
+    setProgress(task.percentCompleted);
+  }, [task.percentCompleted]);
 
   const getTimeString = (time: number) => {
-    if (time < 60) {
-      return `${time} mins`;
+    if (time < 3600) {
+      const min = convertSecsToMins(time);
+      return `${min} ${min > 1 ? "mins" : "min"}`;
     } else {
-      const { hr } = convertMinsToHrAndMins(time);
+      const { hr } = convertSecsToHrMinsSec(time);
       return `${hr} ${hr > 1 ? "hrs" : "hr"}`;
     }
   };
@@ -37,7 +43,14 @@ const PomodoroTimerSessionCard = ({ task, active, onClick }: PomodoroTimerSessio
       }}
     >
       <div className={styles.pomoTimerSessionCard__header}>
-        <p className={styles.pomoTimerSessionCard__title}>{task.title}</p>
+        <p
+          className={styles.pomoTimerSessionCard__title}
+          style={{
+            textDecoration: task.completed ? "line-through" : "none",
+          }}
+        >
+          {task.title}
+        </p>
         <HoverIcon
           containerClassName={styles.pomoTimerSessionCard__trash_icon}
           size={20}
@@ -53,7 +66,7 @@ const PomodoroTimerSessionCard = ({ task, active, onClick }: PomodoroTimerSessio
       <div className={styles.pomoTimerSessionCard__linear_progress_container}>
         <LinearProgress
           variant="determinate"
-          value={task.percentCompleted}
+          value={progress}
           sx={{
             height: 8,
             width: "100%",

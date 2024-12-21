@@ -112,12 +112,20 @@ export interface Note {
 }
 
 export interface UserStats {
+  pomodoroTimer: PomodoroTimerStats;
   totalFocusTime: number;
   totalConsecutiveDays: number;
   totalTasksCompleted: number;
   totalNotesCreated: number;
   favoriteScene: string | null;
   lastLogin: string;
+}
+
+export interface PomodoroTimerStats {
+  totalFocusTime: number;
+  totalBreakTime: number;
+  totalSessionsCompleted: number;
+  totalTasksCompleted: number;
 }
 
 export interface PomodoroTimerTaskPayload {

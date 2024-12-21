@@ -6,6 +6,7 @@ import Button from "@/ui/components/shared/button/Button";
 import { isNumber } from "@/utils/number";
 import usePomodoroTimerStore from "@/stores/widgets/pomodoro-timer-store";
 import { PomodoroTimerTaskPayload } from "@/types/interfaces";
+import { convertMinsToSecs } from "@/utils/time";
 
 interface AddPomodoroTaskModalProps {
   isOpen: boolean;
@@ -39,8 +40,8 @@ const AddPomodoroTaskModal = ({ onClose, isOpen }: AddPomodoroTaskModalProps) =>
     }
     const newTask: PomodoroTimerTaskPayload = {
       title: taskName,
-      focusTime: focusTime.hr * 60 + focusTime.min,
-      breakTime: breakTime.hr * 60 + breakTime.min,
+      focusTime: convertMinsToSecs(focusTime.hr * 60 + focusTime.min),
+      breakTime: convertMinsToSecs(breakTime.hr * 60 + breakTime.min),
       sessions,
     };
     await addPomodoroTimerTask(newTask);
@@ -247,7 +248,7 @@ const AddPomodoroTaskModal = ({ onClose, isOpen }: AddPomodoroTaskModalProps) =>
               value={sessions}
               onChange={(e) => {
                 if (e.target.value.length <= 0) {
-                  setSessions(1);
+                  setSessions(0);
                   return;
                 }
                 if (isNumber(e.target.value) && parseInt(e.target.value) > 10) {

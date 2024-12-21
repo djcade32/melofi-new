@@ -27,7 +27,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "electron.js",
-    "scripts/generateUserEmailVerification.js",
+    "scripts/generateUserEmailVerification.js", "imports/icons/index.js", "imports/effects/index.js", "imports/songs/index.js",
   ],
   "exclude": [
     "node_modules",
