@@ -80,7 +80,7 @@ const PomodoroTimerSessionCard = ({ task, active, onClick }: PomodoroTimerSessio
             },
           }}
         />
-        <p>{task.percentCompleted}%</p>
+        <p>{task.percentCompleted.toFixed(0)}%</p>
       </div>
       <div className={styles.pomoTimerSessionCard__footer}>
         <div>

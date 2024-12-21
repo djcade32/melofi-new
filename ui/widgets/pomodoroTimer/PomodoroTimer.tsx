@@ -111,7 +111,7 @@ const PomodoroTimer = () => {
     const sessionsCompleted =
       activePomodoroTimerTask.sessions === activePomodoroTimerTask.sessionsCompleted
         ? activePomodoroTimerTask.sessionsCompleted
-        : activePomodoroTimerTask.sessionsCompleted + 1;
+        : activePomodoroTimerTask.sessionsCompleted;
     return `${sessionsCompleted} of ${sessions} sessions`;
   };
 
