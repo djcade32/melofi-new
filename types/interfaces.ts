@@ -143,3 +143,11 @@ export interface PomodoroTimerTask extends PomodoroTimerTaskPayload {
   percentCompleted: number;
   currentMode: "Focus" | "Break";
 }
+
+export interface DialogModalActions {
+  toggleOpen: number;
+  cancel: () => void;
+  confirm: () => void;
+  title: string;
+  message: string;
+}

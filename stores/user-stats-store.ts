@@ -64,7 +64,6 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
     if (!email) {
       return;
     }
-    console.log("Updating pomodoro timer stats: ", updatedStats);
     try {
       await updatePomodoroTimerStats(email, updatedStats);
       set({ pomodoroTimerStats: updatedStats });

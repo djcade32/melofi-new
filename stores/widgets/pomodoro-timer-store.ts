@@ -172,10 +172,9 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
 
     if (sessionsCompleted < sessions) {
       if (activePomodoroTimerTask.currentMode === "Focus") {
-        console.log("Focus done");
         activePomodoroTimerTask.sessionsCompleted = sessionsCompleted + 1;
+        // Check if the task is completed
         if (activePomodoroTimerTask.sessionsCompleted === sessions) {
-          console.log("Task done");
           activePomodoroTimerTask.completed = true;
           activePomodoroTimerTask.completedAt = new Date().toISOString();
           setActivePomodoroTimerTask(activePomodoroTimerTask);
@@ -185,7 +184,6 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
           );
           set({ pomodoroTimerTasks: newTasksList });
           try {
-            console.log("Updating pomodoro timer task in db: ", newTasksList);
             await updatePomodoroTimerTaskInDb(email, newTasksList);
             await updatePomodoroTimerStats({
               ...pomodoroTimerStats,
@@ -206,7 +204,6 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
         setTimerTime(breakTime);
 
         try {
-          console.log("Updating pomodoro timer task in db: ", newTasksList);
           await updatePomodoroTimerTaskInDb(email, newTasksList);
           await updatePomodoroTimerStats({
             ...pomodoroTimerStats,
@@ -223,7 +220,6 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
         return;
       }
       if (activePomodoroTimerTask.currentMode === "Break") {
-        console.log("Break done");
         activePomodoroTimerTask.currentMode = "Focus";
         setActivePomodoroTimerTask(activePomodoroTimerTask);
         findAndUpdateTask(activePomodoroTimerTask.id, activePomodoroTimerTask);
@@ -232,7 +228,6 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
         setTimerTime(focusTime);
 
         try {
-          console.log("Updating pomodoro timer task in db: ", newTasksList);
           await updatePomodoroTimerTaskInDb(email, newTasksList);
           await updatePomodoroTimerStats({
             ...pomodoroTimerStats,
@@ -255,7 +250,6 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
     if (!activePomodoroTimerTask) {
       return;
     }
-    console.log("Restarting timer");
     stopTimer();
     setTimerTime(
       activePomodoroTimerTask.currentMode === "Focus"
@@ -283,7 +277,6 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
     if (!activePomodoroTimerTask || !email) {
       return;
     }
-    console.log("Resetting timer");
     // Without this line, the progress bar will not reset to 0 in the UI
     activePomodoroTimerTask.percentCompleted = 0;
 
@@ -302,7 +295,6 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
     );
     try {
       wait(500);
-      console.log("Updating pomodoro timer task in db: ", newTasksList);
       await updatePomodoroTimerTaskInDb(email, newTasksList);
     } catch (error) {
       console.log("Error updating pomodoro timer task in db: ", error);

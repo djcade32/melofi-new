@@ -95,7 +95,7 @@ import {
   AiFillFire,
   AiFillThunderbolt,
 } from "react-icons/ai";
-import { FiPlus, FiMinimize2 } from "react-icons/fi";
+import { FiPlus, FiMinimize2, FiMaximize2 } from "react-icons/fi";
 import { FaCommentDots, FaHandsHelping } from "react-icons/fa";
 import {
   RxCaretLeft,
@@ -223,5 +223,6 @@ export {
   MdFormatAlignJustify,
   IoCreate,
   FiMinimize2,
+  FiMaximize2,
   FaStop,
 };
