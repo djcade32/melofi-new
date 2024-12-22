@@ -5,6 +5,7 @@ export interface AppState {
   isFullscreen: boolean;
 
   toggleFullscreen: (boolean: boolean) => void;
+  isElectron: () => boolean;
 }
 
 const useAppStore = create<AppState>((set, get) => ({
@@ -13,6 +14,10 @@ const useAppStore = create<AppState>((set, get) => ({
   toggleFullscreen: (boolean) => {
     screenfull.toggle();
     set(() => ({ isFullscreen: boolean }));
+  },
+
+  isElectron: () => {
+    return navigator.userAgent.toLowerCase().includes("electron");
   },
 }));
 

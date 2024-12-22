@@ -15,7 +15,6 @@ import useToolsStore from "@/stores/tools-store";
 import useCalendarStore from "@/stores/widgets/calendar-store";
 import useTodoListStore from "@/stores/widgets/todoList-store";
 import useNotesStore from "@/stores/widgets/notes-store";
-import { todo } from "node:test";
 import usePomodoroTimerStore from "@/stores/widgets/pomodoro-timer-store";
 
 const ToolbarWidgetButtons = () => {

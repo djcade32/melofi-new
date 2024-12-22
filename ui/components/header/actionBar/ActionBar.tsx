@@ -24,7 +24,7 @@ const iconProps = { size: 20, color: "var(--color-white)", style: { cursor: "poi
 const ActionBar = () => {
   const { toggleSceneModal, sceneModalOpen } = useSceneStore();
   const { toggleMixerModal, mixerModalOpen, musicSource } = useMixerStore();
-  const { toggleFullscreen, isFullscreen } = useAppStore();
+  const { toggleFullscreen, isFullscreen, isElectron } = useAppStore();
   const { isToolsOpen, toggleTools } = useToolsStore();
 
   // Close scene modal when clicking outside of the modal
@@ -65,19 +65,21 @@ const ActionBar = () => {
         onClick={() => toggleTools(!isToolsOpen)}
         isActive={isToolsOpen}
       />
-      <ActionBarButton
-        id="fullscreen-button"
-        icon={
-          isFullscreen ? (
-            <RiFullscreenExitLine {...iconProps} />
-          ) : (
-            <RiFullscreenFill {...iconProps} />
-          )
-        }
-        label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
-        onClick={() => toggleFullscreen(!isFullscreen)}
-        isActive={isFullscreen}
-      />
+      {!isElectron() && (
+        <ActionBarButton
+          id="fullscreen-button"
+          icon={
+            isFullscreen ? (
+              <RiFullscreenExitLine {...iconProps} />
+            ) : (
+              <RiFullscreenFill {...iconProps} />
+            )
+          }
+          label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+          onClick={() => toggleFullscreen(!isFullscreen)}
+          isActive={isFullscreen}
+        />
+      )}
       <TimeDisplay />
     </div>
   );
