@@ -5,7 +5,7 @@ import Draggable from "react-draggable";
 import styles from "./modal.module.css";
 import { IoCloseOutline } from "@/imports/icons";
 
-interface ModalProps {
+interface ModalProps extends React.HTMLProps<HTMLDivElement> {
   isOpen: boolean;
   children: React.ReactNode;
   showCloseIcon?: boolean;
@@ -29,31 +29,17 @@ const Modal = ({
   draggable = false,
   id,
   fadeCloseIcon = false,
+  ...props
 }: ModalProps) => {
   const nodeRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
-
-  const closeIconComponent = () => {
-    return (
-      <IoCloseOutline
-        size={25}
-        color="var(--color-secondary)"
-        onClick={close}
-        style={{
-          cursor: "pointer",
-          zIndex: 1,
-          opacity: fadeCloseIcon ? (isHovered ? 1 : 0.5) : 1,
-        }}
-      />
-    );
-  };
 
   return (
     <Draggable disabled={!draggable} nodeRef={nodeRef} handle="#handle">
       <div
         ref={nodeRef}
         className={`${styles.modal__container} ${className}`}
-        style={{ display: isOpen ? "flex" : "none" }}
+        style={{ ...props?.style, display: isOpen ? "flex" : "none" }}
         id={id}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}

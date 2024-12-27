@@ -197,7 +197,7 @@ const PomodoroTimer = () => {
             />
           )}
           <IoCloseOutline
-            id={`pomodoro-timer-widget-close-icon`}
+            id="pomodoro-timer-widget-close-icon"
             size={25}
             color="var(--color-secondary)"
             onClick={() => setIsPomodoroTimerOpen(false)}

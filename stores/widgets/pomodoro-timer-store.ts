@@ -43,7 +43,7 @@ export interface PomodoroTimerState {
 }
 
 const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
-  isPomodoroTimerOpen: true,
+  isPomodoroTimerOpen: false,
   pomodoroTimerTasks: [],
   activePomodoroTimerTask: null,
 

@@ -63,7 +63,7 @@ const ToolbarWidgetButtons = () => {
         label="Pomodoro Timer"
         icon={MdTimer}
         onClick={() => handleWidgetButtonPress(() => setIsPomodoroTimerOpen(!isPomodoroTimerOpen))}
-        active={false}
+        active={isPomodoroTimerOpen}
       />
       <ToolbarButton
         id="templates"

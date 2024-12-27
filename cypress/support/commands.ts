@@ -34,6 +34,8 @@ declare global {
       deleteCalendarDB(): Chainable<void>;
       clearAuthEmulator(): Chainable<void>;
       signUpUser(email: string, password: string): Chainable<any>;
+      mockCheckingIfUserIsInDb(): Chainable<void>;
+      mockAddingPomodoroTimerTask(): Chainable<void>;
     }
   }
 }
@@ -41,6 +43,7 @@ declare global {
 // cypress/support/commands.js
 
 import * as calendarRequest from "../../lib/requests/calendar-request";
+// import useUserStore from "../../stores/user-store";
 
 // Define a mock database object
 const mockDB = {
@@ -55,6 +58,16 @@ const mockDB = {
     return Promise.resolve();
   },
 };
+
+// const mockStore = {
+//   currentUser: {
+//     authUser: { email: "test@example.com", emailVerified: true },
+//     skippedOnboarding: false,
+//   },
+//   checkIfUserIsInDb: cy.stub().resolves(true),
+//   isUserLoggedIn: true,
+//   setIsUserLoggedIn: cy.stub(),
+// };
 
 // Create a function that returns the mockDB object
 const mockGetDb = async () => ({
@@ -127,3 +140,19 @@ Cypress.Commands.add("signUpUser", (email, password) => {
       expect(response.status).to.eq(200);
     });
 });
+
+// Cypress.Commands.add("mockCheckingIfUserIsInDb", () => {
+//   console.log("mockCheckingIfUserIsInDb called");
+//   const checkIfUserIsInDbStub = async () => {
+//     console.log("checkIfUserIsInDbStub called");
+//     return true;
+//   };
+//   // Mock the Zustand store's state
+//   useUserStore.setState({
+//     isUserLoggedIn: true,
+//     currentUser: {
+//       authUser: { email: "test@example.com", emailVerified: true },
+//     },
+//     checkIfUserIsInDb: checkIfUserIsInDbStub,
+//   });
+// });
