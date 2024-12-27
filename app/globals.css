@@ -56,7 +56,7 @@ p ,h1 ,h2 ,h3 ,h4 h5, h6 {
 }
 
 body {
-  color: var(--foreground);
+  color: var(--color-white);
   background: var(--background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

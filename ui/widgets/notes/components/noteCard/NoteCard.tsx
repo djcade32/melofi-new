@@ -25,6 +25,7 @@ const NoteCard = ({ selected, note }: NoteCardProps) => {
 
   return (
     <div
+      id={note.id}
       className={styles.noteCard__container}
       style={{
         backgroundColor: selected ? "var(--color-secondary-opacity)" : "transparent",

@@ -43,6 +43,8 @@ export const pressToolsButton = () => cy.get("#tools-button").click({ timeout: 8
 export const pressToolbarButton = (id: string) =>
   cy.get(`#${id}-widget-button`).click({ timeout: 8000 });
 
+export const getElementWithClassName = (className: string) => cy.get(`[class*="${className}"]`);
+
 export const ERROR_MESSAGES = {
   EMAIL_REQUIRED: "Email is required",
   PASSWORD_REQUIRED: "Password is required",

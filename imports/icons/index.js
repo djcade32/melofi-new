@@ -8,6 +8,7 @@ import {
   FaCrown,
   FaLock,
   FaFan,
+  FaStop,
 } from "react-icons/fa";
 import {
   BsFillSkipBackwardFill,
@@ -94,7 +95,7 @@ import {
   AiFillFire,
   AiFillThunderbolt,
 } from "react-icons/ai";
-import { FiPlus } from "react-icons/fi";
+import { FiPlus, FiMinimize2, FiMaximize2 } from "react-icons/fi";
 import { FaCommentDots, FaHandsHelping } from "react-icons/fa";
 import {
   RxCaretLeft,
@@ -221,4 +222,7 @@ export {
   MdFormatAlignRight,
   MdFormatAlignJustify,
   IoCreate,
+  FiMinimize2,
+  FiMaximize2,
+  FaStop,
 };

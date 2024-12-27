@@ -112,10 +112,42 @@ export interface Note {
 }
 
 export interface UserStats {
+  pomodoroTimer: PomodoroTimerStats;
   totalFocusTime: number;
   totalConsecutiveDays: number;
   totalTasksCompleted: number;
   totalNotesCreated: number;
   favoriteScene: string | null;
   lastLogin: string;
+}
+
+export interface PomodoroTimerStats {
+  totalFocusTime: number;
+  totalBreakTime: number;
+  totalSessionsCompleted: number;
+  totalTasksCompleted: number;
+}
+
+export interface PomodoroTimerTaskPayload {
+  title: string;
+  focusTime: number;
+  breakTime: number;
+  sessions: number;
+}
+
+export interface PomodoroTimerTask extends PomodoroTimerTaskPayload {
+  id: string;
+  completed: boolean;
+  completedAt: string | null;
+  sessionsCompleted: number;
+  percentCompleted: number;
+  currentMode: "Focus" | "Break";
+}
+
+export interface DialogModalActions {
+  toggleOpen: number;
+  cancel: () => void;
+  confirm: () => void;
+  title: string;
+  message: string;
 }

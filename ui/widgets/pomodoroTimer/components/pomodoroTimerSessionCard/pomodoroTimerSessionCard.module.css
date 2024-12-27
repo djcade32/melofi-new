@@ -1,0 +1,58 @@
+.pomoTimerSessionCard__container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--color-secondary-opacity);
+    border: 1px solid var(--color-secondary);
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.pomoTimerSessionCard__container:hover .pomoTimerSessionCard__trash_icon {
+    opacity: 1;
+}
+
+.pomoTimerSessionCard__header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+}
+
+.pomoTimerSessionCard__trash_icon {
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.pomoTimerSessionCard__title {
+    font-size: 18px;
+    
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.pomoTimerSessionCard__linear_progress_container {
+    display: flex;
+    align-items: center;
+    gap: 5px
+}
+
+.pomoTimerSessionCard__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pomoTimerSessionCard__footer div {
+    display: flex;
+    gap: 5px;
+}
+
+.pomoTimerSessionCard__active {
+    border: 1px solid var(--color-effect-opacity);
+}

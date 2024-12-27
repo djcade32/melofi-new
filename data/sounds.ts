@@ -20,7 +20,7 @@ import {
   snowEffect,
   summerNightEffect,
   trainEffect,
-} from "@/imports/effects";
+} from "@/imports/sounds";
 import { Sound } from "@/types/interfaces";
 import {
   BsCloudRainFill,

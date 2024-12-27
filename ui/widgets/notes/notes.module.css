@@ -83,8 +83,7 @@
 
 .notes__current_note_title_container input:focus {
     background-color: var(--color-secondary-opacity);
-    border: 1px solid var(--color-secondary);
-    outline: none
+    outline: 1px solid var(--color-secondary);
 }
 
 .notes__no_note_selected_container {

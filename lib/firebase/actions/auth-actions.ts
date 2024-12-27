@@ -6,7 +6,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { getFirebaseAuth, getFirebaseDB } from "../firebaseClient";
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { MelofiUser } from "@/types/interfaces";
 import { addUserToNewsletter, changeUserEmailVerificationStatus } from "./newsletter-actions";
 import { getUserFromUserDb } from "../getters/auth-getters";

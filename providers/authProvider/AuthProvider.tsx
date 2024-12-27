@@ -45,7 +45,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         // Check if user is in db
         checkIfUserIsInDb(currentUser.authUser?.email).then((isInDb) => {
           if (isInDb) {
-            currentUser?.authUser?.email && setUserStats(currentUser.authUser.email);
+            setUserStats();
             setGrantAccess(true);
           } else {
             logout();
@@ -75,21 +75,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       )}
       <SceneBackground />
       <LoadingScreen loading={loading} />
-      {/* {loading ? (
-        <LoadingScreen />
-      ) : (
-        <>
-          {grantAccess ? (
-            children
-          ) : (
-            <LoggedOutView
-              showEmailVerification={showEmailVerification}
-              setShowEmailVerification={setShowEmailVerification}
-            />
-          )}
-          <SceneBackground />
-        </>
-      )} */}
     </div>
   );
 };
