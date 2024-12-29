@@ -33,6 +33,7 @@ declare global {
       mockGetCalendarEvents(): Chainable<void>;
       deleteCalendarDB(): Chainable<void>;
       clearAuthEmulator(): Chainable<void>;
+      clearFirestoreEmulator(): Chainable<void>;
       signUpUser(email: string, password: string): Chainable<any>;
       mockCheckingIfUserIsInDb(): Chainable<void>;
       mockAddingPomodoroTimerTask(): Chainable<void>;
@@ -119,6 +120,15 @@ Cypress.Commands.add("clearAuthEmulator", () => {
       expect(response.status).to.eq(200); // Check that the request was successful
     }
   );
+});
+
+Cypress.Commands.add("clearFirestoreEmulator", () => {
+  cy.request(
+    "DELETE",
+    "http://localhost:8080/emulator/v1/projects/melofi-v2/databases/(default)/documents"
+  ).then((response) => {
+    expect(response.status).to.eq(200); // Check that the request was successful
+  });
 });
 
 Cypress.Commands.add("signUpUser", (email, password) => {

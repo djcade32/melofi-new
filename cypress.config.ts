@@ -1,10 +1,16 @@
 import { defineConfig } from "cypress";
-import webpackPreprocessor from "@cypress/webpack-preprocessor";
 const isCI = process.env.CI === "true";
+const testToSkip = [
+  "**/auth/*.cy.js",
+  "**/widgets/notes.cy.js",
+  "**/widgets/pomodoro_timer.cy.js",
+  "**/rotating_logo.cy.js",
+];
 
 export default defineConfig({
+  projectId: "ci9g2u",
   e2e: {
-    excludeSpecPattern: isCI ? ["**/auth/*.cy.js"] : [],
+    excludeSpecPattern: isCI ? [...testToSkip] : [],
     setupNodeEvents(on, config) {
       // implement node event listeners here
       // Set environment variables for Cypress

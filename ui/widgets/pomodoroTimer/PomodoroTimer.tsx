@@ -187,6 +187,7 @@ const PomodoroTimer = () => {
             />
           ) : (
             <FiMinimize2
+              id="pomodoro-timer-collapse-button"
               size={20}
               color="var(--color-secondary)"
               onClick={() => setIsCollapsed((prev) => !prev)}
@@ -232,7 +233,7 @@ const PomodoroTimer = () => {
       </div>
 
       <AddPomodoroTaskModal isOpen={showAddTaskModal} onClose={() => setShowAddTaskModal(false)} />
-      <DialogModal dialogProps={resetTimerDialog} />
+      <DialogModal id="pomodoroTimer__stop_modal" dialogProps={resetTimerDialog} />
     </Modal>
   );
 };

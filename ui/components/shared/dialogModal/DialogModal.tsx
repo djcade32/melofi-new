@@ -5,13 +5,14 @@ import { DialogModalActions } from "@/types/interfaces";
 import { set } from "lodash";
 
 interface DialogModalProps {
+  id: string;
   dialogProps: DialogModalActions | null;
 
   modalStyle?: React.CSSProperties;
   modalClassName?: string;
 }
 
-const DialogModal = ({ dialogProps, modalStyle, modalClassName }: DialogModalProps) => {
+const DialogModal = ({ id, dialogProps, modalStyle, modalClassName }: DialogModalProps) => {
   const [isOpenState, setIsOpenState] = useState(false);
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const DialogModal = ({ dialogProps, modalStyle, modalClassName }: DialogModalPro
       }}
     >
       <div
+        id={id}
         className={`${modalClassName} ${styles.dialogModal__modal}`}
         style={{
           ...modalStyle,

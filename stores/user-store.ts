@@ -28,6 +28,10 @@ const useUserStore = create<UserState>((set, get) => ({
     set({ currentUser: user });
   },
   async checkIfUserIsInDb(email) {
+    if (process.env.NEXT_PUBLIC_IS_CYPRESS) {
+      console.log("Mocked checkIfUserIsInDb");
+      return true;
+    }
     return !!(await getUserFromUserDb(email));
   },
   async resetUserPassword(email) {

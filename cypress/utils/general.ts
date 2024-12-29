@@ -2,6 +2,7 @@
 
 interface navigateToMelofiOptions {
   loggedIn?: boolean;
+  skipOnboarding?: boolean;
   clearLocalStorage?: boolean;
   seedWithUser?: boolean;
 }
@@ -9,25 +10,33 @@ interface navigateToMelofiOptions {
 export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
   options = options || {
     loggedIn: true,
+    skipOnboarding: true,
     clearLocalStorage: false,
     seedWithUser: false,
   };
   cy.visit("/");
   if (options.loggedIn) {
-    // Add user key to local storage
-    cy.window().then((win) => {
-      win.localStorage.setItem(
-        "user",
-        JSON.stringify({
+    const userObj = options.skipOnboarding
+      ? {
           name: "John",
           skippedOnboarding: true,
-        })
-      );
+        }
+      : {
+          name: "John",
+          authUser: {
+            email: "test@example.com",
+            emailVerified: true,
+          },
+        };
+    // Add user key to local storage
+    cy.window().then((win) => {
+      win.localStorage.setItem("user", JSON.stringify(userObj));
     });
   }
   // Seed the database
   if (options.seedWithUser) {
     cy.clearAuthEmulator();
+    cy.clearFirestoreEmulator();
     cy.signUpUser("test@example.com", "Password123");
   }
   if (options.clearLocalStorage) {
