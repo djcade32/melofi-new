@@ -62,7 +62,18 @@ const PomodoroTimerCollapsed = ({
         <div>
           <p>{activePomodoroTimerTask ? timeString : "0h 0m 0s"}</p>
         </div>
-        <div>{activePomodoroTimerTask && <p>{sessionCountString}</p>}</div>
+        <div>
+          {activePomodoroTimerTask && (
+            <p
+              style={{
+                color: "var(--color-secondary)",
+                fontSize: "0.8rem",
+              }}
+            >
+              {sessionCountString}
+            </p>
+          )}
+        </div>
       </div>
       <div className={styles.pomodoroTimer__collapsed_progress_container}>
         <LinearProgress

@@ -267,7 +267,7 @@ const AddPomodoroTaskModal = ({ onClose, isOpen }: AddPomodoroTaskModalProps) =>
 
         <div className={styles.addPomodoroTaskModal__action_buttons_container}>
           <Button
-            id="add-pomodoro-task-button"
+            id="cancel-pomodoro-task-button"
             text="Cancel"
             onClick={handleCancel}
             containerClassName={styles.addPomodoroTaskModal__add_task_button}

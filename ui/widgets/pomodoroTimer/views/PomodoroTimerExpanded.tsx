@@ -117,7 +117,9 @@ const PomodoroTimerExpanded = ({
             <p className={styles.pomodoroTimer__timer_info_time_display}>
               {activePomodoroTimerTask ? timeString : "0h 0m 0s"}
             </p>
-            {activePomodoroTimerTask && <p>{sessionCountString}</p>}
+            {activePomodoroTimerTask && (
+              <p style={{ color: "var(--color-secondary)" }}>{sessionCountString}</p>
+            )}
             {activePomodoroTimerTask && (
               <div
                 className={styles.pomodoroTimer__timer_info_mode_display}
@@ -150,6 +152,7 @@ const PomodoroTimerExpanded = ({
 
       <div className={styles.pomodoroTimer__timer_action_buttons_container}>
         <HoverIcon
+          id="pomodoro-timer-reset-button"
           containerClassName={styles.pomodoroTimer__timer_action_button_outline}
           icon={VscDebugRestart}
           size={20}
@@ -161,6 +164,7 @@ const PomodoroTimerExpanded = ({
           disabled={!activePomodoroTimerTask || activePomodoroTimerTask?.completed}
         />
         <HoverIcon
+          id="pomodoro-timer-play-pause-button"
           containerClassName={styles.pomodoroTimer__timer_action_button_fill}
           icon={isTimerRunning ? FaPause : FaPlay}
           size={20}
@@ -174,6 +178,7 @@ const PomodoroTimerExpanded = ({
           disabled={!activePomodoroTimerTask || activePomodoroTimerTask?.completed}
         />
         <HoverIcon
+          id="pomodoro-timer-stop-button"
           containerClassName={styles.pomodoroTimer__timer_action_button_outline}
           icon={FaStop}
           size={20}
