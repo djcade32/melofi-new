@@ -28,7 +28,6 @@ const useUserStore = create<UserState>((set, get) => ({
     set({ currentUser: user });
   },
   async checkIfUserIsInDb(email) {
-    console.log("Checking if user is in db");
     if (process.env.NEXT_PUBLIC_IS_CYPRESS) {
       console.log("Mocked checkIfUserIsInDb");
       return true;
