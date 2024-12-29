@@ -29,9 +29,12 @@
 #         env:
 #           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
 #           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+#           NEXT_PUBLIC_IS_CYPRESS: ${{ secrets.NEXT_PUBLIC_IS_CYPRESS }}
+
 #         run: |
 #           echo "FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" >> $GITHUB_ENV
 #           echo "NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}" >> $GITHUB_ENV
+#           echo "NEXT_PUBLIC_IS_CYPRESS: ${{ secrets.NEXT_PUBLIC_IS_CYPRESS }}" >> $GITHUB_ENV
 
 #       - name: Install dependencies
 #         run: npm install
@@ -44,6 +47,7 @@
 #         env:
 #           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
 #           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+#           NEXT_PUBLIC_IS_CYPRESS: ${{ secrets.NEXT_PUBLIC_IS_CYPRESS }}
 #           CI: true
 name: Cypress E2E Tests
 
