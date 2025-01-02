@@ -16,6 +16,9 @@ const Calculator = () => {
     clearDisplay,
     setDisplay,
     signChange,
+    solveEquation,
+    previousEquation,
+    usePreviousEquation,
   } = useCalculatorStore();
 
   return (
@@ -27,9 +30,15 @@ const Calculator = () => {
       fadeCloseIcon
       close={() => setIsCalculatorOpen(!isCalculatorOpen)}
     >
-      <div className={styles.calculator__display}>
-        <p id="calculatorText">{display}</p>
+      <div>
+        <div className={styles.calculator__previousEquation} onClick={usePreviousEquation}>
+          <p>{previousEquation}</p>
+        </div>
+        <div className={styles.calculator__display}>
+          <p id="calculatorText">{display}</p>
+        </div>
       </div>
+
       <div className={styles.calculator__buttons}>
         <div className={styles.calculator__leftSide}>
           <div className={styles.calculator__buttonRow}>
@@ -69,11 +78,16 @@ const Calculator = () => {
           <CalculatorButton
             display={<LiaTimesSolid size={20} />}
             backgroundColor="var(--color-effect-opacity)"
-            onClick={() => setDisplay("x")}
+            onClick={() => setDisplay("×")}
           />
           <CalculatorButton display="-" backgroundColor="var(--color-effect-opacity)" size="20px" />
           <CalculatorButton display="+" backgroundColor="var(--color-effect-opacity)" size="20px" />
-          <CalculatorButton display="=" backgroundColor="var(--color-effect-opacity)" size="20px" />
+          <CalculatorButton
+            display="="
+            backgroundColor="var(--color-effect-opacity)"
+            size="20px"
+            onClick={solveEquation}
+          />
         </div>
       </div>
     </Modal>

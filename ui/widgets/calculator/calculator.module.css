@@ -7,7 +7,7 @@
   margin: auto;
   border-radius: 10px;
   width: 200px;
-  height: 320px;
+  height: 350px;
   padding: 5px 5px 0 5px;
 }
 
@@ -25,6 +25,24 @@
   direction: ltr;
   unicode-bidi: plaintext;
   width: 200px;
+}
+
+.calculator__previousEquation {
+  font-size: 1.25rem;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: rtl;
+  cursor: pointer;
+  height: 30px;
+}
+
+.calculator__previousEquation p {
+  direction: ltr;
+  unicode-bidi: plaintext;
+
+  color: var(--color-secondary-white);
 }
 
 .calculator__buttons {
