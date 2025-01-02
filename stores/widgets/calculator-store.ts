@@ -246,51 +246,65 @@ const useCalculatorStore = create<CalculatorState>((set, get) => ({
     const processedResult = getProcessedResult(fullEquation);
     // console.log("processedResult: ", processedResult);
 
-    const resArr: number[] = [];
+    const resArr: (number | string)[] = [];
     const opArr: string[] = [];
 
     for (let i = 0; i < processedResult.length; i++) {
-      const currEl = processedResult[i];
-      checkIfOperator(currEl) ? opArr.push(currEl as string) : resArr.push(currEl as number);
-      // console.log("resArr: ", resArr);
-      // console.log("opArr: ", opArr);
-      // console.log(opArr[opArr.length - 1] === "×" || opArr[opArr.length - 1] === "÷");
+      const currEl: string | number = processedResult[i];
+      checkIfOperator(currEl) ? opArr.push(currEl as string) : resArr.push(currEl);
+
       if (
         resArr.length >= 2 &&
         opArr.length >= 1 &&
         opArr.length === resArr.length - 1 &&
         (opArr[opArr.length - 1] === "×" || opArr[opArr.length - 1] === "÷")
       ) {
-        const num2 = resArr.pop() as number;
-        const num1 = resArr.pop() as number;
+        let num2 = resArr.pop() as number | string;
+        let num1 = resArr.pop() as number | string;
         const operator = opArr.pop() as string;
         let res = 0;
 
-        if (operator === "×") {
+        if (typeof num2 === "string" && num2.includes("%")) {
+          num2 = parseFloat(num2.replace("%", "")) / 100;
+        }
+        if (typeof num1 === "string" && num1.includes("%")) {
+          num1 = parseFloat(num1.replace("%", "")) / 100;
+        }
+
+        if (operator === "×" && typeof num2 === "number" && typeof num1 == "number") {
           res = num1 * num2;
-        } else {
+        } else if (operator === "÷" && typeof num2 === "number" && typeof num1 == "number") {
           res = num1 / num2;
         }
 
         resArr.push(res);
-        // console.log("pushed to res: ", resArr);
       }
     }
-    // console.log("resArr: ", resArr);
-    // console.log("opArr: ", opArr);
 
     let resTotal = resArr.shift() as number;
     while (resArr.length >= 1) {
-      const num = resArr.shift() as number;
+      const num = resArr.shift();
       const operator = opArr.shift() as string;
+
       if (operator === "+") {
-        resTotal += num;
+        if (typeof num === "string" && num.includes("%")) {
+          resTotal += resTotal * (parseFloat(num.replace("%", "")) / 100);
+        } else if (typeof num === "number") {
+          resTotal += num;
+        }
       } else {
-        resTotal -= num;
+        if (typeof num === "string" && num.includes("%")) {
+          resTotal -= resTotal * (parseFloat(num.replace("%", "")) / 100);
+        } else if (typeof num === "number") {
+          resTotal -= num;
+        }
       }
-      // console.log("resTotal: ", resTotal);
     }
-    // console.log("resTotal: ", resTotal);
+
+    if (resTotal.toString().length > 10) {
+      resTotal = parseFloat(resTotal.toPrecision(10));
+    }
+
     set({
       display: resTotal.toString(),
       fullEquation: resTotal.toString(),
@@ -324,20 +338,10 @@ const checkIfOperator = (char: any): boolean => {
 };
 
 const getProcessedResult = (fullEquation: string): (number | string)[] => {
-  // Take care of "(-n)%" cases
-  const replacement = fullEquation.replace(/\(-\d\)%/g, (match) => {
-    const number = match.match(/-\d/g);
-    if (!number) return match;
-    return (parseFloat(number[0]) / 100).toString();
-  });
-  const rawResult = replacement.match(
+  const rawResult = fullEquation.match(
     /\.\d|\d\.\d|\d\.|\(-\d+\.\d*\)|\d+\.\d*|\(-\d.\d\)|\(-?\d+(\.\d+)?%\)|\d+(\.\d+)?%?|[+\-×÷]/g
   );
-  // const rawResult = replacement.match(
-  //   /\d.\d|\.\d.\d|\d\.|\(-\d+\.\d*\)|\d+\.\d*|\(-\d.\d\)|\(-?\d+(\.\d+)?%\)|\d+(\.\d+)?%?|[+\-×÷]/g
-  // );
   if (!rawResult) return [];
-
   const processedResult = [];
 
   // Handle special case where the only number is negative with a percentage
@@ -357,10 +361,6 @@ const getProcessedResult = (fullEquation: string): (number | string)[] => {
       } else {
         processedResult.push(number);
       }
-    } else if (token.endsWith("%")) {
-      // Handle standalone percentages
-      const number = parseFloat(token.replace("%", "")) / 100;
-      processedResult.push(number);
     } else if (
       (token === "-" && checkIfOperator(processedResult[idx - 1])) ||
       (token === "-" && idx === 0)
@@ -373,7 +373,7 @@ const getProcessedResult = (fullEquation: string): (number | string)[] => {
       processedResult.push(isNaN(token as any) ? token : parseFloat(token));
     }
   }
-
+  console.log("processedResult: ", processedResult);
   return processedResult;
 };
 
