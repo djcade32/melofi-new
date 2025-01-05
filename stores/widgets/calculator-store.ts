@@ -135,7 +135,7 @@ const useCalculatorStore = create<CalculatorState>((set, get) => ({
     }
 
     // Remove the first character if the display is too long
-    if (newDisplay.length > 10) {
+    if (newDisplay.length > 13) {
       newDisplay = newDisplay.slice(1);
     }
 
@@ -164,8 +164,8 @@ const useCalculatorStore = create<CalculatorState>((set, get) => ({
       const fullEquationNumberRemoved = fullEquation.slice(0, -getLastNumber(display).length);
 
       let newDisplay = "";
-      if (fullEquationNumberRemoved.length > 10) {
-        newDisplay = fullEquationNumberRemoved.slice(-10);
+      if (fullEquationNumberRemoved.length > 13) {
+        newDisplay = fullEquationNumberRemoved.slice(-13);
       } else {
         newDisplay = fullEquationNumberRemoved;
       }
@@ -180,8 +180,8 @@ const useCalculatorStore = create<CalculatorState>((set, get) => ({
     const fullEquationNumberRemoved = fullEquation.slice(0, -1);
 
     let newDisplay = "";
-    if (fullEquationNumberRemoved.length > 10) {
-      newDisplay = fullEquationNumberRemoved.slice(-10);
+    if (fullEquationNumberRemoved.length > 13) {
+      newDisplay = fullEquationNumberRemoved.slice(-13);
     } else {
       newDisplay = fullEquationNumberRemoved;
     }
@@ -243,8 +243,8 @@ const useCalculatorStore = create<CalculatorState>((set, get) => ({
       newDisplay = `${numberRemoved}${lastKnownNumberWithSign}`;
       newFullEquation = `${fullEquationNumberRemoved}${lastKnownNumberWithSign}`;
 
-      if (newFullEquation.length > 10) {
-        newDisplay = newFullEquation.slice(-10);
+      if (newFullEquation.length > 13) {
+        newDisplay = newFullEquation.slice(-13);
       }
 
       set({
@@ -334,15 +334,15 @@ const useCalculatorStore = create<CalculatorState>((set, get) => ({
     // Round the result to 2 decimal places if repeating digits are found
     resTotal = fixNumber(resTotal as number);
 
-    if (resTotal.toString().length > 10 && typeof resTotal === "number") {
+    if (resTotal.toString().length > 13 && typeof resTotal === "number") {
       console.log("resTotal: ", resTotal);
       // Make room for the negative sign
       if (resTotal < 0) {
         resTotal = resTotal.toString();
-        resTotal = resTotal.slice(0, 10);
+        resTotal = resTotal.slice(0, 13);
       } else {
-        resTotal = resTotal.toPrecision(10);
-        resTotal = resTotal.toString().slice(0, 10);
+        resTotal = resTotal.toPrecision(13);
+        resTotal = resTotal.toString().slice(0, 13);
       }
 
       console.log("resTotal after: ", resTotal);
@@ -359,7 +359,7 @@ const useCalculatorStore = create<CalculatorState>((set, get) => ({
     const { previousEquation } = get();
     if (previousEquation) {
       set({
-        display: previousEquation.length > 10 ? previousEquation.slice(-10) : previousEquation,
+        display: previousEquation.length > 13 ? previousEquation.slice(-13) : previousEquation,
         fullEquation: previousEquation,
         previousEquation: undefined,
       });

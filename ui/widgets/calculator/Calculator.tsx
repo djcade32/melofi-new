@@ -1,11 +1,18 @@
 import useCalculatorStore from "@/stores/widgets/calculator-store";
 import Modal from "@/ui/components/shared/modal/Modal";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import styles from "./calculator.module.css";
 import CalculatorButton from "./components/CalculatorButton";
 import { LiaTimesSolid } from "react-icons/lia";
 import { BsBackspace } from "react-icons/bs";
+
+const DISPLAY_LENGTH_FONT_SIZES: Record<number, string> = {
+  9: "2rem",
+  10: "1.8rem",
+  11: "1.6rem",
+  12: "1.4rem",
+};
 
 const Calculator = () => {
   const {
@@ -20,6 +27,8 @@ const Calculator = () => {
     previousEquation,
     usePreviousEquation,
   } = useCalculatorStore();
+  const [displayFontSize, setDisplayFontSize] = useState("2rem");
+  const [previousEquationFontSize, setPreviousEquationFontSize] = useState("1.4rem");
 
   const handleButtonPress = useCallback((e: KeyboardEvent) => {
     if (e.key === "Enter") {
@@ -96,6 +105,22 @@ const Calculator = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (display.length < 10 && displayFontSize !== "2rem") {
+      setDisplayFontSize("2rem");
+    } else if (display.length > 11 && displayFontSize !== "1.4rem") {
+      setDisplayFontSize("1.4rem");
+    }
+    const fontSize = DISPLAY_LENGTH_FONT_SIZES[display.length];
+    fontSize && setDisplayFontSize(fontSize);
+  }, [display]);
+
+  useEffect(() => {
+    if (!previousEquation) return;
+    const fontSize = previousEquation.length > 9 ? "1.2rem" : "1.4rem";
+    setPreviousEquationFontSize(fontSize);
+  }, [previousEquation]);
+
   return (
     <Modal
       id="calculator-widget"
@@ -109,10 +134,23 @@ const Calculator = () => {
       <div>
         <div>
           <div className={styles.calculator__previousEquation} onClick={usePreviousEquation}>
-            <p>{previousEquation}</p>
+            <p
+              style={{
+                fontSize: previousEquationFontSize,
+              }}
+            >
+              {previousEquation}
+            </p>
           </div>
           <div className={styles.calculator__display}>
-            <p id="calculatorText">{display}</p>
+            <p
+              id="calculatorText"
+              style={{
+                fontSize: displayFontSize,
+              }}
+            >
+              {display}
+            </p>
           </div>
         </div>
 

@@ -12,13 +12,16 @@
 }
 
 .calculator__display {
-  font-size: 2rem;
+  display: flex;
+  height: 50px;
+  align-items: center;
   text-align: right;
 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   direction: rtl;
+  transition: all 0.3s;
 }
 
 .calculator__display p {
@@ -29,6 +32,8 @@
 
 .calculator__previousEquation {
   font-size: 1.25rem;
+  display: flex;
+  align-items: center;
   text-align: right;
   white-space: nowrap;
   overflow: hidden;
@@ -41,7 +46,6 @@
 .calculator__previousEquation p {
   direction: ltr;
   unicode-bidi: plaintext;
-
   color: var(--color-secondary-white);
 }
 
