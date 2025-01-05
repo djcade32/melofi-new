@@ -88,13 +88,13 @@ const MusicControls = () => {
     ]
   );
 
-  // useEffect(() => {
-  //   document.addEventListener("keydown", handleKeyDown);
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
 
-  //   return () => {
-  //     document.removeEventListener("keydown", handleKeyDown);
-  //   };
-  // }, [handleKeyDown]);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
   // Play/pause audio when isPlaying changes
   useEffect(() => {

@@ -43,6 +43,7 @@ const Modal = ({
         id={id}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        tabIndex={props.tabIndex}
       >
         {draggable && <div id="handle" className={styles.modal__dragHandle} />}
         <div

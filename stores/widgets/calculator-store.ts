@@ -18,7 +18,7 @@ export interface CalculatorState {
 }
 
 const useCalculatorStore = create<CalculatorState>((set, get) => ({
-  isCalculatorOpen: true,
+  isCalculatorOpen: false,
   fullEquation: "0",
   previousEquation: undefined,
   equationArray: [],

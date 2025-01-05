@@ -21,10 +21,11 @@ const TodoList = () => {
         task && handleAddTask(task);
       }
     };
-    document.addEventListener("keydown", handleKeyDown);
+    const input = document.getElementById("to-do-list-widget-input");
+    input?.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      input?.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
