@@ -135,6 +135,7 @@ const Calculator = () => {
         <div>
           <div className={styles.calculator__previousEquation} onClick={usePreviousEquation}>
             <p
+              id="calculator-previous-equation-text"
               style={{
                 fontSize: previousEquationFontSize,
               }}
@@ -144,7 +145,7 @@ const Calculator = () => {
           </div>
           <div className={styles.calculator__display}>
             <p
-              id="calculatorText"
+              id="calculator-display-text"
               style={{
                 fontSize: displayFontSize,
               }}
@@ -158,58 +159,110 @@ const Calculator = () => {
           <div className={styles.calculator__leftSide}>
             <div className={styles.calculator__buttonRow}>
               <CalculatorButton
+                id="clear"
                 display="AC"
                 backgroundColor="var(--color-secondary)"
                 onClick={clearDisplay}
               />
               <CalculatorButton
+                id="sign-change"
                 display="+/-"
                 backgroundColor="var(--color-secondary)"
                 onClick={signChange}
               />
-              <CalculatorButton display="%" backgroundColor="var(--color-secondary)" />
+              <CalculatorButton id="percent" display="%" backgroundColor="var(--color-secondary)" />
             </div>
             <div className={styles.calculator__numberButtons}>
-              <CalculatorButton display="7" backgroundColor="var(--color-secondary-opacity)" />
-              <CalculatorButton display="8" backgroundColor="var(--color-secondary-opacity)" />
-              <CalculatorButton display="9" backgroundColor="var(--color-secondary-opacity)" />
-              <CalculatorButton display="4" backgroundColor="var(--color-secondary-opacity)" />
-              <CalculatorButton display="5" backgroundColor="var(--color-secondary-opacity)" />
-              <CalculatorButton display="6" backgroundColor="var(--color-secondary-opacity)" />
-              <CalculatorButton display="1" backgroundColor="var(--color-secondary-opacity)" />
-              <CalculatorButton display="2" backgroundColor="var(--color-secondary-opacity)" />
-              <CalculatorButton display="3" backgroundColor="var(--color-secondary-opacity)" />
               <CalculatorButton
+                id="7"
+                display="7"
+                backgroundColor="var(--color-secondary-opacity)"
+              />
+              <CalculatorButton
+                id="8"
+                display="8"
+                backgroundColor="var(--color-secondary-opacity)"
+              />
+              <CalculatorButton
+                id="9"
+                display="9"
+                backgroundColor="var(--color-secondary-opacity)"
+              />
+              <CalculatorButton
+                id="4"
+                display="4"
+                backgroundColor="var(--color-secondary-opacity)"
+              />
+              <CalculatorButton
+                id="5"
+                display="5"
+                backgroundColor="var(--color-secondary-opacity)"
+              />
+              <CalculatorButton
+                id="6"
+                display="6"
+                backgroundColor="var(--color-secondary-opacity)"
+              />
+              <CalculatorButton
+                id="1"
+                display="1"
+                backgroundColor="var(--color-secondary-opacity)"
+              />
+              <CalculatorButton
+                id="2"
+                display="2"
+                backgroundColor="var(--color-secondary-opacity)"
+              />
+              <CalculatorButton
+                id="3"
+                display="3"
+                backgroundColor="var(--color-secondary-opacity)"
+              />
+              <CalculatorButton
+                id="backspace"
                 display={<BsBackspace size={20} />}
                 backgroundColor="var(--color-secondary-opacity)"
                 onClick={backspace}
               />
-              <CalculatorButton display="0" backgroundColor="var(--color-secondary-opacity)" />
-              <CalculatorButton display="." backgroundColor="var(--color-secondary-opacity)" />
+              <CalculatorButton
+                id="0"
+                display="0"
+                backgroundColor="var(--color-secondary-opacity)"
+              />
+              <CalculatorButton
+                id="dot"
+                display="."
+                backgroundColor="var(--color-secondary-opacity)"
+              />
             </div>
           </div>
           <div className={styles.calculator__rightSide}>
             <CalculatorButton
+              id="divide"
               display="÷"
               backgroundColor="var(--color-effect-opacity)"
               size="20px"
             />
             <CalculatorButton
+              id="multiply"
               display={<LiaTimesSolid size={20} />}
               backgroundColor="var(--color-effect-opacity)"
               onClick={() => setDisplay("×")}
             />
             <CalculatorButton
+              id="subtract"
               display="-"
               backgroundColor="var(--color-effect-opacity)"
               size="20px"
             />
             <CalculatorButton
+              id="add"
               display="+"
               backgroundColor="var(--color-effect-opacity)"
               size="20px"
             />
             <CalculatorButton
+              id="equals"
               display="="
               backgroundColor="var(--color-effect-opacity)"
               size="20px"

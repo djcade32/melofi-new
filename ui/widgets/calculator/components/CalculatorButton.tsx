@@ -3,13 +3,20 @@ import styles from "./calculatorButton.module.css";
 import useCalculatorStore from "@/stores/widgets/calculator-store";
 
 interface CalculatorButtonProps {
+  id: string;
   display: string | React.ReactNode;
   backgroundColor?: string;
   size?: string;
   onClick?: () => void;
 }
 
-const CalculatorButton = ({ display, backgroundColor, size, onClick }: CalculatorButtonProps) => {
+const CalculatorButton = ({
+  id,
+  display,
+  backgroundColor,
+  size,
+  onClick,
+}: CalculatorButtonProps) => {
   const { setDisplay } = useCalculatorStore();
   const [isMouseDown, setIsMouseDown] = useState(false);
 
@@ -23,6 +30,7 @@ const CalculatorButton = ({ display, backgroundColor, size, onClick }: Calculato
 
   return (
     <div
+      id={`calculator-button-${id}`}
       className={styles.calculatorButton__container}
       style={{
         backgroundColor,
