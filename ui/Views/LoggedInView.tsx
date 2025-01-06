@@ -12,6 +12,7 @@ import { MusicSource } from "@/enums/general";
 import TodoList from "../widgets/todoList/TodoList";
 import Notes from "../widgets/notes/Notes";
 import PomodoroTimer from "../widgets/pomodoroTimer/PomodoroTimer";
+import Calculator from "../widgets/calculator/Calculator";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
@@ -26,6 +27,7 @@ const LoggedInView = () => {
       <TodoList />
       <Notes />
       <PomodoroTimer />
+      <Calculator />
     </div>
   );
 };
