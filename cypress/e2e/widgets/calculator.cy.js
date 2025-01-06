@@ -239,6 +239,10 @@ describe("Testing Calculator Widget", () => {
           result: "0.09",
         },
         {
+          equation: "3+3%",
+          result: "3.09",
+        },
+        {
           equation: "3x3%+3",
           result: "3.09",
         },
@@ -328,6 +332,26 @@ describe("Testing Calculator Widget", () => {
         {
           input: "3+4s.",
           expected: "3+(-4)×0.",
+        },
+        {
+          input: "3÷-+",
+          expected: "3+",
+        },
+        {
+          input: "9s",
+          expected: "(-9)",
+        },
+        {
+          input: "9ss",
+          expected: "9",
+        },
+        {
+          input: "9-7s",
+          expected: "9+7",
+        },
+        {
+          input: "9-7ss",
+          expected: "9+(-7)",
         },
       ];
 

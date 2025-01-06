@@ -4,12 +4,10 @@ export interface CalculatorState {
   isCalculatorOpen: boolean;
   fullEquation: string;
   previousEquation: string | undefined;
-  equationArray: string[];
   display: string;
 
   setIsCalculatorOpen: (isOpen: boolean) => void;
   setDisplay: (display: string) => void;
-  addToEquationArray: (newText: string) => void;
   clearDisplay: () => void;
   backspace: () => void;
   signChange: () => void;
@@ -17,135 +15,40 @@ export interface CalculatorState {
   usePreviousEquation: () => void;
 }
 
-const useCalculatorStore = create<CalculatorState>((set, get) => ({
+const INITIAL_STATE = {
   isCalculatorOpen: false,
   fullEquation: "0",
   previousEquation: undefined,
-  equationArray: [],
   display: "0",
+};
+
+const useCalculatorStore = create<CalculatorState>((set, get) => ({
+  ...INITIAL_STATE,
 
   setIsCalculatorOpen: (isOpen) => set({ isCalculatorOpen: isOpen }),
 
   setDisplay: (newText) => {
     const { display, fullEquation, previousEquation } = get();
-
     const operatorInUse = lastCharacterIsOperator(display);
 
     // Check if there is a previous equation
     if (previousEquation) {
-      let newDisplay = newText;
-      let newFullEquation = newText;
-
-      if (checkIfOperator(newText) || newText === "%") {
-        newDisplay = display + newText;
-        newFullEquation = fullEquation + newText;
-      }
-
-      set({
-        display: newDisplay,
-        fullEquation: newFullEquation,
-        previousEquation: undefined,
-      });
+      handleNewInputAfterPrevious(newText, display, fullEquation, set);
       return;
     }
 
     // Check if first added text is an operator or a number
     if (display === "0") {
-      checkIfOperator(newText) || newText === "%" || newText === "."
-        ? set({
-            display: newText === "-" ? newText : "0" + newText,
-            fullEquation: newText === "-" ? newText : "0" + newText,
-          })
-        : set({ display: newText, fullEquation: newText });
+      handleInitialInput(newText, set);
       return;
     }
 
-    let newDisplay = "";
-    let newFullEquation = "";
     // If an operator is already in use, replace it with the new one
     if ((operatorInUse && checkIfOperator(newText)) || (operatorInUse && newText === "%")) {
-      if (
-        (operatorInUse === "÷" && newText === "-") ||
-        (operatorInUse === "×" && newText === "-")
-      ) {
-        newDisplay = display + newText;
-        newFullEquation = fullEquation + newText;
-
-        set({
-          fullEquation: newFullEquation,
-        });
-      } else {
-        // If only character is minus sign, replace it with 0
-        if (display.length === 1 && display[0] === "-") {
-          newDisplay = "0";
-          set({ fullEquation: "0" });
-        } else {
-          const secondToLastChar = display[display.length - 2];
-
-          if (checkIfOperator(secondToLastChar) && newText === "-") return;
-          const num = checkIfOperator(secondToLastChar) ? -2 : -1;
-
-          newDisplay = display.slice(0, num) + newText;
-          newFullEquation = fullEquation.slice(0, num) + newText;
-          set({ fullEquation: newFullEquation });
-        }
-      }
+      handleOperatorReplacement(newText, display, fullEquation, set);
     } else {
-      // Prevent adding multiple dots or minus signs
-      if (operatorInUse === "-" && newText === "-") return;
-
-      // const lastKnownNumber = display.substring(display.length - lastKnownNumberLength);
-      const lastKnownNumber: string = getLastNumber(display);
-
-      const lastCharIsParanthese = display[display.length - 1] === ")";
-      if (lastCharIsParanthese && newText === ".") {
-        newDisplay = display + "×0.";
-        newFullEquation = fullEquation + "×0.";
-        set({
-          fullEquation: newFullEquation,
-        });
-      } else if (lastCharIsParanthese && !checkIfOperator(newText) && newText !== "%") {
-        newText = newText === "." && lastKnownNumber.includes("%") ? "0." : newText;
-        newDisplay = display + "×" + newText;
-        newFullEquation = fullEquation + "×" + newText;
-        set({
-          fullEquation: newFullEquation,
-        });
-      } else if (
-        (newText === "." && checkIfOperator(lastKnownNumber)) ||
-        (newText === "." && lastKnownNumber[lastKnownNumber.length - 1] === "%")
-      ) {
-        newDisplay = display + "0.";
-        newFullEquation = fullEquation + "0.";
-        set({
-          fullEquation: newFullEquation,
-        });
-      } else if (
-        (newText === "%" && lastKnownNumber.includes("%")) ||
-        (lastKnownNumber.includes(".") && newText === ".")
-      ) {
-        return;
-      } else {
-        newDisplay = display + newText;
-        newFullEquation = fullEquation + newText;
-        set({
-          fullEquation: newFullEquation,
-        });
-      }
+      handleRegularInput(newText, display, fullEquation, set);
     }
-
-    // Remove the first character if the display is too long
-    if (newDisplay.length > 13) {
-      newDisplay = newDisplay.slice(1);
-    }
-
-    set({ display: newDisplay });
-  },
-
-  addToEquationArray: (newText: string) => {
-    const { equationArray } = get();
-    const newEquationArray = [...equationArray, newText];
-    set({ equationArray: newEquationArray });
   },
 
   clearDisplay: () => set({ display: "0", fullEquation: "0", previousEquation: undefined }),
@@ -160,37 +63,24 @@ const useCalculatorStore = create<CalculatorState>((set, get) => ({
     }
     /* This part of the code is handling a specific scenario when the last character in the display is
     a closing parenthesis `")"`, which means a negative number. */
-    if (display[display.length - 1] === ")") {
-      const fullEquationNumberRemoved = fullEquation.slice(0, -getLastNumber(display).length);
-
-      let newDisplay = "";
-      if (fullEquationNumberRemoved.length > 13) {
-        newDisplay = fullEquationNumberRemoved.slice(-13);
-      } else {
-        newDisplay = fullEquationNumberRemoved;
-      }
-
-      set({
-        display: fullEquationNumberRemoved === "" ? "0" : newDisplay,
-        fullEquation: fullEquationNumberRemoved === "" ? "0" : fullEquationNumberRemoved,
-      });
-      return;
-    }
-
-    const fullEquationNumberRemoved = fullEquation.slice(0, -1);
-
-    let newDisplay = "";
+    const lastCharIsParenthesis = display[display.length - 1] === ")";
+    const fullEquationNumberRemoved = lastCharIsParenthesis
+      ? fullEquation.slice(0, -getLastNumber(display).length)
+      : fullEquation.slice(0, -1);
+    let updatedDisplay = fullEquationNumberRemoved;
     if (fullEquationNumberRemoved.length > 13) {
-      newDisplay = fullEquationNumberRemoved.slice(-13);
-    } else {
-      newDisplay = fullEquationNumberRemoved;
+      updatedDisplay = fullEquationNumberRemoved.slice(-13);
     }
-
-    set({ display: newDisplay, fullEquation: fullEquationNumberRemoved });
+    set({
+      display: fullEquationNumberRemoved === "" ? "0" : updatedDisplay,
+      fullEquation: fullEquationNumberRemoved === "" ? "0" : fullEquationNumberRemoved,
+    });
   },
 
   signChange: () => {
     const { display, fullEquation, previousEquation } = get();
+    const lastKnownNumber = getLastNumber(display);
+    if (checkIfOperator(lastKnownNumber)) return;
 
     if (previousEquation) set({ previousEquation: undefined });
     if (display === "0" && display.length === 1) return;
@@ -202,11 +92,7 @@ const useCalculatorStore = create<CalculatorState>((set, get) => ({
       });
       return;
     }
-    // const lastKnownNumber = display.substring(display.length - lastKnownNumberLength);
-    // const numberRemoved = display.slice(0, -lastKnownNumberLength);
-    // const fullEquationNumberRemoved = fullEquation.slice(0, -lastKnownNumberLength);
-    const lastKnownNumber = getLastNumber(display);
-    if (checkIfOperator(lastKnownNumber)) return;
+
     const numberRemoved = display.slice(0, -lastKnownNumber.length);
     const fullEquationNumberRemoved = fullEquation.slice(0, -lastKnownNumber.length);
 
@@ -222,22 +108,12 @@ const useCalculatorStore = create<CalculatorState>((set, get) => ({
     if (numberRemoved[numberRemoved.length - 1] === "-") {
       newDisplay = `${numberRemoved.slice(0, -1)}+${lastKnownNumber}`;
       newFullEquation = `${fullEquationNumberRemoved.slice(0, -1)}+${lastKnownNumber}`;
-      set({ display: newDisplay, fullEquation: newFullEquation });
     } else if (lastKnownNumber[0] === "(" && lastKnownNumber[lastKnownNumber.length - 1] === ")") {
       newDisplay = `${numberRemoved}${lastKnownNumber.slice(2, -1)}`;
       newFullEquation = `${fullEquationNumberRemoved}${lastKnownNumber.slice(2, -1)}`;
-      set({
-        display: newDisplay,
-        fullEquation: newFullEquation,
-      });
-      return;
     } else if (lastKnownNumber[0] === "-") {
       newDisplay = `${numberRemoved}${lastKnownNumber.slice(1)}`;
       newFullEquation = `${fullEquationNumberRemoved}${lastKnownNumber.slice(1)}`;
-      set({
-        display: newDisplay,
-        fullEquation: newFullEquation,
-      });
     } else {
       const lastKnownNumberWithSign = `(-${lastKnownNumber})`;
       newDisplay = `${numberRemoved}${lastKnownNumberWithSign}`;
@@ -246,106 +122,104 @@ const useCalculatorStore = create<CalculatorState>((set, get) => ({
       if (newFullEquation.length > 13) {
         newDisplay = newFullEquation.slice(-13);
       }
-
-      set({
-        display: newDisplay,
-        fullEquation: newFullEquation,
-      });
     }
+    set({
+      display: newDisplay,
+      fullEquation: newFullEquation,
+    });
   },
 
   solveEquation: () => {
     const { fullEquation } = get();
 
     const processedResult = getProcessedResult(fullEquation);
-    console.log("processedResult: ", processedResult);
 
     const resArr: (number | string)[] = [];
     const opArr: string[] = [];
 
-    for (let i = 0; i < processedResult.length; i++) {
-      const currEl: string | number = processedResult[i];
-      checkIfOperator(currEl) ? opArr.push(currEl as string) : resArr.push(currEl);
+    const applyOperator = (num1: number, num2: number, operator: string): number => {
+      switch (operator) {
+        case "×":
+          return num1 * num2;
+        case "÷":
+          return num1 / num2;
+        default:
+          throw new Error(`Unsupported operator: ${operator}`);
+      }
+    };
 
-      if (
+    const parsePercentage = (value: string | number): number =>
+      typeof value === "string" && value.includes("%")
+        ? parseFloat(value.replace("%", "")) / 100
+        : (value as number);
+
+    const handleMultiplicationAndDivision = () => {
+      while (
         resArr.length >= 2 &&
         opArr.length >= 1 &&
         opArr.length === resArr.length - 1 &&
         (opArr[opArr.length - 1] === "×" || opArr[opArr.length - 1] === "÷")
       ) {
-        let num2 = resArr.pop() as number | string;
-        let num1 = resArr.pop() as number | string;
+        let num2 = parsePercentage(resArr.pop() as number | string);
+        let num1 = parsePercentage(resArr.pop() as number | string);
         const operator = opArr.pop() as string;
-        let res = 0;
 
-        if (typeof num2 === "string" && num2.includes("%")) {
-          num2 = parseFloat(num2.replace("%", "")) / 100;
-        }
-        if (typeof num1 === "string" && num1.includes("%")) {
-          num1 = parseFloat(num1.replace("%", "")) / 100;
-        }
-
-        if (operator === "×" && typeof num2 === "number" && typeof num1 == "number") {
-          res = num1 * num2;
-        } else if (operator === "÷" && typeof num2 === "number" && typeof num1 == "number") {
-          res = num1 / num2;
-        }
-
-        resArr.push(res);
+        resArr.push(applyOperator(num1, num2, operator));
       }
+    };
+
+    for (const currEl of processedResult) {
+      if (checkIfOperator(currEl)) {
+        opArr.push(currEl as string);
+      } else {
+        resArr.push(currEl);
+      }
+
+      handleMultiplicationAndDivision();
     }
 
     let resTotal = resArr.shift() as number | string;
     let prevNum: string | number | undefined = resTotal;
+    // Handle if the first number is a percentage
+    resTotal = parsePercentage(resTotal);
 
-    if (typeof resTotal === "string" && resTotal.includes("%")) {
-      resTotal = parseFloat(resTotal.replace("%", "")) / 100;
-    }
+    const handleAdditionOrSubtraction = (
+      res: number,
+      num: string | number,
+      operator: string,
+      prev: string | number | undefined
+    ): number => {
+      const parsedNum = parsePercentage(num);
+
+      if (typeof num === "string" && num.includes("%")) {
+        if (typeof prev === "string" && prev.includes("%")) {
+          // Both numbers are percentages, so add or subtract their decimal values directly
+          return operator === "+" ? res + parsedNum : res - parsedNum;
+        } else {
+          // Apply percentage to the total
+          return operator === "+" ? res + res * parsedNum : res - res * parsedNum;
+        }
+      } else if (typeof parsedNum === "number") {
+        return operator === "+" ? res + parsedNum : res - parsedNum;
+      }
+
+      return res;
+    };
 
     while (resArr.length >= 1) {
-      const num = resArr.shift();
-      const operator = opArr.shift() as string;
-      console.log("prevNum: ", prevNum);
-      if (operator === "+") {
-        if (typeof num === "string" && num.includes("%") && typeof resTotal === "number") {
-          if (typeof prevNum === "string" && prevNum.includes("%")) {
-            console.log("prevNum is percentage");
-            resTotal += parseFloat(num.replace("%", "")) / 100;
-          } else {
-            resTotal += resTotal * (parseFloat(num.replace("%", "")) / 100);
-          }
-        } else if (typeof num === "number" && typeof resTotal === "number") {
-          resTotal += num;
-        }
-      } else {
-        if (typeof num === "string" && num.includes("%") && typeof resTotal === "number") {
-          if (typeof prevNum === "string" && prevNum.includes("%")) {
-            resTotal -= parseFloat(num.replace("%", "")) / 100;
-          } else {
-            resTotal -= resTotal * (parseFloat(num.replace("%", "")) / 100);
-          }
-        } else if (typeof num === "number" && typeof resTotal === "number") {
-          resTotal -= num;
-        }
-      }
+      const num = resArr.shift()!;
+      const operator = opArr.shift()!;
+      resTotal = handleAdditionOrSubtraction(resTotal, num, operator, prevNum);
       prevNum = num;
     }
 
-    // Round the result to 2 decimal places if repeating digits are found
-    resTotal = fixNumber(resTotal as number);
+    resTotal = fixNumber(resTotal);
 
     if (resTotal.toString().length > 13 && typeof resTotal === "number") {
-      console.log("resTotal: ", resTotal);
-      // Make room for the negative sign
-      if (resTotal < 0) {
-        resTotal = resTotal.toString();
-        resTotal = resTotal.slice(0, 13);
-      } else {
-        resTotal = resTotal.toPrecision(13);
-        resTotal = resTotal.toString().slice(0, 13);
-      }
-
-      console.log("resTotal after: ", resTotal);
+      resTotal =
+        resTotal < 0
+          ? parseFloat(resTotal.toString().slice(0, 13))
+          : parseFloat(resTotal.toPrecision(13).toString().slice(0, 13));
     }
 
     set({
@@ -369,6 +243,8 @@ const useCalculatorStore = create<CalculatorState>((set, get) => ({
 
 const IS_MOD_REGEX =
   /\(-?\d+(\.\d+)?\)%\(-?\d+(\.\d+)?\)|\(-?\d+(\.\d+)?\)%\d+(\.\d+)?|\d+(\.\d+)?%\(-?\d+(\.\d+)?\)|\d+(\.\d+)?%\d+(\.\d+)?/;
+const PROCESS_RESULTS_REGEX =
+  /\(-\d*\.?\d*%?\)%?|\(-\.\d+%?\)|\(-\d+%?\)|\d\.\d?%|\d+\.\d*|\.\d+%?|\d+%?|[+\-×÷]/g;
 
 // Helper functions
 
@@ -384,30 +260,16 @@ const checkIfOperator = (char: any): boolean => {
 };
 
 const getProcessedResult = (fullEquation: string): (number | string)[] => {
-  const additionalRegex =
-    /\(-\d*\.?\d*%?\)%?|\(-\.\d+%?\)|\(-\d+%?\)|\d\.\d?%|\d+\.\d*|\.\d+%?|\d+%?|[+\-×÷]/g;
+  const additionalRegex = PROCESS_RESULTS_REGEX;
   const processedResultRegex = new RegExp(`${IS_MOD_REGEX.source}|${additionalRegex.source}`, "g");
 
-  const rawResult = fullEquation.match(
-    processedResultRegex
-    // /-?\d+(\.\d+)?%-?\d+(\.\d+)?|\(-\d*\.?\d*%?\)%?|\(-\.\d+%?\)|\(-\d+%?\)|\d\.\d?%|\d+\.\d*|\.\d+%?|\d+%?|[+\-×÷]/g
-  );
+  const rawResult = fullEquation.match(processedResultRegex);
 
   if (!rawResult) return [];
   const processedResult = [];
 
-  // Handle special case where the only number is negative with a percentage
-  // if (rawResult[0] === "-" && rawResult.length === 2) {
-  //   processedResult.push(-parseFloat(rawResult[1]) / 100);
-  //   return processedResult;
-  // }
-  console.log("rawResult: ", rawResult);
-
   for (let idx = 0; idx < rawResult.length; idx++) {
     const token = rawResult[idx];
-    console.log("idx: ", idx);
-    console.log("token: ", token);
-    console.log("processedResult in for: ", processedResult);
 
     // Handle mod operation
     if (!!detectModOperation(token)) {
@@ -416,12 +278,9 @@ const getProcessedResult = (fullEquation: string): (number | string)[] => {
       continue;
     }
 
+    // Handle numbers inside parentheses
     if (token.includes("(") && token.includes(")")) {
-      //TODO: Handle parentheses with percentages
-      // Handle numbers inside parentheses
-      console.log("token with parentheses: ", token);
       const number = parseFloat(token.replace(/[()%]|[(%)]/g, "")); // Remove parentheses and parse number
-      console.log("number: ", number);
       if (token.includes("%")) {
         const isOnlyNumber = rawResult.length === 1;
         processedResult.push(isOnlyNumber ? number / 100 : `${number}%`);
@@ -432,8 +291,6 @@ const getProcessedResult = (fullEquation: string): (number | string)[] => {
       (token === "-" && checkIfOperator(processedResult[processedResult.length - 1])) ||
       (token === "-" && idx === 0)
     ) {
-      console.log("token is minus sign");
-      console.log("rawResult[idx + 1]: ", `-${rawResult[idx + 1]}`);
       // Handle negative numbers
       let num = rawResult[idx + 1].includes("%")
         ? `-${rawResult[idx + 1]}`
@@ -452,30 +309,17 @@ const getProcessedResult = (fullEquation: string): (number | string)[] => {
       processedResult.push(isNaN(token as any) ? token : parseFloat(token));
     }
   }
-  // console.log("processedResult: ", processedResult);
   return processedResult;
 };
 
 const getLastNumber = (display: string): string => {
-  // const input = "3+(-9)%";
-
-  // console.log(
-  //   "rawResult: ",
-  //   input.match(
-  //     /\(-\d*\.?\d*%?\)%?|\(-\.\d+%?\)|\(-\d+%?\)|\d\.\d?%|\d+\.\d*|\.\d+%?|\d+%?|[+\-×÷]/g
-  //   )
-  // );
-  const rawResult = display.match(
-    /\(-\d*\.?\d*%?\)%?|\(-\.\d+%?\)|\(-\d+%?\)|\d\.\d?%|\d+\.\d*|\.\d+%?|\d+%?|[+\-×÷]/g
-  );
-
+  const rawResult = display.match(PROCESS_RESULTS_REGEX);
   return rawResult ? rawResult[rawResult.length - 1] : "";
 };
 
 const fixNumber = (num: number): number => {
   // Convert the number to a string
   const numStr = num.toString();
-
   // Match the decimal part to check for repeating digits
   const match = numStr.match(/\.\d{2}(\d)\1{2,}/); // Detect 3 or more repeating digits after the 4th decimal place
 
@@ -483,7 +327,6 @@ const fixNumber = (num: number): number => {
     // If repeating digits are found, round to 2 decimal places
     return parseFloat(num.toFixed(2));
   }
-
   // If no repeating digits are found, keep the number as is
   return num;
 };
@@ -505,11 +348,98 @@ const detectModOperation = (token: number | string): ModOperation | null => {
       num1Parsed = parseFloat(num1);
       num2Parsed = parseFloat(num2);
     }
-    console.log("num1Parsed: ", num1Parsed);
-    console.log("num2Parsed: ", num2Parsed);
     return { num1: num1Parsed, num2: num2Parsed };
   }
   return null;
+};
+
+const handleNewInputAfterPrevious = (
+  input: string,
+  display: string,
+  fullEquation: string,
+  set: any
+) => {
+  const isOperator = checkIfOperator(input) || input === "%";
+  set({
+    display: isOperator ? display + input : input,
+    fullEquation: isOperator ? fullEquation + input : input,
+    previousEquation: undefined,
+  });
+};
+
+const handleInitialInput = (input: string, set: any) => {
+  // Want minus sign to replace 0
+  const appendToDisplay =
+    (checkIfOperator(input) || input === "%" || input === ".") && input !== "-";
+  set({
+    display: appendToDisplay ? `0${input}` : input,
+    fullEquation: appendToDisplay ? `0${input}` : input,
+  });
+};
+
+const handleOperatorReplacement = (
+  input: string,
+  display: string,
+  fullEquation: string,
+  set: any
+) => {
+  const operatorInUse = lastCharacterIsOperator(display);
+  let updatedDisplay = "";
+  let updatedFullEquation = "";
+  if (input === "-") {
+    const appendToDisplay = operatorInUse === "÷" || operatorInUse === "×";
+    updatedDisplay = appendToDisplay ? display + input : display.slice(0, -1) + input;
+    updatedFullEquation = appendToDisplay
+      ? fullEquation + input
+      : fullEquation.slice(0, -1) + input;
+  } else {
+    if (display.length === 1 && operatorInUse === "-") {
+      updatedDisplay = "0";
+      updatedFullEquation = "0";
+    } else {
+      const secondToLastChar = display[display.length - 2];
+      const num = checkIfOperator(secondToLastChar) ? -2 : -1;
+
+      updatedDisplay = display.slice(0, num) + input;
+      updatedFullEquation = fullEquation.slice(0, num) + input;
+    }
+  }
+  // Remove the first character if the display is too long
+  if (updatedDisplay.length > 13) {
+    updatedDisplay = updatedDisplay.slice(1);
+  }
+  set({ display: updatedDisplay, fullEquation: updatedFullEquation });
+};
+
+const handleRegularInput = (input: string, display: string, fullEquation: string, set: any) => {
+  let updatedDisplay = "";
+  let updatedFullEquation = "";
+  const lastKnownNumber = getLastNumber(display);
+  const lastCharIsParenthesis = display[display.length - 1] === ")";
+  const isOperator = checkIfOperator(input);
+
+  if (lastCharIsParenthesis) {
+    const isNotOperator = !isOperator && input !== "%";
+    input = input === "." ? "0." : input;
+
+    updatedDisplay = isNotOperator ? display + "×" + input : display + input;
+    updatedFullEquation = isNotOperator ? fullEquation + "×" + input : fullEquation + input;
+  } else if (input === ".") {
+    if (lastKnownNumber.includes(".")) return;
+    const lastCharIsOperator =
+      checkIfOperator(lastKnownNumber) || lastKnownNumber[lastKnownNumber.length - 1] === "%";
+
+    updatedDisplay = lastCharIsOperator ? display + "0." : display + input;
+    updatedFullEquation = lastCharIsOperator ? fullEquation + "0." : fullEquation + input;
+  } else {
+    if (input === "%" && lastKnownNumber.includes("%")) return;
+    updatedDisplay = display + input;
+    updatedFullEquation = fullEquation + input;
+  }
+  if (updatedDisplay.length > 13) {
+    updatedDisplay = updatedDisplay.slice(1);
+  }
+  set({ display: updatedDisplay, fullEquation: updatedFullEquation });
 };
 
 interface ModOperation {

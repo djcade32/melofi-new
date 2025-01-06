@@ -1,17 +1,57 @@
+import React, { useCallback, useEffect, useState } from "react";
 import useCalculatorStore from "@/stores/widgets/calculator-store";
 import Modal from "@/ui/components/shared/modal/Modal";
-import React, { useCallback, useEffect, useState } from "react";
-
 import styles from "./calculator.module.css";
 import CalculatorButton from "./components/CalculatorButton";
-import { LiaTimesSolid } from "react-icons/lia";
-import { BsBackspace } from "react-icons/bs";
+import { LiaTimesSolid, BsBackspace } from "@/imports/icons";
 
 const DISPLAY_LENGTH_FONT_SIZES: Record<number, string> = {
   9: "2rem",
   10: "1.8rem",
   11: "1.6rem",
   12: "1.4rem",
+};
+
+// Utility function to calculate font size
+const calculateFontSize = (
+  length: number,
+  fontSizes: Record<number, string>,
+  defaultSize: string
+) => {
+  if (length > 11) {
+    return "1.4rem";
+  }
+  return fontSizes[length] || defaultSize;
+};
+
+// Extracted keyboard input handling logic
+const handleKeyPress = (
+  e: KeyboardEvent,
+  { solveEquation, backspace, clearDisplay, setDisplay }: any
+) => {
+  if (e.key === "Enter") solveEquation();
+  if (e.key === "Backspace") backspace();
+  if (e.key === "Escape") clearDisplay();
+
+  const keyMap: Record<string, string> = {
+    "1": "1",
+    "2": "2",
+    "3": "3",
+    "4": "4",
+    "5": "5",
+    "6": "6",
+    "7": "7",
+    "8": "8",
+    "9": "9",
+    "0": "0",
+    ".": ".",
+    "+": "+",
+    "-": "-",
+    "*": "×",
+    "/": "÷",
+  };
+
+  if (keyMap[e.key]) setDisplay(keyMap[e.key]);
 };
 
 const Calculator = () => {
@@ -27,99 +67,101 @@ const Calculator = () => {
     previousEquation,
     usePreviousEquation,
   } = useCalculatorStore();
+
   const [displayFontSize, setDisplayFontSize] = useState("2rem");
   const [previousEquationFontSize, setPreviousEquationFontSize] = useState("1.4rem");
 
-  const handleButtonPress = useCallback((e: KeyboardEvent) => {
-    if (e.key === "Enter") {
-      solveEquation();
-    }
-
-    if (e.key === "Backspace") {
-      backspace();
-    }
-
-    if (e.key === "Escape") {
-      clearDisplay();
-    }
-
-    switch (e.key) {
-      case "1":
-        setDisplay("1");
-        break;
-      case "2":
-        setDisplay("2");
-        break;
-      case "3":
-        setDisplay("3");
-        break;
-      case "4":
-        setDisplay("4");
-        break;
-      case "5":
-        setDisplay("5");
-        break;
-      case "6":
-        setDisplay("6");
-        break;
-      case "7":
-        setDisplay("7");
-        break;
-      case "8":
-        setDisplay("8");
-        break;
-      case "9":
-        setDisplay("9");
-        break;
-      case "0":
-        setDisplay("0");
-        break;
-      case ".":
-        setDisplay(".");
-        break;
-      case "+":
-        setDisplay("+");
-        break;
-      case "-":
-        setDisplay("-");
-        break;
-      case "*":
-        setDisplay("×");
-        break;
-      case "/":
-        setDisplay("÷");
-    }
-  }, []);
-
-  // Focus on the calculator when it's opened
-  useEffect(() => {
-    isCalculatorOpen && document.getElementById("calculator-widget")?.focus();
-  }, [isCalculatorOpen]);
-
   // Handle keyboard input
+  const handleButtonPress = useCallback(
+    (e: KeyboardEvent) => handleKeyPress(e, { solveEquation, backspace, clearDisplay, setDisplay }),
+    [solveEquation, backspace, clearDisplay, setDisplay]
+  );
+
   useEffect(() => {
     const widget = document.getElementById("calculator-widget");
     widget?.addEventListener("keydown", handleButtonPress);
     return () => {
       widget?.removeEventListener("keydown", handleButtonPress);
     };
-  }, []);
+  }, [handleButtonPress]);
 
   useEffect(() => {
-    if (display.length < 10 && displayFontSize !== "2rem") {
-      setDisplayFontSize("2rem");
-    } else if (display.length > 11 && displayFontSize !== "1.4rem") {
-      setDisplayFontSize("1.4rem");
-    }
-    const fontSize = DISPLAY_LENGTH_FONT_SIZES[display.length];
-    fontSize && setDisplayFontSize(fontSize);
+    setDisplayFontSize(calculateFontSize(display.length, DISPLAY_LENGTH_FONT_SIZES, "2rem"));
   }, [display]);
 
   useEffect(() => {
-    if (!previousEquation) return;
-    const fontSize = previousEquation.length > 9 ? "1.2rem" : "1.4rem";
-    setPreviousEquationFontSize(fontSize);
+    if (previousEquation) {
+      const fontSize = previousEquation.length > 9 ? "1.2rem" : "1.4rem";
+      setPreviousEquationFontSize(fontSize);
+    }
   }, [previousEquation]);
+
+  const renderButtons = () => {
+    const numberButtons = ["7", "8", "9", "4", "5", "6", "1", "2", "3"];
+    const operatorButtons = [
+      { id: "divide", display: "÷", action: () => setDisplay("÷") },
+      { id: "multiply", display: <LiaTimesSolid size={20} />, action: () => setDisplay("×") },
+      { id: "subtract", display: "-", action: () => setDisplay("-") },
+      { id: "add", display: "+", action: () => setDisplay("+") },
+      { id: "equals", display: "=", action: solveEquation },
+    ];
+
+    return (
+      <>
+        <div className={styles.calculator__leftSide}>
+          <div className={styles.calculator__buttonRow}>
+            <CalculatorButton
+              id="clear"
+              display="AC"
+              backgroundColor="var(--color-secondary)"
+              onClick={clearDisplay}
+            />
+            <CalculatorButton
+              id="sign-change"
+              display="+/-"
+              backgroundColor="var(--color-secondary)"
+              onClick={signChange}
+            />
+            <CalculatorButton id="percent" display="%" backgroundColor="var(--color-secondary)" />
+          </div>
+          <div className={styles.calculator__numberButtons}>
+            {numberButtons.map((num) => (
+              <CalculatorButton
+                key={num}
+                id={num}
+                display={num}
+                backgroundColor="var(--color-secondary-opacity)"
+              />
+            ))}
+            <CalculatorButton
+              id="backspace"
+              display={<BsBackspace size={20} />}
+              backgroundColor="var(--color-secondary-opacity)"
+              onClick={backspace}
+            />
+            <CalculatorButton id="0" display="0" backgroundColor="var(--color-secondary-opacity)" />
+            <CalculatorButton
+              id="dot"
+              display="."
+              backgroundColor="var(--color-secondary-opacity)"
+            />
+          </div>
+        </div>
+        <div className={styles.calculator__rightSide}>
+          {operatorButtons.map(({ id, display, action }) => (
+            <CalculatorButton
+              key={id}
+              id={id}
+              display={display}
+              backgroundColor="var(--color-effect-opacity)"
+              size="20px"
+              onClick={action}
+            />
+          ))}
+        </div>
+      </>
+    );
+  };
 
   return (
     <Modal
@@ -136,140 +178,18 @@ const Calculator = () => {
           <div className={styles.calculator__previousEquation} onClick={usePreviousEquation}>
             <p
               id="calculator-previous-equation-text"
-              style={{
-                fontSize: previousEquationFontSize,
-              }}
+              style={{ fontSize: previousEquationFontSize }}
             >
               {previousEquation}
             </p>
           </div>
           <div className={styles.calculator__display}>
-            <p
-              id="calculator-display-text"
-              style={{
-                fontSize: displayFontSize,
-              }}
-            >
+            <p id="calculator-display-text" style={{ fontSize: displayFontSize }}>
               {display}
             </p>
           </div>
         </div>
-
-        <div className={styles.calculator__buttons}>
-          <div className={styles.calculator__leftSide}>
-            <div className={styles.calculator__buttonRow}>
-              <CalculatorButton
-                id="clear"
-                display="AC"
-                backgroundColor="var(--color-secondary)"
-                onClick={clearDisplay}
-              />
-              <CalculatorButton
-                id="sign-change"
-                display="+/-"
-                backgroundColor="var(--color-secondary)"
-                onClick={signChange}
-              />
-              <CalculatorButton id="percent" display="%" backgroundColor="var(--color-secondary)" />
-            </div>
-            <div className={styles.calculator__numberButtons}>
-              <CalculatorButton
-                id="7"
-                display="7"
-                backgroundColor="var(--color-secondary-opacity)"
-              />
-              <CalculatorButton
-                id="8"
-                display="8"
-                backgroundColor="var(--color-secondary-opacity)"
-              />
-              <CalculatorButton
-                id="9"
-                display="9"
-                backgroundColor="var(--color-secondary-opacity)"
-              />
-              <CalculatorButton
-                id="4"
-                display="4"
-                backgroundColor="var(--color-secondary-opacity)"
-              />
-              <CalculatorButton
-                id="5"
-                display="5"
-                backgroundColor="var(--color-secondary-opacity)"
-              />
-              <CalculatorButton
-                id="6"
-                display="6"
-                backgroundColor="var(--color-secondary-opacity)"
-              />
-              <CalculatorButton
-                id="1"
-                display="1"
-                backgroundColor="var(--color-secondary-opacity)"
-              />
-              <CalculatorButton
-                id="2"
-                display="2"
-                backgroundColor="var(--color-secondary-opacity)"
-              />
-              <CalculatorButton
-                id="3"
-                display="3"
-                backgroundColor="var(--color-secondary-opacity)"
-              />
-              <CalculatorButton
-                id="backspace"
-                display={<BsBackspace size={20} />}
-                backgroundColor="var(--color-secondary-opacity)"
-                onClick={backspace}
-              />
-              <CalculatorButton
-                id="0"
-                display="0"
-                backgroundColor="var(--color-secondary-opacity)"
-              />
-              <CalculatorButton
-                id="dot"
-                display="."
-                backgroundColor="var(--color-secondary-opacity)"
-              />
-            </div>
-          </div>
-          <div className={styles.calculator__rightSide}>
-            <CalculatorButton
-              id="divide"
-              display="÷"
-              backgroundColor="var(--color-effect-opacity)"
-              size="20px"
-            />
-            <CalculatorButton
-              id="multiply"
-              display={<LiaTimesSolid size={20} />}
-              backgroundColor="var(--color-effect-opacity)"
-              onClick={() => setDisplay("×")}
-            />
-            <CalculatorButton
-              id="subtract"
-              display="-"
-              backgroundColor="var(--color-effect-opacity)"
-              size="20px"
-            />
-            <CalculatorButton
-              id="add"
-              display="+"
-              backgroundColor="var(--color-effect-opacity)"
-              size="20px"
-            />
-            <CalculatorButton
-              id="equals"
-              display="="
-              backgroundColor="var(--color-effect-opacity)"
-              size="20px"
-              onClick={solveEquation}
-            />
-          </div>
-        </div>
+        <div className={styles.calculator__buttons}>{renderButtons()}</div>
       </div>
     </Modal>
   );
