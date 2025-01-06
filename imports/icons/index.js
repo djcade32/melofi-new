@@ -29,6 +29,7 @@ import {
   BsKeyboardFill,
   BsAirplaneFill,
   BsTrainFrontFill,
+  BsBackspace,
 } from "react-icons/bs";
 import {
   IoVolumeMedium,
@@ -110,6 +111,7 @@ import { PiMoonFill, PiSunHorizonFill, PiWavesDuotone } from "react-icons/pi";
 import { VscDebugRestart } from "react-icons/vsc";
 import { LuGalleryVertical, LuGalleryHorizontal } from "react-icons/lu";
 import { BiSolidHide, BiSolidShow } from "react-icons/bi";
+import { LiaTimesSolid } from "react-icons/lia";
 
 export {
   FaPause,
@@ -225,4 +227,6 @@ export {
   FiMinimize2,
   FiMaximize2,
   FaStop,
+  BsBackspace,
+  LiaTimesSolid,
 };
