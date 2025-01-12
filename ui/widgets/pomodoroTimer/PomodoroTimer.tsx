@@ -12,7 +12,7 @@ import { single_bell, double_bell, triple_bell } from "@/imports/effects";
 import PomodoroTimerExpanded from "./views/PomodoroTimerExpanded";
 import PomodoroTimerCollapsed from "./views/PomodoroTimerCollapsed";
 import DialogModal from "@/ui/components/shared/dialogModal/DialogModal";
-import { DialogModalActions } from "@/types/interfaces";
+import { DialogModalActions } from "@/types/general";
 
 const PomodoroTimer = () => {
   const worker = new Worker(getPomodoroTimerWorkerUrl());
@@ -170,7 +170,7 @@ const PomodoroTimer = () => {
               invertedHoverColor="var(--color-secondary)"
               invertedBackgroundColor="var(--color-secondary-opacity)"
               onClick={() => setShowAddTaskModal(true)}
-              containerClassName={styles.pomodoroTimer__add_task_button}
+              iconContainerClassName={styles.pomodoroTimer__add_task_button}
             />
           )}
         </div>

@@ -1,4 +1,4 @@
-import { Playlist } from "@/types/interfaces";
+import { Playlist } from "@/types/general";
 import { IoBookSharp, PiMoonFill, FaHeadphones } from "@/imports/icons";
 import {
   fallenHorizon_gCoope_oddPanda_earlyGarden,

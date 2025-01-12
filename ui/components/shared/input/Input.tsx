@@ -86,7 +86,7 @@ import React, {
 } from "react";
 import styles from "./input.module.css";
 import { BiSolidHide, BiSolidShow } from "@/imports/icons";
-import { Error } from "@/types/interfaces";
+import { Error } from "@/types/general";
 
 interface InputProps
   extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {

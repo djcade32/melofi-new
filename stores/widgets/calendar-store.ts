@@ -3,7 +3,7 @@ import {
   buildCalendarEventList,
   buildCalendarListItem,
 } from "@/lib/type-builders/calendar-type-builder";
-import { CalendarEvent, CalendarListItem } from "@/types/interfaces";
+import { CalendarEvent, CalendarListItem } from "@/types/general";
 import { create } from "zustand";
 
 export interface CalendarState {

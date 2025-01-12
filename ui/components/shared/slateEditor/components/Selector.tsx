@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { cx, css } from "@emotion/css";
 import Tooltip from "@/ui/components/shared/tooltip/Tooltip";
-import { LongMenuOption, LongMenuRenderedOption } from "@/types/interfaces";
+import { LongMenuOption, LongMenuRenderedOption } from "@/types/general";
 import { ToolbarButtonProps } from "@/types/interfaces/slate_editor";
 
 interface LongMenuProps {

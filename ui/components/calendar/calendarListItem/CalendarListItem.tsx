@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./calendarListItem.module.css";
-import { CalendarListItem as CalendarListItemType } from "@/types/interfaces";
+import { CalendarListItem as CalendarListItemType } from "@/types/general";
 import { RxCaretRight } from "@/imports/icons";
 
 interface CalendarListItemProps {

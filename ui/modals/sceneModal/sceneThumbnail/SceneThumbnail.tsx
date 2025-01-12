@@ -1,4 +1,4 @@
-import { Scene } from "@/types/interfaces";
+import { Scene } from "@/types/general";
 import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import styles from "./sceneThumbnail.module.css";
 import useSceneStore from "@/stores/scene-store";

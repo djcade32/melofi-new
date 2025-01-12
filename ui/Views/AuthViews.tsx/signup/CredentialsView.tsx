@@ -4,7 +4,7 @@ import { RxCaretLeft, RxCaretRight } from "@/imports/icons";
 import Input from "@/ui/components/shared/input/Input";
 import Button from "@/ui/components/shared/button/Button";
 import Checkbox from "@/ui/components/shared/checkbox/Checkbox";
-import { AuthViewProps, Error } from "@/types/interfaces";
+import { AuthViewProps, Error } from "@/types/general";
 import useUserStore from "@/stores/user-store";
 import { signup } from "@/lib/firebase/actions/auth-actions";
 import { isValidEmail } from "@/utils/general";

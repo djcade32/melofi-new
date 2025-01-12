@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { v4 as uuidv4 } from "uuid";
-import { Note } from "@/types/interfaces";
+import { Note } from "@/types/general";
 import { Descendant } from "slate";
 
 export interface NotesState {

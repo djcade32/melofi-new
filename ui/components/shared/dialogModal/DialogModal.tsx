@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./dialogModal.module.css";
 import Button from "../button/Button";
-import { DialogModalActions } from "@/types/interfaces";
+import { DialogModalActions } from "@/types/general";
 import { set } from "lodash";
 
 interface DialogModalProps {

@@ -1,4 +1,4 @@
-import { AuthViewProps } from "@/types/interfaces";
+import { AuthViewProps } from "@/types/general";
 import React, { useState } from "react";
 import styles from "./forgotPassword.module.css";
 import { RxCaretLeft, IoCheckmarkCircleSharp } from "@/imports/icons";

@@ -4,12 +4,13 @@ import React, { useEffect, useState } from "react";
 import styles from "./toaster.module.css";
 import { Slide, Snackbar, SnackbarCloseReason, SnackbarContent } from "@mui/material";
 import { IoCloseOutline, MdError, IoCheckmarkCircle } from "@/imports/icons";
+import { IconType } from "react-icons";
 
 interface ToasterProps {
   message: string;
   show: boolean;
   type?: "success" | "error" | "normal";
-  icon?: React.ReactNode;
+  icon?: IconType;
 }
 
 function SlideTransition(props: any) {
@@ -29,7 +30,10 @@ const Toaster = ({ message, type = "normal", icon, show }: ToasterProps) => {
 
   const chooseIcon = () => {
     if (icon) {
-      return icon;
+      return React.createElement(icon, {
+        size: 25,
+        color: "var(--color-white)",
+      });
     } else if (type === "success") {
       return <IoCheckmarkCircle size={25} color="var(--color-white)" />;
     } else if (type === "error") {
@@ -70,7 +74,7 @@ const Toaster = ({ message, type = "normal", icon, show }: ToasterProps) => {
     <Snackbar
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       open={open}
-      autoHideDuration={5000}
+      autoHideDuration={3000}
       onClose={handleClose}
       TransitionComponent={SlideTransition}
       key={"bottom" + "right"}

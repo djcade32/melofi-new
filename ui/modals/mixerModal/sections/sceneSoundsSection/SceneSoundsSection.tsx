@@ -3,7 +3,7 @@ import styles from "./sceneSoundsSection.module.css";
 import useSceneStore from "@/stores/scene-store";
 import useMixerStore from "@/stores/mixer-store";
 import MixerSlider from "@/ui/components/mixerSlider/MixerSlider";
-import { Sound } from "@/types/interfaces";
+import { Sound } from "@/types/general";
 
 const SceneSoundsSection = () => {
   const { currentScene } = useSceneStore();
@@ -12,6 +12,11 @@ const SceneSoundsSection = () => {
   const [sceneSounds, setSceneSounds] = useState<Sound[] | undefined>(undefined);
 
   useEffect(() => {
+    // Set scene sounds volume for when template is selected
+    // const sceneSounds = getSceneSounds(currentScene).map((sound) => {
+    //   const soundConfig = mixerSoundsConfig[sound.name.toUpperCase()];
+    //   return { ...sound, volume: soundConfig.volume };
+    // });
     setSceneSounds(getSceneSounds(currentScene));
   }, [currentScene, mixerSoundsConfig]);
 

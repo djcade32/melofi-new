@@ -1,6 +1,7 @@
 import { doc, setDoc } from "firebase/firestore";
 import { getFirebaseDB } from "../firebaseClient";
-import { PomodoroTimerStats, UserStats } from "@/types/interfaces";
+import { UserStats } from "@/types/general";
+import { PomodoroTimerStats } from "@/types/interfaces/pomodoro_timer";
 
 const db = getFirebaseDB();
 

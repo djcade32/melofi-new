@@ -4,11 +4,11 @@ import React, { ReactNode, useEffect, useState } from "react";
 import styles from "./authProvider.module.css";
 import useUserStore from "@/stores/user-store";
 import LoggedOutView from "@/ui/Views/AuthViews.tsx/LoggedOutView";
-import { MelofiUser } from "@/types/interfaces";
 import { logout } from "@/lib/firebase/actions/auth-actions";
 import SceneBackground from "@/ui/components/sceneBackground/SceneBackground";
 import LoadingScreen from "@/ui/Views/loadingScreen/LoadingScreen";
 import useUserStatsStore from "@/stores/user-stats-store";
+import { MelofiUser } from "@/types/general";
 
 interface AuthProviderProps {
   children: ReactNode;

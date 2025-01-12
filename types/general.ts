@@ -2,6 +2,7 @@ import { User } from "firebase/auth";
 import { ReactElement, ReactNode } from "react";
 import { IconType } from "react-icons";
 import { Descendant } from "slate";
+import { PomodoroTimerStats } from "./interfaces/pomodoro_timer";
 
 export interface Scene {
   id: number;
@@ -18,14 +19,6 @@ export interface SoundIcon {
   icon: IconType;
 }
 
-export interface Sound {
-  name: string;
-  path: string;
-  icon: IconType;
-  volume: number;
-  premium: boolean;
-}
-
 export interface Song {
   id: number;
   mp3Path: string;
@@ -35,18 +28,10 @@ export interface Song {
   providerUrl: string;
 }
 
-export interface Playlist {
-  id: number;
-  name: string;
-  icon: IconType;
-  spotifyPlaylistId: string;
-  songs: Song[];
-}
-
 export interface NotificationType {
   message: string;
   type: "success" | "error" | "normal";
-  icon?: ReactElement;
+  icon?: IconType;
 }
 
 export interface MenuOption {
@@ -63,20 +48,6 @@ export interface LongMenuOption {
 
 export interface LongMenuRenderedOption extends LongMenuOption {
   element: ReactNode;
-}
-
-export interface CalendarListItem {
-  id: string;
-  name: string;
-  color: string;
-  primary: boolean;
-}
-
-export interface CalendarEvent {
-  id: string;
-  summary: string;
-  start: string;
-  end: string;
 }
 
 export interface AuthViewProps {
@@ -119,29 +90,6 @@ export interface UserStats {
   totalNotesCreated: number;
   favoriteScene: string | null;
   lastLogin: string;
-}
-
-export interface PomodoroTimerStats {
-  totalFocusTime: number;
-  totalBreakTime: number;
-  totalSessionsCompleted: number;
-  totalTasksCompleted: number;
-}
-
-export interface PomodoroTimerTaskPayload {
-  title: string;
-  focusTime: number;
-  breakTime: number;
-  sessions: number;
-}
-
-export interface PomodoroTimerTask extends PomodoroTimerTaskPayload {
-  id: string;
-  completed: boolean;
-  completedAt: string | null;
-  sessionsCompleted: number;
-  percentCompleted: number;
-  currentMode: "Focus" | "Break";
 }
 
 export interface DialogModalActions {

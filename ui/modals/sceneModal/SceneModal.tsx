@@ -6,7 +6,7 @@ import useSceneStore from "@/stores/scene-store";
 import styles from "./sceneModal.module.css";
 import Carousel from "@/ui/components/shared/carousel/Carousel";
 import SceneThumbnail from "./sceneThumbnail/SceneThumbnail";
-import { Scene } from "@/types/interfaces";
+import { Scene } from "@/types/general";
 
 const SceneModal = () => {
   const { sceneModalOpen, allScenes, currentScene, setCurrentScene } = useSceneStore();

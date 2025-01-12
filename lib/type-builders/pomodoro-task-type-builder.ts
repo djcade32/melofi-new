@@ -1,4 +1,4 @@
-import { PomodoroTimerTask } from "@/types/interfaces";
+import { PomodoroTimerTask } from "@/types/interfaces/pomodoro_timer";
 
 export const buildPomodoroTimerTasks = (task: any[]): PomodoroTimerTask[] => {
   return task.map((task) => ({
