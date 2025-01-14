@@ -1,4 +1,4 @@
-import { navigateToMelofi } from "../utils/general.ts";
+import { navigateToMelofi } from "../../../utils/general.ts";
 
 describe("Testing Now Playing", () => {
   before(() => {

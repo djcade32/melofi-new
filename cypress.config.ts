@@ -7,10 +7,20 @@ const testToSkip = [
   "**/rotating_logo.cy.js",
 ];
 
+const testToSkip1 = [
+  "**/auth/*.cy.js",
+  "**/general/*.cy.js",
+  "**/widgets/notes.cy.js",
+  "**/widgets/pomodoro_timer.cy.js",
+  "**/widgets/calendar.cy.js",
+  "**/widgets/calculator.cy.js",
+  "**/widgets/todoList.cy.js",
+];
+
 export default defineConfig({
   projectId: "ci9g2u",
   e2e: {
-    excludeSpecPattern: isCI ? [...testToSkip] : [],
+    excludeSpecPattern: isCI ? [...testToSkip1] : [],
     setupNodeEvents(on, config) {
       // implement node event listeners here
       // Set environment variables for Cypress

@@ -39,6 +39,7 @@ const useTemplatesStore = create<TemplatesState>((set, get) => ({
   setIsTemplatesOpen: (isOpen) => set({ isTemplatesOpen: isOpen }),
 
   deleteTemplate: async (id) => {
+    console.log("deleting template called through store");
     try {
       await deleteTemplateFromDb(useUserStore.getState().currentUser?.authUser?.email, id);
 

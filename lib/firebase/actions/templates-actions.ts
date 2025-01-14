@@ -48,6 +48,7 @@ export const deleteTemplateFromDb = async (
   email: string | null | undefined,
   templateId: string
 ) => {
+  console.log("deleting template: ", templateId);
   if (!db) {
     throw new Error("Firebase DB is not initialized");
   }
@@ -71,6 +72,8 @@ export const deleteTemplateFromDb = async (
     const updatedTemplatesList = currentTemplatesList.filter(
       (template) => template.id !== templateId
     );
+
+    console.log("updatedTemplatesList: ", updatedTemplatesList);
 
     // Update the database with the updated templatesList
     await setDoc(userDoc, { templatesList: updatedTemplatesList }, { merge: true });
