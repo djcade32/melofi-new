@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-import { pressSceneButton, navigateToMelofi } from "../../../utils/general.ts";
+import { pressSceneButton, navigateToMelofi } from "../../utils/general.ts";
 
 describe("Testing Scene Modal", () => {
   before(() => {

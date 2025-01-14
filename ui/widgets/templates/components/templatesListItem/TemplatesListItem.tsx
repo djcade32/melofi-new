@@ -50,7 +50,6 @@ const TemplatesListItem = ({ template }: TemplatesListItemProps) => {
   }, [hoveredIndex, templateSounds]);
 
   const handleDeleteTemplate = async (e: MouseEvent) => {
-    console.log("clicked delete template");
     e.stopPropagation();
     await deleteTemplate(template.id);
   };

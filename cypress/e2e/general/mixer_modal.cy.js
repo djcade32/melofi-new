@@ -1,4 +1,4 @@
-import { navigateToMelofi, pressMixerButton } from "../../../utils/general.ts";
+import { navigateToMelofi, pressMixerButton } from "../../utils/general.ts";
 import "cypress-real-events/support.js";
 
 describe("Testing Mixer Modal", () => {

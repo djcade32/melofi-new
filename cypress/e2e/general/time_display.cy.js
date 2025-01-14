@@ -1,4 +1,4 @@
-import { navigateToMelofi } from "../../../utils/general.ts";
+import { navigateToMelofi } from "../../utils/general.ts";
 import "cypress-real-events/support.js";
 
 describe("Testing Time Display", () => {
