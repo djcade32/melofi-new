@@ -1,26 +1,17 @@
 import { defineConfig } from "cypress";
 const isCI = process.env.CI === "true";
+// Have to run these tests locally
 const testToSkip = [
   "**/auth/*.cy.js",
-  "**/widgets/notes.cy.js",
+  "**/widgets/templates.cy.js",
   "**/widgets/pomodoro_timer.cy.js",
   "**/rotating_logo.cy.js",
-];
-
-const testToSkip1 = [
-  "**/auth/*.cy.js",
-  "**/general/*.cy.js",
-  "**/widgets/templates.cy.js",
-  "**/widgets/notes.cy.js",
-  "**/widgets/calendar.cy.js",
-  "**/widgets/calculator.cy.js",
-  "**/widgets/todoList.cy.js",
 ];
 
 export default defineConfig({
   projectId: "ci9g2u",
   e2e: {
-    excludeSpecPattern: isCI ? [...testToSkip1] : [],
+    excludeSpecPattern: isCI ? [...testToSkip] : [],
     setupNodeEvents(on, config) {
       // implement node event listeners here
       // Set environment variables for Cypress
