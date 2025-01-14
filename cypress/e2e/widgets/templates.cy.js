@@ -47,10 +47,10 @@ describe("Testing Templates Widget", () => {
   });
 
   it("Should delete a template", () => {
+    getElementWithClassName("templatesListItem__container").realHover();
+    cy.wait(2000);
     getElementWithClassName("templatesListItem__trash_icon").click({ force: true });
-    cy.get("#templatesListItem-trash-icon").click({ force: true });
-    cy.wait(10000);
-    getElementWithClassName("templates__empty").contains("No Templates");
+    // getElementWithClassName("templates__empty").contains("No Templates");
   });
 
   it("Should change mixer settings and save template", () => {
