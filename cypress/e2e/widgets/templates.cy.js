@@ -48,6 +48,8 @@ describe("Testing Templates Widget", () => {
 
   it("Should delete a template", () => {
     getElementWithClassName("templatesListItem__trash_icon").click({ force: true });
+    cy.get("#templatesListItem__trash_icon").click({ force: true });
+    cy.wait(10000);
     getElementWithClassName("templates__empty").contains("No Templates");
   });
 

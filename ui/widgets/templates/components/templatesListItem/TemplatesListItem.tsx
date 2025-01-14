@@ -99,6 +99,7 @@ const TemplatesListItem = ({ template }: TemplatesListItemProps) => {
         <div className={styles.templatesListItem__titleContainer}>
           <p className={styles.templatesListItem__title}>{template.name}</p>
           <HoverIcon
+            id="templatesListItem-trash-icon"
             iconContainerClassName={styles.templatesListItem__trash_icon}
             size={20}
             color="var(--color-secondary)"
