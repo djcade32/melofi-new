@@ -49,15 +49,20 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
 
   setIsPomodoroTimerOpen: (isOpen: boolean) => set({ isPomodoroTimerOpen: isOpen }),
   fetchPomodoroTimerTasks: async () => {
-    const email = useUserStore.getState().currentUser?.authUser?.email;
-    if (!email) {
-      return;
-    }
-    const fetchedTasks = await getPomodoroTimerTasks(email);
-    if (fetchedTasks) {
-      const builtTasks = buildPomodoroTimerTasks(fetchedTasks);
-      set({ pomodoroTimerTasks: builtTasks });
-      builtTasks.length > 0 && get().setActivePomodoroTimerTask(builtTasks[0]);
+    try {
+      const email = useUserStore.getState().currentUser?.authUser?.email;
+      if (!email) {
+        return;
+      }
+      const fetchedTasks = await getPomodoroTimerTasks(email);
+      if (fetchedTasks) {
+        const builtTasks = buildPomodoroTimerTasks(fetchedTasks);
+        if (builtTasks && builtTasks.length === 0) return;
+        set({ pomodoroTimerTasks: builtTasks });
+        builtTasks.length > 0 && get().setActivePomodoroTimerTask(builtTasks[0]);
+      }
+    } catch (error) {
+      console.log("Error fetching pomodoro timer tasks: ", error);
     }
   },
   setActivePomodoroTimerTask: (task: PomodoroTimerTask) => {
