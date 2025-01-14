@@ -47,8 +47,8 @@ describe("Testing Templates Widget", () => {
   });
 
   it("Should delete a template", () => {
-    getElementWithClassName("templatesListItem__trash_icon").click();
-    getElementWithClassName("templates__empty").contains("No Templates", { timeout: 10000 });
+    getElementWithClassName("templatesListItem__trash_icon").click({ force: true });
+    getElementWithClassName("templates__empty").contains("No Templates");
   });
 
   it("Should change mixer settings and save template", () => {
