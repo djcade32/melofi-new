@@ -77,7 +77,16 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: npm install
+        run:
+          npm install
+
+          # Start Firebase emulators
+      - name: Start Firebase Emulators
+        run: firebase emulators:start --only auth,firestore --project test-project &
+
+      # Wait for Firebase Emulators to be ready
+      - name: Wait for Firebase Emulators
+        run: npx wait-on http://localhost:9099
 
       - name: Run Cypress tests
         run: npm run test:e2e:headless:github
