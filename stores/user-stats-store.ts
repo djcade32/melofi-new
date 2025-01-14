@@ -38,13 +38,19 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
 
   async setUserStats() {
     const email = useUserStore.getState().currentUser?.authUser?.email;
-
-    if (!email) {
-      return;
+    try {
+      if (!email) {
+        return;
+      }
+      const userStats = await getUserStats(email);
+      if (!userStats) {
+        return;
+      }
+      const userStatsBuilt = buildUserStatsType(userStats);
+      set({ ...userStatsBuilt });
+    } catch (error) {
+      console.log("Error getting user stats: ", error);
     }
-    const userStats = await getUserStats(email);
-    const userStatsBuilt = buildUserStatsType(userStats);
-    set({ ...userStatsBuilt });
   },
 
   async incrementTotalNotesCreated() {
