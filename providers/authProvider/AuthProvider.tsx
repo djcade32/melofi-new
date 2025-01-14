@@ -25,6 +25,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // Check if user is logged in
   useEffect(() => {
+    console.log("checking if user is logged in");
     // Check if localStorage has user key
     const user = localStorage.getItem("user");
     if (user) {
