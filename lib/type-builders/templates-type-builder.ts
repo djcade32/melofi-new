@@ -6,6 +6,9 @@ import { MixerSoundConfig } from "@/types/interfaces/mixer";
 import { cloneDeep } from "lodash";
 
 export const buildTemplatesList = (templates: any[]): Template[] => {
+  if (!templates) {
+    return [];
+  }
   return templates.map((template) => buildTemplate(template));
 };
 

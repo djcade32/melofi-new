@@ -25,7 +25,7 @@ const TemplatesListItem = ({ template }: TemplatesListItemProps) => {
 
   const getSoundIcons = useCallback(() => {
     return (
-      <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
+      <div id="templatesListItem-icons" style={{ display: "flex", gap: 3, alignItems: "center" }}>
         {templateSounds?.map((sound) => (
           <div key={sound.name} className={styles.templatesListItem__icon_container}>
             {React.createElement(sound.icon, {

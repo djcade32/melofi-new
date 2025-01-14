@@ -55,7 +55,7 @@ const AddTemplateModal = ({ isOpen, close }: AddTemplateModalProps) => {
       </div>
       <div className={styles.addTemplate__action_buttons_container}>
         <Button
-          id="cancel-pomodoro-task-button"
+          id="cancel-template-button"
           text="Cancel"
           onClick={handleClose}
           containerClassName={styles.addTemplate__add_task_button}
@@ -66,7 +66,7 @@ const AddTemplateModal = ({ isOpen, close }: AddTemplateModalProps) => {
         />
         <Button
           disable={!templateName.trim()}
-          id="add-pomodoro-task-button"
+          id="add-template-button"
           text="Add"
           onClick={handleAddTemplate}
           containerClassName={styles.addTemplate__add_task_button}

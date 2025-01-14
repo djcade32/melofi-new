@@ -20,7 +20,7 @@ const Templates = () => {
 
   return (
     <Modal
-      id="calendar-widget"
+      id="templates-widget"
       isOpen={isTemplatesOpen}
       className={styles.templates__container}
       title="Templates"
