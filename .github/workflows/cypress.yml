@@ -83,3 +83,4 @@ jobs:
         run: npm run test:e2e:headless:github
         env:
           CI: true
+          NEXT_PUBLIC_IS_CYPRESS: "true"
