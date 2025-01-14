@@ -1,4 +1,4 @@
-import { NotificationType } from "@/types/interfaces";
+import { NotificationType } from "@/types/general";
 import { create } from "zustand";
 
 export interface NotificationProviderState {

@@ -1,4 +1,4 @@
-import { Note } from "@/types/interfaces";
+import { Note } from "@/types/general";
 import React, { useEffect, useState } from "react";
 
 interface EditorTimeDisplayProps {

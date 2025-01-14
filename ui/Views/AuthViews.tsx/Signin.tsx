@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./signin.module.css";
 import Input from "@/ui/components/shared/input/Input";
 import Button from "@/ui/components/shared/button/Button";
-import { AuthViewProps } from "@/types/interfaces";
+import { AuthViewProps } from "@/types/general";
 import { login } from "@/lib/firebase/actions/auth-actions";
 import useUserStore from "@/stores/user-store";
 import { ERROR_MESSAGES } from "@/enums/general";

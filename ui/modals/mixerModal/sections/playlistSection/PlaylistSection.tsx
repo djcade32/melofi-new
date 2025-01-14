@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./playlistSection.module.css";
 import PlaylistButton from "./playlistButton/PlaylistButton";
 import { Study, Relax, Sleepy } from "@/data/songs";
-import { Playlist } from "@/types/interfaces";
+import { Playlist } from "@/types/general";
 import useMusicPlayerStore from "@/stores/music-player-store";
 
 const playlist = [Study, Relax, Sleepy];

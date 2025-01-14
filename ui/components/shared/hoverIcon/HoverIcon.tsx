@@ -18,8 +18,9 @@ interface HoverIconProps {
   invertedBackgroundColor?: string;
   invertedHoverColor?: string;
   onClick?: (e: any) => void;
-  containerClassName?: string;
+  iconContainerClassName?: string;
   disabled?: boolean;
+  containerClassName?: string;
 }
 
 const HoverIcon = ({
@@ -35,8 +36,9 @@ const HoverIcon = ({
   invertedHoverColor,
   color = "var(--color-white)",
   onClick,
-  containerClassName,
+  iconContainerClassName,
   disabled,
+  containerClassName,
 }: HoverIconProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -77,7 +79,7 @@ const HoverIcon = ({
   };
 
   return (
-    <>
+    <div className={`${styles.hoverIcon__container} ${containerClassName}`}>
       {showTooltip ? (
         <Tooltip
           text={tooltipText}
@@ -86,7 +88,7 @@ const HoverIcon = ({
         >
           <div
             id={id}
-            className={`${styles.hoverIcon__iconContainer} ${containerClassName}`}
+            className={`${styles.hoverIcon__iconContainer} ${iconContainerClassName}`}
             onClick={handleOnClick}
             onMouseOver={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -105,7 +107,7 @@ const HoverIcon = ({
       ) : (
         <div
           id={id}
-          className={`${styles.hoverIcon__iconContainer} ${containerClassName}`}
+          className={`${styles.hoverIcon__iconContainer} ${iconContainerClassName}`}
           onClick={handleOnClick}
           onMouseOver={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
@@ -121,7 +123,7 @@ const HoverIcon = ({
           })}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -4,7 +4,7 @@ import useSceneStore from "@/stores/scene-store";
 import useMixerStore from "@/stores/mixer-store";
 import MixerSlider from "@/ui/components/mixerSlider/MixerSlider";
 import Tooltip from "@/ui/components/shared/tooltip/Tooltip";
-import { Sound } from "@/types/interfaces";
+import { Sound } from "@/types/general";
 
 const AllSoundsSection = () => {
   const { currentScene } = useSceneStore();

@@ -1,4 +1,4 @@
-import { CalendarListItem } from "@/types/interfaces";
+import { CalendarListItem } from "@/types/general";
 import React, { useEffect, useState } from "react";
 import styles from "./calendarEventsView.module.css";
 import { RxCaretLeft } from "@/imports/icons";

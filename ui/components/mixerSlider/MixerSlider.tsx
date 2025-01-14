@@ -1,10 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./mixerSlider.module.css";
 import { Slider, SliderThumb, styled } from "@mui/material";
 import { FaLock } from "@/imports/icons";
 import { IconType } from "react-icons";
 import useMixerStore from "@/stores/mixer-store";
 import useMusicPlayerStore from "@/stores/music-player-store";
+import useTemplatesStore from "@/stores/widgets/templates-store";
+import { toSnakeCase } from "@/utils/strings";
 
 const StyledSlider = styled(Slider)({
   color: "var(--color-effect-opacity)",
@@ -49,6 +51,7 @@ const MixerSlider = ({
 
   const { changeSoundVolume } = useMixerStore();
   const { isMuted } = useMusicPlayerStore();
+  const { selectedTemplate } = useTemplatesStore();
 
   const [volume, setVolume] = useState(soundVolume);
   const [thumbClicked, setThumbClicked] = useState(false); // Track if the thumb is clicked
@@ -56,18 +59,34 @@ const MixerSlider = ({
   useEffect(() => {
     if (!audioRef.current) return;
     setVolume(soundVolume * 100);
-    if (soundVolume <= 0 && thumbClicked) {
+
+    if (soundVolume <= 0 && isActive()) {
       audioRef.current.pause();
       setThumbClicked(false);
     }
   }, [soundVolume]);
 
+  useEffect(() => {
+    if (!audioRef.current || !selectedTemplate) return;
+
+    const soundConfig = selectedTemplate?.mixerSoundConfig[toSnakeCase(soundName).toUpperCase()];
+
+    setVolume(soundConfig.volume * 100);
+    if (soundConfig.volume > 0) {
+      audioRef.current.play();
+      audioRef.current.volume = soundConfig.volume;
+    } else {
+      audioRef.current.pause();
+    }
+  }, [selectedTemplate]);
+
   function IconThumb(iconThumbProps: any) {
     const { children, ...other } = iconThumbProps;
     const mixerSliderIconProps = {
       size: 20,
-      color: thumbClicked ? "var(--color-white)" : "#343338",
+      color: isActive() ? "var(--color-white)" : "#343338",
     };
+
     return (
       <SliderThumb {...other}>
         {children}
@@ -80,7 +99,11 @@ const MixerSlider = ({
     );
   }
 
-  const handleLevelChange = (e: Event, newValue: number | number[]) => {
+  const isActive = useCallback(() => {
+    return thumbClicked || volume > 0;
+  }, [volume, thumbClicked, soundVolume]);
+
+  const handleLevelChange = (e: Event) => {
     if (!audioRef.current) return;
     setThumbClicked(true);
     let event = e as unknown as React.ChangeEvent<HTMLInputElement>;
@@ -115,12 +138,12 @@ const MixerSlider = ({
           sx={{
             "& .MuiSlider-thumb": {
               transition: "all 0.3s",
-              backgroundColor: thumbClicked
+              backgroundColor: isActive()
                 ? "var(--color-effect-opacity)"
                 : "var(--color-secondary)",
               "& svg": {
                 transition: "all 0.3s",
-                color: thumbClicked ? "var(--color-white)" : "#343338",
+                color: isActive() ? "var(--color-white)" : "#343338",
               },
             },
           }}

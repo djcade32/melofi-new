@@ -1,7 +1,7 @@
 import { ListItemIcon, ListItemText, MenuItem, styled } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import MuiMenu, { MenuProps as MuiMenuProps } from "@mui/material/Menu";
-import { MenuOption } from "@/types/interfaces";
+import { MenuOption } from "@/types/general";
 import useAppStore from "@/stores/app-store";
 
 interface MenuProps {

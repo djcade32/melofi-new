@@ -7,7 +7,7 @@ import SlateEditor from "@/ui/components/shared/slateEditor/SlateEditor";
 import NoteCard from "./components/noteCard/NoteCard";
 import HoverIcon from "@/ui/components/shared/hoverIcon/HoverIcon";
 import { IoCreate, HiTrash } from "@/imports/icons";
-import { Note } from "@/types/interfaces";
+import { Note } from "@/types/general";
 import useUserStatsStore from "@/stores/user-stats-store";
 import useUserStore from "@/stores/user-store";
 

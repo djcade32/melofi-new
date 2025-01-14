@@ -16,6 +16,7 @@ interface ModalProps extends React.HTMLProps<HTMLDivElement> {
   draggable?: boolean;
   id?: string;
   fadeCloseIcon?: boolean;
+  showBackdrop?: boolean;
 }
 
 const Modal = ({
@@ -29,6 +30,7 @@ const Modal = ({
   draggable = false,
   id,
   fadeCloseIcon = false,
+  showBackdrop = false,
   ...props
 }: ModalProps) => {
   const nodeRef = useRef(null);
@@ -46,6 +48,14 @@ const Modal = ({
         tabIndex={props.tabIndex}
       >
         {draggable && <div id="handle" className={styles.modal__dragHandle} />}
+        <div
+          className={styles.modal__backdrop}
+          style={{
+            opacity: showBackdrop ? 1 : 0,
+            zIndex: showBackdrop ? 2 : -1,
+          }}
+        />
+
         <div
           className={styles.modal__title_container}
           id={draggable ? "handle" : ""}

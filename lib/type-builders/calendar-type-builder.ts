@@ -1,4 +1,4 @@
-import { CalendarEvent, CalendarListItem } from "@/types/interfaces";
+import { CalendarEvent, CalendarListItem } from "@/types/general";
 
 export const buildCalendarListItem = (calendars: any[]): CalendarListItem[] => {
   return calendars.map((calendar) => ({

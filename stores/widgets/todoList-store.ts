@@ -1,4 +1,4 @@
-import { Task } from "@/types/interfaces";
+import { Task } from "@/types/general";
 import { create } from "zustand";
 import { v4 as uuidv4 } from "uuid";
 

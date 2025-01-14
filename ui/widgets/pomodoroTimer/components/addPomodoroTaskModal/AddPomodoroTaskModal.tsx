@@ -5,8 +5,8 @@ import { RxTimer, BsLightningCharge, BsArrowRepeat } from "@/imports/icons";
 import Button from "@/ui/components/shared/button/Button";
 import { isNumber } from "@/utils/number";
 import usePomodoroTimerStore from "@/stores/widgets/pomodoro-timer-store";
-import { PomodoroTimerTaskPayload } from "@/types/interfaces";
 import { convertMinsToSecs } from "@/utils/time";
+import { PomodoroTimerTaskPayload } from "@/types/interfaces/pomodoro_timer";
 
 interface AddPomodoroTaskModalProps {
   isOpen: boolean;
@@ -51,7 +51,7 @@ const AddPomodoroTaskModal = ({ onClose, isOpen }: AddPomodoroTaskModalProps) =>
 
   const validateInputs = () => {
     return (
-      taskName.length > 0 &&
+      taskName.trim().length > 0 &&
       (focusTime.hr > 0 || focusTime.min > 0) &&
       (breakTime.hr > 0 || breakTime.min > 0)
     );

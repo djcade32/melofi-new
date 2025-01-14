@@ -11,7 +11,7 @@ import {
 } from "@/imports/icons";
 import Menu from "@/ui/components/shared/menu/Menu";
 import Draggable from "react-draggable";
-import { MenuOption } from "@/types/interfaces";
+import { MenuOption } from "@/types/general";
 import ToolbarWidgetButtons from "./toolbarWidgetButtons/ToolbarWidgetButtons";
 
 const iconProps = {

@@ -1,4 +1,4 @@
-import { UserStats } from "@/types/interfaces";
+import { UserStats } from "@/types/general";
 
 export const buildUserStatsType = (userStats: any): UserStats => {
   return {
