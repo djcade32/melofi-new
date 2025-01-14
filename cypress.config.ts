@@ -10,7 +10,7 @@ const testToSkip = [
 const testToSkip1 = [
   "**/auth/*.cy.js",
   "**/general/*.cy.js",
-  "**/widgets/notes.cy.js",
+  "**/widgets/templates.cy.js",
   "**/widgets/pomodoro_timer.cy.js",
   "**/widgets/calendar.cy.js",
   "**/widgets/calculator.cy.js",
