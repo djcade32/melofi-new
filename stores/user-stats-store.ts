@@ -6,7 +6,7 @@ import { getUserStats } from "@/lib/firebase/getters/stats-getters";
 import { buildUserStatsType } from "@/lib/type-builders/user-stats-type-builder";
 import { create } from "zustand";
 import useUserStore from "./user-store";
-import { PomodoroTimerStats } from "@/types/interfaces";
+import { PomodoroTimerStats } from "@/types/interfaces/pomodoro_timer";
 
 export interface userStatsState {
   pomodoroTimerStats: PomodoroTimerStats;
@@ -38,12 +38,19 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
 
   async setUserStats() {
     const email = useUserStore.getState().currentUser?.authUser?.email;
-    if (!email) {
-      return;
+    try {
+      if (!email) {
+        return;
+      }
+      const userStats = await getUserStats(email);
+      if (!userStats) {
+        return;
+      }
+      const userStatsBuilt = buildUserStatsType(userStats);
+      set({ ...userStatsBuilt });
+    } catch (error) {
+      console.log("Error getting user stats: ", error);
     }
-    const userStats = await getUserStats(email);
-    const userStatsBuilt = buildUserStatsType(userStats);
-    set({ ...userStatsBuilt });
   },
 
   async incrementTotalNotesCreated() {

@@ -1,16 +1,16 @@
 import { updatePomodoroTimerTaskInDb } from "@/lib/firebase/actions/pomodoro-timer-actions";
 import { getPomodoroTimerTasks } from "@/lib/firebase/getters/pomodoro-timer-getters";
-import {
-  PomodoroTimerStats,
-  PomodoroTimerTask,
-  PomodoroTimerTaskPayload,
-} from "@/types/interfaces";
 import { v4 as uuidv4 } from "uuid";
 import { create } from "zustand";
 import useUserStore from "../user-store";
 import { buildPomodoroTimerTasks } from "@/lib/type-builders/pomodoro-task-type-builder";
 import { wait } from "@/utils/general";
 import useUserStatsStore from "../user-stats-store";
+import {
+  PomodoroTimerStats,
+  PomodoroTimerTask,
+  PomodoroTimerTaskPayload,
+} from "@/types/interfaces/pomodoro_timer";
 
 export interface PomodoroTimerState {
   isPomodoroTimerOpen: boolean;
@@ -49,15 +49,20 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
 
   setIsPomodoroTimerOpen: (isOpen: boolean) => set({ isPomodoroTimerOpen: isOpen }),
   fetchPomodoroTimerTasks: async () => {
-    const email = useUserStore.getState().currentUser?.authUser?.email;
-    if (!email) {
-      return;
-    }
-    const fetchedTasks = await getPomodoroTimerTasks(email);
-    if (fetchedTasks) {
-      const builtTasks = buildPomodoroTimerTasks(fetchedTasks.pomodoroTasks);
-      set({ pomodoroTimerTasks: builtTasks });
-      builtTasks.length > 0 && get().setActivePomodoroTimerTask(builtTasks[0]);
+    try {
+      const email = useUserStore.getState().currentUser?.authUser?.email;
+      if (!email) {
+        return;
+      }
+      const fetchedTasks = await getPomodoroTimerTasks(email);
+      if (fetchedTasks) {
+        const builtTasks = buildPomodoroTimerTasks(fetchedTasks);
+        if (builtTasks && builtTasks.length === 0) return;
+        set({ pomodoroTimerTasks: builtTasks });
+        builtTasks.length > 0 && get().setActivePomodoroTimerTask(builtTasks[0]);
+      }
+    } catch (error) {
+      console.log("Error fetching pomodoro timer tasks: ", error);
     }
   },
   setActivePomodoroTimerTask: (task: PomodoroTimerTask) => {

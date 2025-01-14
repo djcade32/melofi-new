@@ -1,7 +1,7 @@
 import React, { ChangeEvent, CSSProperties, useState } from "react";
 import styles from "./signup.module.css";
 import Button from "@/ui/components/shared/button/Button";
-import { AuthViewProps } from "@/types/interfaces";
+import { AuthViewProps } from "@/types/general";
 
 interface FirstNameViewProps extends AuthViewProps {
   setAuthViewStep: React.Dispatch<React.SetStateAction<number>>;

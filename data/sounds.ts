@@ -21,7 +21,6 @@ import {
   summerNightEffect,
   trainEffect,
 } from "@/imports/sounds";
-import { Sound } from "@/types/interfaces";
 import {
   BsCloudRainFill,
   HiChatBubbleLeftRight,
@@ -45,8 +44,9 @@ import {
   GiSubmarine,
   AiFillThunderbolt,
 } from "@/imports/icons";
+import { MixerSoundConfig } from "@/types/interfaces/mixer";
 
-export const sounds: Record<string, Sound> = {
+export const sounds: MixerSoundConfig = {
   RAIN: {
     name: "Rain",
     path: rainEffect,

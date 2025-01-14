@@ -3,9 +3,9 @@ import styles from "./pomodoroTimerSessionCard.module.css";
 import { RxTimer, BsLightningCharge, BsArrowRepeat, HiTrash } from "@/imports/icons";
 import { LinearProgress, linearProgressClasses } from "@mui/material";
 import HoverIcon from "@/ui/components/shared/hoverIcon/HoverIcon";
-import { PomodoroTimerTask } from "@/types/interfaces";
 import usePomodoroTimerStore from "@/stores/widgets/pomodoro-timer-store";
 import { convertSecsToHrMinsSec, convertSecsToMins } from "@/utils/time";
+import { PomodoroTimerTask } from "@/types/interfaces/pomodoro_timer";
 
 interface PomodoroTimerSessionCardProps {
   task: PomodoroTimerTask;
@@ -16,6 +16,7 @@ interface PomodoroTimerSessionCardProps {
 const PomodoroTimerSessionCard = ({ task, active, onClick }: PomodoroTimerSessionCardProps) => {
   const { deletePomodoroTimerTask } = usePomodoroTimerStore();
   const [progress, setProgress] = useState<number>(0);
+  const [hovered, setHovered] = useState<boolean>(false);
 
   useEffect(() => {
     setProgress(task.percentCompleted);
@@ -39,8 +40,10 @@ const PomodoroTimerSessionCard = ({ task, active, onClick }: PomodoroTimerSessio
       }`}
       onClick={onClick}
       style={{
-        opacity: active ? 1 : 0.5,
+        opacity: active || hovered ? 1 : 0.5,
       }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <div className={styles.pomoTimerSessionCard__header}>
         <p

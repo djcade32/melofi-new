@@ -1,4 +1,4 @@
-import { Scene } from "@/types/interfaces";
+import { Scene } from "@/types/general";
 import { sounds } from "./sounds";
 
 export const scenes: Scene[] = [

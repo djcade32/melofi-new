@@ -4,8 +4,9 @@ import { FaPlay, FaPause, FaStop, VscDebugRestart } from "@/imports/icons";
 import { CircularProgress } from "@mui/material";
 import PomodoroTimerSessionCard from "../components/pomodoroTimerSessionCard/PomodoroTimerSessionCard";
 import usePomodoroTimerStore from "@/stores/widgets/pomodoro-timer-store";
-import { DialogModalActions, PomodoroTimerTask } from "@/types/interfaces";
+import { DialogModalActions } from "@/types/general";
 import HoverIcon from "@/ui/components/shared/hoverIcon/HoverIcon";
+import { PomodoroTimerTask } from "@/types/interfaces/pomodoro_timer";
 
 interface PomodoroTimerExpandedProps {
   isShown: boolean;
@@ -153,7 +154,7 @@ const PomodoroTimerExpanded = ({
       <div className={styles.pomodoroTimer__timer_action_buttons_container}>
         <HoverIcon
           id="pomodoro-timer-reset-button"
-          containerClassName={styles.pomodoroTimer__timer_action_button_outline}
+          iconContainerClassName={styles.pomodoroTimer__timer_action_button_outline}
           icon={VscDebugRestart}
           size={20}
           showTooltip
@@ -165,7 +166,7 @@ const PomodoroTimerExpanded = ({
         />
         <HoverIcon
           id="pomodoro-timer-play-pause-button"
-          containerClassName={styles.pomodoroTimer__timer_action_button_fill}
+          iconContainerClassName={styles.pomodoroTimer__timer_action_button_fill}
           icon={isTimerRunning ? FaPause : FaPlay}
           size={20}
           showTooltip
@@ -179,7 +180,7 @@ const PomodoroTimerExpanded = ({
         />
         <HoverIcon
           id="pomodoro-timer-stop-button"
-          containerClassName={styles.pomodoroTimer__timer_action_button_outline}
+          iconContainerClassName={styles.pomodoroTimer__timer_action_button_outline}
           icon={FaStop}
           size={20}
           showTooltip

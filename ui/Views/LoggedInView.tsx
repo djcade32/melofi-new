@@ -14,6 +14,7 @@ import Notes from "../widgets/notes/Notes";
 import PomodoroTimer from "../widgets/pomodoroTimer/PomodoroTimer";
 import Calculator from "../widgets/calculator/Calculator";
 import Alarms from "../widgets/alarms/Alarms";
+import Templates from "../widgets/templates/Templates";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
@@ -30,6 +31,7 @@ const LoggedInView = () => {
       <PomodoroTimer />
       <Calculator />
       <Alarms />
+      <Templates />
     </div>
   );
 };

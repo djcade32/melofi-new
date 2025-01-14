@@ -1,11 +1,18 @@
-.hoverIcon__iconContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s;
-    width: max-content;
+.hoverIcon__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
 }
 
-.hoverIcon__icon{
-    color: white
+.hoverIcon__iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+  width: max-content;
+}
+
+.hoverIcon__icon {
+  color: white;
 }

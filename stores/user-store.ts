@@ -1,6 +1,6 @@
 import { resetPassword } from "@/lib/firebase/actions/auth-actions";
 import { getUserFromUserDb } from "@/lib/firebase/getters/auth-getters";
-import { MelofiUser, UserStats } from "@/types/interfaces";
+import { MelofiUser, UserStats } from "@/types/general";
 import { create } from "zustand";
 
 export interface UserState {

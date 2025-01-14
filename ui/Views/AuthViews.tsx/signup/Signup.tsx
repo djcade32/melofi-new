@@ -3,7 +3,7 @@ import FirstNameView from "./FirstNameView";
 import styles from "./signup.module.css";
 import CredentialsView from "./CredentialsView";
 import WelcomeView from "./WelcomeView";
-import { AuthViewProps } from "@/types/interfaces";
+import { AuthViewProps } from "@/types/general";
 import VerifyEmailView from "./VerifyEmailView";
 
 const Signup = (props: AuthViewProps) => {

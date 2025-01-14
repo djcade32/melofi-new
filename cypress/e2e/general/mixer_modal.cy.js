@@ -1,4 +1,4 @@
-import { navigateToMelofi, pressMixerButton } from "../utils/general.ts";
+import { navigateToMelofi, pressMixerButton } from "../../utils/general.ts";
 import "cypress-real-events/support.js";
 
 describe("Testing Mixer Modal", () => {
@@ -124,9 +124,7 @@ describe("Testing Mixer Modal", () => {
       });
 
       //Change volume
-      cy.get("#mixer-modal-volume-slider")
-        .get(".MuiSlider-track") // Replace with your actual selector
-        .realClick();
+      cy.get("#mixer-modal-volume-slider").get(".MuiSlider-track").realClick();
 
       //Check if volume has changed
       cy.get("#mixer-modal-volume-slider")
@@ -176,17 +174,11 @@ describe("Testing Mixer Modal", () => {
         });
 
       //Change volume
-      cy.get("#Rain-mixer-slider")
-        .find(".MuiSlider-rail") // Replace with your actual selector
-        .realClick();
+      cy.get("#Rain-mixer-slider").find(".MuiSlider-rail").realClick();
 
-      cy.get("#Chatter-mixer-slider")
-        .find(".MuiSlider-rail") // Replace with your actual selector
-        .realClick();
+      cy.get("#Chatter-mixer-slider").find(".MuiSlider-rail").realClick();
 
-      cy.get("#Nature-mixer-slider")
-        .find(".MuiSlider-rail") // Replace with your actual selector
-        .realClick();
+      cy.get("#Nature-mixer-slider").find(".MuiSlider-rail").realClick();
 
       //Check if volume has changed
       cy.get("#Rain-mixer-slider")

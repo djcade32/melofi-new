@@ -1,6 +1,6 @@
-import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { getFirebaseDB } from "../firebaseClient";
-import { PomodoroTimerTask } from "@/types/interfaces";
+import { PomodoroTimerTask } from "@/types/interfaces/pomodoro_timer";
 
 const db = getFirebaseDB();
 
@@ -12,7 +12,7 @@ export const updatePomodoroTimerTaskInDb = async (email: string, tasks: Pomodoro
 
   try {
     const tasksDoc = doc(db, `widget_data/${email}`);
-    await setDoc(tasksDoc, { pomodoroTasks: tasks });
+    await setDoc(tasksDoc, { pomodoroTasks: tasks }, { merge: true });
   } catch (error) {
     console.log("Error updating pomodoro timer task in db: ", error);
     throw error;

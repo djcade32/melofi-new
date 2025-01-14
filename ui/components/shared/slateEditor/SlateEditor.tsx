@@ -21,7 +21,7 @@ import { toggleMark } from "./helpers";
 import MarkButton from "./components/MarkButton";
 import BlockButton from "./components/BlockButton";
 import styles from "./slateEditor.module.css";
-import { Note } from "@/types/interfaces";
+import { Note } from "@/types/general";
 import useNotesStore from "@/stores/widgets/notes-store";
 import EditorTimeDisplay from "./components/EditorTimeDisplay";
 

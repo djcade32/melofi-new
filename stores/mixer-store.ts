@@ -1,13 +1,15 @@
 import { sounds } from "@/data/sounds";
 import { MusicSource } from "@/enums/general";
-import { Scene, Sound } from "@/types/interfaces";
+import { Scene } from "@/types/general";
 import { toSnakeCase } from "@/utils/strings";
 import { create } from "zustand";
+import useTemplatesStore from "./widgets/templates-store";
+import { MixerSoundConfig, Sound } from "@/types/interfaces/mixer";
 
 export interface MixerState {
   mixerModalOpen: boolean;
   musicSource: MusicSource.MELOFI | MusicSource.SPOTIFY;
-  mixerSoundsConfig: Record<string, Sound>;
+  mixerSoundsConfig: MixerSoundConfig;
 
   toggleMixerModal: (bool: boolean) => void;
   setMusicSource: (newSource: MusicSource) => void;
@@ -15,6 +17,7 @@ export interface MixerState {
   getOtherSounds: (currentScene: Scene) => Sound[];
   changeSoundVolume: (soundName: string, newVolume: number) => void;
   resetSoundVolumes: () => void;
+  setMixerSoundsConfig: (newConfig: MixerSoundConfig) => void;
 }
 
 const useMixerStore = create<MixerState>((set, get) => ({
@@ -39,20 +42,24 @@ const useMixerStore = create<MixerState>((set, get) => ({
     );
   },
   changeSoundVolume: (soundName: string, newVolume: number) => {
-    set((state) => {
-      const newMixerSoundsConfig = { ...state.mixerSoundsConfig };
-      newMixerSoundsConfig[toSnakeCase(soundName).toUpperCase()].volume = newVolume;
-      return { mixerSoundsConfig: newMixerSoundsConfig };
-    });
+    const { mixerSoundsConfig, setMixerSoundsConfig } = get();
+    const newMixerSoundsConfig = { ...mixerSoundsConfig };
+    newMixerSoundsConfig[toSnakeCase(soundName).toUpperCase()].volume = newVolume;
+    setMixerSoundsConfig(newMixerSoundsConfig);
   },
   resetSoundVolumes: () => {
-    set((state) => {
-      const newMixerSoundsConfig = { ...state.mixerSoundsConfig };
-      Object.values(newMixerSoundsConfig).forEach((sound) => {
-        sound.volume = 0;
-      });
-      return { mixerSoundsConfig: newMixerSoundsConfig };
+    const { mixerSoundsConfig, setMixerSoundsConfig } = get();
+
+    const newMixerSoundsConfig = { ...mixerSoundsConfig };
+    Object.values(newMixerSoundsConfig).forEach((sound) => {
+      sound.volume = 0;
     });
+    setMixerSoundsConfig(newMixerSoundsConfig);
+  },
+  setMixerSoundsConfig: (newConfig: MixerSoundConfig) => {
+    const { settingsChanged, selectedTemplate } = useTemplatesStore.getState();
+    set({ mixerSoundsConfig: newConfig });
+    selectedTemplate && settingsChanged();
   },
 }));
 

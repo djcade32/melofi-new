@@ -11,7 +11,7 @@ export const getPomodoroTimerTasks = async (email: string) => {
   try {
     const tasksDoc = doc(db, `widget_data/${email}`);
     const tasks = await getDoc(tasksDoc);
-    return tasks.data();
+    return tasks.data()?.pomodoroTasks;
   } catch (error) {
     console.log("Error getting pomodoro timer tasks from db: ", error);
     throw error;

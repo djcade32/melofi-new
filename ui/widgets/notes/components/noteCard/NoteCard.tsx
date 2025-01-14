@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./noteCard.module.css";
 import { HiTrash } from "@/imports/icons";
 import HoverIcon from "@/ui/components/shared/hoverIcon/HoverIcon";
-import { Note } from "@/types/interfaces";
+import { Note } from "@/types/general";
 import useNotesStore from "@/stores/widgets/notes-store";
 import { serializeToPlainText } from "@/utils/strings";
 import { format } from "date-fns";

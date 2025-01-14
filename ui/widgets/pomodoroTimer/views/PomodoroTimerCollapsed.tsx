@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../pomodoroTimer.module.css";
-import { PomodoroTimerTask } from "@/types/interfaces";
+import { PomodoroTimerTask } from "@/types/general";
 import { LinearProgress, linearProgressClasses } from "@mui/material";
 
 interface PomodoroTimerCollapsedProps {
