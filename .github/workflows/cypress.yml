@@ -99,7 +99,7 @@ jobs:
         run: firebase emulators:start --only auth,firestore --project test-project &
 
       - name: Run Cypress tests
-        run: npm run test:e2e:headless:github -- --disable-audio-output --mute-audio
+        run: npm run test:e2e:headless:github --browser chrome --disable-gpu
         env:
           CI: true
           NEXT_PUBLIC_IS_CYPRESS: "true"
