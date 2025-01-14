@@ -91,13 +91,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Setup Virtual Audio Device
-        run: |
-          sudo apt-get install -y alsa-utils pulseaudio
-          sudo modprobe snd-dummy
-          sudo sh -c "echo 'options snd-dummy enable=1' > /etc/modprobe.d/snd-dummy.conf"
-          sudo sh -c "echo 'snd-dummy' >> /etc/modules"
-
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
 
@@ -106,7 +99,7 @@ jobs:
         run: firebase emulators:start --only auth,firestore --project test-project &
 
       - name: Run Cypress tests
-        run: npm run test:e2e:headless:github
+        run: npm run test:e2e:headless:github -- --disable-audio-output --mute-audio
         env:
           CI: true
           NEXT_PUBLIC_IS_CYPRESS: "true"
