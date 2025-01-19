@@ -11,3 +11,5 @@ export const ERROR_MESSAGES = {
   EMAIL_ALREADY_IN_USE: "Email is already in use",
   INVALID_CREDENTIALS: "Invalid email or password",
 };
+
+export type NotificationTypes = "success" | "error" | "normal" | "alarm";

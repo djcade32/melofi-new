@@ -13,14 +13,14 @@ interface ToasterProps {
   show: boolean;
   type?: NotificationTypes;
   icon?: IconType;
-  action?: { element: ReactNode; onClick: () => void };
+  actions?: { element: ReactNode; onClick: () => void }[];
 }
 
 function SlideTransition(props: any) {
   return <Slide {...props} direction="up" />;
 }
 
-const Toaster = ({ message, type = "normal", icon, show, action }: ToasterProps) => {
+const Toaster = ({ message, type = "normal", icon, show, actions }: ToasterProps) => {
   const [open, setOpen] = useState(show);
   const [isAlarm, setIsAlarm] = useState(false);
   const { setShowNotification, removeNotification } = useNotificationProviderStore();
@@ -58,19 +58,27 @@ const Toaster = ({ message, type = "normal", icon, show, action }: ToasterProps)
 
   const messageContent = () => {
     return (
-      <div className={styles.toaster__message_content}>
+      <div
+        className={styles.toaster__message_content}
+        style={{ flexDirection: actions && actions?.length > 1 ? "column" : "row" }}
+      >
         <div style={{ display: "flex", columnGap: 5, alignItems: "center" }}>
           {chooseIcon()}
           <p>{message}</p>
         </div>
 
-        {action ? (
-          React.cloneElement(action.element as React.ReactElement, {
-            onClick: () => {
-              action?.onClick;
-              handleClose();
-            },
-          })
+        {actions?.length ? (
+          <div className={styles.toaster__action_container}>
+            {actions.map((action) =>
+              React.cloneElement(action.element as React.ReactElement, {
+                key: Math.random(),
+                onClick: () => {
+                  action?.onClick();
+                  handleClose();
+                },
+              })
+            )}
+          </div>
         ) : (
           <IoCloseOutline
             size={25}

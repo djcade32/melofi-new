@@ -65,7 +65,7 @@ const NotificationProvider = ({ children }: NotificationProviderProps) => {
         type={currentNotification?.type}
         show={showNotification}
         icon={currentNotification?.icon}
-        action={currentNotification?.action}
+        actions={currentNotification?.actions}
       />
     </div>
   );
