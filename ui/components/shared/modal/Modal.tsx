@@ -52,7 +52,7 @@ const Modal = ({
           className={styles.modal__backdrop}
           style={{
             opacity: showBackdrop ? 1 : 0,
-            zIndex: showBackdrop ? 2 : -1,
+            zIndex: showBackdrop ? 10 : -1,
           }}
         />
 

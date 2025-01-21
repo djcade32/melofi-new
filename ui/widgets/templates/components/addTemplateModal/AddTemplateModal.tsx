@@ -36,7 +36,7 @@ const AddTemplateModal = ({ isOpen, close }: AddTemplateModalProps) => {
       className={styles.addTemplate__container}
       style={{
         opacity: isOpen ? 1 : 0,
-        zIndex: isOpen ? 2 : -1,
+        zIndex: isOpen ? 100 : -1,
       }}
     >
       <div>

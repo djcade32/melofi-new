@@ -68,7 +68,12 @@ const Toaster = ({ message, type = "normal", icon, show, actions }: ToasterProps
         </div>
 
         {actions?.length ? (
-          <div className={styles.toaster__action_container}>
+          <div
+            className={styles.toaster__action_container}
+            style={{
+              justifyContent: actions.length > 1 ? "space-between" : "flex-end",
+            }}
+          >
             {actions.map((action) =>
               React.cloneElement(action.element as React.ReactElement, {
                 key: Math.random(),

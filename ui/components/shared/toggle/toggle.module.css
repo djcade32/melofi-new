@@ -1,0 +1,28 @@
+.toggle__container {
+  display: flex;
+  align-items: center;
+  width: 87px;
+  border-radius: 5px;
+  background-color: var(--color-secondary-opacity);
+  justify-content: space-around;
+  cursor: pointer;
+}
+
+.toggle__container div {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.toggle__container p {
+  font-size: 0.8rem;
+}
+
+.selected {
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+  border-radius: 5px;
+  box-shadow: var(--box-shadow-primary);
+}

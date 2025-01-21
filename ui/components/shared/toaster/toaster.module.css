@@ -18,7 +18,7 @@
 .toaster__action_container {
   display: flex;
   justify-content: space-between;
-  width: 70%;
+  flex: 1;
   gap: 10px;
 }
 
