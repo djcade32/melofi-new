@@ -14,6 +14,6 @@ export const buildUserStatsType = (userStats: any): UserStats => {
     totalConsecutiveDays: userStats?.totalConsecutiveDays || 0,
     totalTasksCompleted: userStats?.totalTasksCompleted || 0,
     favoriteScene: userStats?.favoriteScene || null,
-    expiredAlarmsCount: userStats?.expiredAlarmsCount || 0,
+    alarmsExpiredCount: userStats?.alarmsExpiredCount || 0,
   };
 };

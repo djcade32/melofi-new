@@ -92,7 +92,7 @@ export interface UserStats {
   totalTasksCompleted: number;
   totalNotesCreated: number;
   favoriteScene: string | null;
-  expiredAlarmsCount: number;
+  alarmsExpiredCount: number;
 }
 
 export interface DialogModalActions {

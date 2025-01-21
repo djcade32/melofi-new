@@ -127,6 +127,7 @@ const alarmModal = ({ alarm, close }: AlarmModalProps) => {
       <div className={styles.alarmModal__content}>
         <div className={styles.alarmModal__time}>
           <input
+            id="alarm-modal-hour-input"
             ref={hourInputRef}
             type="text"
             value={timeH}
@@ -136,6 +137,7 @@ const alarmModal = ({ alarm, close }: AlarmModalProps) => {
           />
           <p>:</p>
           <input
+            id="alarm-modal-minute-input"
             type="text"
             value={timeM}
             onClick={(e) => handleInputClick(e)}

@@ -23,7 +23,7 @@ export interface AlarmsState {
 
 const useAlarmsStore = create<AlarmsState>((set, get) => ({
   alarmsWorker: null,
-  isAlarmsOpen: true,
+  isAlarmsOpen: false,
   alarmList: [],
 
   setIsAlarmsOpen: (value) => {

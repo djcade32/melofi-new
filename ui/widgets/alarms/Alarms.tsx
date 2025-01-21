@@ -100,7 +100,7 @@ const Alarms = () => {
 
   return (
     <Modal
-      id="to-do-list-widget"
+      id="alarms-widget"
       isOpen={isAlarmsOpen}
       className={styles.alarms__container}
       title="Alarms"
@@ -122,6 +122,7 @@ const Alarms = () => {
         )}
       </div>
       <HoverIcon
+        id="add-alarm-button"
         icon={FiPlus}
         tooltipText="Add Alarm"
         showTooltip

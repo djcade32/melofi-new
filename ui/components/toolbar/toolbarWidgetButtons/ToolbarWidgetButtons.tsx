@@ -86,8 +86,8 @@ const ToolbarWidgetButtons = () => {
         active={isCalculatorOpen}
       />
       <ToolbarButton
-        id="alarm"
-        label="Alarm"
+        id="alarms"
+        label="Alarms"
         icon={IoAlarm}
         onClick={() => handleWidgetButtonPress(() => setIsAlarmsOpen(!isAlarmsOpen))}
         active={false}

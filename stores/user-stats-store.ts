@@ -18,7 +18,7 @@ export interface userStatsState {
   totalTasksCompleted: number;
   totalNotesCreated: number;
   favoriteScene: string | null;
-  expiredAlarmsCount: number;
+  alarmsExpiredCount: number;
 
   setUserStats: () => Promise<void>;
   incrementTotalNotesCreated: () => Promise<void>;
@@ -40,7 +40,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
   totalTasksCompleted: 0,
   totalNotesCreated: 0,
   favoriteScene: null,
-  expiredAlarmsCount: 0,
+  alarmsExpiredCount: 0,
 
   async setUserStats() {
     const email = useUserStore.getState().currentUser?.authUser?.email;
@@ -92,9 +92,9 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       return;
     }
     try {
-      const expiredAlarmsCount = get().expiredAlarmsCount;
+      const expiredAlarmsCount = get().alarmsExpiredCount;
       await updateAlarmsExpiredCount(email, expiredAlarmsCount + 1);
-      set((state) => ({ expiredAlarmsCount: expiredAlarmsCount + 1 }));
+      set(() => ({ alarmsExpiredCount: expiredAlarmsCount + 1 }));
     } catch (error) {
       console.log("Error incrementing expired alarms count: ", error);
     }
