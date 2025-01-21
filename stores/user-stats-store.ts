@@ -65,8 +65,9 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       return;
     }
     try {
-      await updateTotalNotesCreated(email, get().totalNotesCreated + 1);
-      set((state) => ({ totalNotesCreated: state.totalNotesCreated + 1 }));
+      const totalNotesCreated = get().totalNotesCreated;
+      await updateTotalNotesCreated(email, totalNotesCreated + 1);
+      set((state) => ({ totalNotesCreated: totalNotesCreated + 1 }));
     } catch (error) {
       console.log("Error incrementing total notes created: ", error);
     }
@@ -91,8 +92,9 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       return;
     }
     try {
-      await updateAlarmsExpiredCount(email, get().expiredAlarmsCount + 1);
-      set((state) => ({ expiredAlarmsCount: state.expiredAlarmsCount + 1 }));
+      const expiredAlarmsCount = get().expiredAlarmsCount;
+      await updateAlarmsExpiredCount(email, expiredAlarmsCount + 1);
+      set((state) => ({ expiredAlarmsCount: expiredAlarmsCount + 1 }));
     } catch (error) {
       console.log("Error incrementing expired alarms count: ", error);
     }

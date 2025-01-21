@@ -85,13 +85,14 @@ export interface Note {
 }
 
 export interface UserStats {
+  lastLogin: string;
   pomodoroTimer: PomodoroTimerStats;
   totalFocusTime: number;
   totalConsecutiveDays: number;
   totalTasksCompleted: number;
   totalNotesCreated: number;
   favoriteScene: string | null;
-  lastLogin: string;
+  expiredAlarmsCount: number;
 }
 
 export interface DialogModalActions {

@@ -2,6 +2,7 @@ import { UserStats } from "@/types/general";
 
 export const buildUserStatsType = (userStats: any): UserStats => {
   return {
+    lastLogin: userStats?.lastLogin || "",
     pomodoroTimer: {
       totalFocusTime: userStats?.pomodoroTimer?.totalFocusTime || 0,
       totalBreakTime: userStats?.pomodoroTimer?.totalBreakTime || 0,
@@ -13,6 +14,6 @@ export const buildUserStatsType = (userStats: any): UserStats => {
     totalConsecutiveDays: userStats?.totalConsecutiveDays || 0,
     totalTasksCompleted: userStats?.totalTasksCompleted || 0,
     favoriteScene: userStats?.favoriteScene || null,
-    lastLogin: userStats?.lastLogin || "",
+    expiredAlarmsCount: userStats?.expiredAlarmsCount || 0,
   };
 };
