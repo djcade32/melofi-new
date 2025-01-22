@@ -12,11 +12,14 @@ describe("Testing Alarms Widget", () => {
       seedWithUser: true,
       skipOnboarding: false,
       loggedIn: true,
+      clearLocalStorage: true,
     });
   });
 
   after(() => {
     cy.clearLocalStorage();
+    cy.clearAuthEmulator();
+    cy.clearFirestoreEmulator();
   });
 
   it("Should open and close Alarms widget", () => {
