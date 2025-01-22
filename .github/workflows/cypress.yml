@@ -38,6 +38,12 @@ jobs:
           echo "${FIREBASE_SERVICE_ACCOUNT}" > firebase-service-account.json
           export GOOGLE_APPLICATION_CREDENTIALS=firebase-service-account.json
 
+      - name: Print Current Directory and List Contents
+        run: |
+          echo "Current Directory: $(pwd)"
+          echo "Contents:"
+          ls -la
+
       - name: Check if Firebase Emulator Cache Exists
         run: |
           if [ -d "/home/runner/.cache/firebase/emulators" ]; then
