@@ -109,9 +109,6 @@ jobs:
           firebase emulators:start --only auth,firestore --import=./emulator-data --project test-project --export-on-exit=./emulator-data | tee emulator-log.txt &
           sleep 10 # Allow time for emulators to start
 
-      - name: Clear Firebase Emulator Cache
-          run: rm -rf .firebase/
-
       - name: Run Cypress tests
         run: npm run test:e2e:headless:github
         env:
