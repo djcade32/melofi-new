@@ -42,6 +42,15 @@ jobs:
       - name: Clear Firebase Emulator Cache
         run: rm -rf /home/runner/.cache/firebase/emulators
 
+      - name: Verify Firebase Emulator Cache is Cleared
+        run: |
+          if [ -d "/home/runner/.cache/firebase/emulators" ]; then
+            echo "Cache directory still exists!"
+            exit 1
+          else
+            echo "Cache directory has been successfully cleared."
+          fi
+
       # Start Firebase emulators with no persistence
       - name: Start Firebase Emulators
         env:
