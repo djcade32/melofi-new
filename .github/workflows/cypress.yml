@@ -99,7 +99,7 @@ jobs:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
           echo "${FIREBASE_SERVICE_ACCOUNT}" > firebase-service-account.json
-          firebase auth:login:ci --project test-project --no-localhost \
+          firebase auth:login:ci --project test-project \
             --token "$(firebase login:ci --json < firebase-service-account.json | jq -r '.token')"
 
       # Start Firebase emulators
