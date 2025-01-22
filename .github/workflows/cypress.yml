@@ -114,6 +114,8 @@ jobs:
         env:
           CI: true
           NEXT_PUBLIC_IS_CYPRESS: "true"
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
 
       - name: Upload Cypress Screenshots
         if: failure()
