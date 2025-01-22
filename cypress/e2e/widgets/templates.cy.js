@@ -47,7 +47,7 @@ describe("Testing Templates Widget", () => {
   });
 
   it("Should delete a template", () => {
-    getElementWithClassName("templatesListItem__trash_icon").realClick();
+    getElementWithClassName("templatesListItem__trash_icon").click({ force: true });
     getElementWithClassName("templates__empty").contains("No Templates");
   });
 

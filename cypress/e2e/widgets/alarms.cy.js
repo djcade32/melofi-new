@@ -69,6 +69,7 @@ describe("Testing Alarms Widget", () => {
   });
 
   it("Should delete an alarm", () => {
+    cy.wait(1000);
     getElementWithClassName("alarmsItem__delete_button").click({ force: true });
     getElementWithClassName("alarms__empty").should("exist").contains("No Alarms Set");
   });
