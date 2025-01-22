@@ -106,11 +106,8 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: firebase-service-account.json
         run: |
-          firebase emulators:start --only auth,firestore --project test-project | tee emulator-log.txt &
+          firebase emulators:start --only auth,firestore --import=./emulator-data --project test-project --export-on-exit=./emulator-data | tee emulator-log.txt &
           sleep 10 # Allow time for emulators to start
-
-      - name: Clear Firestore Data
-        run: node ./scripts/clearFirestore.js
 
       - name: Run Cypress tests
         run: npm run test:e2e:headless:github
