@@ -105,7 +105,16 @@ jobs:
       - name: Start Firebase Emulators
         env:
           GOOGLE_APPLICATION_CREDENTIALS: firebase-service-account.json
-        run: firebase emulators:start --only auth,firestore --project test-project &
+        run: |
+          firebase emulators:start --only auth,firestore --project test-project \
+            --export-on-exit=emulator-data &> emulator-log.txt &
+          echo "Emulator logs are being saved to emulator-log.txt"
+
+      - name: Wait for Firebase Emulators
+        run: |
+          FIRESTORE_PORT=$(grep -oP '(?<=Firestore Emulator websocket is running on )\d+' emulator-log.txt)
+          echo "Firestore Emulator is running on port $FIRESTORE_PORT"
+          npx wait-on http://localhost:$FIRESTORE_PORT
 
       - name: Run Cypress tests
         run: npm run test:e2e:headless:github
