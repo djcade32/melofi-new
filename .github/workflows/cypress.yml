@@ -38,6 +38,14 @@ jobs:
           echo "${FIREBASE_SERVICE_ACCOUNT}" > firebase-service-account.json
           export GOOGLE_APPLICATION_CREDENTIALS=firebase-service-account.json
 
+      - name: Check if Firebase Emulator Cache Exists
+        run: |
+          if [ -d "/home/runner/.cache/firebase/emulators" ]; then
+            echo "Cache directory exists."
+          else
+            echo "Cache directory does not exist."
+          fi
+
       # Ensure the Firebase Emulator cache is cleared
       - name: Clear Firebase Emulator Cache
         run: rm -rf /home/runner/.cache/firebase/emulators
