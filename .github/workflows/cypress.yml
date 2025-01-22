@@ -40,7 +40,7 @@ jobs:
 
       # Ensure the Firebase Emulator cache is cleared
       - name: Clear Firebase Emulator Cache
-        run: rm -rf .firebase/
+        run: rm -rf /home/runner/.cache/firebase/emulators
 
       # Start Firebase emulators with no persistence
       - name: Start Firebase Emulators
