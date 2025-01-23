@@ -77,7 +77,7 @@ describe("Testing Alarms Widget", () => {
     pressToolbarButton("alarms");
     // getElementWithClassName("alarmsItem__delete_button").click({ force: true });
     getElementWithClassName("alarmsItem__container").children().first().click({ force: true });
-    getElementWithClassName("alarmsItem__container").should("have.length", 3);
+    getElementWithClassName("alarmsItem__container").should("have.length", 0);
 
     // getElementWithClassName("alarms__empty").should("exist").contains("No Alarms Set");
   });
