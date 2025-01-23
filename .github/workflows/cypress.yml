@@ -42,12 +42,11 @@ jobs:
         run: |
           echo "Current Directory: $(pwd)"
           echo "Contents:"
-          cd /home/runner/.cache/
           ls -la
 
       - name: Check if Firebase Emulator Cache Exists
         run: |
-          if [ -d "/home/runner/.cache/firebase/emulators" ]; then
+          if [ -d "/home/runner/.cache/" ]; then
             echo "Cache directory exists."
           else
             echo "Cache directory does not exist."
@@ -55,11 +54,11 @@ jobs:
 
       # Ensure the Firebase Emulator cache is cleared
       - name: Clear Firebase Emulator Cache
-        run: rm -rf /home/runner/.cache/firebase/emulators
+        run: rm -rf /home/runner/.cache/
 
       - name: Verify Firebase Emulator Cache is Cleared
         run: |
-          if [ -d "/home/runner/.cache/firebase/emulators" ]; then
+          if [ -d "/home/runner/.cache/" ]; then
             echo "Cache directory still exists!"
             exit 1
           else
