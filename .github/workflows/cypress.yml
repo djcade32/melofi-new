@@ -42,7 +42,7 @@ jobs:
         run: |
           echo "Current Directory: $(pwd)"
           echo "Contents:"
-          cd ../../../work/
+          cd ../../../../
           ls -la
 
       - name: Check if Firebase Emulator Cache Exists
