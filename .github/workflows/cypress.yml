@@ -64,10 +64,6 @@ jobs:
       #     else
       #       echo "Cache directory has been successfully cleared."
       #     fi
-      - name: Search for Firebase Emulator Data
-        run: |
-          echo "Searching for Firebase-related directories..."
-          find /home/runner -type d -name "*.firebase" -o -name "firebase" -o -name "emulators"
 
       # Start Firebase emulators with no persistence
       - name: Start Firebase Emulators
