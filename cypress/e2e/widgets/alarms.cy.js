@@ -84,6 +84,15 @@ describe("Testing Alarms Widget", () => {
     getElementWithClassName("alarmsItem__delete_button").first().click({ force: true });
     getElementWithClassName("alarmsItem__delete_button").first().click({ force: true });
     getElementWithClassName("alarmsItem__delete_button").first().click({ force: true });
+    getElementWithClassName("alarmsItem__delete_button").first().click({ force: true });
+    getElementWithClassName("alarmsItem__delete_button").first().click({ force: true });
+    getElementWithClassName("alarmsItem__delete_button").first().click({ force: true });
+    getElementWithClassName("alarmsItem__delete_button").first().click({ force: true });
+    getElementWithClassName("alarmsItem__delete_button").first().click({ force: true });
+    getElementWithClassName("alarmsItem__delete_button").first().click({ force: true });
+    getElementWithClassName("alarmsItem__delete_button").first().click({ force: true });
+    getElementWithClassName("alarmsItem__delete_button").first().click({ force: true });
+    getElementWithClassName("alarmsItem__delete_button").first().click({ force: true });
     getElementWithClassName("alarms__empty").should("exist").contains("No Alarms Set");
   });
 
