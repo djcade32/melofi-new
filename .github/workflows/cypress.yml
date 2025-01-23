@@ -44,26 +44,26 @@ jobs:
           echo "Contents:"
           ls -la
 
-      - name: Check if Firebase Emulator Cache Exists
-        run: |
-          if [ -d "/home/runner/.cache/" ]; then
-            echo "Cache directory exists."
-          else
-            echo "Cache directory does not exist."
-          fi
+      # - name: Check if Firebase Emulator Cache Exists
+      #   run: |
+      #     if [ -d "/home/runner/.cache/" ]; then
+      #       echo "Cache directory exists."
+      #     else
+      #       echo "Cache directory does not exist."
+      #     fi
 
-      # Ensure the Firebase Emulator cache is cleared
-      - name: Clear Firebase Emulator Cache
-        run: rm -rf /home/runner/.cache/
+      # # Ensure the Firebase Emulator cache is cleared
+      # - name: Clear Firebase Emulator Cache
+      #   run: rm -rf /home/runner/.cache/
 
-      - name: Verify Firebase Emulator Cache is Cleared
-        run: |
-          if [ -d "/home/runner/.cache/" ]; then
-            echo "Cache directory still exists!"
-            exit 1
-          else
-            echo "Cache directory has been successfully cleared."
-          fi
+      # - name: Verify Firebase Emulator Cache is Cleared
+      #   run: |
+      #     if [ -d "/home/runner/.cache/" ]; then
+      #       echo "Cache directory still exists!"
+      #       exit 1
+      #     else
+      #       echo "Cache directory has been successfully cleared."
+      #     fi
 
       # Start Firebase emulators with no persistence
       - name: Start Firebase Emulators
