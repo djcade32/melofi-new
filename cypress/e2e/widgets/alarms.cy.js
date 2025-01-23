@@ -12,7 +12,6 @@ describe("Testing Alarms Widget", () => {
       seedWithUser: true,
       skipOnboarding: false,
       loggedIn: true,
-      clearLocalStorage: true,
     });
   });
 
