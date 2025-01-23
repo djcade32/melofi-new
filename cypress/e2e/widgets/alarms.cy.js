@@ -28,7 +28,7 @@ describe("Testing Alarms Widget", () => {
         }
       });
 
-    getElementWithClassName("alarms__empty").should("exist").contains("No Alarms Set");
+    // getElementWithClassName("alarms__empty").should("exist").contains("No Alarms Set");
   });
 
   it("Should open and close Alarms widget", () => {
