@@ -19,14 +19,6 @@ describe("Testing Alarms Widget", () => {
     cy.clearLocalStorage();
 
     // iterate through alarmsItem__container and delete all alarms
-    getElementWithClassName("alarms__content")
-      .children()
-      .each(($el) => {
-        if ($el) {
-          getElementWithClassName("alarmsItem__delete_button").first().click({ force: true });
-        }
-      });
-    getElementWithClassName("alarmsItem__container").should("have.length", 0);
   });
 
   //   it("Should open and close Alarms widget", () => {
@@ -82,7 +74,16 @@ describe("Testing Alarms Widget", () => {
     cy.wait(1000);
     pressToolsButton();
     pressToolbarButton("alarms");
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true });
+    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
+
+    getElementWithClassName("alarms__content")
+      .children()
+      .each(($el) => {
+        if ($el) {
+          getElementWithClassName("alarmsItem__delete_button").first().click({ force: true });
+        }
+      });
+    getElementWithClassName("alarmsItem__container").should("have.length", 0);
     getElementWithClassName("alarms__empty").should("exist").contains("No Alarms Set");
   });
 
