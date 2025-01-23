@@ -97,15 +97,13 @@ describe("Testing Alarms Widget", () => {
   });
 
   it("Should delete all alarms", () => {
-    getElementWithClassName("alarms__content")
-      .children()
-      .each(($el) => {
-        if ($el) {
-          getElementWithClassName("alarmsItem__delete_button")
-            .first()
-            .click({ force: true, multiple: true });
-        }
-      });
+    getElementWithClassName("alarmsItem__container").each(($el) => {
+      if ($el) {
+        getElementWithClassName("alarmsItem__delete_button")
+          .first()
+          .click({ force: true, multiple: true });
+      }
+    });
     getElementWithClassName("alarmsItem__container").should("have.length", 0);
     getElementWithClassName("alarms__empty").should("exist").contains("No Alarms Set");
   });
