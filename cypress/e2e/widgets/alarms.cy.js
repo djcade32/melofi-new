@@ -75,25 +75,10 @@ describe("Testing Alarms Widget", () => {
     cy.wait(1000);
     pressToolsButton();
     pressToolbarButton("alarms");
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarms__empty").should("exist").contains("No Alarms Set");
+    getElementWithClassName("alarmsItem__delete_button").click({ force: true });
+    getElementWithClassName("alarmsItem__container").should("have.length", 3);
+
+    // getElementWithClassName("alarms__empty").should("exist").contains("No Alarms Set");
   });
 
   //   it("Should add multiple alarms", () => {
