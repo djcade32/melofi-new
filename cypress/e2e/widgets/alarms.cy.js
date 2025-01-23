@@ -99,6 +99,7 @@ describe("Testing Alarms Widget", () => {
   it("Should delete all alarms", () => {
     getElementWithClassName("alarmsItem__container").each(($el) => {
       if ($el) {
+        cy.wait(1000);
         getElementWithClassName("alarmsItem__delete_button")
           .first()
           .click({ force: true, multiple: true });
