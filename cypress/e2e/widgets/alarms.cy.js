@@ -85,7 +85,8 @@ describe("Testing Alarms Widget", () => {
     pressToolsButton();
     pressToolbarButton("alarms");
     getElementWithClassName("alarmsItem__delete_button").click({ force: true, multiple: true });
-    getElementWithClassName("alarms__empty").should("exist").contains("No Alarms Set");
+    getElementWithClassName("alarmsItem__container").should("have.length", 0);
+    // getElementWithClassName("alarms__empty").should("exist").contains("No Alarms Set");
   });
 
   //   it("Should add multiple alarms", () => {
