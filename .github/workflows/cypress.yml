@@ -1,66 +1,3 @@
-# name: Cypress E2E Tests
-
-# on:
-#   pull_request:
-#     branches:
-#       - develop
-#     types:
-#       - opened # Trigger when a pull request is opened
-#       - synchronize # Trigger when a pull request is updated
-
-# jobs:
-#   cypress-run:
-#     runs-on: ubuntu-latest
-
-#     strategy:
-#       matrix:
-#         #Use the latest version of Node.js
-#         node-version: [18.x]
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Set up Node.js
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: ${{ matrix.node-version }}
-
-#       - name: Set up environment variables
-#         env:
-#           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-#           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
-#           NEXT_PUBLIC_IS_CYPRESS: true
-
-#         run: |
-#           echo "FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" >> $GITHUB_ENV
-#           echo "NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}" >> $GITHUB_ENV
-#           echo "NEXT_PUBLIC_IS_CYPRESS: true" >> $GITHUB_ENV
-
-#       - name: Install dependencies
-#         run: npm install
-
-#       - name: Start Firebase Emulators
-#         run: firebase emulators:start --only auth,firestore --project test-project &
-
-#       - name: Run Cypress tests
-#         run: npm run test:e2e:headless
-#         env:
-#           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-#           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
-#           NEXT_PUBLIC_IS_CYPRESS: true
-#           CI: true
-
-# - name: Set environment variables
-# run: echo "FIREBASE_AUTH_EMULATOR_PORT=9099" >> $GITHUB_ENV
-
-# - name: Install dependencies
-# run: npm install
-
-# - name: Start Firebase Emulators
-# run: firebase emulators:start --only auth --project test-project --port ${{ env.FIREBASE_AUTH_EMULATOR_PORT }} &
-
-# - name: Wait for Firebase Emulators
-# run: npx wait-on http://localhost:${{ env.FIREBASE_AUTH_EMULATOR_PORT }}
 name: Cypress E2E Tests
 
 on:
@@ -68,8 +5,8 @@ on:
     branches:
       - develop
     types:
-      - opened # Trigger when a pull request is opened
-      - synchronize # Trigger when a pull request is updated
+      - opened
+      - synchronize
 
 jobs:
   cypress-run:
@@ -77,8 +14,8 @@ jobs:
 
     strategy:
       matrix:
-        #Use the latest version of Node.js
         node-version: [18.x]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -94,15 +31,28 @@ jobs:
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
 
-      # Start Firebase emulators
+      - name: Set up Firebase Authentication
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          echo "${FIREBASE_SERVICE_ACCOUNT}" > firebase-service-account.json
+          export GOOGLE_APPLICATION_CREDENTIALS=firebase-service-account.json
+
+      # Start Firebase emulators with no persistence
       - name: Start Firebase Emulators
-        run: firebase emulators:start --only auth,firestore --project test-project &
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: firebase-service-account.json
+        run: |
+          firebase emulators:start --only auth,firestore | tee emulator-log.txt &
+          sleep 10 # Allow time for emulators to start
 
       - name: Run Cypress tests
         run: npm run test:e2e:headless:github
         env:
           CI: true
           NEXT_PUBLIC_IS_CYPRESS: "true"
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
 
       - name: Upload Cypress Screenshots
         if: failure()
@@ -110,3 +60,10 @@ jobs:
         with:
           name: cypress-screenshots
           path: cypress/screenshots
+
+      - name: Upload Emulator Logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: emulator-logs
+          path: emulator-log.txt

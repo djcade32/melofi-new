@@ -18,6 +18,7 @@ import useNotesStore from "@/stores/widgets/notes-store";
 import usePomodoroTimerStore from "@/stores/widgets/pomodoro-timer-store";
 import useCalculatorStore from "@/stores/widgets/calculator-store";
 import useTemplatesStore from "@/stores/widgets/templates-store";
+import useAlarmsStore from "@/stores/widgets/alarms-store";
 
 const ToolbarWidgetButtons = () => {
   const { isVertical, toggleTools, isUndocked } = useToolsStore();
@@ -27,6 +28,7 @@ const ToolbarWidgetButtons = () => {
   const { isPomodoroTimerOpen, setIsPomodoroTimerOpen } = usePomodoroTimerStore();
   const { isCalculatorOpen, setIsCalculatorOpen } = useCalculatorStore();
   const { isTemplatesOpen, setIsTemplatesOpen } = useTemplatesStore();
+  const { isAlarmsOpen, setIsAlarmsOpen } = useAlarmsStore();
 
   const handleWidgetButtonPress = (toggleWidgetFunction: Function) => {
     toggleWidgetFunction();
@@ -84,10 +86,10 @@ const ToolbarWidgetButtons = () => {
         active={isCalculatorOpen}
       />
       <ToolbarButton
-        id="alarm"
-        label="Alarm"
+        id="alarms"
+        label="Alarms"
         icon={IoAlarm}
-        onClick={() => toggleCalendar(!isCalendarOpen)}
+        onClick={() => handleWidgetButtonPress(() => setIsAlarmsOpen(!isAlarmsOpen))}
         active={false}
       />
       <ToolbarButton

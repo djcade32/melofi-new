@@ -52,7 +52,7 @@ const Modal = ({
           className={styles.modal__backdrop}
           style={{
             opacity: showBackdrop ? 1 : 0,
-            zIndex: showBackdrop ? 2 : -1,
+            zIndex: showBackdrop ? 10 : -1,
           }}
         />
 
@@ -72,18 +72,26 @@ const Modal = ({
             {title && <p className={`${titleClassName}`}>{title}</p>}
           </div>
           {showCloseIcon && (
-            <IoCloseOutline
-              id={`${id}-close-icon`}
-              size={25}
-              color="var(--color-secondary)"
-              onClick={close}
+            <div
               style={{
-                cursor: "pointer",
-                zIndex: 1,
-                opacity: fadeCloseIcon ? (isHovered ? 1 : 0) : 1,
-                transition: "all 0.3s",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
               }}
-            />
+            >
+              <IoCloseOutline
+                id={`${id}-close-icon`}
+                size={25}
+                color="var(--color-secondary)"
+                onClick={close}
+                style={{
+                  cursor: "pointer",
+                  zIndex: 1,
+                  opacity: fadeCloseIcon ? (isHovered ? 1 : 0) : 1,
+                  transition: "all 0.3s",
+                }}
+              />
+            </div>
           )}
         </div>
 

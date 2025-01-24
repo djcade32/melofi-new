@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Cardo&family=Lobster+Two:wght@400;700&family=Patrick+Hand&family=Poppins:wght@300;400;500;700&family=Signika:wght@300;400;500;700&family=Yatra+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Cardo&family=Lobster+Two:wght@400;700&family=Patrick+Hand&family=Poppins:wght@300;400;500;700&family=Signika:wght@300;400;500;700&family=Yatra+One&display=swap");
 
 :root {
   --background: white;
@@ -11,28 +11,27 @@
   --font-cardo: "Cardo", sans-serif;
   --font-bruno-ace: "Bruno Ace", sans-serif;
   --font-yatra-one: "Yatra One", sans-serif;
-  
-  --color-primary-opacity: rgb(35,35,35,88%);
-  --color-primary: rgb(35,35,35);
-  --color-secondary: #7B777A;
-  --color-secondary-opacity: rgb(112,108,111, 30%);
-  --color-effect : #FEA539;
-  --color-effect-opacity : rgba(254, 165, 57, 0.88);
-  --color-white: rgb(255,255,255,89%);
+
+  --color-primary-opacity: rgb(35, 35, 35, 88%);
+  --color-primary: rgb(35, 35, 35);
+  --color-secondary: #7b777a;
+  --color-secondary-opacity: rgb(112, 108, 111, 30%);
+  --color-effect: #fea539;
+  --color-effect-opacity: rgba(254, 165, 57, 0.88);
+  --color-white: rgb(255, 255, 255, 89%);
   --color-secondary-white: #aca7ab;
+  --color-black: rgb(18, 18, 18);
 
   --color-error: rgb(239, 83, 80, 0.88);
-  --color-success: rgb(74, 147, 74, .88);
+  --color-success: rgb(74, 147, 74, 0.88);
 
-  --box-shadow-primary: 0 4px 4px #00000040; 
- 
+  --box-shadow-primary: 0 4px 4px #00000040;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: white
-    ;
+    --foreground: white;
   }
 }
 
@@ -50,7 +49,12 @@ body {
   user-select: none;
 }
 
-p ,h1 ,h2 ,h3 ,h4 h5, h6 {
+p,
+h1,
+h2,
+h3,
+h4 h5,
+h6 {
   font-family: var(--font-primary);
   color: var(--color-white);
 }

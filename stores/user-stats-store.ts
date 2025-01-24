@@ -1,4 +1,5 @@
 import {
+  updateAlarmsExpiredCount,
   updatePomodoroTimerStats,
   updateTotalNotesCreated,
 } from "@/lib/firebase/actions/stats-actions";
@@ -9,20 +10,25 @@ import useUserStore from "./user-store";
 import { PomodoroTimerStats } from "@/types/interfaces/pomodoro_timer";
 
 export interface userStatsState {
+  lastLogin: string;
+
   pomodoroTimerStats: PomodoroTimerStats;
   totalFocusTime: number;
   totalConsecutiveDays: number;
   totalTasksCompleted: number;
   totalNotesCreated: number;
   favoriteScene: string | null;
-  lastLogin: string;
+  alarmsExpiredCount: number;
 
   setUserStats: () => Promise<void>;
-  incrementTotalNotesCreated: (email: string) => Promise<void>;
+  incrementTotalNotesCreated: () => Promise<void>;
   updatePomodoroTimerStats: (updatedStats: PomodoroTimerStats) => Promise<void>;
+  incrementExpiredAlarmsCount: () => Promise<void>;
 }
 
 const useUserStatsStore = create<userStatsState>((set, get) => ({
+  lastLogin: "",
+
   pomodoroTimerStats: {
     totalFocusTime: 0,
     totalBreakTime: 0,
@@ -34,7 +40,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
   totalTasksCompleted: 0,
   totalNotesCreated: 0,
   favoriteScene: null,
-  lastLogin: "",
+  alarmsExpiredCount: 0,
 
   async setUserStats() {
     const email = useUserStore.getState().currentUser?.authUser?.email;
@@ -59,8 +65,9 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       return;
     }
     try {
-      await updateTotalNotesCreated(email, get().totalNotesCreated + 1);
-      set((state) => ({ totalNotesCreated: state.totalNotesCreated + 1 }));
+      const totalNotesCreated = get().totalNotesCreated;
+      await updateTotalNotesCreated(email, totalNotesCreated + 1);
+      set((state) => ({ totalNotesCreated: totalNotesCreated + 1 }));
     } catch (error) {
       console.log("Error incrementing total notes created: ", error);
     }
@@ -76,6 +83,20 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       set({ pomodoroTimerStats: updatedStats });
     } catch (error) {
       console.log("Error updating pomodoro timer stats: ", error);
+    }
+  },
+
+  async incrementExpiredAlarmsCount() {
+    const email = useUserStore.getState().currentUser?.authUser?.email;
+    if (!email) {
+      return;
+    }
+    try {
+      const expiredAlarmsCount = get().alarmsExpiredCount;
+      await updateAlarmsExpiredCount(email, expiredAlarmsCount + 1);
+      set(() => ({ alarmsExpiredCount: expiredAlarmsCount + 1 }));
+    } catch (error) {
+      console.log("Error incrementing expired alarms count: ", error);
     }
   },
 }));

@@ -3,6 +3,7 @@ import { ReactElement, ReactNode } from "react";
 import { IconType } from "react-icons";
 import { Descendant } from "slate";
 import { PomodoroTimerStats } from "./interfaces/pomodoro_timer";
+import { NotificationTypes } from "@/enums/general";
 
 export interface Scene {
   id: number;
@@ -30,8 +31,9 @@ export interface Song {
 
 export interface NotificationType {
   message: string;
-  type: "success" | "error" | "normal";
+  type: NotificationTypes;
   icon?: IconType;
+  actions?: { element: ReactNode; onClick: () => void }[];
 }
 
 export interface MenuOption {
@@ -83,13 +85,14 @@ export interface Note {
 }
 
 export interface UserStats {
+  lastLogin: string;
   pomodoroTimer: PomodoroTimerStats;
   totalFocusTime: number;
   totalConsecutiveDays: number;
   totalTasksCompleted: number;
   totalNotesCreated: number;
   favoriteScene: string | null;
-  lastLogin: string;
+  alarmsExpiredCount: number;
 }
 
 export interface DialogModalActions {

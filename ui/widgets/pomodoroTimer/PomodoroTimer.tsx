@@ -177,6 +177,7 @@ const PomodoroTimer = () => {
         <div className={styles.pomodorTimer__header_right_side}>
           {isCollapsed ? (
             <FiMaximize2
+              id="pomodoro-timer-expand-button"
               size={20}
               color="var(--color-secondary)"
               onClick={() => setIsCollapsed((prev) => !prev)}

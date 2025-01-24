@@ -18,25 +18,36 @@ const NotificationProvider = ({ children }: NotificationProviderProps) => {
     currentNotification,
     setCurrentNotification,
   } = useNotificationProviderStore();
+  const [timeoutState, setTimeoutState] = useState<NodeJS.Timeout | null>(null);
 
   // Show notification if there is a notification in the queue
   useEffect(() => {
     if (showNotification) {
+      if (currentNotification?.type === "alarm") {
+        removeNotification();
+        setShowNotification(false);
+      }
       return;
     }
     setShowNotification(notificationQueue.length > 0);
     if (notificationQueue.length > 0) {
       setCurrentNotification(notificationQueue[0]);
+    } else {
+      if (timeoutState) clearTimeout(timeoutState);
     }
   }, [notificationQueue]);
 
   // Remove notification after 3 seconds
   useEffect(() => {
     if (showNotification) {
-      setTimeout(() => {
-        removeNotification();
-        setShowNotification(false);
-      }, 3000);
+      if (currentNotification?.type === "alarm") return;
+      if (timeoutState) clearTimeout(timeoutState);
+      setTimeoutState(
+        setTimeout(() => {
+          removeNotification();
+          setShowNotification(false);
+        }, 3000)
+      );
     }
   }, [showNotification]);
 
@@ -54,6 +65,7 @@ const NotificationProvider = ({ children }: NotificationProviderProps) => {
         type={currentNotification?.type}
         show={showNotification}
         icon={currentNotification?.icon}
+        actions={currentNotification?.actions}
       />
     </div>
   );

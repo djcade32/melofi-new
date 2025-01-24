@@ -73,3 +73,17 @@ export const updatePomodoroTimerStats = async (email: string, stats: PomodoroTim
     throw error;
   }
 };
+
+// Update alarms expired count in stats db
+export const updateAlarmsExpiredCount = async (email: string, alarmsExpiredCount: number) => {
+  if (!db) {
+    throw new Error("Firebase DB is not initialized");
+  }
+  try {
+    const usersDoc = doc(db, `stats/${email}`);
+    await setDoc(usersDoc, { alarmsExpiredCount }, { merge: true });
+  } catch (error) {
+    console.log("Error updating alarms expired count in stats db: ", error);
+    throw error;
+  }
+};

@@ -33,6 +33,7 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
       win.localStorage.setItem("user", JSON.stringify(userObj));
     });
   }
+  console.log("Seeding the database");
   // Seed the database
   if (options.seedWithUser) {
     cy.clearAuthEmulator();

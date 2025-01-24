@@ -36,6 +36,7 @@ import {
   IoVolumeMute,
   IoVolumeOff,
   IoCloseOutline,
+  IoClose,
   IoThunderstorm,
   IoBookSharp,
   IoCloudyNight,
@@ -229,4 +230,5 @@ export {
   FaStop,
   BsBackspace,
   LiaTimesSolid,
+  IoClose,
 };

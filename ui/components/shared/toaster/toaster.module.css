@@ -1,19 +1,27 @@
 .toaster__container {
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
 .toaster__message_container {
-    width: 100%;
+  width: 100%;
 }
 
 .toaster__message_content {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    align-items: center;
-    font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  font-size: 16px;
+  gap: 10px;
 }
 
-.MuiSnackbarContent-message{
-    width: 100%;
+.toaster__action_container {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  gap: 10px;
+}
+
+.MuiSnackbarContent-message {
+  width: 100%;
 }

@@ -16,6 +16,12 @@ describe("Testing Templates Widget", () => {
     });
   });
 
+  after(() => {
+    cy.clearAuthEmulator();
+    cy.wait(2000);
+    cy.clearFirestoreEmulator();
+  });
+
   it("Should open and close Templates widget", () => {
     // open the templates widget
     pressToolsButton();
@@ -35,6 +41,7 @@ describe("Testing Templates Widget", () => {
   it("Should save a template", () => {
     pressToolsButton();
     pressToolbarButton("templates");
+    cy.wait(1000);
     getElementWithClassName("templates__empty").contains("No Templates");
     getElementWithClassName("templates__add_template_button_container").realClick();
     getElementWithClassName("addTemplate__container").should("have.css", "opacity", "1");
@@ -47,7 +54,7 @@ describe("Testing Templates Widget", () => {
   });
 
   it("Should delete a template", () => {
-    getElementWithClassName("templatesListItem__trash_icon").realClick();
+    getElementWithClassName("templatesListItem__trash_icon").click({ force: true });
     getElementWithClassName("templates__empty").contains("No Templates");
   });
 
@@ -126,5 +133,10 @@ describe("Testing Templates Widget", () => {
       .then((value) => {
         expect(value).to.not.equal("0");
       });
+  });
+
+  it("Should delete all templates", () => {
+    getElementWithClassName("templatesListItem__trash_icon").click({ force: true });
+    getElementWithClassName("templates__empty").contains("No Templates");
   });
 });
