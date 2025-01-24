@@ -15,6 +15,11 @@ describe("Testing Pomodoro Timer", () => {
     });
   });
 
+  after(() => {
+    cy.clearAuthEmulator();
+    cy.clearFirestoreEmulator();
+  });
+
   describe("Testing Expanded Pomodoro Timer", () => {
     it("Should open the pomodoro timer widget", () => {
       pressToolsButton();

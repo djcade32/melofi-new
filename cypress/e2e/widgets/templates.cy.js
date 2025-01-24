@@ -16,6 +16,11 @@ describe("Testing Templates Widget", () => {
     });
   });
 
+  after(() => {
+    cy.clearAuthEmulator();
+    cy.clearFirestoreEmulator();
+  });
+
   it("Should open and close Templates widget", () => {
     // open the templates widget
     pressToolsButton();
