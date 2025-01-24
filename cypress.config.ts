@@ -13,7 +13,7 @@ const isCI = process.env.CI === "true";
 // ];
 const testToSkip = [
   "**/auth/*.cy.js",
-  "**/widgets/pomodoro_timer.cy.js",
+  "**/widgets/templates.cy.js",
   "**/general/rotating_logo.cy.js",
 ];
 
