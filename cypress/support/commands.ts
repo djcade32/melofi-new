@@ -127,7 +127,7 @@ Cypress.Commands.add("clearAuthEmulator", () => {
 Cypress.Commands.add("clearFirestoreEmulator", () => {
   cy.request(
     "DELETE",
-    "http://localhost:8080/emulator/v1/projects/melofi-v2/databases/(default)/documents"
+    "http://127.0.0.1:8080/emulator/v1/projects/melofi-v2/databases/(default)/documents"
   ).then((response) => {
     expect(response.status).to.eq(200); // Check that the request was successful'
     response.status === 200 && console.log("Firestore Emulator cleared successfully");
