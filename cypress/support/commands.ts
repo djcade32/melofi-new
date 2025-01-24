@@ -115,9 +115,10 @@ Cypress.Commands.add("deleteCalendarDB", () => {
 });
 
 Cypress.Commands.add("clearAuthEmulator", () => {
-  cy.request("DELETE", "http://127.0.0.1:9099/emulator/v1/projects/melofi-v2/accounts").then(
+  cy.request("DELETE", "http://localhost:9099/emulator/v1/projects/melofi-v2/accounts").then(
     (response) => {
       expect(response.status).to.eq(200); // Check that the request was successful
+      response.status === 200 && console.log("Firebase Auth Emulator cleared successfully");
     }
   );
 });
@@ -127,7 +128,8 @@ Cypress.Commands.add("clearFirestoreEmulator", () => {
     "DELETE",
     "http://localhost:8080/emulator/v1/projects/melofi-v2/databases/(default)/documents"
   ).then((response) => {
-    expect(response.status).to.eq(200); // Check that the request was successful
+    expect(response.status).to.eq(200); // Check that the request was successful'
+    response.status === 200 && console.log("Firestore Emulator cleared successfully");
   });
 });
 
