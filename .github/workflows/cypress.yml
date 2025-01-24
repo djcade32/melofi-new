@@ -60,3 +60,10 @@ jobs:
         with:
           name: cypress-screenshots
           path: cypress/screenshots
+
+      - name: Upload Emulator Logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: emulator-logs
+          path: emulator-log.txt
