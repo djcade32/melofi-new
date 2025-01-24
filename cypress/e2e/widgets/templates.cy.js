@@ -134,4 +134,9 @@ describe("Testing Templates Widget", () => {
         expect(value).to.not.equal("0");
       });
   });
+
+  it("Should delete all templates", () => {
+    getElementWithClassName("templatesListItem__trash_icon").click({ force: true });
+    getElementWithClassName("templates__empty").contains("No Templates");
+  });
 });
