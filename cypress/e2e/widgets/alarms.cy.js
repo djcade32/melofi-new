@@ -16,7 +16,9 @@ describe("Testing Alarms Widget", () => {
   });
 
   after(() => {
-    cy.clearLocalStorage();
+    cy.clearAuthEmulator();
+    cy.wait(2000);
+    cy.clearFirestoreEmulator();
   });
 
   it("Should open and close Alarms widget", () => {

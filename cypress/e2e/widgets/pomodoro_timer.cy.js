@@ -13,6 +13,7 @@ describe("Testing Pomodoro Timer", () => {
       skipOnboarding: false,
       loggedIn: true,
     });
+    cy.clearFirestoreEmulator();
   });
 
   after(() => {
@@ -46,8 +47,6 @@ describe("Testing Pomodoro Timer", () => {
     it("Should add task", () => {
       pressToolsButton();
       pressToolbarButton("pomodoro-timer");
-      cy.wait(1000);
-      // getElementWithClassName("pomoTimerSessionCard__trash_icon").realClick({ force: true });
       getElementWithClassName("pomodoroTimer__empty_tasks_container").contains("No tasks added");
       getElementWithClassName("pomodoroTimer__add_task_button").realClick();
       getElementWithClassName("addPomodoroTaskModal__title_input").type("Task 1");
