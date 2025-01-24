@@ -115,7 +115,7 @@ Cypress.Commands.add("deleteCalendarDB", () => {
 });
 
 Cypress.Commands.add("clearAuthEmulator", () => {
-  cy.request("DELETE", "http://localhost:9099/emulator/v1/projects/melofi-v2/accounts").then(
+  cy.request("DELETE", "http://127.0.0.1:9099/emulator/v1/projects/melofi-v2/accounts").then(
     (response) => {
       expect(response.status).to.eq(200); // Check that the request was successful
     }
