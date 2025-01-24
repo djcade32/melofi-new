@@ -119,6 +119,7 @@ Cypress.Commands.add("clearAuthEmulator", () => {
     (response) => {
       expect(response.status).to.eq(200); // Check that the request was successful
       response.status === 200 && console.log("Firebase Auth Emulator cleared successfully");
+      cy.wait(2000);
     }
   );
 });
@@ -130,6 +131,7 @@ Cypress.Commands.add("clearFirestoreEmulator", () => {
   ).then((response) => {
     expect(response.status).to.eq(200); // Check that the request was successful'
     response.status === 200 && console.log("Firestore Emulator cleared successfully");
+    cy.wait(2000);
   });
 });
 
