@@ -115,5 +115,12 @@ describe("Testing Pomodoro Timer", () => {
       );
       getElementWithClassName("pomodoroTimer__collapsed_header").contains("Focus");
     });
+
+    it("Should delete task", () => {
+      cy.get("#pomodoro-timer-expand-button").realClick();
+      cy.wait(1000);
+      getElementWithClassName("pomoTimerSessionCard__trash_icon").realClick({ force: true });
+      getElementWithClassName("pomodoroTimer__empty_tasks_container").contains("No tasks added");
+    });
   });
 });
