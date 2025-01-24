@@ -41,6 +41,8 @@ describe("Testing Templates Widget", () => {
   it("Should save a template", () => {
     pressToolsButton();
     pressToolbarButton("templates");
+    cy.wait(1000);
+    getElementWithClassName("templatesListItem__trash_icon").click({ force: true });
     getElementWithClassName("templates__empty").contains("No Templates");
     getElementWithClassName("templates__add_template_button_container").realClick();
     getElementWithClassName("addTemplate__container").should("have.css", "opacity", "1");
