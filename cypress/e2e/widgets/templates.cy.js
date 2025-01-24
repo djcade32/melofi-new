@@ -18,6 +18,7 @@ describe("Testing Templates Widget", () => {
 
   after(() => {
     cy.clearAuthEmulator();
+    cy.wait(2000);
     cy.clearFirestoreEmulator();
   });
 
