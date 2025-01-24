@@ -3,7 +3,7 @@ const isCI = process.env.CI === "true";
 // Have to run these tests locally
 const testToSkip = [
   "**/auth/*.cy.js",
-  "**/widgets/templates.cy.js",
+  // "**/widgets/templates.cy.js",
   "**/widgets/calculator.cy.js",
   "**/widgets/calendar.cy.js",
   "**/widgets/notes.cy.js",
