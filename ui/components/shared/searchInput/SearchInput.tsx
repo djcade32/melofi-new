@@ -1,35 +1,29 @@
-import { MusicSource } from "@/enums/general";
-import useMixerStore from "@/stores/mixer-store";
 import React, { useEffect, useRef, useState } from "react";
-import styles from "./spotifyWidgetInput.module.css";
+import styles from "./searchInput.module.css";
 
-interface SpotifyWidgetInputProps {
+interface SearchInputProps {
+  id: string;
   value: string;
+  placeholder?: string;
   onChange: (value: string) => void;
   onSubmit: () => Promise<boolean>;
 }
 
-const SpotifyWidgetInput = ({ value, onChange, onSubmit }: SpotifyWidgetInputProps) => {
+const SearchInput = ({ id, value, placeholder, onChange, onSubmit }: SearchInputProps) => {
   const goRef = useRef<HTMLInputElement>(null);
-
-  const { musicSource } = useMixerStore();
 
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (musicSource === MusicSource.SPOTIFY) {
-      const handleEnter = (event: KeyboardEvent) => {
-        if (event.key === "Enter" && goRef.current) {
-          goRef.current.click();
-        }
-      };
-      document
-        .getElementById("spotify-widget-input")
-        ?.addEventListener("keydown", handleEnter, true);
-    }
-  }, [musicSource]);
+    const handleEnter = (event: KeyboardEvent) => {
+      if (event.key === "Enter" && goRef.current) {
+        goRef.current.click();
+      }
+    };
+    document.getElementById(`${id}-search-input`)?.addEventListener("keydown", handleEnter, true);
+  }, []);
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setError(false);
@@ -52,14 +46,14 @@ const SpotifyWidgetInput = ({ value, onChange, onSubmit }: SpotifyWidgetInputPro
   };
 
   return (
-    <div className={styles.spotifyWidgetInput__input_container}>
+    <div className={styles.searchInput__input_container}>
       <input
-        id="spotify-widget-input"
-        className={`${styles.spotifyWidgetInput__input} ${
-          isInputFocused && styles.spotifyWidgetInput__input_focused
+        id={`${id}-search-input`}
+        className={`${styles.searchInput__input} ${
+          isInputFocused && styles.searchInput__input_focused
         }`}
         type="text"
-        placeholder=" Enter Spotify playlist link"
+        placeholder={placeholder}
         value={value}
         onChange={handleOnChange}
         onFocus={() => setIsInputFocused(true)}
@@ -67,9 +61,9 @@ const SpotifyWidgetInput = ({ value, onChange, onSubmit }: SpotifyWidgetInputPro
         style={{ borderColor: error ? "var(--color-error)" : "" }}
       />
       <p
-        id="spotify-widget-input-go"
+        id={`${id}-search-input-go`}
         ref={goRef}
-        className={styles.spotifyWidgetInput__input_button}
+        className={styles.searchInput__input_button}
         onClick={handleOnSubmit}
       >
         Go
@@ -78,4 +72,4 @@ const SpotifyWidgetInput = ({ value, onChange, onSubmit }: SpotifyWidgetInputPro
   );
 };
 
-export default SpotifyWidgetInput;
+export default SearchInput;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import useMusicPlayerStore from "@/stores/music-player-store";
 import styles from "./spotifyWidgetSection.module.css";
-import SpotifyWidgetInput from "./spotifyWidgetInput/SpotifyWidgetInput";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
+import SearchInput from "@/ui/components/shared/searchInput/SearchInput";
 
 const SpotifyWidgetSection = () => {
   const { currentPlaylist } = useMusicPlayerStore();
@@ -55,7 +55,9 @@ const SpotifyWidgetSection = () => {
 
   return (
     <div className={styles.spotifyWidgetSection__container}>
-      <SpotifyWidgetInput
+      <SearchInput
+        id="spotify-widget"
+        placeholder="Enter a Spotify Playlist Link"
         value={spotifyPlaylistInput}
         onChange={setSpotifyPlaylistInput}
         onSubmit={handleSpotifyPlaylistChange}

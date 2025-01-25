@@ -19,6 +19,7 @@ import usePomodoroTimerStore from "@/stores/widgets/pomodoro-timer-store";
 import useCalculatorStore from "@/stores/widgets/calculator-store";
 import useTemplatesStore from "@/stores/widgets/templates-store";
 import useAlarmsStore from "@/stores/widgets/alarms-store";
+import useYoutubeStore from "@/stores/widgets/youtube-store";
 
 const ToolbarWidgetButtons = () => {
   const { isVertical, toggleTools, isUndocked } = useToolsStore();
@@ -29,6 +30,7 @@ const ToolbarWidgetButtons = () => {
   const { isCalculatorOpen, setIsCalculatorOpen } = useCalculatorStore();
   const { isTemplatesOpen, setIsTemplatesOpen } = useTemplatesStore();
   const { isAlarmsOpen, setIsAlarmsOpen } = useAlarmsStore();
+  const { isYoutubeOpen, setIsYoutubeOpen } = useYoutubeStore();
 
   const handleWidgetButtonPress = (toggleWidgetFunction: Function) => {
     toggleWidgetFunction();
@@ -90,14 +92,14 @@ const ToolbarWidgetButtons = () => {
         label="Alarms"
         icon={IoAlarm}
         onClick={() => handleWidgetButtonPress(() => setIsAlarmsOpen(!isAlarmsOpen))}
-        active={false}
+        active={isAlarmsOpen}
       />
       <ToolbarButton
         id="watch-youtube"
         label="Watch Youtube"
         icon={IoLogoYoutube}
-        onClick={() => toggleCalendar(!isCalendarOpen)}
-        active={false}
+        onClick={() => handleWidgetButtonPress(() => setIsYoutubeOpen(!isYoutubeOpen))}
+        active={isYoutubeOpen}
       />
     </div>
   );
