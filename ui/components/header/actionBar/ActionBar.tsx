@@ -27,7 +27,7 @@ const ActionBar = () => {
   const { toggleSceneModal, sceneModalOpen } = useSceneStore();
   const { toggleMixerModal, mixerModalOpen, musicSource } = useMixerStore();
   const { toggleFullscreen, isFullscreen, isElectron } = useAppStore();
-  const { isMenuOpen, setIsMenuOpen } = useMenuStore();
+  const { isMenuOpen, setIsMenuOpen, handleClick } = useMenuStore();
   const { isToolsOpen, toggleTools } = useToolsStore();
 
   // Close scene modal when clicking outside of the modal
@@ -88,7 +88,9 @@ const ActionBar = () => {
         id="menu-button"
         icon={<MdOutlineMenu {...iconProps} />}
         label=""
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        onClick={(e) => {
+          e && handleClick(e);
+        }}
         isActive={isMenuOpen}
         tooltipShown={false}
       />

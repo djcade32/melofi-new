@@ -9,39 +9,11 @@ interface MenuProps {
   open: boolean;
   onClose: () => void;
   options?: MenuOption[];
+  offset?: number;
+  invertColors?: boolean;
 }
 
-const StyledMenu = styled((props: MuiMenuProps) => (
-  <MuiMenu
-    // elevation={0}
-    // anchorOrigin={{
-    //   vertical: 'bottom',
-    //   horizontal: 'right',
-    // }}
-    // transformOrigin={{
-    //   vertical: 'top',
-    //   horizontal: 'right',
-    // }}
-    {...props}
-  />
-))(() => ({
-  "& .MuiPaper-root": {
-    backgroundColor: "var(--color-white)",
-    borderRadius: 10,
-    color: "var(--color-primary-opacity)",
-    boxShadow: "var(--box-shadow-primary)",
-    "& .MuiMenu-list": {
-      padding: "4px 0",
-    },
-    "& .MuiMenuItem-root": {
-      "&:hover": {
-        backgroundColor: "var(--color-secondary-opacity)",
-      },
-    },
-  },
-}));
-
-const Menu = ({ anchorEl, open, onClose, options }: MenuProps) => {
+const Menu = ({ anchorEl, open, onClose, options, offset, invertColors = false }: MenuProps) => {
   const { isFullscreen } = useAppStore();
   const [documentEl, setDocumentEl] = useState<Document | null>(null);
 
@@ -50,6 +22,24 @@ const Menu = ({ anchorEl, open, onClose, options }: MenuProps) => {
       setDocumentEl(document);
     }
   }, []);
+
+  const StyledMenu = styled((props: MuiMenuProps) => <MuiMenu {...props} />)(() => ({
+    "& .MuiPaper-root": {
+      backdropFilter: "blur(10px)",
+      backgroundColor: invertColors ? "var(--color-primary-opacity)" : "var(--color-white)",
+      color: invertColors ? "var(--color-white)" : "var(--color-primary-opacity)",
+      borderRadius: 10,
+      boxShadow: "var(--box-shadow-primary)",
+      "& .MuiMenu-list": {
+        padding: "4px 0",
+      },
+      "& .MuiMenuItem-root": {
+        "&:hover": {
+          backgroundColor: "var(--color-secondary-opacity)",
+        },
+      },
+    },
+  }));
 
   return (
     <StyledMenu
@@ -64,6 +54,9 @@ const Menu = ({ anchorEl, open, onClose, options }: MenuProps) => {
           : documentEl?.querySelector("#melofi-app")
       }
       aria-hidden={false}
+      style={{
+        transform: `translateY(${offset ?? 0}px)`,
+      }}
     >
       {options?.map((option) => (
         <MenuItem id={option.id} key={option.label} onClick={option.onClick}>
