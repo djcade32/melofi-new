@@ -9,6 +9,7 @@ import {
   RiFullscreenExitLine,
   RiFullscreenFill,
   RiSoundModuleFill,
+  MdOutlineMenu,
 } from "@/imports/icons";
 import useSceneStore from "@/stores/scene-store";
 import TimeDisplay from "@/ui/components/timeDisplay/TimeDisplay";
@@ -18,6 +19,7 @@ import { MusicSource } from "@/enums/general";
 import useAppStore from "@/stores/app-store";
 import ToolsActionBarButton from "./toolsActionBarButton/ToolsActionBarButton";
 import useToolsStore from "@/stores/tools-store";
+import useMenuStore from "@/stores/menu-store";
 
 const iconProps = { size: 20, color: "var(--color-white)", style: { cursor: "pointer" } };
 
@@ -25,6 +27,7 @@ const ActionBar = () => {
   const { toggleSceneModal, sceneModalOpen } = useSceneStore();
   const { toggleMixerModal, mixerModalOpen, musicSource } = useMixerStore();
   const { toggleFullscreen, isFullscreen, isElectron } = useAppStore();
+  const { isMenuOpen, setIsMenuOpen } = useMenuStore();
   const { isToolsOpen, toggleTools } = useToolsStore();
 
   // Close scene modal when clicking outside of the modal
@@ -81,6 +84,14 @@ const ActionBar = () => {
         />
       )}
       <TimeDisplay />
+      <ActionBarButton
+        id="menu-button"
+        icon={<MdOutlineMenu {...iconProps} />}
+        label=""
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        isActive={isMenuOpen}
+        tooltipShown={false}
+      />
     </div>
   );
 };
