@@ -87,8 +87,8 @@ describe("Testing Mixer Modal", () => {
       cy.get("#mixer-modal-spotify-widget").then(($iframe) => {
         const src = $iframe.attr("src");
       });
-      cy.get("#spotify-widget-input").type(playlistInput);
-      cy.get("#spotify-widget-input-go").realClick();
+      cy.get("#spotify-widget-search-input").type(playlistInput);
+      cy.get("#spotify-widget-search-input-go").realClick();
       cy.get("#mixer-modal-spotify-widget").then(($iframe) => {
         expect($iframe.attr("src")).to.include("0WcchMXMGm91OoxZFN93gv");
       });
@@ -97,8 +97,8 @@ describe("Testing Mixer Modal", () => {
     it("Should show error message when invalid Spotify playlist is entered", () => {
       const playlistInput = "this is an invalid playlist";
 
-      cy.get("#spotify-widget-input").type(playlistInput);
-      cy.get("#spotify-widget-input-go").realClick();
+      cy.get("#spotify-widget-search-input").type(playlistInput);
+      cy.get("#spotify-widget-search-input-go").realClick();
       cy.get("#melofi-toaster").should("be.visible");
       cy.get("#melofi-toaster").should("have.text", "Invalid Spotify Playlist Link");
     });
