@@ -2,8 +2,11 @@
 
 import React, { useRef, useState } from "react";
 import Draggable from "react-draggable";
+import { Resizable } from "react-resizable";
 import styles from "./modal.module.css";
 import { IoCloseOutline } from "@/imports/icons";
+import "react-resizable/css/styles.css"; // Import default styles for react-resizable
+import { FiMaximize2 } from "@/imports/icons";
 
 interface ModalProps extends React.HTMLProps<HTMLDivElement> {
   isOpen: boolean;
@@ -17,6 +20,12 @@ interface ModalProps extends React.HTMLProps<HTMLDivElement> {
   id?: string;
   fadeCloseIcon?: boolean;
   showBackdrop?: boolean;
+  resizable?: boolean;
+  onResizing?: () => void;
+  onMouseOver?: () => void;
+  onMouseLeave?: () => void;
+  onDrag?: () => void;
+  onStop?: () => void;
 }
 
 const Modal = ({
@@ -31,72 +40,149 @@ const Modal = ({
   id,
   fadeCloseIcon = false,
   showBackdrop = false,
+  resizable = false,
+  onResizing,
+  onMouseOver,
+  onMouseLeave,
+  onDrag,
+  onStop,
   ...props
 }: ModalProps) => {
-  const nodeRef = useRef(null);
+  const nodeRef = useRef<HTMLDivElement | null>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [dimensions, setDimensions] = useState({ width: 400, height: 225 }); // Default dimensions
 
-  return (
-    <Draggable disabled={!draggable} nodeRef={nodeRef} handle="#handle">
+  const onResize = (e: React.SyntheticEvent, data: any) => {
+    setDimensions({
+      width: data.size.width,
+      height: data.size.height,
+    });
+    onResizing && onResizing();
+  };
+
+  const handle = (
+    <div
+      className={styles.customResizeHandle}
+      style={{
+        position: "absolute",
+        bottom: 0,
+        right: 0,
+        width: 20,
+        height: 20,
+        backgroundColor: "rgba(0, 0, 0, 0.3)",
+        cursor: "nwse-resize",
+        borderRadius: "50%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <FiMaximize2
+        size={15}
+        color="var(--color-white)"
+        style={{
+          transform: "rotate(90deg)",
+        }}
+      />
+    </div>
+  );
+
+  const modalContent = (
+    <div
+      ref={nodeRef}
+      className={`${styles.modal__container} ${className}`}
+      style={{
+        ...props?.style,
+        display: isOpen ? "flex" : "none",
+        width: resizable ? `${dimensions.width}px` : "",
+        height: resizable ? `${dimensions.height}px` : "",
+      }}
+      id={id}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        onMouseOver && onMouseOver();
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        onMouseLeave && onMouseLeave();
+      }}
+      tabIndex={props.tabIndex}
+    >
+      {draggable && <div id="handle" className={styles.modal__dragHandle} />}
       <div
-        ref={nodeRef}
-        className={`${styles.modal__container} ${className}`}
-        style={{ ...props?.style, display: isOpen ? "flex" : "none" }}
-        id={id}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        tabIndex={props.tabIndex}
-      >
-        {draggable && <div id="handle" className={styles.modal__dragHandle} />}
-        <div
-          className={styles.modal__backdrop}
-          style={{
-            opacity: showBackdrop ? 1 : 0,
-            zIndex: showBackdrop ? 10 : -1,
-          }}
-        />
+        className={styles.modal__backdrop}
+        style={{
+          opacity: showBackdrop ? 1 : 0,
+          zIndex: showBackdrop ? 10 : -1,
+        }}
+      />
 
+      <div
+        className={styles.modal__title_container}
+        id={draggable ? "handle" : ""}
+        style={draggable ? { cursor: "all-scroll" } : {}}
+      >
         <div
-          className={styles.modal__title_container}
-          id={draggable ? "handle" : ""}
-          style={draggable ? { cursor: "all-scroll" } : {}}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
         >
+          {title && <p className={`${titleClassName}`}>{title}</p>}
+        </div>
+        {showCloseIcon && (
           <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              width: "100%",
             }}
           >
-            {title && <p className={`${titleClassName}`}>{title}</p>}
-          </div>
-          {showCloseIcon && (
-            <div
+            <IoCloseOutline
+              id={`${id}-close-icon`}
+              size={25}
+              color="var(--color-secondary)"
+              onClick={close}
               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
+                cursor: "pointer",
+                zIndex: 1,
+                opacity: fadeCloseIcon ? (isHovered ? 1 : 0) : 1,
+                transition: "all 0.3s",
               }}
-            >
-              <IoCloseOutline
-                id={`${id}-close-icon`}
-                size={25}
-                color="var(--color-secondary)"
-                onClick={close}
-                style={{
-                  cursor: "pointer",
-                  zIndex: 1,
-                  opacity: fadeCloseIcon ? (isHovered ? 1 : 0) : 1,
-                  transition: "all 0.3s",
-                }}
-              />
-            </div>
-          )}
-        </div>
-
-        {children}
+            />
+          </div>
+        )}
       </div>
+
+      {children}
+    </div>
+  );
+
+  return (
+    <Draggable
+      disabled={!draggable}
+      nodeRef={nodeRef}
+      handle="#handle"
+      onDrag={onDrag}
+      onStop={onStop}
+    >
+      {resizable ? (
+        <Resizable
+          width={dimensions.width}
+          height={dimensions.height}
+          onResize={onResize}
+          minConstraints={[400, 225]} // Minimum size [width, height]
+          maxConstraints={[800, 450]} // Maximum size [width, height]
+          handle={handle}
+          axis="both"
+        >
+          {modalContent}
+        </Resizable>
+      ) : (
+        modalContent
+      )}
     </Draggable>
   );
 };

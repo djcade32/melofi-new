@@ -7,30 +7,33 @@ interface SearchInputProps {
   placeholder?: string;
   onChange: (value: string) => void;
   onSubmit: () => Promise<boolean>;
+  inputBorderRadius?: number;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
-const SearchInput = ({ id, value, placeholder, onChange, onSubmit }: SearchInputProps) => {
+const SearchInput = ({
+  id,
+  value,
+  placeholder,
+  onChange,
+  onSubmit,
+  inputBorderRadius,
+  onFocus,
+  onBlur,
+}: SearchInputProps) => {
   const goRef = useRef<HTMLInputElement>(null);
 
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const handleEnter = (event: KeyboardEvent) => {
-      if (event.key === "Enter" && goRef.current) {
-        goRef.current.click();
-      }
-    };
-    document.getElementById(`${id}-search-input`)?.addEventListener("keydown", handleEnter, true);
-  }, []);
-
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setError(false);
     onChange(event.target.value);
   };
 
-  const handleOnSubmit = async () => {
+  const handleOnSubmit = async (): Promise<void> => {
     if (loading) {
       return;
     }
@@ -56,15 +59,34 @@ const SearchInput = ({ id, value, placeholder, onChange, onSubmit }: SearchInput
         placeholder={placeholder}
         value={value}
         onChange={handleOnChange}
-        onFocus={() => setIsInputFocused(true)}
-        onBlur={() => setIsInputFocused(false)}
-        style={{ borderColor: error ? "var(--color-error)" : "" }}
+        onFocus={() => {
+          setIsInputFocused(true);
+          onFocus && onFocus();
+        }}
+        onBlur={() => {
+          setIsInputFocused(false);
+          onBlur && onBlur();
+        }}
+        style={{
+          borderColor: error ? "var(--color-error)" : "",
+          borderTopLeftRadius: inputBorderRadius,
+          borderBottomLeftRadius: inputBorderRadius,
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleOnSubmit();
+          }
+        }}
       />
       <p
         id={`${id}-search-input-go`}
         ref={goRef}
         className={styles.searchInput__input_button}
         onClick={handleOnSubmit}
+        style={{
+          borderTopRightRadius: inputBorderRadius,
+          borderBottomRightRadius: inputBorderRadius,
+        }}
       >
         Go
       </p>

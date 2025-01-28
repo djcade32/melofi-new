@@ -7,6 +7,7 @@
   flex-direction: column;
   overflow: hidden;
   outline: none;
+  resize: none;
 }
 
 .modal__dragHandle {
@@ -39,6 +40,17 @@
   transition: all 0.5s;
 
   backdrop-filter: blur(10px);
+}
+
+.customResizeHandle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(0, 0, 0, 0.3);
+  cursor: nwse-resize;
+  border-radius: 50%;
 }
 
 @keyframes scale-up {

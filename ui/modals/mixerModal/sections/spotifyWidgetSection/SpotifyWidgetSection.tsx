@@ -10,7 +10,6 @@ const SpotifyWidgetSection = () => {
 
   const [spotifyPlaylistId, setSpotifyPlaylistId] = useState("");
   const [spotifyPlaylistInput, setSpotifyPlaylistInput] = useState("");
-  const [inputError, setInputError] = useState(false);
 
   useEffect(() => {
     if (currentPlaylist && currentPlaylist.spotifyPlaylistId !== "") {
