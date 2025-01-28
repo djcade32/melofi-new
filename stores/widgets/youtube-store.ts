@@ -7,7 +7,7 @@ export interface YoutubeState {
 }
 
 const useYoutubeStore = create<YoutubeState>((set, get) => ({
-  isYoutubeOpen: true,
+  isYoutubeOpen: false,
 
   setIsYoutubeOpen: (isYoutubeOpen) => set({ isYoutubeOpen }),
 }));

@@ -24,6 +24,9 @@ const Youtube = () => {
     } else {
       const player = YouTubePlayer("youtube-player", {
         videoId: videoId,
+        playerVars: {
+          fs: 0,
+        },
       });
 
       player.on("ready", () => {
@@ -109,7 +112,7 @@ const Youtube = () => {
         </div>
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <IoCloseOutline
-            id="youtube-widget-close"
+            id="youtube-widget-close-button"
             size={25}
             color="var(--color-secondary)"
             onClick={() => setIsYoutubeOpen(false)}
