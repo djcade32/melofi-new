@@ -30,6 +30,7 @@ import {
   BsAirplaneFill,
   BsTrainFrontFill,
   BsBackspace,
+  BsFillGiftFill,
 } from "react-icons/bs";
 import {
   IoVolumeMedium,
@@ -231,4 +232,5 @@ export {
   BsBackspace,
   LiaTimesSolid,
   IoClose,
+  BsFillGiftFill,
 };

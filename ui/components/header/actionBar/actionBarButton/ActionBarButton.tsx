@@ -6,7 +6,7 @@ interface ActionBarButtonProps {
   id: string;
   icon: React.ReactNode;
   label: string;
-  onClick: () => void;
+  onClick: (event: React.MouseEvent<HTMLDivElement> | undefined) => void;
 
   tooltipShown?: boolean;
   isActive?: boolean;
@@ -29,8 +29,8 @@ const ActionBarButton = ({
     }
   }, [isActive]);
 
-  const handleOnClick = () => {
-    onClick();
+  const handleOnClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    onClick(event);
     setIsClicked((prev) => !prev);
   };
   return (

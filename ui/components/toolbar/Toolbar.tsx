@@ -14,12 +14,6 @@ import Draggable from "react-draggable";
 import { MenuOption } from "@/types/general";
 import ToolbarWidgetButtons from "./toolbarWidgetButtons/ToolbarWidgetButtons";
 
-const iconProps = {
-  size: 20,
-  color: "var(--color-primary-opacity)",
-  style: { cursor: "pointer" },
-};
-
 const Toolbar = () => {
   const nodeRef = useRef(null);
   const { isToolsOpen, isUndocked, toggleUndocked, isVertical, toggleVertical } = useToolsStore();
