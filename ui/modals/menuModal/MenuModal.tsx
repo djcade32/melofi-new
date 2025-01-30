@@ -8,11 +8,14 @@ import {
   FaHandsHelping,
   BsFillInfoCircleFill,
   BsFillGiftFill,
+  IoStatsChartSharp,
 } from "@/imports/icons";
 import useMenuStore from "@/stores/menu-store";
+import { MenuOptionNames } from "@/enums/general";
+import AccountModal from "./optionModals/accountModal/AccountModal";
 
 const MenuModal = () => {
-  const { anchorEl, handleClose, isMenuOpen } = useMenuStore();
+  const { anchorEl, handleClose, isMenuOpen, setSelectedOption } = useMenuStore();
 
   const options: MenuOption[] = [
     {
@@ -20,39 +23,47 @@ const MenuModal = () => {
       label: "Account",
       icon: <FaUserAlt size={20} color="var(--color-white)" />,
       onClick: () => {
-        handleClose();
+        handleMenuClick("Account");
       },
     },
     {
       id: "menu-option-2",
-      label: "General Settings",
-      icon: <MdSettings size={20} color="var(--color-white)" />,
+      label: "Insights",
+      icon: <IoStatsChartSharp size={20} color="var(--color-white)" />,
       onClick: () => {
-        handleClose();
+        handleMenuClick("Insights");
       },
     },
     {
       id: "menu-option-3",
-      label: "Leave Feedback",
-      icon: <FaCommentDots size={20} color="var(--color-white)" />,
+      label: "General Settings",
+      icon: <MdSettings size={20} color="var(--color-white)" />,
       onClick: () => {
-        handleClose();
+        handleMenuClick("General Settings");
       },
     },
     {
       id: "menu-option-4",
-      label: "Support",
-      icon: <FaHandsHelping size={20} color="var(--color-white)" />,
+      label: "Leave Feedback",
+      icon: <FaCommentDots size={20} color="var(--color-white)" />,
       onClick: () => {
-        handleClose();
+        handleMenuClick("Leave Feedback");
       },
     },
     {
       id: "menu-option-5",
+      label: "Support",
+      icon: <FaHandsHelping size={20} color="var(--color-white)" />,
+      onClick: () => {
+        handleMenuClick("Support");
+      },
+    },
+    {
+      id: "menu-option-6",
       label: "Share With Friends",
       icon: <BsFillGiftFill size={20} color="var(--color-white)" />,
       onClick: () => {
-        handleClose();
+        handleMenuClick("Share With Friends");
       },
     },
     {
@@ -60,20 +71,29 @@ const MenuModal = () => {
       label: "About Melofi",
       icon: <BsFillInfoCircleFill size={20} color="var(--color-white)" />,
       onClick: () => {
-        handleClose();
+        handleMenuClick("About Melofi");
       },
     },
   ];
 
+  const handleMenuClick = (option: MenuOptionNames) => {
+    handleClose();
+    setSelectedOption(option);
+  };
+
   return (
-    <Menu
-      anchorEl={anchorEl}
-      open={isMenuOpen}
-      onClose={handleClose}
-      options={options}
-      offset={10}
-      invertColors
-    />
+    <>
+      <Menu
+        anchorEl={anchorEl}
+        open={isMenuOpen}
+        onClose={handleClose}
+        options={options}
+        offset={10}
+        invertColors
+      />
+
+      <AccountModal />
+    </>
   );
 };
 

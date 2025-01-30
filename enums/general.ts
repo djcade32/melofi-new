@@ -13,3 +13,12 @@ export const ERROR_MESSAGES = {
 };
 
 export type NotificationTypes = "success" | "error" | "normal" | "alarm";
+
+export type MenuOptionNames =
+  | "Account"
+  | "Insights"
+  | "General Settings"
+  | "Leave Feedback"
+  | "Support"
+  | "Share With Friends"
+  | "About Melofi";

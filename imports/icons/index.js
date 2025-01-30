@@ -9,6 +9,8 @@ import {
   FaLock,
   FaFan,
   FaStop,
+  FaCommentDots,
+  FaHandsHelping,
 } from "react-icons/fa";
 import {
   BsFillSkipBackwardFill,
@@ -47,6 +49,7 @@ import {
   IoLogoYoutube,
   IoCheckmarkCircleSharp,
   IoCreate,
+  IoStatsChartSharp,
 } from "react-icons/io5";
 import {
   RiSoundModuleFill,
@@ -99,7 +102,6 @@ import {
   AiFillThunderbolt,
 } from "react-icons/ai";
 import { FiPlus, FiMinimize2, FiMaximize2 } from "react-icons/fi";
-import { FaCommentDots, FaHandsHelping } from "react-icons/fa";
 import {
   RxCaretLeft,
   RxCaretRight,
@@ -233,4 +235,5 @@ export {
   LiaTimesSolid,
   IoClose,
   BsFillGiftFill,
+  IoStatsChartSharp,
 };
