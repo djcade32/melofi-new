@@ -4,12 +4,13 @@ import { getFirebaseDB } from "../firebaseClient";
 const db = getFirebaseDB();
 
 // Get user from User db
-export const getUserFromUserDb = async (email: string) => {
+export const getUserFromUserDb = async (uid: string) => {
+  console.log("getUserFromUserDb using uid: ", uid);
   if (!db) {
     throw new Error("Firebase DB is not initialized");
   }
   try {
-    const userDoc = doc(db, `users/${email}`);
+    const userDoc = doc(db, `users/${uid}`);
     const user = await getDoc(userDoc);
     return user.exists() ? user.data() : null;
   } catch (error) {

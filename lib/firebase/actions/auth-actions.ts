@@ -32,8 +32,8 @@ export const signup = async (
     await updateProfile(user, {
       displayName: firstName,
     });
-    newsLetterChecked && (await addUserToNewsletter(email));
-    await addUserToStats(email);
+    newsLetterChecked && (await addUserToNewsletter(user, email));
+    await addUserToStats(user);
     return user;
   } catch (error) {
     throw error;
@@ -60,14 +60,16 @@ export const login = async (email: string, password: string) => {
   if (!auth) {
     throw new Error("Firebase Auth is not initialized");
   }
+
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const userFoundInUserDb = await getUserFromUserDb(email);
-    const userFoundInNewsletterDb = await getUserFromNewsletterDb(email);
+    const uid = userCredential.user.uid;
+    const userFoundInUserDb = await getUserFromUserDb(uid);
+    const userFoundInNewsletterDb = await getUserFromNewsletterDb(uid);
     if (!userFoundInUserDb) {
-      await addUserToUserDb(email, userCredential.user.displayName || "");
+      await addUserToUserDb(uid, email, userCredential.user.displayName || "");
       if (userFoundInNewsletterDb) {
-        await changeUserEmailVerificationStatus(email, true);
+        await changeUserEmailVerificationStatus(uid, email, true);
       }
     }
 
@@ -127,13 +129,14 @@ export const updateUserProfile = async (displayName: string, photoURL: string) =
 };
 
 // Add user to User db
-export const addUserToUserDb = async (email: string, firstName: string) => {
+export const addUserToUserDb = async (uid: string, email: string, firstName: string) => {
   if (!db) {
     throw new Error("Firebase DB is not initialized");
   }
   try {
-    const usersDoc = doc(db, `users/${email}`);
+    const usersDoc = doc(db, `users/${uid}`);
     const userData = {
+      id: uid,
       email,
       firstName,
     };

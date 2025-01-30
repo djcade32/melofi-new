@@ -36,6 +36,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // Check if user's email is verified and if user is in db
   useEffect(() => {
+    console.log("here", { currentUser, isUserLoggedIn });
     // Get current user
     if (currentUser?.authUser && isUserLoggedIn) {
       // Check if user's email is verified
@@ -43,7 +44,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         setShowEmailVerification(true);
       } else if (currentUser?.authUser?.email) {
         // Check if user is in db
-        checkIfUserIsInDb(currentUser.authUser?.email).then((isInDb) => {
+        checkIfUserIsInDb(currentUser.authUser?.uid).then((isInDb) => {
           if (isInDb) {
             setUserStats();
             setGrantAccess(true);
