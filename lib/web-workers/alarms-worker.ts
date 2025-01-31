@@ -6,9 +6,6 @@ const alarmsWorker = () => {
 
   // Function to start the interval if alarms exist and not already running
   const startInterval = () => {
-    console.log("Starting interval");
-    console.log("Alarms: ", alarms);
-    console.log("Interval ID: ", intervalId);
     if (!intervalId && alarms.length > 0) {
       intervalId = setInterval(() => {
         const now = new Date().toLocaleString();
@@ -16,7 +13,6 @@ const alarmsWorker = () => {
         alarms.forEach((alarm) => {
           const alarmTime = new Date(alarm.time).toLocaleString();
           console.log(alarmTime, now);
-          console.log("Interval ID: ", intervalId);
 
           if (alarmTime === now) {
             console.log(`Alarm triggered for: ${alarm.time}`);
@@ -29,7 +25,6 @@ const alarmsWorker = () => {
 
         // If all alarms are processed, stop the interval
         if (alarms.length === 0) {
-          console.log("All alarms processed. Stopping interval.");
           stopInterval();
         }
       }, 1000);
@@ -38,19 +33,14 @@ const alarmsWorker = () => {
 
   // Function to stop the interval when no alarms remain
   const stopInterval = (id?: string) => {
-    console.log("Stopping interval");
-    console.log("Alarms: ", alarms);
-    console.log("Interval ID: ", intervalId);
     if (intervalId || id) {
       clearInterval(intervalId || id);
       intervalId = null;
-      console.log("Interval stopped because no alarms are left.");
     }
   };
 
   // Function to manage interval dynamically
   const manageInterval = () => {
-    console.log("Managing interval");
     if (alarms.length === 0) {
       stopInterval(); // Stop if no alarms exist
     } else {
