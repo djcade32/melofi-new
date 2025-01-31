@@ -36,13 +36,13 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
 
   deleteAlarm: async (alarm) => {
     const { currentUser } = useUserStore.getState();
-    if (!currentUser?.authUser?.email) return;
+    if (!currentUser?.authUser?.uid) return;
 
     try {
       const { id } = alarm;
       const { alarmList, alarmsWorker } = get();
       const newAlarmList = alarmList.filter((alarm) => alarm.id !== id);
-      await updateAlarmsInDB(currentUser.authUser.email, newAlarmList);
+      await updateAlarmsInDB(currentUser.authUser.uid, newAlarmList);
       set({ alarmList: newAlarmList });
       alarmsWorker?.postMessage({ type: "REMOVE_ALARM", data: alarm });
     } catch (error) {
@@ -52,7 +52,10 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
 
   addAlarm: async (label, time) => {
     const { currentUser } = useUserStore.getState();
-    if (!currentUser?.authUser?.email) return;
+    if (!currentUser?.authUser?.uid) {
+      console.log("No uid found");
+      return;
+    }
 
     const alarm: Alarm = {
       id: uuidv4(),
@@ -63,7 +66,7 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
     try {
       const { alarmList, alarmsWorker } = get();
       const newAlarmList = [...alarmList, alarm];
-      await updateAlarmsInDB(currentUser.authUser.email, newAlarmList);
+      await updateAlarmsInDB(currentUser.authUser.uid, newAlarmList);
       set({ alarmList: newAlarmList });
       alarmsWorker?.postMessage({ type: "ADD_ALARM", data: alarm });
     } catch (error) {
@@ -73,7 +76,7 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
 
   updateAlarm: async (id, newAlarm) => {
     const { currentUser } = useUserStore.getState();
-    if (!currentUser?.authUser?.email) return;
+    if (!currentUser?.authUser?.uid) return;
 
     try {
       const { alarmList, alarmsWorker } = get();
@@ -88,7 +91,7 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
         }
         return a;
       });
-      await updateAlarmsInDB(currentUser.authUser.email, newAlarmList);
+      await updateAlarmsInDB(currentUser.authUser.uid, newAlarmList);
       set({ alarmList: newAlarmList });
     } catch (error) {
       console.error("Error updating alarm", error);
@@ -110,10 +113,10 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
 
   fetchAlarms: async () => {
     try {
-      const email = useUserStore.getState().currentUser?.authUser?.email;
-      if (!email) return;
+      const uid = useUserStore.getState().currentUser?.authUser?.uid;
+      if (!uid) return;
 
-      const templates = await getAlarmsFromDB(email);
+      const templates = await getAlarmsFromDB(uid);
       const builtAlarmList = buildAlarmList(templates);
 
       set({ alarmList: builtAlarmList });

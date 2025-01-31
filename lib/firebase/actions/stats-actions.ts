@@ -2,16 +2,19 @@ import { doc, setDoc } from "firebase/firestore";
 import { getFirebaseDB } from "../firebaseClient";
 import { UserStats } from "@/types/general";
 import { PomodoroTimerStats } from "@/types/interfaces/pomodoro_timer";
+import { Auth, User } from "firebase/auth";
 
 const db = getFirebaseDB();
 
 // Add user to stats db
-export const addUserToStats = async (email: string) => {
+export const addUserToStats = async (user: User) => {
   if (!db) {
     throw new Error("Firebase DB is not initialized");
   }
+  const uid = user.uid;
+
   try {
-    const usersDoc = doc(db, `stats/${email}`);
+    const usersDoc = doc(db, `stats/${uid}`);
     await setDoc(usersDoc, {
       pomodoroTimer: {
         totalFocusTime: 0,

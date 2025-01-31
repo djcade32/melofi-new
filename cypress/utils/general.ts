@@ -24,6 +24,7 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
       : {
           name: "John",
           authUser: {
+            uid: "123",
             email: "test@example.com",
             emailVerified: true,
           },
