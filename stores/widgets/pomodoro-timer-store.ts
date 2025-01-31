@@ -50,11 +50,11 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
   setIsPomodoroTimerOpen: (isOpen: boolean) => set({ isPomodoroTimerOpen: isOpen }),
   fetchPomodoroTimerTasks: async () => {
     try {
-      const email = useUserStore.getState().currentUser?.authUser?.email;
-      if (!email) {
+      const uid = useUserStore.getState().currentUser?.authUser?.uid;
+      if (!uid) {
         return;
       }
-      const fetchedTasks = await getPomodoroTimerTasks(email);
+      const fetchedTasks = await getPomodoroTimerTasks(uid);
       if (fetchedTasks) {
         const builtTasks = buildPomodoroTimerTasks(fetchedTasks);
         if (builtTasks && builtTasks.length === 0) return;
@@ -70,8 +70,8 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
     set({ activePomodoroTimerTask: task });
   },
   addPomodoroTimerTask: async (task: PomodoroTimerTaskPayload) => {
-    const email = useUserStore.getState().currentUser?.authUser?.email;
-    if (!email) {
+    const uid = useUserStore.getState().currentUser?.authUser?.uid;
+    if (!uid) {
       return;
     }
     const newTask: PomodoroTimerTask = {
@@ -85,7 +85,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
     };
     try {
       const newTasksList = [newTask, ...get().pomodoroTimerTasks];
-      await updatePomodoroTimerTaskInDb(email, newTasksList);
+      await updatePomodoroTimerTaskInDb(uid, newTasksList);
       set({
         pomodoroTimerTasks: [newTask, ...get().pomodoroTimerTasks],
       });
@@ -99,13 +99,13 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
   },
   deletePomodoroTimerTask: async (taskId: string) => {
     const newTasksList = get().pomodoroTimerTasks.filter((t) => t.id !== taskId);
-    const email = useUserStore.getState().currentUser?.authUser?.email;
-    if (!email) {
+    const uid = useUserStore.getState().currentUser?.authUser?.uid;
+    if (!uid) {
       return;
     }
     const newActivePomodoroTimerTask = newTasksList.length > 0 ? newTasksList[0] : null;
     try {
-      await updatePomodoroTimerTaskInDb(email, newTasksList);
+      await updatePomodoroTimerTaskInDb(uid, newTasksList);
       set({
         pomodoroTimerTasks: newTasksList,
         activePomodoroTimerTask: newActivePomodoroTimerTask,
@@ -158,10 +158,10 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
       findAndUpdateTask,
       pomodoroTimerTasks,
     } = get();
-    const email = useUserStore.getState().currentUser?.authUser?.email;
+    const uid = useUserStore.getState().currentUser?.authUser?.uid;
     const { updatePomodoroTimerStats, pomodoroTimerStats } = useUserStatsStore.getState();
 
-    if (!activePomodoroTimerTask || !email) {
+    if (!activePomodoroTimerTask || !uid) {
       return;
     }
 
@@ -189,7 +189,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
           );
           set({ pomodoroTimerTasks: newTasksList });
           try {
-            await updatePomodoroTimerTaskInDb(email, newTasksList);
+            await updatePomodoroTimerTaskInDb(uid, newTasksList);
             await updatePomodoroTimerStats({
               ...pomodoroTimerStats,
               totalFocusTime: pomodoroTimerStats.totalFocusTime + focusTime,
@@ -209,7 +209,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
         setTimerTime(breakTime);
 
         try {
-          await updatePomodoroTimerTaskInDb(email, newTasksList);
+          await updatePomodoroTimerTaskInDb(uid, newTasksList);
           await updatePomodoroTimerStats({
             ...pomodoroTimerStats,
             totalFocusTime: pomodoroTimerStats.totalFocusTime + focusTime,
@@ -233,7 +233,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
         setTimerTime(focusTime);
 
         try {
-          await updatePomodoroTimerTaskInDb(email, newTasksList);
+          await updatePomodoroTimerTaskInDb(uid, newTasksList);
           await updatePomodoroTimerStats({
             ...pomodoroTimerStats,
             totalBreakTime: pomodoroTimerStats.totalBreakTime + breakTime,
@@ -274,12 +274,11 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
       activePomodoroTimerTask,
       setActivePomodoroTimerTask,
       findAndUpdateTask,
-      pomodoroTimerTasks,
     } = get();
     stopTimer();
     setProgress(0);
-    const email = useUserStore.getState().currentUser?.authUser?.email;
-    if (!activePomodoroTimerTask || !email) {
+    const uid = useUserStore.getState().currentUser?.authUser?.uid;
+    if (!activePomodoroTimerTask || !uid) {
       return;
     }
     // Without this line, the progress bar will not reset to 0 in the UI
@@ -300,7 +299,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
     );
     try {
       wait(500);
-      await updatePomodoroTimerTaskInDb(email, newTasksList);
+      await updatePomodoroTimerTaskInDb(uid, newTasksList);
     } catch (error) {
       console.log("Error updating pomodoro timer task in db: ", error);
     }

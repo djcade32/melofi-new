@@ -36,7 +36,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // Check if user's email is verified and if user is in db
   useEffect(() => {
-    console.log("here", { currentUser, isUserLoggedIn });
     // Get current user
     if (currentUser?.authUser && isUserLoggedIn) {
       // Check if user's email is verified

@@ -5,7 +5,6 @@ const db = getFirebaseDB();
 
 // Get user from User db
 export const getUserFromUserDb = async (uid: string) => {
-  console.log("getUserFromUserDb using uid: ", uid);
   if (!db) {
     throw new Error("Firebase DB is not initialized");
   }
