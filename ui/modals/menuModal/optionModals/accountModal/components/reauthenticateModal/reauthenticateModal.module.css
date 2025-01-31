@@ -6,8 +6,8 @@
   bottom: 0;
   margin: auto;
   border-radius: 10px;
-  width: 300px;
   height: 150px;
+  width: 300px;
   padding: 10px;
 }
 
@@ -38,7 +38,6 @@
 
 .reauthenticateModal__buttons_container {
   display: flex;
-  justify-content: space-between;
 }
 
 .reauthenticateModal__button {

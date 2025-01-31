@@ -14,6 +14,7 @@ interface ReauthenticateModalProps {
 const ReauthenticateModal = ({ isOpen, closeModal, email }: ReauthenticateModalProps) => {
   const { reAuthenticateUser, changeUserEmail } = useUserStore();
   const [password, setPassword] = useState("");
+  const [showVerificationEmailSent, setShowVerificationEmailSent] = useState(false);
 
   const handleCancel = () => {
     closeModal();
@@ -21,10 +22,15 @@ const ReauthenticateModal = ({ isOpen, closeModal, email }: ReauthenticateModalP
   };
 
   const handleSubmit = async () => {
-    try {
-      await reAuthenticateUser(password, async () => changeUserEmail(email));
+    if (showVerificationEmailSent) {
       closeModal();
       setPassword("");
+      setShowVerificationEmailSent(false);
+      return;
+    }
+    try {
+      await reAuthenticateUser(password, async () => changeUserEmail(email));
+      setShowVerificationEmailSent(true);
     } catch (error) {
       console.log("Error reauthenticating user: ", error);
     }
@@ -42,26 +48,35 @@ const ReauthenticateModal = ({ isOpen, closeModal, email }: ReauthenticateModalP
     >
       <div className={styles.reauthenticateModal__content}>
         <p className={styles.reauthenticateModal__text}>
-          Enter your password to make changes to your account.
+          {showVerificationEmailSent
+            ? `Verification email sent to ${email}. Please verify your email to continue.`
+            : "Enter your password to make changes to your account."}
         </p>
-        <Input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className={styles.reauthenticateModal__input}
-          placeholder="Enter Password"
-          passwordIconSize={20}
-        />
-        <div className={styles.reauthenticateModal__buttons_container}>
-          <Button
-            id="reauthenticate-modal-confirm"
-            text="Cancel"
-            containerClassName={styles.reauthenticateModal__button}
-            onClick={handleCancel}
+        {!showVerificationEmailSent && (
+          <Input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className={styles.reauthenticateModal__input}
+            placeholder="Enter Password"
+            passwordIconSize={20}
           />
+        )}
+        <div
+          className={styles.reauthenticateModal__buttons_container}
+          style={{ justifyContent: showVerificationEmailSent ? "center" : "space-between" }}
+        >
+          {!showVerificationEmailSent && (
+            <Button
+              id="reauthenticate-modal-confirm"
+              text="Cancel"
+              containerClassName={styles.reauthenticateModal__button}
+              onClick={handleCancel}
+            />
+          )}
           <Button
             id="reauthenticate-modal-confirm"
-            text="Submit"
+            text={showVerificationEmailSent ? "Continue" : "Submit"}
             containerClassName={styles.reauthenticateModal__button}
             onClick={handleSubmit}
             style={{ backgroundColor: "var(--color-effect-opacity)" }}

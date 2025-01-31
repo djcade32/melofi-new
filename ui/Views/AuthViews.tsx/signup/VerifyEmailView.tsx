@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./signup.module.css";
 import Button from "@/ui/components/shared/button/Button";
 import { sendEmailVerification } from "@/lib/firebase/actions/auth-actions";
+import useNotificationProviderStore from "@/stores/notification-provider-store";
 
 interface VerifyEmailViewProps {
   setAuthViewStep: React.Dispatch<React.SetStateAction<number>>;
@@ -14,6 +15,8 @@ const VerifyEmailView = ({
   setShowEmailVerification,
   setOnboardingStep,
 }: VerifyEmailViewProps) => {
+  const { addNotification } = useNotificationProviderStore();
+
   const handleContinueClicked = () => {
     setShowEmailVerification && setShowEmailVerification(false);
     setOnboardingStep && setOnboardingStep(0);
@@ -23,6 +26,10 @@ const VerifyEmailView = ({
   const handleResendVerificationClicked = async () => {
     try {
       await sendEmailVerification();
+      addNotification({
+        type: "success",
+        message: "Verification email sent",
+      });
       console.log("Verification email sent");
     } catch (error: any) {
       console.log("Error sending verification email: ", error);

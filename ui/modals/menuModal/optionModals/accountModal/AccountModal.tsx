@@ -1,25 +1,103 @@
 import useMenuStore from "@/stores/menu-store";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./accountModal.module.css";
 import { IoCloseOutline } from "@/imports/icons";
 import Input from "@/ui/components/shared/input/Input";
 import useUserStore from "@/stores/user-store";
 import Button from "@/ui/components/shared/button/Button";
+import { Error } from "@/types/general";
+import { ERROR_MESSAGES } from "@/enums/general";
+import Modal from "@/ui/components/shared/modal/Modal";
+import ReauthenticateModal from "./components/reauthenticateModal/ReauthenticateModal";
+import { isValidEmail } from "@/utils/general";
 
 const AccountModal = () => {
   const { selectedOption, setSelectedOption } = useMenuStore();
-  const { currentUser } = useUserStore();
+  const { currentUser, changeFullName } = useUserStore();
+
   const [fullname, setFullname] = useState(currentUser?.name);
   const [email, setEmail] = useState(currentUser?.authUser?.email || "");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [focusNewPassword, setFocusNewPassword] = useState(false);
+  const [errorState, setErrorState] = useState<Error[] | null>(null);
+  const [showReauthenticateModal, setShowReauthenticateModal] = useState(false);
 
   const isOpenState = selectedOption === "Account";
 
+  useEffect(() => {
+    if (isOpenState) {
+      setFullname(currentUser?.name);
+      setEmail(currentUser?.authUser?.email || "");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setErrorState(null);
+      setShowReauthenticateModal(false);
+    }
+  }, [isOpenState]);
+
   const handleBackDropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.target === e.currentTarget && setSelectedOption(null);
+    e.target === e.currentTarget && !showReauthenticateModal && setSelectedOption(null);
   };
+
+  const handlePersonalInfoSave = async () => {
+    if (fullname && fullname !== currentUser?.name) {
+      await changeFullName(fullname);
+    }
+    if (email && email !== currentUser?.authUser?.email) {
+      setShowReauthenticateModal(true);
+    }
+  };
+
+  const checkValidPassword = (): boolean => {
+    const errors: Error[] = [];
+
+    if (newPassword.length < 8 || !/[A-Z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
+      errors?.push({
+        name: "newPassword",
+        message: "Password must be at least 8 characters, contain uppercase letters, and numbers",
+      });
+    }
+    if (newPassword !== confirmPassword) {
+      errors?.push({
+        name: "confirmPassword",
+        message: "Passwords do not match",
+      });
+    }
+    setErrorState(errors);
+
+    return errors.length < 0;
+  };
+
+  const handleChangePassword = () => {
+    if (!checkValidPassword()) {
+      return;
+    }
+    console.log("Change Password");
+  };
+
+  const removeError = (field: string) => {
+    if (!errorState) return;
+    setErrorState(errorState.filter((error) => error.name !== field));
+  };
+
+  const showPasswordRules = () => {
+    const hasError = errorState?.find((error) => error.name === "newPassword");
+    return hasError ? false : focusNewPassword;
+  };
+
+  const disableSavePersonalInfo = () => {
+    return (
+      (fullname?.toLocaleLowerCase().trim() === currentUser?.name.toLocaleLowerCase().trim() &&
+        email.trim() === currentUser?.authUser?.email) ||
+      !fullname ||
+      !email ||
+      !isValidEmail(email)
+    );
+  };
+
   return (
     <div
       id="account-modal-backdrop"
@@ -30,11 +108,13 @@ const AccountModal = () => {
         zIndex: isOpenState ? 100 : -1,
       }}
     >
-      <div
+      <Modal
+        id="account-modal"
         className={styles.accountModal__container}
-        style={{
-          display: selectedOption === "Account" ? "block" : "none",
-        }}
+        isOpen={isOpenState}
+        close={() => setSelectedOption(null)}
+        showCloseIcon={false}
+        showBackdrop={showReauthenticateModal}
       >
         <div className={styles.accountModal__header}>
           <p
@@ -84,9 +164,8 @@ const AccountModal = () => {
                 text="Save"
                 containerClassName={styles.accountModal__button}
                 style={{ backgroundColor: "var(--color-effect-opacity)" }}
-                onClick={() => {
-                  console.log("Save");
-                }}
+                onClick={handlePersonalInfoSave}
+                disable={disableSavePersonalInfo()}
               />
             </div>
           </div>
@@ -94,6 +173,8 @@ const AccountModal = () => {
           <div className={styles.accountModal__section}>
             <div>
               <p>Current Password</p>
+              {/* Prevent autofill */}
+              <input type="password" style={{ display: "none" }} autoComplete="off" />
               <Input
                 className={styles.accountModal__input}
                 placeholder="Current Password"
@@ -101,28 +182,52 @@ const AccountModal = () => {
                 value={currentPassword}
                 type="password"
                 passwordIconSize={20}
+                errorState={errorState}
               />
             </div>
             <div>
               <p>New Password</p>
               <Input
+                name="newPassword"
                 className={styles.accountModal__input}
                 placeholder="New Password"
-                onChange={(e) => setNewPassword(e.target.value)}
                 value={newPassword}
                 type="password"
                 passwordIconSize={20}
+                onFocus={() => setFocusNewPassword(true)}
+                onBlur={() => setFocusNewPassword(false)}
+                errorState={errorState}
+                onChange={(e) => {
+                  removeError("newPassword");
+                  setNewPassword(e.target.value);
+                }}
               />
+              {showPasswordRules() && (
+                <p
+                  style={{
+                    fontSize: 12,
+                    color: "var(--color-secondary)",
+                    marginTop: 3,
+                  }}
+                >
+                  {ERROR_MESSAGES.PASSWORD_WEAK}
+                </p>
+              )}
             </div>
             <div>
               <p>Confirm Password</p>
               <Input
+                name="confirmPassword"
                 className={styles.accountModal__input}
                 placeholder="Confirm Password"
-                onChange={(e) => setConfirmPassword(e.target.value)}
                 value={confirmPassword}
                 type="password"
                 passwordIconSize={20}
+                errorState={errorState}
+                onChange={(e) => {
+                  removeError("confirmPassword");
+                  setConfirmPassword(e.target.value);
+                }}
               />
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -131,9 +236,8 @@ const AccountModal = () => {
                 text="Change"
                 containerClassName={styles.accountModal__button}
                 style={{ backgroundColor: "var(--color-effect-opacity)" }}
-                onClick={() => {
-                  console.log("Save");
-                }}
+                onClick={handleChangePassword}
+                disable={currentPassword === "" || newPassword === "" || confirmPassword === ""}
               />
             </div>
           </div>
@@ -192,7 +296,13 @@ const AccountModal = () => {
             </div>
           </div>
         </div>
-      </div>
+
+        <ReauthenticateModal
+          isOpen={showReauthenticateModal}
+          closeModal={() => setShowReauthenticateModal(false)}
+          email={email}
+        />
+      </Modal>
     </div>
   );
 };

@@ -65,9 +65,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               ...props.style,
               paddingLeft: prependIcon && "30px",
               paddingRight: postpendIcon && "30px",
-              borderColor: error ? "var(--color-error)" : "var(--color-white)",
+              borderColor: error ? "var(--color-error)" : "",
             }}
             type={showPassword ? "text" : props.type}
+            autoComplete="new-password"
           />
           <div
             className={styles.input__postpendIcon_container}

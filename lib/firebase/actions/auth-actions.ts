@@ -1,13 +1,16 @@
 import {
   createUserWithEmailAndPassword,
+  EmailAuthProvider,
   sendEmailVerification as firebaseSendEmailVerification,
+  reauthenticateWithCredential,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
+  updateEmail as firebaseUpdateEmail,
   updateProfile,
 } from "firebase/auth";
 import { getFirebaseAuth, getFirebaseDB } from "../firebaseClient";
 import { doc, setDoc } from "firebase/firestore";
-import { MelofiUser } from "@/types/general";
+import { MelofiUser, PromiseResolveType } from "@/types/general";
 import { addUserToNewsletter, changeUserEmailVerificationStatus } from "./newsletter-actions";
 import { getUserFromUserDb } from "../getters/auth-getters";
 import { getUserFromNewsletterDb } from "../getters/newsletter-getters";
@@ -68,9 +71,10 @@ export const login = async (email: string, password: string) => {
     const userFoundInNewsletterDb = await getUserFromNewsletterDb(uid);
     if (!userFoundInUserDb) {
       await addUserToUserDb(uid, email, userCredential.user.displayName || "");
-      if (userFoundInNewsletterDb) {
-        await changeUserEmailVerificationStatus(uid, email, true);
-      }
+    }
+    if (userFoundInNewsletterDb) {
+      console.log("User found in newsletter db");
+      await changeUserEmailVerificationStatus(uid, email, true);
     }
 
     const user: MelofiUser = {
@@ -111,7 +115,7 @@ export const resetPassword = async (email: string) => {
 };
 
 // Update user profile
-export const updateUserProfile = async (displayName: string, photoURL: string) => {
+export const updateUserProfile = async (displayName: string) => {
   if (!auth) {
     throw new Error("Firebase Auth is not initialized");
   }
@@ -121,9 +125,9 @@ export const updateUserProfile = async (displayName: string, photoURL: string) =
   try {
     await updateProfile(auth.currentUser, {
       displayName,
-      photoURL,
     });
   } catch (error) {
+    console.log("Error updating user profile: ", error);
     throw error;
   }
 };
@@ -145,4 +149,79 @@ export const addUserToUserDb = async (uid: string, email: string, firstName: str
     console.log("Error adding user to user db: ", error);
     throw error;
   }
+};
+
+interface UserInfo {
+  email?: string;
+  firstName?: string;
+}
+
+// Change user email or full name in User db
+export const changeUserEmailOrFullNameInDb = async (uid: string, userInfo: UserInfo) => {
+  if (!db) {
+    throw new Error("Firebase DB is not initialized");
+  }
+  try {
+    const usersDoc = doc(db, `users/${uid}`);
+    await setDoc(usersDoc, userInfo, { merge: true });
+  } catch (error) {
+    console.log("Error changing user email or full name: ", error);
+    throw error;
+  }
+};
+
+// Link email and password to existing account
+export const updateEmail = async (email: string) => {
+  if (!auth) {
+    throw new Error("Firebase Auth is not initialized");
+  }
+  if (!auth.currentUser) {
+    throw new Error("No user is logged in");
+  }
+  try {
+    await changeUserEmailOrFullNameInDb(auth.currentUser.uid, {
+      email,
+    });
+    await firebaseUpdateEmail(auth.currentUser, email);
+    await sendEmailVerification();
+    await changeUserEmailVerificationStatus(auth.currentUser.uid, email, false);
+  } catch (error: any) {
+    if (error.message.includes("auth/email-already-in-use")) {
+      return new Promise((resolve) =>
+        resolve({ success: false, message: "Email is already in use. Please try again." })
+      );
+    }
+    if (error.message.includes("auth/operation-not-allowed")) {
+      sendEmailVerification();
+    }
+    console.log("Error updating email: ", error);
+    throw error;
+  }
+};
+
+// Reauthenticate user
+export const reauthenticateUser = async (
+  email: string,
+  password: string
+): Promise<PromiseResolveType> => {
+  if (!auth) {
+    throw new Error("Firebase Auth is not initialized");
+  }
+  if (!auth.currentUser) {
+    throw new Error("No user is logged in");
+  }
+  try {
+    const credential = EmailAuthProvider.credential(email, password);
+    const userCred = await reauthenticateWithCredential(auth.currentUser, credential);
+    if (userCred) {
+      return { success: true };
+    }
+  } catch (error: any) {
+    console.log("Error reauthenticating user: ", error);
+    if (error.message.includes("auth/invalid-credential")) {
+      return { success: false, message: "Invalid password" };
+    }
+    throw error;
+  }
+  return { success: false, message: "Reauthentication failed" };
 };
