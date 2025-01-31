@@ -52,7 +52,10 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
 
   addAlarm: async (label, time) => {
     const { currentUser } = useUserStore.getState();
-    if (!currentUser?.authUser?.uid) return;
+    if (!currentUser?.authUser?.uid) {
+      console.log("No uid found");
+      return;
+    }
 
     const alarm: Alarm = {
       id: uuidv4(),

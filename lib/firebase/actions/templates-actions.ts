@@ -10,7 +10,7 @@ export const addTemplateToDb = async (uid: string | null | undefined, template: 
     throw new Error("Firebase DB is not initialized");
   }
   if (!uid) {
-    throw new Error("Email is not provided");
+    throw new Error("UID is not provided");
   }
 
   try {
