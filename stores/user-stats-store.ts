@@ -43,12 +43,12 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
   alarmsExpiredCount: 0,
 
   async setUserStats() {
-    const email = useUserStore.getState().currentUser?.authUser?.email;
+    const uid = useUserStore.getState().currentUser?.authUser?.uid;
     try {
-      if (!email) {
+      if (!uid) {
         return;
       }
-      const userStats = await getUserStats(email);
+      const userStats = await getUserStats(uid);
       if (!userStats) {
         return;
       }
@@ -60,13 +60,13 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
   },
 
   async incrementTotalNotesCreated() {
-    const email = useUserStore.getState().currentUser?.authUser?.email;
-    if (!email) {
+    const uid = useUserStore.getState().currentUser?.authUser?.uid;
+    if (!uid) {
       return;
     }
     try {
       const totalNotesCreated = get().totalNotesCreated;
-      await updateTotalNotesCreated(email, totalNotesCreated + 1);
+      await updateTotalNotesCreated(uid, totalNotesCreated + 1);
       set((state) => ({ totalNotesCreated: totalNotesCreated + 1 }));
     } catch (error) {
       console.log("Error incrementing total notes created: ", error);
@@ -74,12 +74,12 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
   },
 
   async updatePomodoroTimerStats(updatedStats: PomodoroTimerStats) {
-    const email = useUserStore.getState().currentUser?.authUser?.email;
-    if (!email) {
+    const uid = useUserStore.getState().currentUser?.authUser?.uid;
+    if (!uid) {
       return;
     }
     try {
-      await updatePomodoroTimerStats(email, updatedStats);
+      await updatePomodoroTimerStats(uid, updatedStats);
       set({ pomodoroTimerStats: updatedStats });
     } catch (error) {
       console.log("Error updating pomodoro timer stats: ", error);
@@ -87,13 +87,13 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
   },
 
   async incrementExpiredAlarmsCount() {
-    const email = useUserStore.getState().currentUser?.authUser?.email;
-    if (!email) {
+    const uid = useUserStore.getState().currentUser?.authUser?.uid;
+    if (!uid) {
       return;
     }
     try {
       const expiredAlarmsCount = get().alarmsExpiredCount;
-      await updateAlarmsExpiredCount(email, expiredAlarmsCount + 1);
+      await updateAlarmsExpiredCount(uid, expiredAlarmsCount + 1);
       set(() => ({ alarmsExpiredCount: expiredAlarmsCount + 1 }));
     } catch (error) {
       console.log("Error incrementing expired alarms count: ", error);

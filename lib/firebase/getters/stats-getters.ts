@@ -4,12 +4,12 @@ import { getFirebaseDB } from "../firebaseClient";
 const db = getFirebaseDB();
 
 // Get user stats from stats db
-export const getUserStats = async (email: string) => {
+export const getUserStats = async (uid: string) => {
   if (!db) {
     throw new Error("Firebase DB is not initialized");
   }
   try {
-    const usersDoc = doc(db, `stats/${email}`);
+    const usersDoc = doc(db, `stats/${uid}`);
     const userStats = await getDoc(usersDoc);
     return userStats.data();
   } catch (error) {

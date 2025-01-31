@@ -43,7 +43,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         setShowEmailVerification(true);
       } else if (currentUser?.authUser?.email) {
         // Check if user is in db
-        checkIfUserIsInDb(currentUser.authUser?.email).then((isInDb) => {
+        checkIfUserIsInDb(currentUser.authUser?.uid).then((isInDb) => {
           if (isInDb) {
             setUserStats();
             setGrantAccess(true);

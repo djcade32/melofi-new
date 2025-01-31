@@ -10,7 +10,7 @@ export interface UserState {
 
   setIsUserLoggedIn: (value: boolean) => void;
   setCurrentUser: (user: MelofiUser) => void;
-  checkIfUserIsInDb: (email: string) => Promise<boolean>;
+  checkIfUserIsInDb: (uid: string) => Promise<boolean>;
   resetUserPassword: (email: string) => Promise<void>;
 }
 
@@ -27,12 +27,12 @@ const useUserStore = create<UserState>((set, get) => ({
     localStorage.setItem("user", JSON.stringify(user));
     set({ currentUser: user });
   },
-  async checkIfUserIsInDb(email) {
+  async checkIfUserIsInDb(uid) {
     if (process.env.NEXT_PUBLIC_IS_CYPRESS) {
       console.log("Mocked checkIfUserIsInDb");
       return true;
     }
-    return !!(await getUserFromUserDb(email));
+    return !!(await getUserFromUserDb(uid));
   },
   async resetUserPassword(email) {
     resetPassword(email);

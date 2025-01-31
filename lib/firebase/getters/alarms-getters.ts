@@ -4,12 +4,12 @@ import { getFirebaseDB } from "../firebaseClient";
 const db = getFirebaseDB();
 
 // Get alarms from db
-export const getAlarmsFromDB = async (email: string) => {
+export const getAlarmsFromDB = async (uid: string) => {
   if (!db) {
     throw new Error("Firebase DB is not initialized");
   }
   try {
-    const userDoc = doc(db, `widget_data/${email}`);
+    const userDoc = doc(db, `widget_data/${uid}`);
     const fetchedDoc = await getDoc(userDoc);
     return fetchedDoc.data()?.alarmsList ?? [];
   } catch (error) {
