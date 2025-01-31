@@ -54,7 +54,7 @@ const useTemplatesStore = create<TemplatesState>((set, get) => ({
 
   createTemplate: async (name: string) => {
     try {
-      const email = useUserStore.getState().currentUser?.authUser?.email;
+      const uid = useUserStore.getState().currentUser?.authUser?.uid;
 
       const newMixerSoundsConfig = cloneDeep(useMixerStore.getState().mixerSoundsConfig);
       const playlistName = useMusicPlayerStore.getState().currentPlaylist.name;
@@ -69,7 +69,7 @@ const useTemplatesStore = create<TemplatesState>((set, get) => ({
       const templates = get().templateList;
       templates.unshift(newTemplate);
       // Update templates in the database
-      await addTemplateToDb(email, newTemplate);
+      await addTemplateToDb(uid, newTemplate);
       set({ templateList: templates, selectedTemplate: Object.freeze(newTemplate) });
     } catch (error) {
       console.log("Error creating template: ", error);
@@ -112,9 +112,9 @@ const useTemplatesStore = create<TemplatesState>((set, get) => ({
 
   fetchTemplates: async () => {
     try {
-      const email = useUserStore.getState().currentUser?.authUser?.email;
-      if (!email) return;
-      const templates = await getTemplatesFromDb(email);
+      const uid = useUserStore.getState().currentUser?.authUser?.uid;
+      if (!uid) return;
+      const templates = await getTemplatesFromDb(uid);
       set({ templateList: buildTemplatesList(templates) });
     } catch (error) {
       console.log("Error fetching templates: ", error);

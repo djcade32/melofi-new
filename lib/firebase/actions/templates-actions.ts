@@ -5,16 +5,16 @@ import { MixerSoundConfig } from "@/types/interfaces/mixer";
 
 const db = getFirebaseDB();
 
-export const addTemplateToDb = async (email: string | null | undefined, template: Template) => {
+export const addTemplateToDb = async (uid: string | null | undefined, template: Template) => {
   if (!db) {
     throw new Error("Firebase DB is not initialized");
   }
-  if (!email) {
+  if (!uid) {
     throw new Error("Email is not provided");
   }
 
   try {
-    const userDoc = doc(db, `widget_data/${email}`);
+    const userDoc = doc(db, `widget_data/${uid}`);
 
     // Retrieve the current templatesList from the database
     const userDocSnapshot = await getDoc(userDoc);
@@ -44,19 +44,16 @@ export const addTemplateToDb = async (email: string | null | undefined, template
   }
 };
 
-export const deleteTemplateFromDb = async (
-  email: string | null | undefined,
-  templateId: string
-) => {
+export const deleteTemplateFromDb = async (uid: string | null | undefined, templateId: string) => {
   if (!db) {
     throw new Error("Firebase DB is not initialized");
   }
-  if (!email) {
+  if (!uid) {
     throw new Error("Email is not provided");
   }
 
   try {
-    const userDoc = doc(db, `widget_data/${email}`);
+    const userDoc = doc(db, `widget_data/${uid}`);
 
     // Retrieve the current templatesList from the database
     const userDocSnapshot = await getDoc(userDoc);
