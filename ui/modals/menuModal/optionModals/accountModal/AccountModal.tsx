@@ -17,12 +17,18 @@ const AccountModal = () => {
 
   const [fullname, setFullname] = useState(currentUser?.name);
   const [email, setEmail] = useState(currentUser?.authUser?.email || "");
-  const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [focusNewPassword, setFocusNewPassword] = useState(false);
   const [errorState, setErrorState] = useState<Error[] | null>(null);
   const [showReauthenticateModal, setShowReauthenticateModal] = useState(false);
+  const [reauthenticateData, setReauthenticateData] = useState<{
+    email: string;
+    password: string;
+  }>({
+    email: "",
+    password: "",
+  });
 
   const isOpenState = selectedOption === "Account";
 
@@ -30,7 +36,6 @@ const AccountModal = () => {
     if (isOpenState) {
       setFullname(currentUser?.name);
       setEmail(currentUser?.authUser?.email || "");
-      setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
       setErrorState(null);
@@ -48,10 +53,11 @@ const AccountModal = () => {
     }
     if (email && email !== currentUser?.authUser?.email) {
       setShowReauthenticateModal(true);
+      setReauthenticateData({ email, password: newPassword });
     }
   };
 
-  const checkValidPassword = (): boolean => {
+  const isValidPassword = (): boolean => {
     const errors: Error[] = [];
 
     if (newPassword.length < 8 || !/[A-Z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
@@ -68,14 +74,18 @@ const AccountModal = () => {
     }
     setErrorState(errors);
 
-    return errors.length < 0;
+    return errors.length === 0;
   };
 
   const handleChangePassword = () => {
-    if (!checkValidPassword()) {
+    if (!isValidPassword()) {
       return;
     }
-    console.log("Change Password");
+
+    setShowReauthenticateModal(true);
+    setReauthenticateData({ email: "", password: newPassword });
+    setNewPassword("");
+    setConfirmPassword("");
   };
 
   const removeError = (field: string) => {
@@ -172,21 +182,9 @@ const AccountModal = () => {
 
           <div className={styles.accountModal__section}>
             <div>
-              <p>Current Password</p>
-              {/* Prevent autofill */}
-              <input type="password" style={{ display: "none" }} autoComplete="off" />
-              <Input
-                className={styles.accountModal__input}
-                placeholder="Current Password"
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                value={currentPassword}
-                type="password"
-                passwordIconSize={20}
-                errorState={errorState}
-              />
-            </div>
-            <div>
               <p>New Password</p>
+              {/* Prevent autofill with dummy input*/}
+              <input type="password" style={{ display: "none" }} autoComplete="off" />
               <Input
                 name="newPassword"
                 className={styles.accountModal__input}
@@ -237,7 +235,7 @@ const AccountModal = () => {
                 containerClassName={styles.accountModal__button}
                 style={{ backgroundColor: "var(--color-effect-opacity)" }}
                 onClick={handleChangePassword}
-                disable={currentPassword === "" || newPassword === "" || confirmPassword === ""}
+                disable={newPassword === "" || confirmPassword === ""}
               />
             </div>
           </div>
@@ -300,7 +298,7 @@ const AccountModal = () => {
         <ReauthenticateModal
           isOpen={showReauthenticateModal}
           closeModal={() => setShowReauthenticateModal(false)}
-          email={email}
+          data={reauthenticateData}
         />
       </Modal>
     </div>

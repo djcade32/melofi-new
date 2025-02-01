@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   updateEmail as firebaseUpdateEmail,
   updateProfile,
+  updatePassword as firebaseUpdatePassword,
 } from "firebase/auth";
 import { getFirebaseAuth, getFirebaseDB } from "../firebaseClient";
 import { doc, setDoc } from "firebase/firestore";
@@ -224,4 +225,20 @@ export const reauthenticateUser = async (
     throw error;
   }
   return { success: false, message: "Reauthentication failed" };
+};
+
+// Update user password
+export const updatePassword = async (password: string) => {
+  if (!auth) {
+    throw new Error("Firebase Auth is not initialized");
+  }
+  if (!auth.currentUser) {
+    throw new Error("No user is logged in");
+  }
+  try {
+    await firebaseUpdatePassword(auth.currentUser, password);
+  } catch (error) {
+    console.log("Error updating password: ", error);
+    throw error;
+  }
 };

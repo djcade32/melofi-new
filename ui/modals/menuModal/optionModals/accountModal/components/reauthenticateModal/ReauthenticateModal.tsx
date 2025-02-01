@@ -8,11 +8,14 @@ import useUserStore from "@/stores/user-store";
 interface ReauthenticateModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  email: string;
+  data: {
+    email: string;
+    password: string;
+  };
 }
 
-const ReauthenticateModal = ({ isOpen, closeModal, email }: ReauthenticateModalProps) => {
-  const { reAuthenticateUser, changeUserEmail } = useUserStore();
+const ReauthenticateModal = ({ isOpen, closeModal, data }: ReauthenticateModalProps) => {
+  const { reAuthenticateUser, changeUserEmail, changePassword } = useUserStore();
   const [password, setPassword] = useState("");
   const [showVerificationEmailSent, setShowVerificationEmailSent] = useState(false);
 
@@ -28,11 +31,21 @@ const ReauthenticateModal = ({ isOpen, closeModal, email }: ReauthenticateModalP
       setShowVerificationEmailSent(false);
       return;
     }
-    try {
-      await reAuthenticateUser(password, async () => changeUserEmail(email));
-      setShowVerificationEmailSent(true);
-    } catch (error) {
-      console.log("Error reauthenticating user: ", error);
+    if (data.email) {
+      try {
+        await reAuthenticateUser(password, async () => changeUserEmail(data.email));
+        setShowVerificationEmailSent(true);
+      } catch (error) {
+        console.log("Error reauthenticating user: ", error);
+      }
+    } else if (data.password) {
+      try {
+        await reAuthenticateUser(password, async () => changePassword(data.password));
+        closeModal();
+        setPassword("");
+      } catch (error) {
+        console.log("Error reauthenticating user: ", error);
+      }
     }
   };
 
@@ -49,7 +62,7 @@ const ReauthenticateModal = ({ isOpen, closeModal, email }: ReauthenticateModalP
       <div className={styles.reauthenticateModal__content}>
         <p className={styles.reauthenticateModal__text}>
           {showVerificationEmailSent
-            ? `Verification email sent to ${email}. Please verify your email to continue.`
+            ? `Verification email sent to ${data.email}. Please verify your email to continue.`
             : "Enter your password to make changes to your account."}
         </p>
         {!showVerificationEmailSent && (

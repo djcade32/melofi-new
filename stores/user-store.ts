@@ -3,6 +3,7 @@ import {
   reauthenticateUser as reauthenticateUserAction,
   resetPassword,
   updateEmail,
+  updatePassword,
   updateUserProfile,
 } from "@/lib/firebase/actions/auth-actions";
 import { getUserFromUserDb } from "@/lib/firebase/getters/auth-getters";
@@ -22,6 +23,7 @@ export interface UserState {
   resetUserPassword: (email: string) => Promise<void>;
   changeFullName: (fullName: string) => Promise<void>;
   changeUserEmail: (email: string) => Promise<void>;
+  changePassword: (password: string) => Promise<void>;
   reAuthenticateUser: (password: string, callBackFunction: () => Promise<void>) => Promise<void>;
 }
 
@@ -101,6 +103,18 @@ const useUserStore = create<UserState>((set, get) => ({
     } catch (error) {
       console.error("Error changing email: ", error);
       addNotification({ type: "error", message: "Error changing email" });
+    }
+  },
+
+  async changePassword(password) {
+    const { addNotification } = useNotificationProviderStore.getState();
+
+    try {
+      await updatePassword(password);
+      addNotification({ type: "success", message: "Password changed successfully" });
+    } catch (error) {
+      console.error("Error changing password: ", error);
+      addNotification({ type: "error", message: "Error changing password" });
     }
   },
 
