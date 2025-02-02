@@ -1,5 +1,6 @@
 import {
   changeUserEmailOrFullNameInDb,
+  deleteAccount,
   reauthenticateUser as reauthenticateUserAction,
   resetPassword,
   updateEmail,
@@ -33,6 +34,7 @@ export interface UserState {
   changePassword: (password: string) => Promise<void>;
   reAuthenticateUser: (password: string, callBackFunction: () => Promise<void>) => Promise<void>;
   clearUserData: () => Promise<void>;
+  deleteUserAccount: () => Promise<void>;
 }
 
 const useUserStore = create<UserState>((set, get) => ({
@@ -157,6 +159,25 @@ const useUserStore = create<UserState>((set, get) => ({
       type: "success",
       message: "Data cleared successfully",
     });
+  },
+
+  async deleteUserAccount() {
+    const { currentUser, clearUserData } = get();
+    const { addNotification } = useNotificationProviderStore.getState();
+    const uid = currentUser?.authUser?.uid;
+
+    try {
+      if (uid) {
+        await clearUserData();
+        await deleteAccount(uid);
+        localStorage.removeItem("user");
+        set({ currentUser: undefined, isUserLoggedIn: false, userStats: undefined });
+        addNotification({ type: "success", message: "Account deleted successfully" });
+      }
+    } catch (error) {
+      console.error("Error deleting account: ", error);
+      addNotification({ type: "error", message: "Error deleting account" });
+    }
   },
 }));
 

@@ -14,7 +14,7 @@ import DialogModal from "@/ui/components/shared/dialogModal/DialogModal";
 
 const AccountModal = () => {
   const { selectedOption, setSelectedOption } = useMenuStore();
-  const { currentUser, changeFullName, clearUserData } = useUserStore();
+  const { currentUser, changeFullName, clearUserData, deleteUserAccount } = useUserStore();
 
   const [fullname, setFullname] = useState(currentUser?.name);
   const [email, setEmail] = useState(currentUser?.authUser?.email || "");
@@ -24,12 +24,10 @@ const AccountModal = () => {
   const [errorState, setErrorState] = useState<Error[] | null>(null);
   const [showReauthenticateModal, setShowReauthenticateModal] = useState(false);
   const [reauthenticateData, setReauthenticateData] = useState<{
-    email: string;
-    password: string;
-  }>({
-    email: "",
-    password: "",
-  });
+    email?: string;
+    password?: string;
+    deleteAccount?: boolean;
+  }>({});
   const [showDialog, setShowDialog] = useState(0);
   const [dialopProps, setDialogProps] = useState<DialogModalActions | null>(null);
 
@@ -86,7 +84,7 @@ const AccountModal = () => {
     }
 
     setShowReauthenticateModal(true);
-    setReauthenticateData({ email: "", password: newPassword });
+    setReauthenticateData({ password: newPassword });
     setNewPassword("");
     setConfirmPassword("");
   };
@@ -120,6 +118,19 @@ const AccountModal = () => {
       confirm: () => {
         const func = async () => await clearUserData();
         func();
+      },
+      cancel: () => {},
+    });
+  };
+
+  const handleDeleteAccount = () => {
+    setShowDialog((prev) => prev + 1);
+    setDialogProps({
+      toggleOpen: showDialog + 1,
+      title: "Delete Account",
+      message: "Are you sure you want to delete your profile?",
+      confirm: async () => {
+        await deleteUserAccount();
       },
       cancel: () => {},
     });
@@ -302,7 +313,8 @@ const AccountModal = () => {
                   containerClassName={styles.accountModal__button}
                   style={{ backgroundColor: "var(--color-error)" }}
                   onClick={() => {
-                    console.log("Save");
+                    setReauthenticateData({ deleteAccount: true });
+                    setShowReauthenticateModal(true);
                   }}
                 />
               </div>
@@ -314,6 +326,7 @@ const AccountModal = () => {
           isOpen={showReauthenticateModal}
           closeModal={() => setShowReauthenticateModal(false)}
           data={reauthenticateData}
+          handleDeleteAccount={handleDeleteAccount}
         />
         <DialogModal
           id="account-modal-dialog"

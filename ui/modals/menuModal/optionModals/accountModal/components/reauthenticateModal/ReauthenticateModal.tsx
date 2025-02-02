@@ -4,45 +4,64 @@ import styles from "./reauthenticateModal.module.css";
 import Input from "@/ui/components/shared/input/Input";
 import Button from "@/ui/components/shared/button/Button";
 import useUserStore from "@/stores/user-store";
+import { DialogModalActions } from "@/types/general";
 
 interface ReauthenticateModalProps {
   isOpen: boolean;
   closeModal: () => void;
   data: {
-    email: string;
-    password: string;
+    email?: string;
+    password?: string;
+    deleteAccount?: boolean;
   };
+  handleDeleteAccount?: () => void;
 }
 
-const ReauthenticateModal = ({ isOpen, closeModal, data }: ReauthenticateModalProps) => {
+const ReauthenticateModal = ({
+  isOpen,
+  closeModal,
+  data,
+  handleDeleteAccount,
+}: ReauthenticateModalProps) => {
   const { reAuthenticateUser, changeUserEmail, changePassword } = useUserStore();
-  const [password, setPassword] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
   const [showVerificationEmailSent, setShowVerificationEmailSent] = useState(false);
 
   const handleCancel = () => {
     closeModal();
-    setPassword("");
+    setPasswordInput("");
   };
 
   const handleSubmit = async () => {
     if (showVerificationEmailSent) {
       closeModal();
-      setPassword("");
+      setPasswordInput("");
       setShowVerificationEmailSent(false);
       return;
     }
-    if (data.email) {
+    const { password, email, deleteAccount } = data;
+    if (email) {
       try {
-        await reAuthenticateUser(password, async () => changeUserEmail(data.email));
+        await reAuthenticateUser(passwordInput, async () => changeUserEmail(email));
         setShowVerificationEmailSent(true);
       } catch (error) {
         console.log("Error reauthenticating user: ", error);
       }
-    } else if (data.password) {
+    } else if (password) {
       try {
-        await reAuthenticateUser(password, async () => changePassword(data.password));
+        await reAuthenticateUser(password, async () => changePassword(password));
         closeModal();
-        setPassword("");
+        setPasswordInput("");
+      } catch (error) {
+        console.log("Error reauthenticating user: ", error);
+      }
+    } else if (deleteAccount) {
+      try {
+        await reAuthenticateUser(passwordInput, async () => {
+          handleDeleteAccount && handleDeleteAccount();
+        });
+        closeModal();
+        setPasswordInput("");
       } catch (error) {
         console.log("Error reauthenticating user: ", error);
       }
@@ -68,8 +87,8 @@ const ReauthenticateModal = ({ isOpen, closeModal, data }: ReauthenticateModalPr
         {!showVerificationEmailSent && (
           <Input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={passwordInput}
+            onChange={(e) => setPasswordInput(e.target.value)}
             className={styles.reauthenticateModal__input}
             placeholder="Enter Password"
             passwordIconSize={20}
@@ -93,7 +112,7 @@ const ReauthenticateModal = ({ isOpen, closeModal, data }: ReauthenticateModalPr
             containerClassName={styles.reauthenticateModal__button}
             onClick={handleSubmit}
             style={{ backgroundColor: "var(--color-effect-opacity)" }}
-            disable={password.trim() === ""}
+            disable={passwordInput.trim() === ""}
           />
         </div>
       </div>

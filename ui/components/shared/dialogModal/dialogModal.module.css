@@ -14,7 +14,6 @@
 }
 
 .dialogModal__modal {
-  transform: translateY(-100px);
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -41,4 +40,5 @@
 .dialogModal__action_button {
   height: 35px;
   padding: 0px 5px;
+  border-radius: 5px;
 }

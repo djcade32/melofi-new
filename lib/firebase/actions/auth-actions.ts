@@ -10,12 +10,13 @@ import {
   updatePassword as firebaseUpdatePassword,
 } from "firebase/auth";
 import { getFirebaseAuth, getFirebaseDB } from "../firebaseClient";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, setDoc } from "firebase/firestore";
 import { MelofiUser, PromiseResolveType } from "@/types/general";
 import { addUserToNewsletter, changeUserEmailVerificationStatus } from "./newsletter-actions";
 import { getUserFromUserDb } from "../getters/auth-getters";
 import { getUserFromNewsletterDb } from "../getters/newsletter-getters";
 import { addUserToStats } from "./stats-actions";
+import { get } from "lodash";
 
 const auth = getFirebaseAuth();
 const db = getFirebaseDB();
@@ -239,6 +240,42 @@ export const updatePassword = async (password: string) => {
     await firebaseUpdatePassword(auth.currentUser, password);
   } catch (error) {
     console.log("Error updating password: ", error);
+    throw error;
+  }
+};
+
+// Remove user document from firebase db
+export const removeUserFromDb = async (uid: string) => {
+  if (!db) {
+    throw new Error("Firebase DB is not initialized");
+  }
+  try {
+    const usersDocRef = doc(db, "users", uid);
+    await deleteDoc(usersDocRef);
+    const newsletterDocRef = doc(db, "newsletter", uid);
+    await deleteDoc(newsletterDocRef);
+    const statsDocRef = doc(db, "stats", uid);
+    await deleteDoc(statsDocRef);
+    console.info(`User document with UID ${uid} removed successfully.`);
+  } catch (error) {
+    console.log("Error removing user from db: ", error);
+    throw error;
+  }
+};
+
+// Delete user account
+export const deleteAccount = async (uid: string) => {
+  if (!auth) {
+    throw new Error("Firebase Auth is not initialized");
+  }
+  if (!auth.currentUser) {
+    throw new Error("No user is logged in");
+  }
+  try {
+    await removeUserFromDb(uid);
+    await auth.currentUser.delete();
+  } catch (error) {
+    console.log("Error deleting account: ", error);
     throw error;
   }
 };
