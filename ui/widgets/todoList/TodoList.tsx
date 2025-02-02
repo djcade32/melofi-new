@@ -7,7 +7,7 @@ import HoverIcon from "@/ui/components/shared/hoverIcon/HoverIcon";
 import TodoListItem from "./TodoListItem";
 
 const TodoList = () => {
-  const { isTodoListOpen, setIsTodoListOpen, taskList, addTask, getTodoListTitle } =
+  const { isTodoListOpen, setIsTodoListOpen, taskList, addTask, getTodoListTitle, fetchTaskList } =
     useTodoListStore();
 
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -15,6 +15,7 @@ const TodoList = () => {
 
   // Handle enter key press to add task
   useEffect(() => {
+    fetchTaskList();
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
         const task = document.getElementById("to-do-list-widget-input")?.getAttribute("value");
