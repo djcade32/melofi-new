@@ -5,15 +5,16 @@ import { IoCloseOutline } from "@/imports/icons";
 import Input from "@/ui/components/shared/input/Input";
 import useUserStore from "@/stores/user-store";
 import Button from "@/ui/components/shared/button/Button";
-import { Error } from "@/types/general";
+import { DialogModalActions, Error } from "@/types/general";
 import { ERROR_MESSAGES } from "@/enums/general";
 import Modal from "@/ui/components/shared/modal/Modal";
 import ReauthenticateModal from "./components/reauthenticateModal/ReauthenticateModal";
 import { isValidEmail } from "@/utils/general";
+import DialogModal from "@/ui/components/shared/dialogModal/DialogModal";
 
 const AccountModal = () => {
   const { selectedOption, setSelectedOption } = useMenuStore();
-  const { currentUser, changeFullName } = useUserStore();
+  const { currentUser, changeFullName, clearUserData } = useUserStore();
 
   const [fullname, setFullname] = useState(currentUser?.name);
   const [email, setEmail] = useState(currentUser?.authUser?.email || "");
@@ -29,6 +30,8 @@ const AccountModal = () => {
     email: "",
     password: "",
   });
+  const [showDialog, setShowDialog] = useState(0);
+  const [dialopProps, setDialogProps] = useState<DialogModalActions | null>(null);
 
   const isOpenState = selectedOption === "Account";
 
@@ -106,6 +109,20 @@ const AccountModal = () => {
       !email ||
       !isValidEmail(email)
     );
+  };
+
+  const handleClearData = () => {
+    setShowDialog((prev) => prev + 1);
+    setDialogProps({
+      toggleOpen: showDialog + 1,
+      title: "Clear Data",
+      message: "Are you sure you want to clear all data and insight stats?",
+      confirm: () => {
+        const func = async () => await clearUserData();
+        func();
+      },
+      cancel: () => {},
+    });
   };
 
   return (
@@ -266,9 +283,7 @@ const AccountModal = () => {
                   text="Clear"
                   containerClassName={styles.accountModal__button}
                   style={{ backgroundColor: "var(--color-secondary)" }}
-                  onClick={() => {
-                    console.log("Save");
-                  }}
+                  onClick={handleClearData}
                 />
               </div>
 
@@ -299,6 +314,14 @@ const AccountModal = () => {
           isOpen={showReauthenticateModal}
           closeModal={() => setShowReauthenticateModal(false)}
           data={reauthenticateData}
+        />
+        <DialogModal
+          id="account-modal-dialog"
+          dialogProps={dialopProps}
+          modalStyle={{
+            width: 300,
+            height: 175,
+          }}
         />
       </Modal>
     </div>

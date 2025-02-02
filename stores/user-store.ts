@@ -11,6 +11,13 @@ import { MelofiUser, UserStats } from "@/types/general";
 import { create } from "zustand";
 import useNotificationProviderStore from "./notification-provider-store";
 import { getFirebaseAuth } from "@/lib/firebase/firebaseClient";
+import useCalendarStore from "./widgets/calendar-store";
+import useNotesStore from "./widgets/notes-store";
+import useTodoListStore from "./widgets/todoList-store";
+import usePomodoroTimerStore from "./widgets/pomodoro-timer-store";
+import useTemplatesStore from "./widgets/templates-store";
+import useAlarmsStore from "./widgets/alarms-store";
+import useUserStatsStore from "./user-stats-store";
 
 export interface UserState {
   isUserLoggedIn: boolean;
@@ -25,6 +32,7 @@ export interface UserState {
   changeUserEmail: (email: string) => Promise<void>;
   changePassword: (password: string) => Promise<void>;
   reAuthenticateUser: (password: string, callBackFunction: () => Promise<void>) => Promise<void>;
+  clearUserData: () => Promise<void>;
 }
 
 const useUserStore = create<UserState>((set, get) => ({
@@ -41,6 +49,7 @@ const useUserStore = create<UserState>((set, get) => ({
     localStorage.setItem("user", JSON.stringify(user));
     set({ currentUser: user });
   },
+
   async checkIfUserIsInDb(uid) {
     if (process.env.NEXT_PUBLIC_IS_CYPRESS) {
       console.log("Mocked checkIfUserIsInDb");
@@ -133,6 +142,21 @@ const useUserStore = create<UserState>((set, get) => ({
         await callBackFunction();
       }
     }
+  },
+
+  async clearUserData() {
+    useCalendarStore.getState().resetCalendarState();
+    useNotesStore.getState().resetNotesData();
+    useTodoListStore.getState().resetTodoListData();
+    await usePomodoroTimerStore.getState().resetPomodoroTimerData();
+    await useTemplatesStore.getState().resetTemplatesData();
+    await useAlarmsStore.getState().resetAlarmsData();
+    await useUserStatsStore.getState().resetUserStatsData();
+
+    useNotificationProviderStore.getState().addNotification({
+      type: "success",
+      message: "Data cleared successfully",
+    });
   },
 }));
 

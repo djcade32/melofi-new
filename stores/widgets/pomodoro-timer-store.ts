@@ -23,6 +23,7 @@ export interface PomodoroTimerState {
   addPomodoroTimerTask: (task: PomodoroTimerTaskPayload) => Promise<void>;
   deletePomodoroTimerTask: (taskId: string) => void;
   findAndUpdateTask: (taskId: string, updatedTask: PomodoroTimerTask) => PomodoroTimerTask[];
+  resetPomodoroTimerData: () => Promise<void>;
 
   // Timer state
   isTimerRunning: boolean;
@@ -48,6 +49,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
   activePomodoroTimerTask: null,
 
   setIsPomodoroTimerOpen: (isOpen: boolean) => set({ isPomodoroTimerOpen: isOpen }),
+
   fetchPomodoroTimerTasks: async () => {
     try {
       const uid = useUserStore.getState().currentUser?.authUser?.uid;
@@ -65,10 +67,12 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
       console.log("Error fetching pomodoro timer tasks: ", error);
     }
   },
+
   setActivePomodoroTimerTask: (task: PomodoroTimerTask) => {
     get().setTimerTime(task.currentMode === "Focus" ? task.focusTime : task.breakTime);
     set({ activePomodoroTimerTask: task });
   },
+
   addPomodoroTimerTask: async (task: PomodoroTimerTaskPayload) => {
     const uid = useUserStore.getState().currentUser?.authUser?.uid;
     if (!uid) {
@@ -97,6 +101,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
       return;
     }
   },
+
   deletePomodoroTimerTask: async (taskId: string) => {
     const newTasksList = get().pomodoroTimerTasks.filter((t) => t.id !== taskId);
     const uid = useUserStore.getState().currentUser?.authUser?.uid;
@@ -122,6 +127,22 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
     }
   },
 
+  resetPomodoroTimerData: async () => {
+    const uid = useUserStore.getState().currentUser?.authUser?.uid;
+    if (!uid) {
+      return;
+    }
+    try {
+      await updatePomodoroTimerTaskInDb(uid, []);
+      set({
+        pomodoroTimerTasks: [],
+        activePomodoroTimerTask: null,
+      });
+    } catch (error) {
+      console.log("Error resetting pomodoro timer data: ", error);
+    }
+  },
+
   // Timer state
   isTimerRunning: false,
   timerTime: 0,
@@ -130,8 +151,11 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
 
   // Timer actions
   setWorker: (worker: Worker) => set({ worker: worker }),
+
   setIsTimerRunning: (isRunning: boolean) => set({ isTimerRunning: isRunning }),
+
   setTimerTime: (time: number) => set({ timerTime: time }),
+
   startTimer: () => {
     const worker = get().worker;
     if (!worker) return;
@@ -156,7 +180,6 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
       setActivePomodoroTimerTask,
       stopTimer,
       findAndUpdateTask,
-      pomodoroTimerTasks,
     } = get();
     const uid = useUserStore.getState().currentUser?.authUser?.uid;
     const { updatePomodoroTimerStats, pomodoroTimerStats } = useUserStatsStore.getState();

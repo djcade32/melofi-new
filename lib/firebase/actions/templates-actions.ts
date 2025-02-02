@@ -49,7 +49,7 @@ export const deleteTemplateFromDb = async (uid: string | null | undefined, templ
     throw new Error("Firebase DB is not initialized");
   }
   if (!uid) {
-    throw new Error("Email is not provided");
+    throw new Error("UID is not provided");
   }
 
   try {
@@ -73,6 +73,25 @@ export const deleteTemplateFromDb = async (uid: string | null | undefined, templ
     await setDoc(userDoc, { templatesList: updatedTemplatesList }, { merge: true });
   } catch (error) {
     console.error("Error deleting template in db:", error);
+    throw error;
+  }
+};
+
+export const deleteAllTemplatesFromDb = async (uid: string | null | undefined) => {
+  if (!db) {
+    throw new Error("Firebase DB is not initialized");
+  }
+  if (!uid) {
+    throw new Error("UID is not provided");
+  }
+
+  try {
+    const userDoc = doc(db, `widget_data/${uid}`);
+
+    // Update the database with an empty templatesList
+    await setDoc(userDoc, { templatesList: [] }, { merge: true });
+  } catch (error) {
+    console.error("Error deleting all templates in db:", error);
     throw error;
   }
 };

@@ -14,6 +14,7 @@ export interface NotesState {
   deleteNote: (noteId: string) => void;
   setNotes: (notes: Note[]) => void;
   setSelectedNote: (note: Note | null) => void;
+  resetNotesData: () => void;
 }
 
 const initialValue: Descendant[] = [
@@ -30,6 +31,7 @@ const useNotesStore = create<NotesState>((set, get) => ({
   selectedNote: null,
 
   setIsNotesOpen: (isOpen) => set({ isNotesOpen: isOpen }),
+
   updateNote: (note) => {
     const notes = get().notes;
     const noteIndex = notes.findIndex((n) => n.id === note.id);
@@ -45,6 +47,7 @@ const useNotesStore = create<NotesState>((set, get) => ({
     get().setNotes(newNotesList);
     get().setSelectedNote(note);
   },
+
   createNewNote: () => {
     const newNote: Note = {
       id: uuidv4(),
@@ -60,6 +63,7 @@ const useNotesStore = create<NotesState>((set, get) => ({
     get().setNotes(notes);
     get().setSelectedNote(newNote);
   },
+
   deleteNote: (noteId) => {
     const notes = get().notes;
     const noteIndex = notes.findIndex((n) => n.id === noteId);
@@ -72,13 +76,21 @@ const useNotesStore = create<NotesState>((set, get) => ({
     get().setNotes(notes);
     get().setSelectedNote(notes[0] || null);
   },
+
   setNotes: (notes) => {
     set({ notes });
     localStorage.setItem("notes", JSON.stringify(notes));
   },
+
   setSelectedNote: (note) => {
     set({ selectedNote: note });
     localStorage.setItem("selected_note", JSON.stringify(note));
+  },
+
+  resetNotesData: () => {
+    set({ notes: [], selectedNote: null });
+    localStorage.removeItem("notes");
+    localStorage.removeItem("selected_note");
   },
 }));
 

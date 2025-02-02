@@ -12,6 +12,7 @@ export interface TodoListState {
   changeTaskStatus: (id: string, status: boolean) => void;
   addTask: (task: string) => void;
   removeTask: (id: string) => void;
+  resetTodoListData: () => void;
 }
 
 const useTodoListStore = create<TodoListState>((set, get) => ({
@@ -59,6 +60,11 @@ const useTodoListStore = create<TodoListState>((set, get) => ({
     const newTaskList = get().taskList.filter((task) => task.id !== id);
     localStorage.setItem("todo_list", JSON.stringify(newTaskList));
     set({ taskList: newTaskList });
+  },
+
+  resetTodoListData: () => {
+    localStorage.removeItem("todo_list");
+    set({ taskList: [] });
   },
 }));
 

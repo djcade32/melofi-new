@@ -11,7 +11,11 @@ import useNotificationProviderStore from "../notification-provider-store";
 import useSceneStore from "../scene-store";
 import useMixerStore from "../mixer-store";
 import { NotificationType } from "@/types/general";
-import { addTemplateToDb, deleteTemplateFromDb } from "@/lib/firebase/actions/templates-actions";
+import {
+  addTemplateToDb,
+  deleteAllTemplatesFromDb,
+  deleteTemplateFromDb,
+} from "@/lib/firebase/actions/templates-actions";
 import useUserStore from "../user-store";
 import { getTemplatesFromDb } from "@/lib/firebase/getters/templates-getter";
 import { buildTemplatesList } from "@/lib/type-builders/templates-type-builder";
@@ -28,6 +32,7 @@ export interface TemplatesState {
   setSelectedTemplate: (template: Template | null) => void;
   settingsChanged: () => void;
   fetchTemplates: () => Promise<void>;
+  resetTemplatesData: () => Promise<void>;
 }
 
 const useTemplatesStore = create<TemplatesState>((set, get) => ({
@@ -118,6 +123,19 @@ const useTemplatesStore = create<TemplatesState>((set, get) => ({
       set({ templateList: buildTemplatesList(templates) });
     } catch (error) {
       console.log("Error fetching templates: ", error);
+    }
+  },
+
+  resetTemplatesData: async () => {
+    const uid = useUserStore.getState().currentUser?.authUser?.uid;
+    if (!uid) {
+      return;
+    }
+    try {
+      await deleteAllTemplatesFromDb(uid);
+      set({ templateList: [], selectedTemplate: null, wasTemplateSelected: false });
+    } catch (error) {
+      console.log("Error resetting templates data: ", error);
     }
   },
 }));

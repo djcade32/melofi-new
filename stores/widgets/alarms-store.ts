@@ -19,6 +19,7 @@ export interface AlarmsState {
   setAlarmsWorker: (worker: Worker) => void;
   snoozeAlarm: (alarm: Alarm) => void;
   fetchAlarms: () => Promise<void>;
+  resetAlarmsData: () => Promise<void>;
 }
 
 const useAlarmsStore = create<AlarmsState>((set, get) => ({
@@ -124,6 +125,21 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
       alarmsWorker && (await addAlarmsToWorker(alarmsWorker, builtAlarmList));
     } catch (error) {
       console.log("Error fetching templates: ", error);
+    }
+  },
+
+  resetAlarmsData: async () => {
+    const { alarmsWorker } = get();
+    const uid = useUserStore.getState().currentUser?.authUser?.uid;
+    if (!uid) {
+      return;
+    }
+    try {
+      await updateAlarmsInDB(uid, []);
+      alarmsWorker?.postMessage({ type: "CLEAR_ALARMS" });
+      set({ alarmList: [] });
+    } catch (error) {
+      console.log("Error resetting templates data: ", error);
     }
   },
 }));
