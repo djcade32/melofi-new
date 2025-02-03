@@ -56,6 +56,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     } else if (currentUser?.skippedOnboarding) {
       setGrantAccess(true);
+    } else if (!currentUser) {
+      setGrantAccess(false);
     }
     // Give time for data to load
     setTimeout(() => {

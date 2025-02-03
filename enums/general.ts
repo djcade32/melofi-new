@@ -4,6 +4,7 @@ export const enum MusicSource {
 }
 
 export const ERROR_MESSAGES = {
+  FIRST_NAME_REQUIRED: "First name is required",
   EMAIL_REQUIRED: "Email is required",
   PASSWORD_REQUIRED: "Password is required",
   INVALID_EMAIL: "Email is invalid",

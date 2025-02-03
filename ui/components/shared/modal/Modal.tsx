@@ -94,8 +94,8 @@ const Modal = ({
       style={{
         ...props?.style,
         display: isOpen ? "flex" : "none",
-        width: resizable ? `${dimensions.width}px` : "",
-        height: resizable ? `${dimensions.height}px` : "",
+        width: resizable ? `${dimensions.width}px` : props.style?.width,
+        height: resizable ? `${dimensions.height}px` : props.style?.height,
       }}
       id={id}
       onMouseEnter={() => {

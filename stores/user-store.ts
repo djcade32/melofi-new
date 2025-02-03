@@ -173,6 +173,7 @@ const useUserStore = create<UserState>((set, get) => ({
         localStorage.removeItem("user");
         set({ currentUser: undefined, isUserLoggedIn: false, userStats: undefined });
         addNotification({ type: "success", message: "Account deleted successfully" });
+        //
       }
     } catch (error) {
       console.error("Error deleting account: ", error);

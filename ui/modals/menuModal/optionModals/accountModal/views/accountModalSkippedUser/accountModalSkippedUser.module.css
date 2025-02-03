@@ -1,0 +1,117 @@
+.accountModalSkippedUser__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.accountModalSkippedUser__title {
+  text-align: center;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.08rem;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.accountModalSkippedUser__subTitle {
+  text-align: center;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.accountModalSkippedUser__inputs_container {
+  padding-top: 15px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 10px;
+}
+
+.accountModalSkippedUser__input {
+  width: 275px;
+  height: 50px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-primary);
+  font-size: 18px;
+  color: var(--color-white);
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-bottom: 2px solid var(--color-secondary);
+  transition: all 0.3s;
+  padding-right: 10px;
+}
+
+.accountModalSkippedUser__input::selection {
+  background: var(--color-white);
+  color: var(--color-primary-opacity);
+}
+
+.accountModalSkippedUser__input:focus {
+  outline: none;
+  border-bottom: 2px solid var(--color-white);
+}
+
+.accountModalSkippedUser__input::placeholder {
+  color: var(--color-secondary);
+}
+
+.accountModalSkippedUser__have_account_text {
+  font-size: 14px;
+  text-decoration: underline;
+  text-align: center;
+  cursor: pointer;
+}
+
+.accountModalSkippedUser__continue_button {
+  width: 150px;
+  height: 50px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  border: none;
+  background: var(--color-effect);
+  font-size: 21px;
+  font-weight: 700;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow-primary);
+  align-self: center;
+}
+
+.accountModalSkippedUser__credentials_input_rules {
+  font-size: 14px;
+  color: var(--color-secondary);
+  width: 30ch;
+
+  line-height: 1.2;
+}
+
+.accountModalSkippedUser__credentials_button_checkbox_container {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.accountModalSkippedUser__credentials_checkbox {
+  width: 250px;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.accountModalSkippedUser__credentials_checkbox__terms_and_policy_text {
+  color: var(--color-secondary);
+  text-align: center;
+  font-size: 14px;
+}
+
+.accountModalSkippedUser__credentials_checkbox__terms_and_policy_text span {
+  text-decoration: underline;
+  cursor: pointer;
+  color: var(--color-secondary);
+}
+
+.accountModalSkippedUser__credentials_checkbox__terms_and_policy_text span:hover {
+  color: var(--color-white);
+}

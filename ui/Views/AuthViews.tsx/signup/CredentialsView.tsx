@@ -41,7 +41,7 @@ const CredentialsView = ({
       if (error.code === "auth/email-already-in-use") {
         setErrorState([
           {
-            name: "email",
+            name: "email-input",
             message: ERROR_MESSAGES.EMAIL_ALREADY_IN_USE,
           },
         ]);
@@ -56,20 +56,20 @@ const CredentialsView = ({
 
     if (email === "") {
       errors.push({
-        name: "email",
+        name: "email-input",
         message: ERROR_MESSAGES.EMAIL_REQUIRED,
       });
     }
     if (password === "") {
       errors.push({
-        name: "password",
+        name: "password-input",
         message: ERROR_MESSAGES.PASSWORD_REQUIRED,
       });
     }
 
     if (!isValidEmail(email)) {
       errors.push({
-        name: "email",
+        name: "email-input",
         message: ERROR_MESSAGES.INVALID_EMAIL,
       });
     }
@@ -77,12 +77,12 @@ const CredentialsView = ({
     // Check if password is invalid
     if (password === "") {
       errors.push({
-        name: "password",
+        name: "password-input",
         message: ERROR_MESSAGES.PASSWORD_REQUIRED,
       });
     } else if (password.length < 8 || !password.match(/[A-Z]/) || !password.match(/[0-9]/)) {
       errors.push({
-        name: "password",
+        name: "password-input",
         message: ERROR_MESSAGES.PASSWORD_WEAK,
       });
     }
@@ -129,12 +129,12 @@ const CredentialsView = ({
         <form autoComplete="off" className={styles.signup__credentials_inputs_container}>
           <Input
             aria-label="email"
-            name="email"
+            name="email-input"
             placeholder="Email Address"
             className={styles.signup__credentials_input}
             type="text"
             onChange={(e) => {
-              removeError("email");
+              removeError("email-input");
               setEmail(e.target.value);
             }}
             value={email}
@@ -142,7 +142,7 @@ const CredentialsView = ({
           />
           <Input
             aria-label="password"
-            name="password"
+            name="password-input"
             placeholder="Create Password"
             className={styles.signup__credentials_input}
             type="password"
@@ -151,7 +151,7 @@ const CredentialsView = ({
             }}
             onBlur={() => setShowPasswordRules(false)}
             onChange={(e) => {
-              removeError("password");
+              removeError("password-input");
               setPassword(e.target.value);
             }}
             value={password}
@@ -166,7 +166,7 @@ const CredentialsView = ({
         <div
           className={styles.signup__credentials_button_checkbox_container}
           style={{
-            marginTop: errorState?.find((error) => error.name === "password") ? 35 : 65,
+            marginTop: errorState?.find((error) => error.name === "password-input") ? 35 : 65,
           }}
         >
           <Checkbox

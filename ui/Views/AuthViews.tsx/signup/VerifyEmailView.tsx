@@ -48,7 +48,7 @@ const VerifyEmailView = ({
         </p>
 
         <Button
-          id="send-reset-link-button"
+          id="verify-email-button"
           text="Let’s Get Focused"
           onClick={handleContinueClicked}
           containerClassName={styles.signup__continue_button}
