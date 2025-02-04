@@ -4,19 +4,23 @@ import Input from "@/ui/components/shared/input/Input";
 import { ERROR_MESSAGES } from "@/enums/general";
 import Button from "@/ui/components/shared/button/Button";
 import { sendEmailVerification, signup } from "@/lib/firebase/actions/auth-actions";
-import useUserStore from "@/stores/user-store";
 import useMenuStore from "@/stores/menu-store";
 import { isValidEmail } from "@/utils/general";
 import Checkbox from "@/ui/components/shared/checkbox/Checkbox";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
+import useUserStore from "@/stores/user-store";
 
 interface AccountModalSkippedUserSignupProps {
-  setCurrentView: React.Dispatch<React.SetStateAction<string>>;
+  currentView: string[];
+  setCurrentView: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const AccountModalSkippedUserSignup = ({ setCurrentView }: AccountModalSkippedUserSignupProps) => {
-  const { setCurrentUser, setIsUserLoggedIn } = useUserStore();
-  const { setSelectedOption, selectedOption } = useMenuStore();
+const AccountModalSkippedUserSignup = ({
+  currentView,
+  setCurrentView,
+}: AccountModalSkippedUserSignupProps) => {
+  const { selectedOption } = useMenuStore();
+  const { currentUser } = useUserStore();
   const { addNotification } = useNotificationProviderStore();
 
   const [firstName, setFirstName] = useState("");
@@ -28,8 +32,14 @@ const AccountModalSkippedUserSignup = ({ setCurrentView }: AccountModalSkippedUs
   const [showVerifyEmail, setShowVerifyEmail] = useState(false);
 
   useEffect(() => {
+    if (currentView.includes("emailVerification")) {
+      setShowVerifyEmail(true);
+    }
+  }, [currentView]);
+
+  useEffect(() => {
     if (selectedOption === "Account") {
-      setFirstName("");
+      setFirstName(currentUser?.name || "");
       setEmail("");
       setPassword("");
       setErrorState(null);
@@ -134,7 +144,7 @@ const AccountModalSkippedUserSignup = ({ setCurrentView }: AccountModalSkippedUs
       {!showVerifyEmail ? (
         <div className={styles.accountModalSkippedUser__container}>
           <div>
-            <p className={styles.accountModalSkippedUser__title}>Join Melofi & Stay in Flow</p>
+            <p className={styles.accountModalSkippedUser__title}>Join Melofi</p>
             <p className={styles.accountModalSkippedUser__subTitle}>
               Work Smarter, Stay Relaxed, and Get More Done with Melofi.
             </p>
@@ -238,9 +248,9 @@ const AccountModalSkippedUserSignup = ({ setCurrentView }: AccountModalSkippedUs
               onMouseLeave={(e) => {
                 e.currentTarget.style.textDecoration = "underline";
               }}
-              onClick={() => setCurrentView("login")}
+              onClick={() => setCurrentView(["login"])}
             >
-              Already have and account?
+              Already have an Account?
             </p>
           </div>
         </div>
@@ -261,7 +271,7 @@ const AccountModalSkippedUserSignup = ({ setCurrentView }: AccountModalSkippedUs
           <Button
             id="verify-email-button"
             text="Let’s Get Focused"
-            onClick={() => setCurrentView("login")}
+            onClick={() => setCurrentView(["login"])}
             containerClassName={styles.accountModalSkippedUser__continue_button}
             style={{ width: 250 }}
           />

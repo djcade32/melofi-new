@@ -111,7 +111,7 @@ import {
   RxCaretUp,
   RxDragHandleDots2,
 } from "react-icons/rx";
-import { PiMoonFill, PiSunHorizonFill, PiWavesDuotone } from "react-icons/pi";
+import { PiMoonFill, PiSunHorizonFill, PiWavesDuotone, PiSignOutBold } from "react-icons/pi";
 import { VscDebugRestart } from "react-icons/vsc";
 import { LuGalleryVertical, LuGalleryHorizontal } from "react-icons/lu";
 import { BiSolidHide, BiSolidShow } from "react-icons/bi";
@@ -236,4 +236,5 @@ export {
   IoClose,
   BsFillGiftFill,
   IoStatsChartSharp,
+  PiSignOutBold,
 };

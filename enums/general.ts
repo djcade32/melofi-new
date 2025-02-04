@@ -22,4 +22,5 @@ export type MenuOptionNames =
   | "Leave Feedback"
   | "Support"
   | "Share With Friends"
-  | "About Melofi";
+  | "About Melofi"
+  | "Logout";

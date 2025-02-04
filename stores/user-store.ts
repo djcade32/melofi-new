@@ -3,6 +3,7 @@ import {
   deleteAccount,
   reauthenticateUser as reauthenticateUserAction,
   resetPassword,
+  signOut,
   updateEmail,
   updatePassword,
   updateUserProfile,
@@ -19,6 +20,8 @@ import usePomodoroTimerStore from "./widgets/pomodoro-timer-store";
 import useTemplatesStore from "./widgets/templates-store";
 import useAlarmsStore from "./widgets/alarms-store";
 import useUserStatsStore from "./user-stats-store";
+import { auth } from "firebase-functions/v1";
+import { skip } from "node:test";
 
 export interface UserState {
   isUserLoggedIn: boolean;
@@ -35,6 +38,7 @@ export interface UserState {
   reAuthenticateUser: (password: string, callBackFunction: () => Promise<void>) => Promise<void>;
   clearUserData: () => Promise<void>;
   deleteUserAccount: () => Promise<void>;
+  signUserOut: () => void;
 }
 
 const useUserStore = create<UserState>((set, get) => ({
@@ -173,12 +177,25 @@ const useUserStore = create<UserState>((set, get) => ({
         localStorage.removeItem("user");
         set({ currentUser: undefined, isUserLoggedIn: false, userStats: undefined });
         addNotification({ type: "success", message: "Account deleted successfully" });
-        //
       }
     } catch (error) {
       console.error("Error deleting account: ", error);
       addNotification({ type: "error", message: "Error deleting account" });
     }
+  },
+
+  signUserOut: () => {
+    const user = {
+      name: get().currentUser?.name || "",
+      skippedOnboarding: true,
+    } as MelofiUser;
+
+    localStorage.setItem("user", JSON.stringify(user));
+    signOut();
+    set({ currentUser: user, isUserLoggedIn: false, userStats: undefined });
+    useNotificationProviderStore
+      .getState()
+      .addNotification({ type: "success", message: "Logged out" });
   },
 }));
 

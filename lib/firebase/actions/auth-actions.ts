@@ -16,7 +16,6 @@ import { addUserToNewsletter, changeUserEmailVerificationStatus } from "./newsle
 import { getUserFromUserDb } from "../getters/auth-getters";
 import { getUserFromNewsletterDb } from "../getters/newsletter-getters";
 import { addUserToStats } from "./stats-actions";
-import { get } from "lodash";
 
 const auth = getFirebaseAuth();
 const db = getFirebaseDB();
@@ -69,12 +68,13 @@ export const login = async (email: string, password: string) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const uid = userCredential.user.uid;
+    const isEmailVerified = userCredential.user.emailVerified;
     const userFoundInUserDb = await getUserFromUserDb(uid);
     const userFoundInNewsletterDb = await getUserFromNewsletterDb(uid);
-    if (!userFoundInUserDb) {
+    if (!userFoundInUserDb && isEmailVerified) {
       await addUserToUserDb(uid, email, userCredential.user.displayName || "");
     }
-    if (userFoundInNewsletterDb) {
+    if (userFoundInNewsletterDb && isEmailVerified) {
       console.log("User found in newsletter db");
       await changeUserEmailVerificationStatus(uid, email, true);
     }
@@ -82,7 +82,9 @@ export const login = async (email: string, password: string) => {
     const user: MelofiUser = {
       name: userCredential.user.displayName || "",
       authUser: userCredential.user,
+      skippedOnboarding: !isEmailVerified,
     };
+
     // Set user in local storage
     localStorage.setItem("user", JSON.stringify(user));
 
@@ -276,6 +278,19 @@ export const deleteAccount = async (uid: string) => {
     await auth.currentUser.delete();
   } catch (error) {
     console.log("Error deleting account: ", error);
+    throw error;
+  }
+};
+
+// Sign out
+export const signOut = async () => {
+  if (!auth) {
+    throw new Error("Firebase Auth is not initialized");
+  }
+  try {
+    await auth.signOut();
+  } catch (error) {
+    console.log("Error signing out: ", error);
     throw error;
   }
 };

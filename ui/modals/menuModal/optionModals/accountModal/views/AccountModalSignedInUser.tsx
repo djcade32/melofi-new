@@ -20,7 +20,7 @@ const AccountModalSignedInUser = ({
   showReauthenticateModal,
   setShowReauthenticateModal,
 }: AccountModalSignedInUserProps) => {
-  const { selectedOption, setSelectedOption } = useMenuStore();
+  const { setSelectedOption } = useMenuStore();
   const { currentUser, changeFullName, clearUserData, deleteUserAccount } = useUserStore();
 
   const [fullname, setFullname] = useState(currentUser?.name);
@@ -129,6 +129,7 @@ const AccountModalSignedInUser = ({
       message: "Are you sure you want to delete your profile?",
       confirm: async () => {
         await deleteUserAccount();
+        setSelectedOption(null);
       },
       cancel: () => {},
     });

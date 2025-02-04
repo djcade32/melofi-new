@@ -9,13 +9,16 @@ import {
   BsFillInfoCircleFill,
   BsFillGiftFill,
   IoStatsChartSharp,
+  PiSignOutBold,
 } from "@/imports/icons";
 import useMenuStore from "@/stores/menu-store";
 import { MenuOptionNames } from "@/enums/general";
 import AccountModal from "./optionModals/accountModal/AccountModal";
+import useUserStore from "@/stores/user-store";
 
 const MenuModal = () => {
   const { anchorEl, handleClose, isMenuOpen, setSelectedOption } = useMenuStore();
+  const { signUserOut, isUserLoggedIn } = useUserStore();
 
   const options: MenuOption[] = [
     {
@@ -74,6 +77,14 @@ const MenuModal = () => {
         handleMenuClick("About Melofi");
       },
     },
+    {
+      id: "menu-option-7",
+      label: "Logout",
+      icon: <PiSignOutBold size={20} color="var(--color-white)" />,
+      onClick: () => {
+        signUserOut();
+      },
+    },
   ];
 
   const handleMenuClick = (option: MenuOptionNames) => {
@@ -87,7 +98,7 @@ const MenuModal = () => {
         anchorEl={anchorEl}
         open={isMenuOpen}
         onClose={handleClose}
-        options={options}
+        options={isUserLoggedIn ? options : options.slice(0, 7)}
         offset={10}
         invertColors
       />
