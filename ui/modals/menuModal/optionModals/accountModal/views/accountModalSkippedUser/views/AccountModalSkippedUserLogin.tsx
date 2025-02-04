@@ -29,7 +29,7 @@ const AccountModalSkippedUserLogin = ({ setCurrentView }: AccountModalSkippedUse
     }
 
     try {
-      const user = await login(email, password);
+      const user = await login(email, password, true);
       if (user) {
         const emailVerified = user.authUser?.emailVerified;
         if (!emailVerified) {

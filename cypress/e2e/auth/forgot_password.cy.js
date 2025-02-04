@@ -17,7 +17,7 @@ describe("Testing Forgot Password form", () => {
       "No worries! Drop your email and we’ll send you a link to reset your password."
     );
 
-    cy.get("[name=email]").should("exist");
+    cy.get("[name=email-input]").should("exist");
     cy.get("#send-reset-link-button").should("exist");
   });
 
@@ -26,8 +26,8 @@ describe("Testing Forgot Password form", () => {
       "sendEmailVerificationRequest"
     );
 
-    cy.get("[name=email]").click();
-    cy.get("[name=email]").type("test@example.com");
+    cy.get("[name=email-input]").click();
+    cy.get("[name=email-input]").type("test@example.com");
     cy.get("#send-reset-link-button").click();
 
     cy.wait("@sendEmailVerificationRequest").then((interception) => {

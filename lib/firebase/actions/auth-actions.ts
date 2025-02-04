@@ -60,7 +60,7 @@ export const sendEmailVerification = async () => {
 };
 
 // Login with email and password
-export const login = async (email: string, password: string) => {
+export const login = async (email: string, password: string, fromDashboard?: boolean) => {
   if (!auth) {
     throw new Error("Firebase Auth is not initialized");
   }
@@ -82,8 +82,9 @@ export const login = async (email: string, password: string) => {
     const user: MelofiUser = {
       name: userCredential.user.displayName || "",
       authUser: userCredential.user,
-      skippedOnboarding: !isEmailVerified,
     };
+
+    fromDashboard && (user.skippedOnboarding = true);
 
     // Set user in local storage
     localStorage.setItem("user", JSON.stringify(user));
