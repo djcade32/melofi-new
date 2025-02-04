@@ -142,6 +142,7 @@ const AccountModalSignedInUser = ({
           <div>
             <p>Full name</p>
             <Input
+              name="fullname-input"
               className={styles.accountModal__input}
               placeholder="Full name"
               onChange={(e) => setFullname(e.target.value)}
@@ -151,6 +152,7 @@ const AccountModalSignedInUser = ({
           <div>
             <p>Email</p>
             <Input
+              name="email-input"
               className={styles.accountModal__input}
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}

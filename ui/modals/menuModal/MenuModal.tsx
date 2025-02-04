@@ -70,7 +70,7 @@ const MenuModal = () => {
       },
     },
     {
-      id: "menu-option-6",
+      id: "menu-option-7",
       label: "About Melofi",
       icon: <BsFillInfoCircleFill size={20} color="var(--color-white)" />,
       onClick: () => {
@@ -78,7 +78,7 @@ const MenuModal = () => {
       },
     },
     {
-      id: "menu-option-7",
+      id: "menu-option-8",
       label: "Logout",
       icon: <PiSignOutBold size={20} color="var(--color-white)" />,
       onClick: () => {
@@ -95,6 +95,7 @@ const MenuModal = () => {
   return (
     <>
       <Menu
+        id="menu-modal"
         anchorEl={anchorEl}
         open={isMenuOpen}
         onClose={handleClose}

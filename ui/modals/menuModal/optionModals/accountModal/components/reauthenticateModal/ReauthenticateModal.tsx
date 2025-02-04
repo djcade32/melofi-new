@@ -70,6 +70,7 @@ const ReauthenticateModal = ({
 
   return (
     <Modal
+      id="reauthenticate-modal"
       isOpen={isOpen}
       close={closeModal}
       className={styles.reauthenticateModal__container}
@@ -86,6 +87,7 @@ const ReauthenticateModal = ({
         </p>
         {!showVerificationEmailSent && (
           <Input
+            name="password-input"
             type="password"
             value={passwordInput}
             onChange={(e) => setPasswordInput(e.target.value)}
@@ -100,7 +102,7 @@ const ReauthenticateModal = ({
         >
           {!showVerificationEmailSent && (
             <Button
-              id="reauthenticate-modal-confirm"
+              id="reauthenticate-modal-cancel"
               text="Cancel"
               containerClassName={styles.reauthenticateModal__button}
               onClick={handleCancel}

@@ -43,6 +43,8 @@ const AccountModalSkippedUserSignup = ({
       setEmail("");
       setPassword("");
       setErrorState(null);
+    } else if (selectedOption === null) {
+      setShowVerifyEmail(false);
     }
   }, [selectedOption]);
 
