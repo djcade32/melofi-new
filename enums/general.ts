@@ -13,7 +13,7 @@ export const ERROR_MESSAGES = {
   INVALID_CREDENTIALS: "Invalid email or password",
 };
 
-export type NotificationTypes = "success" | "error" | "normal" | "alarm";
+export type NotificationTypes = "success" | "error" | "normal" | "alarm" | "copy_to_clipboard";
 
 export type MenuOptionNames =
   | "Account"

@@ -1,5 +1,6 @@
 import { MenuOptionNames } from "@/enums/general";
 import { create } from "zustand";
+import useNotificationProviderStore from "./notification-provider-store";
 
 export interface MenuState {
   isMenuOpen: boolean;
@@ -10,6 +11,7 @@ export interface MenuState {
   handleClick: (event: React.MouseEvent<HTMLDivElement>) => void;
   handleClose: () => void;
   setSelectedOption: (option: MenuOptionNames | null) => void;
+  copyToClipboard: (text: string) => void;
 }
 
 const useMenuStore = create<MenuState>((set, get) => ({
@@ -33,6 +35,14 @@ const useMenuStore = create<MenuState>((set, get) => ({
 
   setSelectedOption: (option) => {
     set(() => ({ selectedOption: option }));
+  },
+
+  copyToClipboard: (text) => {
+    navigator.clipboard.writeText(text);
+    useNotificationProviderStore.getState().addNotification({
+      message: "Copied to clipboard",
+      type: "copy_to_clipboard",
+    });
   },
 }));
 

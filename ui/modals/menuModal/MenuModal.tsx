@@ -15,9 +15,11 @@ import useMenuStore from "@/stores/menu-store";
 import { MenuOptionNames } from "@/enums/general";
 import AccountModal from "./optionModals/accountModal/AccountModal";
 import useUserStore from "@/stores/user-store";
+import AboutMelofiModal from "./optionModals/aboutMelofiModal/AboutMelofiModal";
+import MenuModalBackdrop from "./optionModals/components/menuModalBackdrop/MenuModalBackdrop";
 
 const MenuModal = () => {
-  const { anchorEl, handleClose, isMenuOpen, setSelectedOption } = useMenuStore();
+  const { anchorEl, handleClose, isMenuOpen, setSelectedOption, selectedOption } = useMenuStore();
   const { signUserOut, isUserLoggedIn, currentUser } = useUserStore();
 
   const options: MenuOption[] = [
@@ -93,6 +95,12 @@ const MenuModal = () => {
   };
 
   const showLogoutOption = isUserLoggedIn && currentUser?.authUser?.emailVerified;
+  const showBackdrop = () => {
+    if (selectedOption === "Account" || selectedOption === "About Melofi") {
+      return true;
+    }
+    return false;
+  };
 
   return (
     <>
@@ -105,8 +113,10 @@ const MenuModal = () => {
         offset={10}
         invertColors
       />
-
-      <AccountModal />
+      <MenuModalBackdrop open={showBackdrop()}>
+        <AccountModal />
+        <AboutMelofiModal />
+      </MenuModalBackdrop>
     </>
   );
 };

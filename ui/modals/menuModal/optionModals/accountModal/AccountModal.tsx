@@ -13,72 +13,63 @@ const AccountModal = () => {
   const [showReauthenticateModal, setShowReauthenticateModal] = useState(false);
   const isOpenState = selectedOption === "Account";
 
-  const handleBackDropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.target === e.currentTarget && !showReauthenticateModal && setSelectedOption(null);
+  const showSkippedUserView = () => {
+    return !(currentUser?.authUser?.emailVerified && isUserLoggedIn);
   };
 
   const getTitle = () => {
-    return currentUser?.skippedOnboarding || !isUserLoggedIn ? "" : "Account";
+    return showSkippedUserView() ? "" : "Account";
   };
 
   const getHeight = () => {
-    return currentUser?.skippedOnboarding || !isUserLoggedIn ? 650 : 475;
+    return showSkippedUserView() ? 650 : 475;
   };
+
   return (
-    <div
-      id="account-modal-backdrop"
-      onClick={handleBackDropClick}
-      className={styles.accountModal__backdrop}
+    <Modal
+      id="account-modal"
+      className={styles.accountModal__container}
       style={{
-        opacity: isOpenState ? 1 : 0,
-        zIndex: isOpenState ? 100 : -1,
+        height: getHeight(),
       }}
+      isOpen={isOpenState}
+      close={() => setSelectedOption(null)}
+      showCloseIcon={false}
+      showBackdrop={showReauthenticateModal}
     >
-      <Modal
-        id="account-modal"
-        className={styles.accountModal__container}
-        style={{
-          height: getHeight(),
-        }}
-        isOpen={isOpenState}
-        close={() => setSelectedOption(null)}
-        showCloseIcon={false}
-        showBackdrop={showReauthenticateModal}
-      >
-        <>
-          <div className={styles.accountModal__header}>
-            <p
-              style={{
-                fontSize: 21,
-                fontWeight: 500,
-              }}
-            >
-              {getTitle()}
-            </p>
-            <IoCloseOutline
-              id="account-modal-close-button"
-              size={25}
-              color="var(--color-secondary)"
-              onClick={() => setSelectedOption(null)}
-              style={{
-                cursor: "pointer",
-                zIndex: 1,
-                display: "flex",
-                justifySelf: "flex-end",
-              }}
-            />
-          </div>
-          {currentUser?.skippedOnboarding || !isUserLoggedIn ? (
-            <AccountModalSkippedUser />
-          ) : (
-            <AccountModalSignedInUser
-              showReauthenticateModal={showReauthenticateModal}
-              setShowReauthenticateModal={setShowReauthenticateModal}
-            />
-          )}
-        </>
-      </Modal>
-    </div>
+      <>
+        <div className={styles.accountModal__header}>
+          <p
+            style={{
+              fontSize: 21,
+              fontWeight: 500,
+            }}
+          >
+            {getTitle()}
+          </p>
+          <IoCloseOutline
+            id="account-modal-close-button"
+            size={25}
+            color="var(--color-secondary)"
+            onClick={() => setSelectedOption(null)}
+            style={{
+              cursor: "pointer",
+              zIndex: 1,
+              display: "flex",
+              justifySelf: "flex-end",
+            }}
+          />
+        </div>
+        {showSkippedUserView() ? (
+          <AccountModalSkippedUser />
+        ) : (
+          <AccountModalSignedInUser
+            showReauthenticateModal={showReauthenticateModal}
+            setShowReauthenticateModal={setShowReauthenticateModal}
+          />
+        )}
+      </>
+    </Modal>
   );
 };
 
