@@ -2,23 +2,25 @@
 
 import { getElementWithClassName } from "../../utils/general";
 
+const menuModalSelector = "#menu-modal";
+
 export class Menu {
   static menuButton = () => cy.get("#menu-button");
-  static menuModal = () => cy.get("#menu-modal");
+  static menuModal = () => cy.get(menuModalSelector);
+  static backdrop = () => cy.get("#menu-modal-backdrop");
 
   static options = {
-    account: () => cy.get("#menu-option-1"),
-    insights: () => cy.get("#menu-option-2"),
-    generalSettings: () => cy.get("#menu-option-3"),
-    leaveFeedback: () => cy.get("#menu-option-4"),
-    support: () => cy.get("#menu-option-5"),
-    about: () => cy.get("#menu-option-6"),
-    shareWithFriends: () => cy.get("#menu-option-7"),
-    logout: () => cy.get("#menu-option-8"),
+    account: () => cy.get(menuModalSelector).contains("Account"),
+    insights: () => cy.get(menuModalSelector).contains("Insights"),
+    generalSettings: () => cy.get(menuModalSelector).contains("General Settings"),
+    leaveFeedback: () => cy.get(menuModalSelector).contains("Leave Feedback"),
+    support: () => cy.get(menuModalSelector).contains("Support"),
+    about: () => cy.get(menuModalSelector).contains("About Melofi"),
+    shareWithFriends: () => cy.get(menuModalSelector).contains("Share With Friends"),
+    logout: () => cy.get(menuModalSelector).contains("Logout"),
   };
 
   static accountModal = {
-    backdrop: () => cy.get("#account-modal-backdrop"),
     container: () => cy.get("#account-modal"),
     closeBtn: () => cy.get("#account-modal-close-button"),
     loggedInView: {
@@ -51,5 +53,19 @@ export class Menu {
         ),
       backBtn: () => getElementWithClassName("accountModalSkippedUser__back_button"),
     },
+  };
+
+  static aboutMelofiModal = {
+    container: () => cy.get("#about-melofi-modal"),
+    emailContact: () =>
+      getElementWithClassName("aboutMelofiModal__contact").contains("welcome@melofi.app"),
+    closeBtn: () => cy.get("#about-melofi-modal-close-icon"),
+    title: () => getElementWithClassName("aboutMelofiModal__title"),
+    privacyPolicyLink: () =>
+      getElementWithClassName("aboutMelofiModal__legal_link").contains("Privacy Policy"),
+    termsAndConditionsLink: () =>
+      getElementWithClassName("aboutMelofiModal__legal_link").contains("Terms & Conditions"),
+    instagramLink: () => getElementWithClassName("aboutMelofiModal__contact").contains("Instagram"),
+    version: () => getElementWithClassName("aboutMelofiModal__version"),
   };
 }
