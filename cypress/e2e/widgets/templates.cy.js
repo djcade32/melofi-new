@@ -136,7 +136,7 @@ describe("Testing Templates Widget", () => {
   });
 
   it("Should delete all templates", () => {
-    getElementWithClassName("templatesListItem__trash_icon").click({ force: true });
+    getElementWithClassName("templatesListItem__trash_icon").click({ force: true, multiple: true });
     getElementWithClassName("templates__empty").contains("No Templates");
   });
 });
