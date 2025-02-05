@@ -18,7 +18,7 @@ import useUserStore from "@/stores/user-store";
 
 const MenuModal = () => {
   const { anchorEl, handleClose, isMenuOpen, setSelectedOption } = useMenuStore();
-  const { signUserOut, isUserLoggedIn } = useUserStore();
+  const { signUserOut, isUserLoggedIn, currentUser } = useUserStore();
 
   const options: MenuOption[] = [
     {
@@ -92,6 +92,8 @@ const MenuModal = () => {
     setSelectedOption(option);
   };
 
+  const showLogoutOption = isUserLoggedIn && currentUser?.authUser?.emailVerified;
+
   return (
     <>
       <Menu
@@ -99,7 +101,7 @@ const MenuModal = () => {
         anchorEl={anchorEl}
         open={isMenuOpen}
         onClose={handleClose}
-        options={isUserLoggedIn ? options : options.slice(0, 7)}
+        options={showLogoutOption ? options : options.slice(0, 7)}
         offset={10}
         invertColors
       />
