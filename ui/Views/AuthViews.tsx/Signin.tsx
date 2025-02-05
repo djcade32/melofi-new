@@ -28,15 +28,15 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
       console.log("Error logging in: ", error);
       setErrorState([
         {
-          name: "email",
+          name: "email-input",
           message: "",
         },
         {
-          name: "password",
+          name: "password-input",
           message: "",
         },
         {
-          name: "form",
+          name: "form-input",
           message: "",
         },
       ]);
@@ -48,14 +48,14 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
 
     if (email === "") {
       errors.push({
-        name: "email",
+        name: "email-input",
         message: ERROR_MESSAGES.EMAIL_REQUIRED,
       });
     }
 
     if (password === "") {
       errors.push({
-        name: "password",
+        name: "password-input",
         message: ERROR_MESSAGES.PASSWORD_REQUIRED,
       });
     }
@@ -67,7 +67,7 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
 
   const removeError = (field: string) => {
     if (!errorState) return;
-    if (field === "form") {
+    if (field === "form-input") {
       setErrorState(null);
       return;
     }
@@ -91,36 +91,36 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
         </p>
         <form autoComplete="off" className={styles.signin__credentials_inputs_container}>
           <Input
-            name="email"
+            name="email-input"
             placeholder="Email Address"
             className={styles.signin__credentials_input}
             type="text"
             onChange={(e) => {
-              removeError("email");
-              removeError("form");
+              removeError("email-input");
+              removeError("form-input");
               setEmail(e.target.value);
             }}
             errorState={errorState}
             value={email}
           />
           <Input
-            name="password"
+            name="password-input"
             placeholder="Create Password"
             className={styles.signin__credentials_input}
             type="password"
             onChange={(e) => {
-              removeError("password");
-              removeError("form");
+              removeError("password-input");
+              removeError("form-input");
               setPassword(e.target.value);
             }}
             errorState={errorState}
             value={password}
           />
-          {errorState && errorState.find((error) => error.name === "form") && (
+          {errorState && errorState.find((error) => error.name === "form-input") && (
             <p className={styles.signin__form_error_text}>{ERROR_MESSAGES.INVALID_CREDENTIALS}</p>
           )}
         </form>
-        <div className={styles.signin__credentials_button_checkbox_container}>
+        <div>
           <Button
             id="sign-in-button"
             text="Dive In"

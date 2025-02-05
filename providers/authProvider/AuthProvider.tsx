@@ -37,7 +37,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   // Check if user's email is verified and if user is in db
   useEffect(() => {
     // Get current user
-    if (currentUser?.authUser && isUserLoggedIn) {
+    if (currentUser?.skippedOnboarding) {
+      setGrantAccess(true);
+    } else if (currentUser?.authUser && isUserLoggedIn) {
       // Check if user's email is verified
       if (!currentUser.authUser.emailVerified) {
         setShowEmailVerification(true);
@@ -54,8 +56,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
           }
         });
       }
-    } else if (currentUser?.skippedOnboarding) {
-      setGrantAccess(true);
+    } else if (!currentUser) {
+      setGrantAccess(false);
     }
     // Give time for data to load
     setTimeout(() => {

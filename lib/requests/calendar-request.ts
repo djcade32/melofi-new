@@ -125,3 +125,17 @@ export const fetchCalendarEvents = async (token: string, calendarId: string) => 
     return null;
   }
 };
+
+// Delete all calendar data from IndexedDB
+export const clearCalendarData = async () => {
+  if (!dbPromise) {
+    console.warn(
+      "IndexedDB is not supported in this environment. Database functions will be unavailable."
+    );
+    return;
+  }
+  console.log("Clearing calendar data from IndexedDB");
+  ``;
+  const db = await dbPromise;
+  await db.clear("calendar");
+};

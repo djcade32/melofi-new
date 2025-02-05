@@ -44,7 +44,7 @@ const FirstNameView = ({
       </div>
       <div>
         <input
-          name="first-name"
+          name="first-name-input"
           aria-label="First Name"
           className={styles.signup__input}
           type="text"

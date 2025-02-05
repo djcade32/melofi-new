@@ -2,6 +2,7 @@ import { ERROR_MESSAGES, navigateToMelofi } from "../../utils/general.ts";
 
 describe("Testing signin Form", () => {
   before(() => {
+    cy.clearLocalStorage();
     navigateToMelofi({
       loggedIn: false,
       clearLocalStorage: true,
@@ -21,8 +22,8 @@ describe("Testing signin Form", () => {
       "Log in to tune into your personalized lo-fi focus space."
     );
 
-    cy.get("[name=email]").should("exist");
-    cy.get("[name=password]").should("exist");
+    cy.get("[name=email-input]").should("exist");
+    cy.get("[name=password-input]").should("exist");
     cy.get("#sign-in-button").should("exist");
   });
 
@@ -35,10 +36,10 @@ describe("Testing signin Form", () => {
     });
 
     it("Should show error message for invalid credentials", () => {
-      cy.get("[name=email]").click();
-      cy.get("[name=email]").type("max@email.com");
-      cy.get("[name=password]").click();
-      cy.get("[name=password]").type("123456");
+      cy.get("[name=email-input]").click();
+      cy.get("[name=email-input]").type("max@email.com");
+      cy.get("[name=password-input]").click();
+      cy.get("[name=password-input]").type("123456");
 
       cy.get("#sign-in-button").click();
 
@@ -48,13 +49,13 @@ describe("Testing signin Form", () => {
 
   describe("Signin Form Success", () => {
     it("Should signin successfully but navigate to email verification view", () => {
-      cy.get("[name=email]").click();
-      cy.get("[name=email]").type("{selectall}{backspace}");
-      cy.get("[name=email]").type("test@example.com");
+      cy.get("[name=email-input]").click();
+      cy.get("[name=email-input]").type("{selectall}{backspace}");
+      cy.get("[name=email-input]").type("test@example.com");
 
-      cy.get("[name=password]").click();
-      cy.get("[name=password]").type("{selectall}{backspace}");
-      cy.get("[name=password]").type("Password123");
+      cy.get("[name=password-input]").click();
+      cy.get("[name=password-input]").type("{selectall}{backspace}");
+      cy.get("[name=password-input]").type("Password123");
       cy.get("#sign-in-button").click();
 
       cy.get('[class*="signup__title"]').contains("One Last Step to the Melofi Zone!", {

@@ -4,6 +4,7 @@ export const enum MusicSource {
 }
 
 export const ERROR_MESSAGES = {
+  FIRST_NAME_REQUIRED: "First name is required",
   EMAIL_REQUIRED: "Email is required",
   PASSWORD_REQUIRED: "Password is required",
   INVALID_EMAIL: "Email is invalid",
@@ -13,3 +14,13 @@ export const ERROR_MESSAGES = {
 };
 
 export type NotificationTypes = "success" | "error" | "normal" | "alarm";
+
+export type MenuOptionNames =
+  | "Account"
+  | "Insights"
+  | "General Settings"
+  | "Leave Feedback"
+  | "Support"
+  | "Share With Friends"
+  | "About Melofi"
+  | "Logout";

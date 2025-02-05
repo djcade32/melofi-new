@@ -234,7 +234,13 @@ const PomodoroTimer = () => {
       </div>
 
       <AddPomodoroTaskModal isOpen={showAddTaskModal} onClose={() => setShowAddTaskModal(false)} />
-      <DialogModal id="pomodoroTimer__stop_modal" dialogProps={resetTimerDialog} />
+      <DialogModal
+        id="pomodoroTimer__stop_modal"
+        dialogProps={resetTimerDialog}
+        modalStyle={{
+          transform: "translateY(-100px)",
+        }}
+      />
     </Modal>
   );
 };

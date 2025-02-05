@@ -35,6 +35,7 @@ declare global {
       clearAuthEmulator(): Chainable<void>;
       clearFirestoreEmulator(): Chainable<void>;
       signUpUser(email: string, password: string): Chainable<any>;
+      signInUser(email: string, password: string): Chainable<any>;
       mockCheckingIfUserIsInDb(): Chainable<void>;
       mockAddingPomodoroTimerTask(): Chainable<void>;
     }
@@ -155,18 +156,38 @@ Cypress.Commands.add("signUpUser", (email, password) => {
     });
 });
 
-// Cypress.Commands.add("mockCheckingIfUserIsInDb", () => {
-//   console.log("mockCheckingIfUserIsInDb called");
-//   const checkIfUserIsInDbStub = async () => {
-//     console.log("checkIfUserIsInDbStub called");
-//     return true;
-//   };
-//   // Mock the Zustand store's state
-//   useUserStore.setState({
-//     isUserLoggedIn: true,
-//     currentUser: {
-//       authUser: { email: "test@example.com", emailVerified: true },
-//     },
-//     checkIfUserIsInDb: checkIfUserIsInDbStub,
-//   });
-// });
+Cypress.Commands.add("signInUser", (email, password) => {
+  return cy
+    .request({
+      method: "POST",
+      url: "http://localhost:9099/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=fake-api-key",
+      body: {
+        email,
+        password,
+        returnSecureToken: true,
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => {
+      expect(response.status).to.eq(200);
+
+      const { idToken, localId } = response.body;
+
+      // Store auth info in localStorage to simulate Firebase authentication
+      window.localStorage.setItem(
+        "firebase:authUser:fake-project-id",
+        JSON.stringify({
+          uid: localId,
+          email,
+          stsTokenManager: {
+            accessToken: idToken,
+          },
+        })
+      );
+
+      // Set Firebase Auth Emulator user session
+      cy.setCookie("authUser", idToken);
+    });
+});

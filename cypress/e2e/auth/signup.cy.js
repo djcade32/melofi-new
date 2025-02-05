@@ -3,6 +3,7 @@ import "cypress-real-events/support.js";
 
 describe("Testing sign up", () => {
   before(() => {
+    cy.clearLocalStorage();
     navigateToMelofi({
       loggedIn: false,
       clearLocalStorage: true,
@@ -22,8 +23,8 @@ describe("Testing sign up", () => {
     });
 
     it("Should show users first name", () => {
-      cy.get("[name=first-name]").click();
-      cy.get("[name=first-name]").type("John");
+      cy.get("[name=first-name-input]").click();
+      cy.get("[name=first-name-input]").type("John");
       cy.get("input").should("have.value", "John");
     });
 
@@ -36,8 +37,8 @@ describe("Testing sign up", () => {
       );
       cy.get("#back-button").should("exist");
 
-      cy.get("[name=email]").should("exist");
-      cy.get("[name=password]").should("exist");
+      cy.get("[name=email-input]").should("exist");
+      cy.get("[name=password-input]").should("exist");
 
       cy.get("#sign-up-button").should("exist");
       cy.get("#skip-and-continue").should("exist");
@@ -52,36 +53,36 @@ describe("Testing sign up", () => {
       });
 
       it("Should show error message for invalid email", () => {
-        cy.get("[name=email]").click();
-        cy.get("[name=email]").type("john");
+        cy.get("[name=email-input]").click();
+        cy.get("[name=email-input]").type("john");
         cy.get("#sign-up-button").click();
 
         cy.get('[class*="input__error_text"]').contains(ERROR_MESSAGES.INVALID_EMAIL);
       });
 
       it("Should show error message for invalid password", () => {
-        cy.get("[name=email]").click();
-        cy.get("[name=email]").type("{selectall}{backspace}");
-        cy.get("[name=email]").type("john.doe@email.com");
+        cy.get("[name=email-input]").click();
+        cy.get("[name=email-input]").type("{selectall}{backspace}");
+        cy.get("[name=email-input]").type("john.doe@email.com");
 
-        cy.get("[name=password]").click();
-        cy.get("[name=password]").type("123");
+        cy.get("[name=password-input]").click();
+        cy.get("[name=password-input]").type("123");
         cy.get("#sign-up-button").click();
         cy.get('[class*="input__error_text"]').contains(ERROR_MESSAGES.PASSWORD_WEAK);
 
-        cy.get("[name=password]").click();
-        cy.get("[name=password]").type("abcd");
+        cy.get("[name=password-input]").click();
+        cy.get("[name=password-input]").type("abcd");
         cy.get("#sign-up-button").click();
         cy.get('[class*="input__error_text"]').contains(ERROR_MESSAGES.PASSWORD_WEAK);
       });
 
       it("Should show error message for existing email", () => {
-        cy.get("[name=email]").click();
+        cy.get("[name=email-input]").click();
         // clear the email field
-        cy.get("[name=email]").type("{selectall}{backspace}");
-        cy.get("[name=email]").type("test@example.com");
-        cy.get("[name=password]").click();
-        cy.get("[name=password]").type("Password123");
+        cy.get("[name=email-input]").type("{selectall}{backspace}");
+        cy.get("[name=email-input]").type("test@example.com");
+        cy.get("[name=password-input]").click();
+        cy.get("[name=password-input]").type("Password123");
 
         cy.get("#sign-up-button").click();
         cy.get('[class*="input__error_text"]').contains(ERROR_MESSAGES.EMAIL_ALREADY_IN_USE);
@@ -97,11 +98,11 @@ describe("Testing sign up", () => {
           "sendEmailVerificationRequest"
         );
 
-        cy.get("[name=email]").click();
+        cy.get("[name=email-input]").click();
         // clear the email field
-        cy.get("[name=email]").type("{selectall}{backspace}");
-        cy.get("[name=email]").type("john.doe@example.com");
-        cy.get("[name=password]").click();
+        cy.get("[name=email-input]").type("{selectall}{backspace}");
+        cy.get("[name=email-input]").type("john.doe@example.com");
+        cy.get("[name=password-input]").click();
         cy.get("#sign-up-button").click();
 
         // Check if network request was made
@@ -119,8 +120,8 @@ describe("Testing sign up", () => {
         cy.get('[class*="signup__title"]').contains("One Last Step to the Melofi Zone!", {
           timeout: 8000,
         });
-        cy.get("#send-reset-link-button").should("exist");
-        cy.get("#send-reset-link-button")
+        cy.get("#verify-email-button").should("exist");
+        cy.get("#verify-email-button")
           .siblings()
           .contains("Didn’t receive the email? Check your spam folder or");
       });
@@ -139,7 +140,7 @@ describe("Testing sign up", () => {
       });
 
       it("Should show sign in form", () => {
-        cy.get("#send-reset-link-button").click();
+        cy.get("#verify-email-button").click();
 
         cy.get('[class*="signin__title"]').contains("Welcome Back!");
       });

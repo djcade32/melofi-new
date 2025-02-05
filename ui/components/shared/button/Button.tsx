@@ -50,6 +50,7 @@ const Button = ({
       } ${disable && styles.button__disabled}`}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      style={{ cursor: disable ? "default" : "pointer" }}
       {...props}
     >
       {!showLoading ? (

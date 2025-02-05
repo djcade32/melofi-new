@@ -1,9 +1,13 @@
-import { fetchCalendarEvents, fetchCalendarsList } from "@/lib/requests/calendar-request";
+import {
+  fetchCalendarEvents,
+  fetchCalendarsList,
+  clearCalendarData,
+} from "@/lib/requests/calendar-request";
 import {
   buildCalendarEventList,
   buildCalendarListItem,
 } from "@/lib/type-builders/calendar-type-builder";
-import { CalendarEvent, CalendarListItem } from "@/types/general";
+import { CalendarEvent, CalendarListItem } from "@/types/interfaces/calendar";
 import { create } from "zustand";
 
 export interface CalendarState {
@@ -33,7 +37,9 @@ const useCalendarStore = create<CalendarState>((set, get) => ({
     set({ googleCalendarUser });
     localStorage.setItem("google_calendar_user", JSON.stringify(googleCalendarUser));
   },
+
   toggleCalendar: (bool) => set({ isCalendarOpen: bool }),
+
   getCalendarsList: async (accessToken) => {
     try {
       // Fetch the list of calendars. Check if in indexDb, if not fetch from API
@@ -48,6 +54,7 @@ const useCalendarStore = create<CalendarState>((set, get) => ({
     }
   },
   setSelectedCalendar: (calendar) => set({ selectedCalendar: calendar }),
+
   getCalendarEvents: async (accessToken, calendarId) => {
     try {
       const events = await fetchCalendarEvents(accessToken, calendarId);
@@ -59,13 +66,17 @@ const useCalendarStore = create<CalendarState>((set, get) => ({
       console.error("Error getting calendar events:", error.response?.data || error);
     }
   },
+
   setCalendarEvents: (events) => set({ calendarEvents: events }),
+
   resetCalendarState: () => {
     set({ googleCalendarUser: null });
     set({ calendarsList: null });
     set({ selectedCalendar: null });
     set({ calendarEvents: null });
     localStorage.removeItem("google_calendar_user");
+    // Clear calendar data from indexedDb
+    clearCalendarData();
   },
 }));
 

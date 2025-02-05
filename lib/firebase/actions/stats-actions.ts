@@ -36,12 +36,12 @@ export const addUserToStats = async (user: User) => {
 };
 
 // Update notes count in stats db
-export const updateTotalNotesCreated = async (email: string, totalNotesCreated: number) => {
+export const updateTotalNotesCreated = async (uid: string, totalNotesCreated: number) => {
   if (!db) {
     throw new Error("Firebase DB is not initialized");
   }
   try {
-    const usersDoc = doc(db, `stats/${email}`);
+    const usersDoc = doc(db, `stats/${uid}`);
     await setDoc(usersDoc, { totalNotesCreated }, { merge: true });
   } catch (error) {
     console.log("Error updating notes count in stats db: ", error);
@@ -50,12 +50,12 @@ export const updateTotalNotesCreated = async (email: string, totalNotesCreated: 
 };
 
 // Update completed tasks Count in stats db
-export const updateTotalTasksCompleted = async (email: string, totalTasksCompleted: number) => {
+export const updateTotalTasksCompleted = async (uid: string, totalTasksCompleted: number) => {
   if (!db) {
     throw new Error("Firebase DB is not initialized");
   }
   try {
-    const usersDoc = doc(db, `stats/${email}`);
+    const usersDoc = doc(db, `stats/${uid}`);
     await setDoc(usersDoc, { totalTasksCompleted }, { merge: true });
   } catch (error) {
     console.log("Error updating completed tasks count in stats db: ", error);
@@ -64,12 +64,12 @@ export const updateTotalTasksCompleted = async (email: string, totalTasksComplet
 };
 
 // Update Pomodoro Timer stats in stats db
-export const updatePomodoroTimerStats = async (email: string, stats: PomodoroTimerStats) => {
+export const updatePomodoroTimerStats = async (uid: string, stats: PomodoroTimerStats) => {
   if (!db) {
     throw new Error("Firebase DB is not initialized");
   }
   try {
-    const usersDoc = doc(db, `stats/${email}`);
+    const usersDoc = doc(db, `stats/${uid}`);
     await setDoc(usersDoc, { pomodoroTimer: stats }, { merge: true });
   } catch (error) {
     console.log("Error updating Pomodoro Timer stats in stats db: ", error);
@@ -78,15 +78,41 @@ export const updatePomodoroTimerStats = async (email: string, stats: PomodoroTim
 };
 
 // Update alarms expired count in stats db
-export const updateAlarmsExpiredCount = async (email: string, alarmsExpiredCount: number) => {
+export const updateAlarmsExpiredCount = async (uid: string, alarmsExpiredCount: number) => {
   if (!db) {
     throw new Error("Firebase DB is not initialized");
   }
   try {
-    const usersDoc = doc(db, `stats/${email}`);
+    const usersDoc = doc(db, `stats/${uid}`);
     await setDoc(usersDoc, { alarmsExpiredCount }, { merge: true });
   } catch (error) {
     console.log("Error updating alarms expired count in stats db: ", error);
+    throw error;
+  }
+};
+
+// Reset user stats data in stats db
+export const resetUserStats = async (uid: string) => {
+  if (!db) {
+    throw new Error("Firebase DB is not initialized");
+  }
+  try {
+    const usersDoc = doc(db, `stats/${uid}`);
+    await setDoc(usersDoc, {
+      pomodoroTimer: {
+        totalFocusTime: 0,
+        totalBreakTime: 0,
+        totalSessionsCompleted: 0,
+        totalTasksCompleted: 0,
+      },
+      totalNotesCreated: 0,
+      totalFocusTime: 0,
+      totalTasksCompleted: 0,
+      totalConsecutiveDays: 0,
+      favoriteScene: null,
+    } as UserStats);
+  } catch (error) {
+    console.log("Error resetting user stats data in stats db: ", error);
     throw error;
   }
 };

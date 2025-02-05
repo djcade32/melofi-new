@@ -5,6 +5,7 @@ import { MenuOption } from "@/types/general";
 import useAppStore from "@/stores/app-store";
 
 interface MenuProps {
+  id?: string;
   anchorEl: null | HTMLElement;
   open: boolean;
   onClose: () => void;
@@ -13,7 +14,15 @@ interface MenuProps {
   invertColors?: boolean;
 }
 
-const Menu = ({ anchorEl, open, onClose, options, offset, invertColors = false }: MenuProps) => {
+const Menu = ({
+  id = "basic-menu",
+  anchorEl,
+  open,
+  onClose,
+  options,
+  offset,
+  invertColors = false,
+}: MenuProps) => {
   const { isFullscreen } = useAppStore();
   const [documentEl, setDocumentEl] = useState<Document | null>(null);
 
@@ -43,7 +52,7 @@ const Menu = ({ anchorEl, open, onClose, options, offset, invertColors = false }
 
   return (
     <StyledMenu
-      id="basic-menu"
+      id={id}
       anchorEl={anchorEl}
       open={open}
       onClose={onClose}

@@ -9,6 +9,8 @@ import {
   FaLock,
   FaFan,
   FaStop,
+  FaCommentDots,
+  FaHandsHelping,
 } from "react-icons/fa";
 import {
   BsFillSkipBackwardFill,
@@ -47,6 +49,7 @@ import {
   IoLogoYoutube,
   IoCheckmarkCircleSharp,
   IoCreate,
+  IoStatsChartSharp,
 } from "react-icons/io5";
 import {
   RiSoundModuleFill,
@@ -99,7 +102,6 @@ import {
   AiFillThunderbolt,
 } from "react-icons/ai";
 import { FiPlus, FiMinimize2, FiMaximize2 } from "react-icons/fi";
-import { FaCommentDots, FaHandsHelping } from "react-icons/fa";
 import {
   RxCaretLeft,
   RxCaretRight,
@@ -109,7 +111,7 @@ import {
   RxCaretUp,
   RxDragHandleDots2,
 } from "react-icons/rx";
-import { PiMoonFill, PiSunHorizonFill, PiWavesDuotone } from "react-icons/pi";
+import { PiMoonFill, PiSunHorizonFill, PiWavesDuotone, PiSignOutBold } from "react-icons/pi";
 import { VscDebugRestart } from "react-icons/vsc";
 import { LuGalleryVertical, LuGalleryHorizontal } from "react-icons/lu";
 import { BiSolidHide, BiSolidShow } from "react-icons/bi";
@@ -233,4 +235,6 @@ export {
   LiaTimesSolid,
   IoClose,
   BsFillGiftFill,
+  IoStatsChartSharp,
+  PiSignOutBold,
 };

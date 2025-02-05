@@ -1,4 +1,5 @@
 import {
+  resetUserStats,
   updateAlarmsExpiredCount,
   updatePomodoroTimerStats,
   updateTotalNotesCreated,
@@ -24,6 +25,7 @@ export interface userStatsState {
   incrementTotalNotesCreated: () => Promise<void>;
   updatePomodoroTimerStats: (updatedStats: PomodoroTimerStats) => Promise<void>;
   incrementExpiredAlarmsCount: () => Promise<void>;
+  resetUserStatsData: () => Promise<void>;
 }
 
 const useUserStatsStore = create<userStatsState>((set, get) => ({
@@ -98,6 +100,29 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
     } catch (error) {
       console.log("Error incrementing expired alarms count: ", error);
     }
+  },
+
+  async resetUserStatsData() {
+    const uid = useUserStore.getState().currentUser?.authUser?.uid;
+    if (!uid) {
+      return;
+    }
+    await resetUserStats(uid);
+    set({
+      lastLogin: "",
+      pomodoroTimerStats: {
+        totalFocusTime: 0,
+        totalBreakTime: 0,
+        totalSessionsCompleted: 0,
+        totalTasksCompleted: 0,
+      },
+      totalFocusTime: 0,
+      totalConsecutiveDays: 0,
+      totalTasksCompleted: 0,
+      totalNotesCreated: 0,
+      favoriteScene: null,
+      alarmsExpiredCount: 0,
+    });
   },
 }));
 

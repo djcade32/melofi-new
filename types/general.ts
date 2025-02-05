@@ -102,3 +102,8 @@ export interface DialogModalActions {
   title: string;
   message: string;
 }
+
+export interface PromiseResolveType {
+  success: boolean;
+  message?: string;
+}
