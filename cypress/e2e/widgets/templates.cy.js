@@ -22,6 +22,28 @@ describe("Testing Templates Widget", () => {
     cy.clearFirestoreEmulator();
   });
 
+  // This only runs in Github
+  it("Should clear all templates before starting", () => {
+    pressToolsButton();
+    pressToolbarButton("templates");
+
+    // Must do this because the templates persist wen the tests are ran through Github
+    getElementWithClassName("templates__content").then(($el) => {
+      if ($el.find("[class*='templatesListItem__container']").length) {
+        getElementWithClassName("templatesListItem__container").then(($elements) => {
+          cy.wrap($elements).each(($el) => {
+            cy.wrap($el).find("[class*='templatesListItem__trash_icon']").click({ force: true });
+            cy.wait(1000);
+          });
+        });
+      }
+    });
+    getElementWithClassName("templates__empty").contains("No Templates");
+
+    pressToolsButton();
+    pressToolbarButton("templates");
+  });
+
   it("Should open and close Templates widget", () => {
     // open the templates widget
     pressToolsButton();
@@ -42,11 +64,13 @@ describe("Testing Templates Widget", () => {
     pressToolsButton();
     pressToolbarButton("templates");
     cy.wait(1000);
+
     getElementWithClassName("templates__empty").contains("No Templates");
     getElementWithClassName("templates__add_template_button_container").realClick();
     getElementWithClassName("addTemplate__container").should("have.css", "opacity", "1");
     getElementWithClassName("addTemplate__title_input").type("Template 1");
     cy.get("#add-template-button").realClick();
+    cy.wait(1000);
     getElementWithClassName("templates__container").contains("Template 1");
     getElementWithClassName("templatesListItem__settingsContainer").contains("Study");
     getElementWithClassName("templatesListItem__settingsContainer").contains("Girl in Cafe");
@@ -136,7 +160,15 @@ describe("Testing Templates Widget", () => {
   });
 
   it("Should delete all templates", () => {
-    getElementWithClassName("templatesListItem__trash_icon").click({ force: true });
+    pressToolsButton();
+    pressToolbarButton("templates");
+
+    // Iterate through all templates and delete them
+    getElementWithClassName("templates__content")
+      .children()
+      .each(($el) => {
+        cy.wrap($el).find("[class*=templatesListItem__trash_icon]").click({ force: true });
+      });
     getElementWithClassName("templates__empty").contains("No Templates");
   });
 });

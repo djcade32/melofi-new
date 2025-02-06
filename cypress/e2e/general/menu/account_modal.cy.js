@@ -22,7 +22,7 @@ describe("Testing Account Modal", () => {
 
       // Check if the modal is visible
       Menu.accountModal.container().should("be.visible");
-      Menu.accountModal.backdrop().should("be.visible");
+      Menu.backdrop().should("be.visible");
     });
 
     it("Should change user name", () => {

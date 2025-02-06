@@ -3,7 +3,7 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import styles from "./toaster.module.css";
 import { Slide, Snackbar, SnackbarCloseReason, SnackbarContent } from "@mui/material";
-import { IoCloseOutline, MdError, IoCheckmarkCircle } from "@/imports/icons";
+import { IoCloseOutline, MdError, IoCheckmarkCircle, IoCopy } from "@/imports/icons";
 import { IconType } from "react-icons";
 import { NotificationTypes } from "@/enums/general";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
@@ -52,6 +52,8 @@ const Toaster = ({ message, type = "normal", icon, show, actions }: ToasterProps
       return <IoCheckmarkCircle size={25} color="var(--color-white)" />;
     } else if (type === "error") {
       return <MdError size={25} color="var(--color-white)" />;
+    } else if (type === "copy_to_clipboard") {
+      return <IoCopy size={25} color="var(--color-white)" />;
     }
     return;
   };
@@ -97,7 +99,7 @@ const Toaster = ({ message, type = "normal", icon, show, actions }: ToasterProps
   };
 
   const backgroundColor = () => {
-    if (type === "success") {
+    if (type === "success" || type === "copy_to_clipboard") {
       return "var(--color-success)";
     } else if (type === "error") {
       return "var(--color-error)";

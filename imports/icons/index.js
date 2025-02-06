@@ -50,6 +50,7 @@ import {
   IoCheckmarkCircleSharp,
   IoCreate,
   IoStatsChartSharp,
+  IoCopy,
 } from "react-icons/io5";
 import {
   RiSoundModuleFill,
@@ -237,4 +238,5 @@ export {
   BsFillGiftFill,
   IoStatsChartSharp,
   PiSignOutBold,
+  IoCopy,
 };

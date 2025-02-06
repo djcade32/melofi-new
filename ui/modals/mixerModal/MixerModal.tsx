@@ -22,7 +22,7 @@ const MixerModal = () => {
       close={() => toggleMixerModal(!mixerModalOpen)}
       className={styles.mixerModal__container}
       draggable
-      title="SOUNDS"
+      title="Sounds"
       titleClassName={styles.mixerModal__title}
     >
       <div className={styles.mixerModal__content_container}>
