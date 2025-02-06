@@ -53,7 +53,7 @@ jobs:
           NEXT_PUBLIC_IS_CYPRESS: "true"
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-          IS_GITHUB: "true"
+          IS_GITHUB: true
 
       - name: Upload Cypress Screenshots
         if: failure()
