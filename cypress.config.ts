@@ -13,7 +13,7 @@ const testToSkip = [
   "**/widgets/pomodoro_timer.cy.js",
   "**/widgets/todoList.cy.js",
   "**/widgets/watch_youtube.cy.js",
-  "**/general/*.cy.js",
+  "**/general/menu/*.cy.js",
 ];
 
 export default defineConfig({
