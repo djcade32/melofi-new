@@ -1,3 +1,4 @@
+import { get } from "node:https";
 import {
   navigateToMelofi,
   pressMixerButton,
@@ -36,6 +37,27 @@ describe("Testing Templates Widget", () => {
     pressToolbarButton("templates");
     // close the templates widget using close button
     cy.get("#templates-widget-close-icon").realClick();
+  });
+
+  it("Should clear all templates before starting", () => {
+    pressToolsButton();
+    pressToolbarButton("templates");
+
+    // getElementWithClassName("templates__content")
+    //   .children()
+    //   .first()
+    //   .find("[class*=templatesListItem__trash_icon]")
+    //   .click({ force: true });
+    // getElementWithClassName("templates__content").children().should("have.length", 0);
+    // Iterate through all templates and delete them
+    getElementWithClassName("templates__content")
+      .children()
+      .each(($el) => {
+        cy.wrap($el).find("[class*=templatesListItem__trash_icon]").click({ force: true });
+        cy.wait(1000);
+      });
+    getElementWithClassName("templates__empty").contains("No Templates");
+    // cy.clearFirestoreEmulator();
   });
 
   // it("Should save a template", () => {
