@@ -39,7 +39,7 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
   if (options.seedWithUser) {
     cy.clearAuthEmulator();
     cy.clearFirestoreEmulator();
-    cy.signUpUser("test1@example.com", "Password123");
+    cy.signUpUser("test@example.com", "Password123");
     // cy.signInUser("test@example.com", "Password123");
   }
   if (options.clearLocalStorage) {
