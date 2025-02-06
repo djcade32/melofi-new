@@ -22,6 +22,7 @@ describe("Testing Templates Widget", () => {
     cy.clearFirestoreEmulator();
   });
 
+  // This only runs in Github
   it("Should clear all templates before starting", () => {
     pressToolsButton();
     pressToolbarButton("templates");
