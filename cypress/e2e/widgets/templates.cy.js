@@ -28,7 +28,6 @@ describe("Testing Templates Widget", () => {
 
     // Must do this because the templates persist wen the tests are ran through Github
     getElementWithClassName("templates__content").then(($el) => {
-      console.log("$el: ", $el);
       if ($el.find("[class*='templatesListItem__container']").length) {
         getElementWithClassName("templatesListItem__container").then(($elements) => {
           cy.wrap($elements).each(($el) => {
