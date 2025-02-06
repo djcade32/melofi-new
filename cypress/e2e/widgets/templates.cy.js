@@ -25,18 +25,19 @@ describe("Testing Templates Widget", () => {
   it("Should clear all templates before starting", () => {
     pressToolsButton();
     pressToolbarButton("templates");
-    let isGithub = Cypress.env("IS_GITHUB");
-    console.log("isGithub: ", isGithub);
 
-    if (isGithub) {
-      // Iterate through all templates and delete them
-      getElementWithClassName("templates__content")
-        .children()
-        .each(($el) => {
-          cy.wrap($el).find("[class*=templatesListItem__trash_icon]").click({ force: true });
-          cy.wait(1000);
+    // Must do this because the templates persist wen the tests are ran through Github
+    getElementWithClassName("templates__content").then(($el) => {
+      console.log("$el: ", $el);
+      if ($el.find("[class*='templatesListItem__container']").length) {
+        getElementWithClassName("templatesListItem__container").then(($elements) => {
+          cy.wrap($elements).each(($el) => {
+            cy.wrap($el).find("[class*='templatesListItem__trash_icon']").click({ force: true });
+            cy.wait(1000);
+          });
         });
-    }
+      }
+    });
     getElementWithClassName("templates__empty").contains("No Templates");
 
     pressToolsButton();
