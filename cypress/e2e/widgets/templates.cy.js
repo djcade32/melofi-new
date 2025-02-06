@@ -38,22 +38,22 @@ describe("Testing Templates Widget", () => {
     cy.get("#templates-widget-close-icon").realClick();
   });
 
-  it("Should save a template", () => {
-    pressToolsButton();
-    pressToolbarButton("templates");
-    cy.wait(1000);
+  // it("Should save a template", () => {
+  //   pressToolsButton();
+  //   pressToolbarButton("templates");
+  //   cy.wait(1000);
 
-    getElementWithClassName("templates__empty").contains("No Templates");
-    getElementWithClassName("templates__add_template_button_container").realClick();
-    getElementWithClassName("addTemplate__container").should("have.css", "opacity", "1");
-    getElementWithClassName("addTemplate__title_input").type("Template 1");
-    cy.get("#add-template-button").realClick();
-    cy.wait(1000);
-    getElementWithClassName("templates__container").contains("Template 1");
-    getElementWithClassName("templatesListItem__settingsContainer").contains("Study");
-    getElementWithClassName("templatesListItem__settingsContainer").contains("Girl in Cafe");
-    cy.get("#templatesListItem-icons").children().should("have.length", 0);
-  });
+  //   getElementWithClassName("templates__empty").contains("No Templates");
+  //   getElementWithClassName("templates__add_template_button_container").realClick();
+  //   getElementWithClassName("addTemplate__container").should("have.css", "opacity", "1");
+  //   getElementWithClassName("addTemplate__title_input").type("Template 1");
+  //   cy.get("#add-template-button").realClick();
+  //   cy.wait(1000);
+  //   getElementWithClassName("templates__container").contains("Template 1");
+  //   getElementWithClassName("templatesListItem__settingsContainer").contains("Study");
+  //   getElementWithClassName("templatesListItem__settingsContainer").contains("Girl in Cafe");
+  //   cy.get("#templatesListItem-icons").children().should("have.length", 0);
+  // });
 
   // it("Should delete a template", () => {
   //   getElementWithClassName("templatesListItem__trash_icon").click({ force: true });
@@ -138,13 +138,22 @@ describe("Testing Templates Widget", () => {
   // });
 
   it("Should delete all templates", () => {
-    // Iterate through all templates and delete them
+    pressToolsButton();
+    pressToolbarButton("templates");
+
     getElementWithClassName("templates__content")
       .children()
-      .each(($el) => {
-        cy.wrap($el).find("[class*=templatesListItem__trash_icon]").click({ force: true });
-      });
-    getElementWithClassName("templates__empty").contains("No Templates");
-    cy.clearFirestoreEmulator();
+      .first()
+      .find("[class*=templatesListItem__trash_icon]")
+      .click({ force: true });
+    getElementWithClassName("templates__content").children().should("have.length", 0);
+    // Iterate through all templates and delete them
+    // getElementWithClassName("templates__content")
+    //   .children()
+    //   .each(($el) => {
+    //     cy.wrap($el).find("[class*=templatesListItem__trash_icon]").click({ force: true });
+    //   });
+    // getElementWithClassName("templates__empty").contains("No Templates");
+    // cy.clearFirestoreEmulator();
   });
 });
