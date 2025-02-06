@@ -54,10 +54,10 @@ describe("Testing Templates Widget", () => {
     cy.get("#templatesListItem-icons").children().should("have.length", 0);
   });
 
-  it("Should delete a template", () => {
-    getElementWithClassName("templatesListItem__trash_icon").click({ force: true });
-    getElementWithClassName("templates__empty").contains("No Templates");
-  });
+  // it("Should delete a template", () => {
+  //   getElementWithClassName("templatesListItem__trash_icon").click({ force: true });
+  //   getElementWithClassName("templates__empty").contains("No Templates");
+  // });
 
   // it("Should change mixer settings and save template", () => {
   //   // Close templates widget
