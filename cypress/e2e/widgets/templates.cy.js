@@ -42,6 +42,7 @@ describe("Testing Templates Widget", () => {
     pressToolsButton();
     pressToolbarButton("templates");
     cy.wait(1000);
+    cy.clearFirestoreEmulator();
     getElementWithClassName("templates__empty").contains("No Templates");
     getElementWithClassName("templates__add_template_button_container").realClick();
     getElementWithClassName("addTemplate__container").should("have.css", "opacity", "1");
