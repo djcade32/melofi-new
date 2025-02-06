@@ -36,8 +36,8 @@ describe("Testing Templates Widget", () => {
           cy.wrap($el).find("[class*=templatesListItem__trash_icon]").click({ force: true });
           cy.wait(1000);
         });
-      getElementWithClassName("templates__empty").contains("No Templates");
     }
+    getElementWithClassName("templates__empty").contains("No Templates");
 
     pressToolsButton();
     pressToolbarButton("templates");
