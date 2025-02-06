@@ -25,23 +25,23 @@ describe("Testing Templates Widget", () => {
   it("Should clear all templates before starting", () => {
     pressToolsButton();
     pressToolbarButton("templates");
-    let clearTemplates = false;
+    // let clearTemplates = false;
 
+    // getElementWithClassName("templates__content")
+    //   .children()
+    //   .then(($elements) => {
+    //     clearTemplates = $elements.length > 1;
+    //   });
+    // if (clearTemplates) {
+    // Iterate through all templates and delete them
     getElementWithClassName("templates__content")
       .children()
-      .then(($elements) => {
-        clearTemplates = $elements.length > 1;
+      .each(($el) => {
+        cy.wrap($el).find("[class*=templatesListItem__trash_icon]").click({ force: true });
+        cy.wait(1000);
       });
-    if (clearTemplates) {
-      // Iterate through all templates and delete them
-      getElementWithClassName("templates__content")
-        .children()
-        .each(($el) => {
-          cy.wrap($el).find("[class*=templatesListItem__trash_icon]").click({ force: true });
-          cy.wait(1000);
-        });
-      getElementWithClassName("templates__empty").contains("No Templates");
-    }
+    getElementWithClassName("templates__empty").contains("No Templates");
+    // }
 
     pressToolsButton();
     pressToolbarButton("templates");
