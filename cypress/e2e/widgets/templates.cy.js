@@ -139,15 +139,12 @@ describe("Testing Templates Widget", () => {
     pressToolsButton();
     pressToolbarButton("templates");
 
-    // getElementWithClassName("templatesListItem__trash_icon").click({ force: true, multiple: true });
-    // getElementWithClassName("templates__empty").contains("No Templates");
-
     // Iterate through all templates and delete them
-    getElementWithClassName("templatesListItem__trash_icon").each(($el) => {
-      const template = cy.wrap($el).scrollIntoView();
-      template.click({ force: true });
-      // cy.wrap($el).click({ force: true });
-    });
+    getElementWithClassName("templates__content")
+      .children()
+      .each(($el) => {
+        cy.wrap($el).find("[class*=templatesListItem__trash_icon]").click({ force: true });
+      });
     getElementWithClassName("templates__empty").contains("No Templates");
   });
 });
