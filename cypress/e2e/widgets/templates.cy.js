@@ -1,4 +1,3 @@
-import { get } from "node:https";
 import {
   navigateToMelofi,
   pressMixerButton,
