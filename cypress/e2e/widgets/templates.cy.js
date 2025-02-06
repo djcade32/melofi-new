@@ -25,23 +25,19 @@ describe("Testing Templates Widget", () => {
   it("Should clear all templates before starting", () => {
     pressToolsButton();
     pressToolbarButton("templates");
-    // let clearTemplates = false;
+    let isGithub = Cypress.env("IS_GITHUB");
+    console.log("isGithub: ", isGithub);
 
-    // getElementWithClassName("templates__content")
-    //   .children()
-    //   .then(($elements) => {
-    //     clearTemplates = $elements.length > 1;
-    //   });
-    // if (clearTemplates) {
-    // Iterate through all templates and delete them
-    getElementWithClassName("templates__content")
-      .children()
-      .each(($el) => {
-        cy.wrap($el).find("[class*=templatesListItem__trash_icon]").click({ force: true });
-        cy.wait(1000);
-      });
-    getElementWithClassName("templates__empty").contains("No Templates");
-    // }
+    if (isGithub) {
+      // Iterate through all templates and delete them
+      getElementWithClassName("templates__content")
+        .children()
+        .each(($el) => {
+          cy.wrap($el).find("[class*=templatesListItem__trash_icon]").click({ force: true });
+          cy.wait(1000);
+        });
+      getElementWithClassName("templates__empty").contains("No Templates");
+    }
 
     pressToolsButton();
     pressToolbarButton("templates");
