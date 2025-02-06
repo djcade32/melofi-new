@@ -48,6 +48,7 @@ describe("Testing Templates Widget", () => {
     getElementWithClassName("addTemplate__container").should("have.css", "opacity", "1");
     getElementWithClassName("addTemplate__title_input").type("Template 1");
     cy.get("#add-template-button").realClick();
+    cy.wait(1000);
     getElementWithClassName("templates__container").contains("Template 1");
     getElementWithClassName("templatesListItem__settingsContainer").contains("Study");
     getElementWithClassName("templatesListItem__settingsContainer").contains("Girl in Cafe");
@@ -137,9 +138,6 @@ describe("Testing Templates Widget", () => {
   // });
 
   it("Should delete all templates", () => {
-    pressToolsButton();
-    pressToolbarButton("templates");
-
     // Iterate through all templates and delete them
     getElementWithClassName("templates__content")
       .children()
