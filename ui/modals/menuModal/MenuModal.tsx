@@ -17,6 +17,7 @@ import AccountModal from "./optionModals/accountModal/AccountModal";
 import useUserStore from "@/stores/user-store";
 import AboutMelofiModal from "./optionModals/aboutMelofiModal/AboutMelofiModal";
 import MenuModalBackdrop from "./optionModals/components/menuModalBackdrop/MenuModalBackdrop";
+import ShareModal from "./optionModals/shareModal/ShareModal";
 
 const MenuModal = () => {
   const { anchorEl, handleClose, isMenuOpen, setSelectedOption, selectedOption } = useMenuStore();
@@ -96,7 +97,11 @@ const MenuModal = () => {
 
   const showLogoutOption = isUserLoggedIn && currentUser?.authUser?.emailVerified;
   const showBackdrop = () => {
-    if (selectedOption === "Account" || selectedOption === "About Melofi") {
+    if (
+      selectedOption === "Account" ||
+      selectedOption === "About Melofi" ||
+      selectedOption === "Share With Friends"
+    ) {
       return true;
     }
     return false;
@@ -116,6 +121,7 @@ const MenuModal = () => {
       <MenuModalBackdrop open={showBackdrop()}>
         <AccountModal />
         <AboutMelofiModal />
+        <ShareModal />
       </MenuModalBackdrop>
     </>
   );
