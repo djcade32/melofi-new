@@ -16,7 +16,7 @@ export class Menu {
     leaveFeedback: () => cy.get(menuModalSelector).contains("Leave Feedback"),
     support: () => cy.get(menuModalSelector).contains("Support"),
     about: () => cy.get(menuModalSelector).contains("About Melofi"),
-    shareWithFriends: () => cy.get(menuModalSelector).contains("Share With Friends"),
+    share: () => cy.get(menuModalSelector).contains("Share With Friends"),
     logout: () => cy.get(menuModalSelector).contains("Logout"),
   };
 
@@ -67,5 +67,13 @@ export class Menu {
       getElementWithClassName("aboutMelofiModal__legal_link").contains("Terms & Conditions"),
     instagramLink: () => getElementWithClassName("aboutMelofiModal__contact").contains("Instagram"),
     version: () => getElementWithClassName("aboutMelofiModal__version"),
+  };
+
+  static shareModal = {
+    container: () => cy.get("#share-modal"),
+    title: () => getElementWithClassName("shareModal__title"),
+    subtext: () => getElementWithClassName("shareModal__subtext"),
+    copyLinkBtn: () => getElementWithClassName("shareModal__button"),
+    closeBtn: () => cy.get("#share-modal-close-icon"),
   };
 }
