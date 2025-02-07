@@ -23,3 +23,8 @@ export const convertISOTimestamp = (timestamp: string) => {
   const convertedDate = isoDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   return convertedDate[0] === "0" ? convertedDate.slice(1) : convertedDate;
 };
+
+export const isNewDay = (date: Date) => {
+  const currentDate = new Date();
+  return date.getDate() !== currentDate.getDate();
+};
