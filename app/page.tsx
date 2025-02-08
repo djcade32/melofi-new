@@ -14,6 +14,8 @@ export default function Home() {
         display: "flex",
         flexDirection: "column",
         flex: 1,
+        // Could cause issues. Added to prevent unwanted scrollbars
+        overflow: "hidden",
       }}
     >
       <LoggedInView />
