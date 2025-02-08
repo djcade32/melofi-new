@@ -107,3 +107,9 @@ export interface PromiseResolveType {
   success: boolean;
   message?: string;
 }
+
+export interface Quote {
+  id: string;
+  text: string;
+  author?: string;
+}

@@ -17,6 +17,7 @@ import Alarms from "../widgets/alarms/Alarms";
 import Templates from "../widgets/templates/Templates";
 import Youtube from "../widgets/youtube/Youtube";
 import MenuModal from "../modals/menuModal/MenuModal";
+import QuoteDisplay from "../components/quoteDisplay/QuoteDisplay";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
@@ -36,6 +37,7 @@ const LoggedInView = () => {
       <Templates />
       <Youtube />
       <MenuModal />
+      <QuoteDisplay />
     </div>
   );
 };
