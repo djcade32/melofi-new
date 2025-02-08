@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import Header from "../components/header/Header";
 import SceneModal from "../modals/sceneModal/SceneModal";
 import MixerModal from "../modals/mixerModal/MixerModal";
@@ -18,35 +18,9 @@ import Templates from "../widgets/templates/Templates";
 import Youtube from "../widgets/youtube/Youtube";
 import MenuModal from "../modals/menuModal/MenuModal";
 import QuoteDisplay from "../components/quoteDisplay/QuoteDisplay";
-import useAppStore from "@/stores/app-store";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
-  const { setIsSleep, inActivityThreshold } = useAppStore();
-
-  let timeout: NodeJS.Timeout;
-  // Detects if the user is idle and sets the isSleep state to true
-  useEffect(() => {
-    const onMouseMove = () => {
-      setIsSleep(false);
-      clearTimeout(timeout);
-
-      timeout = setTimeout(() => {
-        // if (JSON.parse(localStorage.getItem("settingsConfig")).hideInterface) {
-        setIsSleep(true);
-        //   return;
-        // }
-        clearTimeout(timeout);
-      }, inActivityThreshold);
-    };
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mousedown", onMouseMove);
-
-    return () => {
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mousedown", onMouseMove);
-    };
-  }, []);
 
   return (
     <div>

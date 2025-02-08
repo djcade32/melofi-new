@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ActionBar from "./actionBar/ActionBar";
 import styles from "./header.module.css";
 import RotatingLogo from "../rotatingLogo/RotatingLogo";
-import useAppStore from "@/stores/app-store";
+import { useAppContext } from "@/contexts/AppContext";
 
 const Header = () => {
-  const { isSleep } = useAppStore();
+  const { isSleep } = useAppContext();
 
   return (
     <nav

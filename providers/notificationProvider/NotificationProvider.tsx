@@ -2,7 +2,6 @@
 
 import Toaster from "@/ui/components/shared/toaster/Toaster";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
-import { NotificationType } from "@/types/general";
 import React, { useEffect, useState } from "react";
 
 interface NotificationProviderProps {

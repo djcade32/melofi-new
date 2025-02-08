@@ -3,11 +3,11 @@
 import React from "react";
 import styles from "./nowPlaying.module.css";
 import useMusicPlayerStore from "@/stores/music-player-store";
-import useAppStore from "@/stores/app-store";
+import { useAppContext } from "@/contexts/AppContext";
 
 const NowPlaying = () => {
   const { currentSong } = useMusicPlayerStore();
-  const { isSleep } = useAppStore();
+  const { isSleep } = useAppContext();
 
   return (
     <div

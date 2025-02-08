@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import styles from "./quoteDisplay.module.css";
 import useQuoteDisplayStore from "@/stores/quote-display-store";
-import useAppStore from "@/stores/app-store";
+import { useAppContext } from "@/contexts/AppContext";
 
 const QuoteDisplay = () => {
   const { quote, getQuote } = useQuoteDisplayStore();
-  const { isSleep } = useAppStore();
+  const { isSleep } = useAppContext();
 
   const scheduleQuoteUpdate = () => {
     const now = new Date();

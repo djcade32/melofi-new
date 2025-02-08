@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import NotificationProvider from "@/providers/notificationProvider/NotificationProvider";
-import FullscreenProvider from "@/providers/fullscreenProvider/FullscreenProvider";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import AuthProvider from "@/providers/authProvider/AuthProvider";
+import AppContextProvider from "@/contexts/AppContext";
 
 export const metadata: Metadata = {
   title: "Melofi",
@@ -25,11 +25,11 @@ export default function RootLayout({
         }}
       >
         <GoogleOAuthProvider clientId="922776747697-hbq7p19u2jmjjb1ksf4s0h95mmiu4pht.apps.googleusercontent.com">
-          {/* <FullscreenProvider> */}
           <AuthProvider>
-            <NotificationProvider>{children}</NotificationProvider>
+            <NotificationProvider>
+              <AppContextProvider>{children}</AppContextProvider>
+            </NotificationProvider>
           </AuthProvider>
-          {/* </FullscreenProvider> */}
         </GoogleOAuthProvider>
       </body>
     </html>
