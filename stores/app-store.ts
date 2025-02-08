@@ -3,6 +3,7 @@ import screenfull from "screenfull";
 
 export interface AppState {
   isFullscreen: boolean;
+  inActivityThreshold: number;
 
   toggleFullscreen: (boolean: boolean) => void;
   isElectron: () => boolean;
@@ -10,6 +11,7 @@ export interface AppState {
 
 const useAppStore = create<AppState>((set, get) => ({
   isFullscreen: false,
+  inActivityThreshold: 15000,
 
   toggleFullscreen: (boolean) => {
     screenfull.toggle();
