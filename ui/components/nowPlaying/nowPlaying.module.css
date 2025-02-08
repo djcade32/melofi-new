@@ -1,34 +1,60 @@
 .nowPlaying__container {
-    position: absolute;
-    bottom: 35px;
-    left: 35px;
+  position: absolute;
+  bottom: 35px;
+  left: 35px;
+}
+
+.nowPlaying__container.slide_up {
+  animation: slide-up 0.3s forwards;
+}
+
+.nowPlaying__container.slide_down {
+  animation: slide-down 0.3s forwards;
 }
 
 .nowPlaying__header_title {
-    color: white;
-    font-size: 21px;
-    font-family: var(--font-primary);
-    font-weight: 500;
-    margin-bottom: 3px;
+  color: white;
+  font-size: 21px;
+  font-family: var(--font-primary);
+  font-weight: 500;
+  margin-bottom: 3px;
 }
 
 .nowPlaying__song_title {
-    color: white;
-    font-size: 16px;
-    font-family: var(--font-primary);
-    font-weight: 500;
-    margin-bottom: 3px;
+  color: white;
+  font-size: 16px;
+  font-family: var(--font-primary);
+  font-weight: 500;
+  margin-bottom: 3px;
 }
 
 .nowPlaying__song_provider {
-    color: white;
-    font-family: var(--font-primary);
-    font-size: 16px; 
-    opacity: 50%;
-    font-weight: 500;
+  color: white;
+  font-family: var(--font-primary);
+  font-size: 16px;
+  opacity: 50%;
+  font-weight: 500;
 }
 
-.nowPlaying__song_provider:hover { 
-    opacity: 100%;
-    cursor: pointer;
+.nowPlaying__song_provider:hover {
+  opacity: 100%;
+  cursor: pointer;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(-35px);
+  }
+  to {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(125px);
+  }
 }

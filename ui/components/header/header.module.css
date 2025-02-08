@@ -1,7 +1,32 @@
 .header__container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 28px;
 }
 
+.header__container.slide_up {
+  animation: slide-up 0.3s forwards;
+}
+
+.header__container.slide_down {
+  animation: slide-down 0.3s forwards;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-150px);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-150px);
+  }
+  to {
+    transform: translateY(0px);
+  }
+}
