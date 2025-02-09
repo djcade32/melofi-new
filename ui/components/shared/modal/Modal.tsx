@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { Resizable } from "react-resizable";
 import styles from "./modal.module.css";
 import { IoCloseOutline } from "@/imports/icons";
 import "react-resizable/css/styles.css"; // Import default styles for react-resizable
 import { FiMaximize2 } from "@/imports/icons";
+import { use } from "chai";
+import { wait } from "@/utils/general";
 
 interface ModalProps extends React.HTMLProps<HTMLDivElement> {
   isOpen: boolean;
@@ -51,6 +53,27 @@ const Modal = ({
   const nodeRef = useRef<HTMLDivElement | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 400, height: 225 }); // Default dimensions
+
+  useEffect(() => {
+    // Get the width and height of the modal
+    // and set it to the dimensions
+    if (isOpen) {
+      setDimensionsOnOpen();
+    }
+  }, [isOpen, className]);
+
+  const setDimensionsOnOpen = async () => {
+    // Wait for pomodoro timer widgets animation to finish
+    id?.includes("pomodoro-timer-widget") && (await wait(500));
+    if (id?.includes("youtube-widget")) {
+      return;
+    }
+    nodeRef.current &&
+      setDimensions({
+        width: nodeRef.current.clientWidth,
+        height: nodeRef.current.clientHeight,
+      });
+  };
 
   const onResize = (e: React.SyntheticEvent, data: any) => {
     setDimensions({
@@ -167,6 +190,12 @@ const Modal = ({
       handle="#handle"
       onDrag={onDrag}
       onStop={onStop}
+      bounds={{
+        left: -(window.innerWidth - dimensions.width) / 2,
+        top: -(window.innerHeight - dimensions.height) / 2,
+        right: (window.innerWidth - dimensions.width) / 2,
+        bottom: (window.innerHeight - dimensions.height) / 2,
+      }}
     >
       {resizable ? (
         <Resizable
