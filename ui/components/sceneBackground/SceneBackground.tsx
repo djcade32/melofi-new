@@ -5,12 +5,13 @@ import styles from "./sceneBackground.module.css";
 import useSceneStore from "../../../stores/scene-store";
 
 const SceneBackground = () => {
-  const { currentScene } = useSceneStore();
-  const [videoSrc, setVideoSrc] = useState(currentScene.video);
+  const { currentScene, getCurrentScene } = useSceneStore();
+  const [videoSrc, setVideoSrc] = useState<string>("");
   const [isFadingIn, setIsFadingIn] = useState(false);
 
   useEffect(() => {
-    if (currentScene.video !== videoSrc) {
+    !currentScene && getCurrentScene();
+    if (currentScene && currentScene.video !== videoSrc) {
       // Trigger fade-in
       setIsFadingIn(true);
       setTimeout(() => {
@@ -18,13 +19,13 @@ const SceneBackground = () => {
         setIsFadingIn(false);
       }, 600); // This timeout should match the CSS transition duration
     }
-  }, [currentScene.video, videoSrc]);
+  }, [currentScene?.video, videoSrc]);
 
   return (
     <div>
       <video
         id="background-video"
-        src={currentScene.video}
+        src={currentScene?.video}
         className={styles.melofi_background_video}
         autoPlay
         loop
