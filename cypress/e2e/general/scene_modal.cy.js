@@ -37,4 +37,9 @@ describe("Testing Scene Modal", () => {
     cy.get("#scene-modal-carousel").find("#carousel-item").siblings().first().click();
     cy.get("#background-video").should("have.attr", "src").and("include", "neighborhood-cafe");
   });
+
+  it("should persist background change on reload", () => {
+    cy.reload();
+    cy.get("#background-video").should("have.attr", "src").and("include", "neighborhood-cafe");
+  });
 });
