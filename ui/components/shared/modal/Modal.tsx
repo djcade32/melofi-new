@@ -87,7 +87,6 @@ const Modal = ({
   const fixIfExpandingOffScreen = async () => {
     await wait(500);
     // Check if widget is expanding off screen
-    // const widget = document.getElementById("pomodoro-timer-widget");
     const widget = nodeRef.current;
     if (widget) {
       const widgetRect = widget.getBoundingClientRect();
