@@ -4,7 +4,7 @@ import { Scene } from "@/types/general";
 import useTemplatesStore from "./widgets/templates-store";
 
 export interface SceneState {
-  currentScene: Scene | null;
+  currentScene: Scene;
   sceneModalOpen: boolean;
   allScenes: Scene[];
 
@@ -14,7 +14,7 @@ export interface SceneState {
 }
 
 const useSceneStore = create<SceneState>((set) => ({
-  currentScene: null,
+  currentScene: scenes[0],
   sceneModalOpen: false,
   allScenes: scenes,
 

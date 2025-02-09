@@ -10,7 +10,7 @@ const SceneBackground = () => {
   const [isFadingIn, setIsFadingIn] = useState(false);
 
   useEffect(() => {
-    !currentScene && getCurrentScene();
+    getCurrentScene();
     if (currentScene && currentScene.video !== videoSrc) {
       // Trigger fade-in
       setIsFadingIn(true);
