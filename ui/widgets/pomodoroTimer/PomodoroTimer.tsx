@@ -13,7 +13,6 @@ import PomodoroTimerExpanded from "./views/PomodoroTimerExpanded";
 import PomodoroTimerCollapsed from "./views/PomodoroTimerCollapsed";
 import DialogModal from "@/ui/components/shared/dialogModal/DialogModal";
 import { DialogModalActions } from "@/types/general";
-import { wait } from "@/utils/general";
 
 const PomodoroTimer = () => {
   const worker = new Worker(getPomodoroTimerWorkerUrl());
@@ -63,10 +62,6 @@ const PomodoroTimer = () => {
       setTimerTime(time);
     };
   }, [activePomodoroTimerTask]);
-
-  useEffect(() => {
-    fixIfExpandingOffScreen();
-  }, [isCollapsed]);
 
   useEffect(() => {
     if (!activePomodoroTimerTask) return;
@@ -143,22 +138,6 @@ const PomodoroTimer = () => {
     }
     // Calculate the increment as a percentage of 100
     return (1 / seconds) * 100;
-  };
-
-  const fixIfExpandingOffScreen = async () => {
-    if (!isCollapsed && isPomodoroTimerOpen) {
-      await wait(500);
-      // Check if widget is expanding off screen
-      const widget = document.getElementById("pomodoro-timer-widget");
-      if (widget) {
-        const widgetRect = widget.getBoundingClientRect();
-
-        if (widgetRect.top < 0) {
-          // Move widget to top
-          widget.style.transform = `translateY(${Math.abs(widgetRect.top)}px)`;
-        }
-      }
-    }
   };
 
   return (

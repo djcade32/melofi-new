@@ -59,6 +59,7 @@ const Modal = ({
     // and set it to the dimensions
     if (isOpen) {
       setDimensionsOnOpen();
+      fixIfExpandingOffScreen();
     }
   }, [isOpen, className]);
 
@@ -81,6 +82,21 @@ const Modal = ({
       height: data.size.height,
     });
     onResizing && onResizing();
+  };
+
+  const fixIfExpandingOffScreen = async () => {
+    await wait(500);
+    // Check if widget is expanding off screen
+    // const widget = document.getElementById("pomodoro-timer-widget");
+    const widget = nodeRef.current;
+    if (widget) {
+      const widgetRect = widget.getBoundingClientRect();
+
+      if (widgetRect.top < 0) {
+        // Move widget to top
+        widget.style.transform = `translateY(${Math.abs(widgetRect.top)}px)`;
+      }
+    }
   };
 
   const handle = (
