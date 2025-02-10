@@ -16,11 +16,14 @@ const useToolsStore = create<ToolsState>((set, get) => ({
   isVertical: false,
 
   toggleTools: (boolean) => {
+    if (get().isUndocked) return;
     set(() => ({ isToolsOpen: boolean }));
   },
+
   toggleUndocked: (boolean) => {
     set(() => ({ isUndocked: boolean }));
   },
+
   toggleVertical: (boolean) => {
     set(() => ({ isVertical: boolean }));
   },

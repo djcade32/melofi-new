@@ -27,7 +27,7 @@ const ActionBar = () => {
   const { toggleSceneModal, sceneModalOpen } = useSceneStore();
   const { toggleMixerModal, mixerModalOpen, musicSource } = useMixerStore();
   const { toggleFullscreen, isFullscreen, isElectron } = useAppStore();
-  const { isMenuOpen, setIsMenuOpen, handleClick } = useMenuStore();
+  const { isMenuOpen, handleClick } = useMenuStore();
   const { isToolsOpen, toggleTools } = useToolsStore();
 
   // Close scene modal when clicking outside of the modal
@@ -36,6 +36,7 @@ const ActionBar = () => {
       const targetId = (event.target as HTMLElement).id;
       if (targetId === "melofi-app" || targetId === "header" || targetId === "background-video") {
         toggleSceneModal(false);
+        toggleTools(false);
       }
     };
 
