@@ -97,6 +97,8 @@ const Youtube = () => {
       onDrag={() => setIsDragging(true)}
       onStop={() => setIsDragging(false)}
       showCloseIcon={false}
+      isWidget
+      name="youtube"
     >
       <div className={`${styles.youtube__input_container} ${showInput() ? styles.showInput : ""}`}>
         <div style={{ width: "100%" }}>

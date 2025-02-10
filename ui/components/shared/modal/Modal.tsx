@@ -7,8 +7,10 @@ import styles from "./modal.module.css";
 import { IoCloseOutline } from "@/imports/icons";
 import "react-resizable/css/styles.css"; // Import default styles for react-resizable
 import { FiMaximize2 } from "@/imports/icons";
-import { use } from "chai";
 import { wait } from "@/utils/general";
+import useWidgetsStore from "@/stores/widgets-store";
+import { Widget } from "@/types/general";
+import { on } from "events";
 
 interface ModalProps extends React.HTMLProps<HTMLDivElement> {
   isOpen: boolean;
@@ -28,6 +30,8 @@ interface ModalProps extends React.HTMLProps<HTMLDivElement> {
   onMouseLeave?: () => void;
   onDrag?: () => void;
   onStop?: () => void;
+  isWidget?: boolean;
+  name?: string;
 }
 
 const Modal = ({
@@ -48,11 +52,20 @@ const Modal = ({
   onMouseLeave,
   onDrag,
   onStop,
+  isWidget = false,
+  name,
   ...props
 }: ModalProps) => {
   const nodeRef = useRef<HTMLDivElement | null>(null);
+  const { addToOpenWidgets, removeFromOpenWidgets, onDragEnd, onResizeEnd } = useWidgetsStore();
+
   const [isHovered, setIsHovered] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 400, height: 225 }); // Default dimensions
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  if (isWidget && !name) {
+    throw new Error("name prop is required for widgets");
+  }
 
   useEffect(() => {
     // Get the width and height of the modal
@@ -62,6 +75,25 @@ const Modal = ({
       fixIfExpandingOffScreen();
     }
   }, [isOpen, className]);
+
+  useEffect(() => {
+    if (isWidget && name) {
+      const dimensionsObj = nodeRef.current && {
+        width: nodeRef.current.clientWidth,
+        height: nodeRef.current.clientHeight,
+      };
+      const widget: Widget = {
+        name,
+        position,
+        dimensions: dimensionsObj || { width: dimensions.width, height: dimensions.height },
+      };
+      if (isOpen) {
+        addToOpenWidgets(widget);
+      } else {
+        removeFromOpenWidgets(widget);
+      }
+    }
+  }, [isOpen]);
 
   const setDimensionsOnOpen = async () => {
     // Wait for pomodoro timer widgets animation to finish
@@ -81,6 +113,7 @@ const Modal = ({
       width: data.size.width,
       height: data.size.height,
     });
+    isWidget && name && onResizeEnd(name, { width: data.size.width, height: data.size.height });
     onResizing && onResizing();
   };
 
@@ -96,6 +129,13 @@ const Modal = ({
         widget.style.transform = `translateY(${Math.abs(widgetRect.top)}px)`;
       }
     }
+  };
+
+  const handleOnStop = (e: any, data: any) => {
+    const { x, y } = data;
+    setPosition({ x, y });
+    name && onDragEnd(name, { x, y });
+    onStop && onStop();
   };
 
   const handle = (
@@ -204,13 +244,14 @@ const Modal = ({
       nodeRef={nodeRef}
       handle="#handle"
       onDrag={onDrag}
-      onStop={onStop}
+      onStop={handleOnStop}
       bounds={{
         left: -(window.innerWidth - dimensions.width) / 2,
         top: -(window.innerHeight - dimensions.height) / 2,
         right: (window.innerWidth - dimensions.width) / 2,
         bottom: (window.innerHeight - dimensions.height) / 2,
       }}
+      position={position}
     >
       {resizable ? (
         <Resizable

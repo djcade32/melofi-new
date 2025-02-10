@@ -74,6 +74,8 @@ const Notes = () => {
       className={styles.notes__modal_container}
       draggable
       close={() => setIsNotesOpen(false)}
+      isWidget
+      name="notes"
     >
       <div className={styles.notes__content_container}>
         <div className={styles.notes__sidebar_container}>

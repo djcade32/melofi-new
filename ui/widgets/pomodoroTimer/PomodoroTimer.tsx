@@ -151,6 +151,8 @@ const PomodoroTimer = () => {
       }`}
       draggable
       showCloseIcon={false}
+      isWidget
+      name="pomodoro-timer"
     >
       <audio ref={singleBellAudioRef} src={single_bell} typeof="audio/mpeg" />
       <audio ref={doubleBellAudioRef} src={double_bell} typeof="audio/mpeg" />

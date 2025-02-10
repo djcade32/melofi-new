@@ -172,6 +172,8 @@ const Calculator = () => {
       fadeCloseIcon
       close={() => setIsCalculatorOpen(!isCalculatorOpen)}
       tabIndex={0}
+      isWidget
+      name="calculator"
     >
       <div>
         <div>

@@ -113,3 +113,19 @@ export interface Quote {
   text: string;
   author?: string;
 }
+
+export interface Coordinates {
+  x: number;
+  y: number;
+}
+
+export interface Dimensions {
+  width: number;
+  height: number;
+}
+
+export interface Widget {
+  name: string;
+  position: Coordinates;
+  dimensions?: Dimensions;
+}

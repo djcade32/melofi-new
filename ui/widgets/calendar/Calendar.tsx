@@ -69,6 +69,8 @@ const Calendar = () => {
       titleClassName={styles.calendar__current_date}
       fadeCloseIcon
       close={() => toggleCalendar(!isCalendarOpen)}
+      isWidget
+      name="calendar"
     >
       {googleCalendarUser ? <CalendarsListView /> : <CalendarAuthView login={login} />}
     </Modal>

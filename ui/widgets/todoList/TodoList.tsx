@@ -53,6 +53,8 @@ const TodoList = () => {
       draggable
       fadeCloseIcon
       close={() => setIsTodoListOpen(!isTodoListOpen)}
+      isWidget
+      name="to-do-list"
     >
       <div style={{ display: "flex", gap: 5, alignItems: "center", marginTop: 10 }}>
         <input
