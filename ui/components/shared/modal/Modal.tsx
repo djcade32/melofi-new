@@ -7,8 +7,9 @@ import styles from "./modal.module.css";
 import { IoCloseOutline } from "@/imports/icons";
 import "react-resizable/css/styles.css"; // Import default styles for react-resizable
 import { FiMaximize2 } from "@/imports/icons";
-import { use } from "chai";
 import { wait } from "@/utils/general";
+import useWidgetsStore from "@/stores/widgets-store";
+import { Widget } from "@/types/general";
 
 interface ModalProps extends React.HTMLProps<HTMLDivElement> {
   isOpen: boolean;
@@ -28,6 +29,9 @@ interface ModalProps extends React.HTMLProps<HTMLDivElement> {
   onMouseLeave?: () => void;
   onDrag?: () => void;
   onStop?: () => void;
+  isWidget?: boolean;
+  name?: string;
+  zIndex?: number;
 }
 
 const Modal = ({
@@ -48,11 +52,32 @@ const Modal = ({
   onMouseLeave,
   onDrag,
   onStop,
+  isWidget = false,
+  name,
+  zIndex,
   ...props
 }: ModalProps) => {
   const nodeRef = useRef<HTMLDivElement | null>(null);
+  const {
+    addToOpenWidgets,
+    removeFromOpenWidgets,
+    onDragEnd,
+    onResizeEnd,
+    openWidgets,
+    getWidgetZIndex,
+    isWidgetOpen,
+    focusWidget,
+  } = useWidgetsStore();
+
   const [isHovered, setIsHovered] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 400, height: 225 }); // Default dimensions
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [initialLoad, setInitialLoad] = useState(true);
+  const [zIndexState, setZIndexState] = useState(zIndex || 1);
+
+  if (isWidget && !name) {
+    throw new Error("name prop is required for widgets");
+  }
 
   useEffect(() => {
     // Get the width and height of the modal
@@ -62,6 +87,46 @@ const Modal = ({
       fixIfExpandingOffScreen();
     }
   }, [isOpen, className]);
+
+  useEffect(() => {
+    if (initialLoad) {
+      setInitialLoad(false);
+      return;
+    }
+    if (isWidget && name) {
+      const dimensionsObj = nodeRef.current && {
+        width: nodeRef.current.clientWidth,
+        height: nodeRef.current.clientHeight,
+      };
+      const widget: Widget = {
+        name,
+        position,
+        dimensions: dimensionsObj || { width: dimensions.width, height: dimensions.height },
+      };
+      if (isOpen) {
+        !isWidgetOpen(name) && addToOpenWidgets(widget);
+      } else {
+        removeFromOpenWidgets(widget);
+      }
+    }
+
+    if (isOpen) {
+      const modal = document.getElementById(id || "");
+      modal?.focus();
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isWidget && name) {
+      const widget = openWidgets.find((w) => w.name === name);
+      if (widget) {
+        setPosition(widget.position);
+        widget.dimensions && setDimensions(widget.dimensions);
+      }
+
+      isOpen && setZIndexState(getWidgetZIndex(name));
+    }
+  }, [openWidgets]);
 
   const setDimensionsOnOpen = async () => {
     // Wait for pomodoro timer widgets animation to finish
@@ -81,6 +146,7 @@ const Modal = ({
       width: data.size.width,
       height: data.size.height,
     });
+    isWidget && name && onResizeEnd(name, { width: data.size.width, height: data.size.height });
     onResizing && onResizing();
   };
 
@@ -96,6 +162,13 @@ const Modal = ({
         widget.style.transform = `translateY(${Math.abs(widgetRect.top)}px)`;
       }
     }
+  };
+
+  const handleOnStop = (e: any, data: any) => {
+    const { x, y } = data;
+    setPosition({ x, y });
+    name && onDragEnd(name, { x, y });
+    onStop && onStop();
   };
 
   const handle = (
@@ -134,6 +207,7 @@ const Modal = ({
         display: isOpen ? "flex" : "none",
         width: resizable ? `${dimensions.width}px` : props.style?.width,
         height: resizable ? `${dimensions.height}px` : props.style?.height,
+        zIndex: zIndexState,
       }}
       id={id}
       onMouseEnter={() => {
@@ -144,7 +218,10 @@ const Modal = ({
         setIsHovered(false);
         onMouseLeave && onMouseLeave();
       }}
-      tabIndex={props.tabIndex}
+      tabIndex={props.tabIndex || -1}
+      onFocus={() => {
+        name && focusWidget(name);
+      }}
     >
       {draggable && <div id="handle" className={styles.modal__dragHandle} />}
       <div
@@ -204,13 +281,14 @@ const Modal = ({
       nodeRef={nodeRef}
       handle="#handle"
       onDrag={onDrag}
-      onStop={onStop}
+      onStop={handleOnStop}
       bounds={{
         left: -(window.innerWidth - dimensions.width) / 2,
         top: -(window.innerHeight - dimensions.height) / 2,
         right: (window.innerWidth - dimensions.width) / 2,
         bottom: (window.innerHeight - dimensions.height) / 2,
       }}
+      position={position}
     >
       {resizable ? (
         <Resizable

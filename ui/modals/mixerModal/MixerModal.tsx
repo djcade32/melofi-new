@@ -24,6 +24,8 @@ const MixerModal = () => {
       draggable
       title="Sounds"
       titleClassName={styles.mixerModal__title}
+      isWidget
+      name="mixer"
     >
       <div className={styles.mixerModal__content_container}>
         <PlaylistSection />

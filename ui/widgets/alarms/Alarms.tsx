@@ -108,6 +108,8 @@ const Alarms = () => {
       draggable
       close={() => setIsAlarmsOpen(!isAlarmsOpen)}
       showBackdrop={showBackdrop()}
+      isWidget
+      name="alarms"
     >
       <audio ref={timerAudioRef} src={timer_alarm} typeof="audio/mpeg" loop />
       <div className={styles.alarms__content}>

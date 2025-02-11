@@ -1,5 +1,6 @@
 "use client";
 import useAppStore from "@/stores/app-store";
+import useWidgetsStore from "@/stores/widgets-store";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 export interface AppContextInterface {
@@ -18,12 +19,13 @@ interface AppContextProviderProps {
 
 const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const { inActivityThreshold } = useAppStore();
+  const { fetchOpenWidgets, toggleOpenWidgets } = useWidgetsStore();
 
   const [isSleep, setIsSleep] = useState(false);
 
   let timeout: NodeJS.Timeout;
-  // Detects if the user is idle and sets the isSleep state to true
   useEffect(() => {
+    // Detects if the user is idle and sets the isSleep state to true
     const onMouseMove = () => {
       setIsSleep(false);
       clearTimeout(timeout);
@@ -38,6 +40,10 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
     };
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mousedown", onMouseMove);
+
+    // Get the open widgets from local storage and open them
+    fetchOpenWidgets();
+    toggleOpenWidgets();
 
     return () => {
       document.removeEventListener("mousemove", onMouseMove);

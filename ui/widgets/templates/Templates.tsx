@@ -28,6 +28,8 @@ const Templates = () => {
       titleClassName={styles.templates__title}
       close={() => setIsTemplatesOpen(!isTemplatesOpen)}
       showBackdrop={showAddTemplateModal}
+      isWidget
+      name="templates"
     >
       <div className={styles.templates__content}>
         {templateList.map((template) => (
