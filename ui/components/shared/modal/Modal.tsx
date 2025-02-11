@@ -31,6 +31,7 @@ interface ModalProps extends React.HTMLProps<HTMLDivElement> {
   onStop?: () => void;
   isWidget?: boolean;
   name?: string;
+  zIndex?: number;
 }
 
 const Modal = ({
@@ -53,6 +54,7 @@ const Modal = ({
   onStop,
   isWidget = false,
   name,
+  zIndex,
   ...props
 }: ModalProps) => {
   const nodeRef = useRef<HTMLDivElement | null>(null);
@@ -64,13 +66,14 @@ const Modal = ({
     openWidgets,
     getWidgetZIndex,
     isWidgetOpen,
+    focusWidget,
   } = useWidgetsStore();
 
   const [isHovered, setIsHovered] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 400, height: 225 }); // Default dimensions
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [initialLoad, setInitialLoad] = useState(true);
-  const [zIndex, setZIndex] = useState(1);
+  const [zIndexState, setZIndexState] = useState(zIndex || 1);
 
   if (isWidget && !name) {
     throw new Error("name prop is required for widgets");
@@ -98,7 +101,6 @@ const Modal = ({
       const widget: Widget = {
         name,
         position,
-        zIndex: openWidgets.length + 1,
         dimensions: dimensionsObj || { width: dimensions.width, height: dimensions.height },
       };
       if (isOpen) {
@@ -108,10 +110,9 @@ const Modal = ({
       }
     }
 
-    const modal = document.getElementById(id || "");
     if (isOpen) {
+      const modal = document.getElementById(id || "");
       modal?.focus();
-      name && setZIndex(getWidgetZIndex(name));
     }
   }, [isOpen]);
 
@@ -122,6 +123,8 @@ const Modal = ({
         setPosition(widget.position);
         widget.dimensions && setDimensions(widget.dimensions);
       }
+
+      isOpen && setZIndexState(getWidgetZIndex(name));
     }
   }, [openWidgets]);
 
@@ -204,7 +207,7 @@ const Modal = ({
         display: isOpen ? "flex" : "none",
         width: resizable ? `${dimensions.width}px` : props.style?.width,
         height: resizable ? `${dimensions.height}px` : props.style?.height,
-        zIndex: zIndex,
+        zIndex: zIndexState,
       }}
       id={id}
       onMouseEnter={() => {
@@ -216,7 +219,9 @@ const Modal = ({
         onMouseLeave && onMouseLeave();
       }}
       tabIndex={props.tabIndex || -1}
-      // onFocus={() => name && updateZIndexOnFocus(name)}
+      onFocus={() => {
+        name && focusWidget(name);
+      }}
     >
       {draggable && <div id="handle" className={styles.modal__dragHandle} />}
       <div

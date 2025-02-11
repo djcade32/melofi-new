@@ -8,6 +8,7 @@ import useCalculatorStore from "./widgets/calculator-store";
 import useAlarmsStore from "./widgets/alarms-store";
 import useTemplatesStore from "./widgets/templates-store";
 import useYoutubeStore from "./widgets/youtube-store";
+import useMixerStore from "./mixer-store";
 
 export interface WidgetsState {
   openWidgets: Widget[];
@@ -20,8 +21,9 @@ export interface WidgetsState {
   onResizeEnd: (name: string, dimensions: { width: number; height: number }) => void;
   toggleOpenWidgets: () => void;
   getWidgetZIndex: (name: string) => number;
-  updateZIndexOnFocus: (name: string) => void;
   isWidgetOpen: (name: string) => boolean;
+  focusWidget: (name: string) => void;
+  zIndexForFocus: () => number;
 }
 
 const useWidgetsStore = create<WidgetsState>((set, get) => ({
@@ -29,7 +31,6 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
 
   fetchOpenWidgets: () => {
     const widgets = localStorage.getItem("openWidgets");
-    console.log("widgets: ", widgets);
     if (widgets) {
       set(() => ({ openWidgets: JSON.parse(widgets) }));
     }
@@ -77,6 +78,7 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
 
   toggleOpenWidgets: () => {
     const widgets = get().openWidgets;
+    widgets.length > 0 && console.log("Opening Widgets: ", widgets);
     widgets.forEach((widget) => {
       switch (widget.name) {
         case "calendar":
@@ -103,6 +105,9 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
         case "youtube":
           useYoutubeStore.getState().setIsYoutubeOpen(true);
           break;
+        case "mixer":
+          useMixerStore.getState().toggleMixerModal(true);
+          break;
         default:
           console.log("Widget not found to open");
           break;
@@ -111,26 +116,32 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
   },
 
   getWidgetZIndex: (name) => {
-    const widget = get().openWidgets.find((w) => w.name === name);
-    if (widget) {
-      return widget.zIndex;
-    }
-    return 1;
-  },
-
-  updateZIndexOnFocus: (name) => {
-    const newOpenWidgets = get().openWidgets.map((w) => {
+    let idx = get().openWidgets.findIndex((w) => {
       if (w.name === name) {
-        return { ...w, zIndex: get().openWidgets.length + 2 };
+        return true;
       }
-      return w;
+      return false;
     });
-    localStorage.setItem("openWidgets", JSON.stringify(newOpenWidgets));
-    set(() => ({ openWidgets: newOpenWidgets }));
+
+    return idx > -1 ? idx : 1;
   },
 
   isWidgetOpen: (name) => {
     return get().openWidgets.some((w) => w.name === name);
+  },
+
+  focusWidget: (name) => {
+    const openWidgets = get().openWidgets;
+    const widget = openWidgets.find((w) => w.name === name);
+    if (widget && openWidgets[openWidgets.length - 1].name !== name) {
+      const newOpenWidgets = get().openWidgets.filter((w) => w.name !== name);
+      localStorage.setItem("openWidgets", JSON.stringify([...newOpenWidgets, widget]));
+      set(() => ({ openWidgets: [...newOpenWidgets, widget] }));
+    }
+  },
+
+  zIndexForFocus: () => {
+    return get().openWidgets.length + 1;
   },
 }));
 

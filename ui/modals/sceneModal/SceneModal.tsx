@@ -7,9 +7,11 @@ import styles from "./sceneModal.module.css";
 import Carousel from "@/ui/components/shared/carousel/Carousel";
 import SceneThumbnail from "./sceneThumbnail/SceneThumbnail";
 import { Scene } from "@/types/general";
+import useWidgetsStore from "@/stores/widgets-store";
 
 const SceneModal = () => {
   const { sceneModalOpen, allScenes, currentScene, setCurrentScene } = useSceneStore();
+  const { zIndexForFocus } = useWidgetsStore();
 
   const [selectedScene, setSelectedScene] = useState<Scene>(currentScene);
 
@@ -23,6 +25,7 @@ const SceneModal = () => {
       isOpen={sceneModalOpen}
       id="scene-modal"
       showCloseIcon={false}
+      zIndex={zIndexForFocus()}
     >
       <Carousel
         orientation="vertical"
