@@ -19,7 +19,7 @@ interface AppContextProviderProps {
 
 const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const { inActivityThreshold } = useAppStore();
-  const { getOpenWidgets, toggleOpenWidgets } = useWidgetsStore();
+  const { fetchOpenWidgets, toggleOpenWidgets } = useWidgetsStore();
 
   const [isSleep, setIsSleep] = useState(false);
 
@@ -42,7 +42,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
     document.addEventListener("mousedown", onMouseMove);
 
     // Get the open widgets from local storage and open them
-    getOpenWidgets();
+    fetchOpenWidgets();
     toggleOpenWidgets();
 
     return () => {

@@ -127,5 +127,6 @@ export interface Dimensions {
 export interface Widget {
   name: string;
   position: Coordinates;
+  zIndex: number;
   dimensions?: Dimensions;
 }

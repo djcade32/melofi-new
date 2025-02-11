@@ -56,13 +56,21 @@ const Modal = ({
   ...props
 }: ModalProps) => {
   const nodeRef = useRef<HTMLDivElement | null>(null);
-  const { addToOpenWidgets, removeFromOpenWidgets, onDragEnd, onResizeEnd, openWidgets } =
-    useWidgetsStore();
+  const {
+    addToOpenWidgets,
+    removeFromOpenWidgets,
+    onDragEnd,
+    onResizeEnd,
+    openWidgets,
+    getWidgetZIndex,
+    isWidgetOpen,
+  } = useWidgetsStore();
 
   const [isHovered, setIsHovered] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 400, height: 225 }); // Default dimensions
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [initialLoad, setInitialLoad] = useState(true);
+  const [zIndex, setZIndex] = useState(1);
 
   if (isWidget && !name) {
     throw new Error("name prop is required for widgets");
@@ -90,13 +98,20 @@ const Modal = ({
       const widget: Widget = {
         name,
         position,
+        zIndex: openWidgets.length + 1,
         dimensions: dimensionsObj || { width: dimensions.width, height: dimensions.height },
       };
       if (isOpen) {
-        addToOpenWidgets(widget);
+        !isWidgetOpen(name) && addToOpenWidgets(widget);
       } else {
         removeFromOpenWidgets(widget);
       }
+    }
+
+    const modal = document.getElementById(id || "");
+    if (isOpen) {
+      modal?.focus();
+      name && setZIndex(getWidgetZIndex(name));
     }
   }, [isOpen]);
 
@@ -189,6 +204,7 @@ const Modal = ({
         display: isOpen ? "flex" : "none",
         width: resizable ? `${dimensions.width}px` : props.style?.width,
         height: resizable ? `${dimensions.height}px` : props.style?.height,
+        zIndex: zIndex,
       }}
       id={id}
       onMouseEnter={() => {
@@ -199,7 +215,8 @@ const Modal = ({
         setIsHovered(false);
         onMouseLeave && onMouseLeave();
       }}
-      tabIndex={props.tabIndex}
+      tabIndex={props.tabIndex || -1}
+      // onFocus={() => name && updateZIndexOnFocus(name)}
     >
       {draggable && <div id="handle" className={styles.modal__dragHandle} />}
       <div
