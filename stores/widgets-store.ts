@@ -1,5 +1,14 @@
 import { create } from "zustand";
 import { Widget } from "@/types/general";
+import useCalendarStore from "./widgets/calendar-store";
+import { use } from "chai";
+import useTodoListStore from "./widgets/todoList-store";
+import useNotesStore from "./widgets/notes-store";
+import usePomodoroTimerStore from "./widgets/pomodoro-timer-store";
+import useCalculatorStore from "./widgets/calculator-store";
+import useAlarmsStore from "./widgets/alarms-store";
+import useTemplatesStore from "./widgets/templates-store";
+import useYoutubeStore from "./widgets/youtube-store";
 
 export interface WidgetsState {
   openWidgets: Widget[];
@@ -10,6 +19,7 @@ export interface WidgetsState {
   clearOpenWidgets: () => void;
   onDragEnd: (name: string, position: { x: number; y: number }) => void;
   onResizeEnd: (name: string, dimensions: { width: number; height: number }) => void;
+  toggleOpenWidgets: () => void;
 }
 
 const useWidgetsStore = create<WidgetsState>((set, get) => ({
@@ -17,10 +27,9 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
 
   getOpenWidgets: () => {
     const widgets = localStorage.getItem("openWidgets");
+    console.log("widgets: ", widgets);
     if (widgets) {
       set(() => ({ openWidgets: JSON.parse(widgets) }));
-    } else {
-      set(() => ({ openWidgets: [] }));
     }
   },
 
@@ -62,6 +71,41 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
     });
     localStorage.setItem("openWidgets", JSON.stringify(newOpenWidgets));
     set(() => ({ openWidgets: newOpenWidgets }));
+  },
+
+  toggleOpenWidgets: () => {
+    const widgets = get().openWidgets;
+    widgets.forEach((widget) => {
+      switch (widget.name) {
+        case "calendar":
+          useCalendarStore.getState().toggleCalendar(true);
+          break;
+        case "to-do-list":
+          useTodoListStore.getState().setIsTodoListOpen(true);
+          break;
+        case "notes":
+          useNotesStore.getState().setIsNotesOpen(true);
+          break;
+        case "pomodoro-timer":
+          usePomodoroTimerStore.getState().setIsPomodoroTimerOpen(true);
+          break;
+        case "calculator":
+          useCalculatorStore.getState().setIsCalculatorOpen(true);
+          break;
+        case "alarms":
+          useAlarmsStore.getState().setIsAlarmsOpen(true);
+          break;
+        case "templates":
+          useTemplatesStore.getState().setIsTemplatesOpen(true);
+          break;
+        case "youtube":
+          useYoutubeStore.getState().setIsYoutubeOpen(true);
+          break;
+        default:
+          console.log("Widget not found to open");
+          break;
+      }
+    });
   },
 }));
 

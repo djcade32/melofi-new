@@ -10,7 +10,6 @@ import { FiMaximize2 } from "@/imports/icons";
 import { wait } from "@/utils/general";
 import useWidgetsStore from "@/stores/widgets-store";
 import { Widget } from "@/types/general";
-import { on } from "events";
 
 interface ModalProps extends React.HTMLProps<HTMLDivElement> {
   isOpen: boolean;
@@ -57,11 +56,13 @@ const Modal = ({
   ...props
 }: ModalProps) => {
   const nodeRef = useRef<HTMLDivElement | null>(null);
-  const { addToOpenWidgets, removeFromOpenWidgets, onDragEnd, onResizeEnd } = useWidgetsStore();
+  const { addToOpenWidgets, removeFromOpenWidgets, onDragEnd, onResizeEnd, openWidgets } =
+    useWidgetsStore();
 
   const [isHovered, setIsHovered] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 400, height: 225 }); // Default dimensions
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [initialLoad, setInitialLoad] = useState(true);
 
   if (isWidget && !name) {
     throw new Error("name prop is required for widgets");
@@ -77,6 +78,10 @@ const Modal = ({
   }, [isOpen, className]);
 
   useEffect(() => {
+    if (initialLoad) {
+      setInitialLoad(false);
+      return;
+    }
     if (isWidget && name) {
       const dimensionsObj = nodeRef.current && {
         width: nodeRef.current.clientWidth,
@@ -94,6 +99,16 @@ const Modal = ({
       }
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (isWidget && name) {
+      const widget = openWidgets.find((w) => w.name === name);
+      if (widget) {
+        setPosition(widget.position);
+        widget.dimensions && setDimensions(widget.dimensions);
+      }
+    }
+  }, [openWidgets]);
 
   const setDimensionsOnOpen = async () => {
     // Wait for pomodoro timer widgets animation to finish
