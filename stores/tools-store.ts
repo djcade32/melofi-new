@@ -73,6 +73,12 @@ const useToolsStore = create<ToolsState>((set, get) => ({
   },
 
   setToolbarPosition: (position) => {
+    const newSettings: ToolbarSettings = {
+      isVertical: get().isVertical,
+      isUndocked: get().isUndocked,
+      position,
+    };
+    localStorage.setItem("toolbarSettings", JSON.stringify(newSettings));
     set(() => ({ toolbarPosition: position }));
   },
 }));
