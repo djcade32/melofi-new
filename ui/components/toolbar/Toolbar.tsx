@@ -14,6 +14,7 @@ import Draggable from "react-draggable";
 import { MenuOption } from "@/types/general";
 import ToolbarWidgetButtons from "./toolbarWidgetButtons/ToolbarWidgetButtons";
 import { wait } from "@/utils/general";
+import { useAppContext } from "@/contexts/AppContext";
 
 const Toolbar = () => {
   const nodeRef = useRef<HTMLDivElement | null>(null);
@@ -27,7 +28,9 @@ const Toolbar = () => {
     onToolbarDragEnd,
     toolbarPosition,
     setToolbarPosition,
+    toggleTools,
   } = useToolsStore();
+  const { isSleep } = useAppContext();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -99,6 +102,12 @@ const Toolbar = () => {
       window.removeEventListener("resize", updateDimension);
     };
   }, []);
+
+  useEffect(() => {
+    if (isSleep) {
+      !isUndocked && toggleTools(false);
+    }
+  }, [isSleep]);
 
   // Update the position state when the toolbar is docked
   useEffect(() => {
