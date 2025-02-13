@@ -50,7 +50,6 @@ const useToolsStore = create<ToolsState>((set, get) => ({
     const toolbarSettings = localStorage.getItem("toolbarSettings");
     if (toolbarSettings) {
       const settings = JSON.parse(toolbarSettings);
-      console.log("settings: ", settings);
       process.nextTick(() => {
         set(() => ({
           isUndocked: settings.isUndocked,
