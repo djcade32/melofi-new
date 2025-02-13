@@ -123,7 +123,7 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
       return false;
     });
 
-    return idx > -1 ? idx : 1;
+    return idx > -1 ? idx + 1 : 1;
   },
 
   isWidgetOpen: (name) => {

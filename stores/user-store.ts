@@ -20,8 +20,6 @@ import usePomodoroTimerStore from "./widgets/pomodoro-timer-store";
 import useTemplatesStore from "./widgets/templates-store";
 import useAlarmsStore from "./widgets/alarms-store";
 import useUserStatsStore from "./user-stats-store";
-import { auth } from "firebase-functions/v1";
-import { skip } from "node:test";
 
 export interface UserState {
   isUserLoggedIn: boolean;
