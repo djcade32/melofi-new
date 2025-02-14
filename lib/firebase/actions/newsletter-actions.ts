@@ -1,7 +1,6 @@
 import { doc, setDoc } from "firebase/firestore";
 import { getFirebaseDB } from "../firebaseClient";
 import { User } from "firebase/auth";
-import { useId } from "react";
 
 const db = getFirebaseDB();
 
