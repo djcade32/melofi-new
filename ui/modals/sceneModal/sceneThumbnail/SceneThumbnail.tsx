@@ -5,7 +5,8 @@ import useSceneStore from "@/stores/scene-store";
 
 interface SceneThumbnailProps {
   scene: Scene;
-  setSelectedScene: Dispatch<SetStateAction<Scene>>;
+  setSelectedScene: (newScene: Scene) => void;
+  // setSelectedScene: Dispatch<SetStateAction<Scene>>;
 }
 
 const iconProps = {

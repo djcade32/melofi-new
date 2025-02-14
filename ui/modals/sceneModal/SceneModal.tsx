@@ -1,23 +1,16 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Modal from "@/ui/components/shared/modal/Modal";
 import useSceneStore from "@/stores/scene-store";
 import styles from "./sceneModal.module.css";
 import Carousel from "@/ui/components/shared/carousel/Carousel";
 import SceneThumbnail from "./sceneThumbnail/SceneThumbnail";
-import { Scene } from "@/types/general";
 import useWidgetsStore from "@/stores/widgets-store";
 
 const SceneModal = () => {
-  const { sceneModalOpen, allScenes, currentScene, setCurrentScene } = useSceneStore();
+  const { sceneModalOpen, allScenes, setCurrentScene } = useSceneStore();
   const { zIndexForFocus } = useWidgetsStore();
-
-  const [selectedScene, setSelectedScene] = useState<Scene>(currentScene);
-
-  useEffect(() => {
-    setCurrentScene(selectedScene);
-  }, [selectedScene]);
 
   return (
     <Modal
@@ -33,7 +26,7 @@ const SceneModal = () => {
         id="scene-modal-carousel"
       >
         {allScenes.map((scene) => (
-          <SceneThumbnail key={scene.id} scene={scene} setSelectedScene={setSelectedScene} />
+          <SceneThumbnail key={scene.id} scene={scene} setSelectedScene={setCurrentScene} />
         ))}
       </Carousel>
     </Modal>
