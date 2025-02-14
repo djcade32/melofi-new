@@ -3,7 +3,6 @@ import styles from "./toolsActionBarButton.module.css";
 import ActionBarButton from "../actionBarButton/ActionBarButton";
 import { AiFillTool } from "@/imports/icons";
 import { IconBaseProps } from "react-icons";
-import Toolbar from "@/ui/components/toolbar/Toolbar";
 
 interface ToolsActionBarButtonProps {
   id: string;
@@ -22,7 +21,6 @@ const ToolsActionBarButton = ({ id, iconProps, onClick, isActive }: ToolsActionB
         onClick={onClick}
         isActive={isActive}
       />
-      <Toolbar />
     </div>
   );
 };

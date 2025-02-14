@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useMemo } from "react";
 import styles from "./toolbar.module.css";
 import useToolsStore from "@/stores/tools-store";
 import {
@@ -13,16 +13,50 @@ import Menu from "@/ui/components/shared/menu/Menu";
 import Draggable from "react-draggable";
 import { MenuOption } from "@/types/general";
 import ToolbarWidgetButtons from "./toolbarWidgetButtons/ToolbarWidgetButtons";
+import { wait } from "@/utils/general";
+import { useAppContext } from "@/contexts/AppContext";
 
 const Toolbar = () => {
-  const nodeRef = useRef(null);
-  const { isToolsOpen, isUndocked, toggleUndocked, isVertical, toggleVertical } = useToolsStore();
+  const nodeRef = useRef<HTMLDivElement | null>(null);
+  const {
+    isToolsOpen,
+    isUndocked,
+    toggleUndocked,
+    isVertical,
+    toggleVertical,
+    fetchToolbarSettings,
+    onToolbarDragEnd,
+    toolbarPosition,
+    setToolbarPosition,
+    toggleTools,
+  } = useToolsStore();
+  const { isSleep } = useAppContext();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
+  const [windowDimensions, setWindowDimensions] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
 
-  // State to track toolbar's position
-  const [position, setPosition] = useState({ x: 0, y: 45 }); // y: 45px for initial docked position
+  const dimensionsRef = useMemo(() => {
+    let width = 359;
+    let height = 44;
+    if (!isVertical) {
+      if (isUndocked) {
+        width += 30;
+      }
+    } else {
+      if (isUndocked) {
+        height = width + 30;
+      }
+      width = 44;
+    }
+    return {
+      width,
+      height,
+    };
+  }, [isUndocked, isVertical]);
 
   const options: MenuOption[] = [
     {
@@ -53,16 +87,49 @@ const Toolbar = () => {
     },
   ];
 
+  useEffect(() => {
+    // Fetch the toolbar settings from local storage
+    fetchToolbarSettings();
+    const updateDimension = () => {
+      setWindowDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+    window.addEventListener("resize", updateDimension);
+
+    return () => {
+      window.removeEventListener("resize", updateDimension);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isSleep) {
+      !isUndocked && toggleTools(false);
+    }
+  }, [isSleep]);
+
   // Update the position state when the toolbar is docked
   useEffect(() => {
-    if (!isUndocked) {
+    const toolbarButtonRect = document.getElementById("tools-button")?.getBoundingClientRect();
+
+    if (toolbarButtonRect) {
       // Reset the toolbar to its original docked position
-      setPosition({ x: 0, y: 0 });
-    } else {
-      // Reset the toolbar to its original undocked position
-      setPosition({ x: 0, y: 45 });
+      if (!isUndocked) {
+        setToolbarPosition({
+          x: toolbarButtonRect.left - (dimensionsRef.width - toolbarButtonRect.width) / 2,
+          y: -35,
+        });
+      } else {
+        // Reset the toolbar to its original undocked position
+        setToolbarPosition({
+          x: toolbarPosition.x,
+          y: toolbarPosition.y,
+        });
+      }
     }
-  }, [isUndocked]);
+    fixIfExpandingOffScreen();
+  }, [isUndocked, windowDimensions.width, isVertical]);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget);
@@ -74,10 +141,30 @@ const Toolbar = () => {
     setOpen(false);
   };
 
-  // Handle dragging and update the position state
-  const handleDrag = (e: any, data: any) => {
-    if (isUndocked) {
-      setPosition({ x: data.x, y: data.y });
+  const handleOnStop = (e: any, data: any) => {
+    const { x, y } = data;
+    onToolbarDragEnd({ x, y });
+  };
+
+  const fixIfExpandingOffScreen = async () => {
+    await wait(500);
+    // Check if widget is expanding off screen
+    const toolbar = nodeRef.current;
+    if (toolbar) {
+      const toolbarRect = toolbar.getBoundingClientRect();
+
+      if (toolbarRect.right > windowDimensions.width) {
+        setToolbarPosition({
+          x: windowDimensions.width - dimensionsRef.width,
+          y: toolbarPosition.y,
+        });
+      }
+      if (toolbarRect.bottom > windowDimensions.height) {
+        setToolbarPosition({
+          x: toolbarPosition.x,
+          y: windowDimensions.height - dimensionsRef.height - 126,
+        });
+      }
     }
   };
 
@@ -87,9 +174,10 @@ const Toolbar = () => {
         <Draggable
           disabled={!isUndocked}
           nodeRef={nodeRef}
-          position={isUndocked ? position : { x: 0, y: 45 }} // Use position when undocked, otherwise reset to docked position
-          onDrag={handleDrag}
+          position={toolbarPosition} // Use position when undocked, otherwise reset to docked position
           handle="#toolbar-handle"
+          onStop={handleOnStop}
+          bounds="#melofi-app"
         >
           <div
             id="toolbar"
@@ -119,7 +207,7 @@ const Toolbar = () => {
             <Menu anchorEl={anchorEl} open={open} onClose={handleClose} options={options} />
           </div>
         </Draggable>
-      )}{" "}
+      )}
     </>
   );
 };

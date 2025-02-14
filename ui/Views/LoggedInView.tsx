@@ -18,6 +18,7 @@ import Templates from "../widgets/templates/Templates";
 import Youtube from "../widgets/youtube/Youtube";
 import MenuModal from "../modals/menuModal/MenuModal";
 import QuoteDisplay from "../components/quoteDisplay/QuoteDisplay";
+import Toolbar from "../components/toolbar/Toolbar";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
@@ -25,6 +26,7 @@ const LoggedInView = () => {
   return (
     <div>
       <Header />
+      <Toolbar />
       <SceneModal />
       <MixerModal />
       {musicSource === MusicSource.MELOFI && <NowPlaying />}
