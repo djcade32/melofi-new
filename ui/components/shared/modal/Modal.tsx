@@ -130,7 +130,7 @@ const Modal = ({
 
   const setDimensionsOnOpen = async () => {
     // Wait for pomodoro timer widgets animation to finish
-    id?.includes("pomodoro-timer-widget") && (await wait(500));
+    id?.includes("pomodoro-timer-widget") && (await wait(1000));
     if (id?.includes("youtube-widget")) {
       return;
     }
