@@ -3,6 +3,7 @@ import {
   updateAlarmsExpiredCount,
   updatePomodoroTimerStats,
   updateTotalNotesCreated,
+  updateSceneCounts as updatedSceneCountsFromDb,
 } from "@/lib/firebase/actions/stats-actions";
 import { getUserStats } from "@/lib/firebase/getters/stats-getters";
 import { buildUserStatsType } from "@/lib/type-builders/user-stats-type-builder";
@@ -26,6 +27,7 @@ export interface userStatsState {
   incrementTotalNotesCreated: () => Promise<void>;
   updatePomodoroTimerStats: (updatedStats: PomodoroTimerStats) => Promise<void>;
   incrementExpiredAlarmsCount: () => Promise<void>;
+  updateSceneCounts: (scene: string) => Promise<void>;
   resetUserStatsData: () => Promise<void>;
 }
 
@@ -49,10 +51,12 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
     const uid = useUserStore.getState().currentUser?.authUser?.uid;
     try {
       if (!uid) {
+        console.log("No user uid provided");
         return;
       }
       const userStats = await getUserStats(uid);
       if (!userStats) {
+        console.log("No user stats found");
         return;
       }
       const userStatsBuilt = buildUserStatsType(userStats);
@@ -100,6 +104,48 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       set(() => ({ alarmsExpiredCount: expiredAlarmsCount + 1 }));
     } catch (error) {
       console.log("Error incrementing expired alarms count: ", error);
+    }
+  },
+
+  async updateSceneCounts(sceneName: string) {
+    const uid = useUserStore.getState().currentUser?.authUser?.uid;
+    if (!uid) {
+      console.log("No user uid provided");
+      return;
+    }
+    try {
+      const sceneCounts = get().sceneCounts;
+      let updatedSceneCounts: SceneCounts = {
+        counts: {},
+        favoriteSceneName: null,
+      };
+
+      if (!sceneCounts) {
+        console.log("No scene counts found");
+      } else {
+        updatedSceneCounts = sceneCounts;
+      }
+
+      // Increment scene count
+      if (updatedSceneCounts.counts[sceneName]) {
+        updatedSceneCounts.counts[sceneName] += 1;
+      } else {
+        updatedSceneCounts.counts[sceneName] = 1;
+      }
+
+      // If necessary, update favorite scene
+      if (
+        !updatedSceneCounts.favoriteSceneName ||
+        updatedSceneCounts.counts[sceneName] >
+          updatedSceneCounts.counts[updatedSceneCounts.favoriteSceneName]
+      ) {
+        updatedSceneCounts.favoriteSceneName = sceneName;
+      }
+
+      await updatedSceneCountsFromDb(uid, updatedSceneCounts);
+      set({ sceneCounts: updatedSceneCounts });
+    } catch (error) {
+      console.log("Error updating scene counts: ", error);
     }
   },
 

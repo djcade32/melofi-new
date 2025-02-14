@@ -1,8 +1,8 @@
 import { doc, setDoc } from "firebase/firestore";
 import { getFirebaseDB } from "../firebaseClient";
-import { UserStats } from "@/types/general";
+import { SceneCounts, UserStats } from "@/types/general";
 import { PomodoroTimerStats } from "@/types/interfaces/pomodoro_timer";
-import { Auth, User } from "firebase/auth";
+import { User } from "firebase/auth";
 
 const db = getFirebaseDB();
 
@@ -87,6 +87,20 @@ export const updateAlarmsExpiredCount = async (uid: string, alarmsExpiredCount: 
     await setDoc(usersDoc, { alarmsExpiredCount }, { merge: true });
   } catch (error) {
     console.log("Error updating alarms expired count in stats db: ", error);
+    throw error;
+  }
+};
+
+// Update scene counts in stats db
+export const updateSceneCounts = async (uid: string, sceneCounts: SceneCounts) => {
+  if (!db) {
+    throw new Error("Firebase DB is not initialized");
+  }
+  try {
+    const usersDoc = doc(db, `stats/${uid}`);
+    await setDoc(usersDoc, { sceneCounts }, { merge: true });
+  } catch (error) {
+    console.log("Error updating scene counts in stats db: ", error);
     throw error;
   }
 };

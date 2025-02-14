@@ -86,7 +86,7 @@ export interface Note {
 
 export interface SceneCounts {
   counts: { [key: string]: number };
-  favoriteSceneName: string;
+  favoriteSceneName: string | null;
 }
 
 export interface UserStats {
