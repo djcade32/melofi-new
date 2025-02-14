@@ -129,3 +129,9 @@ export interface Widget {
   position: Coordinates;
   dimensions?: Dimensions;
 }
+
+export interface ToolbarSettings {
+  isVertical: boolean;
+  isUndocked: boolean;
+  position: Coordinates;
+}

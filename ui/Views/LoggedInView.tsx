@@ -30,6 +30,7 @@ import useNotesStore from "@/stores/widgets/notes-store";
 import useTemplatesStore from "@/stores/widgets/templates-store";
 import useYoutubeStore from "@/stores/widgets/youtube-store";
 import useMenuStore from "@/stores/menu-store";
+import Toolbar from "../components/toolbar/Toolbar";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
@@ -46,6 +47,7 @@ const LoggedInView = () => {
   return (
     <div>
       <Header />
+      <Toolbar />
       <SceneModal />
       <MixerModal />
       {musicSource === MusicSource.MELOFI && <NowPlaying />}

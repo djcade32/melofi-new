@@ -12,12 +12,20 @@ const TimeDisplay = () => {
   const [time, setTime] = useState<string>("");
 
   useEffect(() => {
+    // get localStorage
+    let clockFormat = localStorage.getItem("clockFormat");
+    if (clockFormat) {
+      setTimeFormat(clockFormat as TimeFormat);
+    } else {
+      clockFormat = TimeFormat.TWELVE;
+    }
+
     const updateTime = () => {
       const date = new Date();
       const options: Intl.DateTimeFormatOptions = {
         hour: "numeric",
         minute: "numeric",
-        hour12: timeFormat === TimeFormat.TWELVE,
+        hour12: clockFormat === TimeFormat.TWELVE,
       };
       setTime(date.toLocaleTimeString(undefined, options));
     };
@@ -31,6 +39,11 @@ const TimeDisplay = () => {
   const toggleTimeFormat = () => {
     setTimeFormat((prev) =>
       prev === TimeFormat.TWELVE ? TimeFormat.TWENTY_FOUR : TimeFormat.TWELVE
+    );
+    // set localStorage
+    localStorage.setItem(
+      "clockFormat",
+      timeFormat === TimeFormat.TWELVE ? TimeFormat.TWENTY_FOUR : TimeFormat.TWELVE
     );
   };
 
