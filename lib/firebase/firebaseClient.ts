@@ -22,6 +22,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const isCypress = process.env.IS_CYPRESS === "true";
+export let db: Firestore | undefined = undefined;
 
 export const analytics = () => {
   if (typeof window !== "undefined") {
@@ -37,8 +38,11 @@ export const getFirebaseDB = (): Firestore | undefined => {
     return;
   }
   try {
+    if (db) {
+      return db;
+    }
     // Initialize Firebase
-    const db = getFirestore(app);
+    db = getFirestore(app);
     console.log("INFO: Firebase DB Connected");
 
     if (isCypress) {

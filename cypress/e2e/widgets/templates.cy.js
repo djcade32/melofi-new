@@ -26,6 +26,7 @@ describe("Testing Templates Widget", () => {
   it("Should clear all templates before starting", () => {
     pressToolsButton();
     pressToolbarButton("templates");
+    cy.wait(2000);
 
     // Must do this because the templates persist wen the tests are ran through Github
     getElementWithClassName("templates__content").then(($el) => {
