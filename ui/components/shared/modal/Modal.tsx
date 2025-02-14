@@ -72,7 +72,6 @@ const Modal = ({
   const [isHovered, setIsHovered] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 400, height: 225 }); // Default dimensions
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [initialLoad, setInitialLoad] = useState(true);
   const [zIndexState, setZIndexState] = useState(zIndex || 1);
 
   if (isWidget && !name) {
@@ -89,10 +88,6 @@ const Modal = ({
   }, [isOpen, className]);
 
   useEffect(() => {
-    if (initialLoad) {
-      setInitialLoad(false);
-      return;
-    }
     if (isWidget && name) {
       const dimensionsObj = nodeRef.current && {
         width: nodeRef.current.clientWidth,
@@ -104,6 +99,7 @@ const Modal = ({
         dimensions: dimensionsObj || { width: dimensions.width, height: dimensions.height },
       };
       if (isOpen) {
+        console.log("adding widget to open widget from Modal", widget);
         !isWidgetOpen(name) && addToOpenWidgets(widget);
       } else {
         removeFromOpenWidgets(widget);
