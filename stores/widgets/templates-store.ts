@@ -45,7 +45,7 @@ const useTemplatesStore = create<TemplatesState>((set, get) => ({
 
   deleteTemplate: async (id) => {
     try {
-      await deleteTemplateFromDb(useUserStore.getState().currentUser?.authUser?.email, id);
+      await deleteTemplateFromDb(useUserStore.getState().currentUser?.authUser?.uid, id);
 
       const updatedTemplates = get().templateList.filter((template) => template.id !== id);
       if (get().selectedTemplate?.id === id) {
