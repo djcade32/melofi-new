@@ -26,14 +26,14 @@ const useSceneStore = create<SceneState>((set) => ({
     }
   },
 
-  setCurrentScene: async (newScene: Scene) => {
+  setCurrentScene: (newScene: Scene) => {
     const { settingsChanged, selectedTemplate } = useTemplatesStore.getState();
     set({ currentScene: newScene });
     // Set local storage
     localStorage.setItem("currentScene", JSON.stringify(newScene));
     selectedTemplate && settingsChanged();
     try {
-      await useUserStatsStore.getState().updateSceneCounts(newScene.name);
+      useUserStatsStore.getState().updateSceneCounts(newScene.name);
     } catch (error) {
       console.log("Error updating scene counts: ", error);
     }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styles from "./sceneBackground.module.css";
 import useSceneStore from "../../../stores/scene-store";
 
@@ -9,8 +9,7 @@ const SceneBackground = () => {
   const [videoSrc, setVideoSrc] = useState<string>("");
   const [isFadingIn, setIsFadingIn] = useState(false);
 
-  useEffect(() => {
-    getCurrentScene();
+  useMemo(() => {
     if (currentScene && currentScene.video !== videoSrc) {
       // Trigger fade-in
       setIsFadingIn(true);
@@ -20,6 +19,10 @@ const SceneBackground = () => {
       }, 600); // This timeout should match the CSS transition duration
     }
   }, [currentScene?.video, videoSrc]);
+
+  useEffect(() => {
+    getCurrentScene();
+  }, []);
 
   return (
     <div>
