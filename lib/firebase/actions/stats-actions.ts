@@ -26,7 +26,7 @@ export const addUserToStats = async (user: User) => {
       totalFocusTime: 0,
       totalTasksCompleted: 0,
       totalConsecutiveDays: 0,
-      favoriteScene: null,
+      sceneCounts: null,
       lastLogin: new Date().toISOString(),
     } as UserStats);
   } catch (error) {
@@ -109,7 +109,7 @@ export const resetUserStats = async (uid: string) => {
       totalFocusTime: 0,
       totalTasksCompleted: 0,
       totalConsecutiveDays: 0,
-      favoriteScene: null,
+      sceneCounts: null,
     } as UserStats);
   } catch (error) {
     console.log("Error resetting user stats data in stats db: ", error);

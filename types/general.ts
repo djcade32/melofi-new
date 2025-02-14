@@ -84,6 +84,11 @@ export interface Note {
   updatedAt: string;
 }
 
+export interface SceneCounts {
+  counts: { [key: string]: number };
+  favoriteSceneName: string;
+}
+
 export interface UserStats {
   lastLogin: string;
   pomodoroTimer: PomodoroTimerStats;
@@ -91,7 +96,7 @@ export interface UserStats {
   totalConsecutiveDays: number;
   totalTasksCompleted: number;
   totalNotesCreated: number;
-  favoriteScene: string | null;
+  sceneCounts: SceneCounts | null;
   alarmsExpiredCount: number;
 }
 

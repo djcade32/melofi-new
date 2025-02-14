@@ -9,6 +9,7 @@ import { buildUserStatsType } from "@/lib/type-builders/user-stats-type-builder"
 import { create } from "zustand";
 import useUserStore from "./user-store";
 import { PomodoroTimerStats } from "@/types/interfaces/pomodoro_timer";
+import { SceneCounts } from "@/types/general";
 
 export interface userStatsState {
   lastLogin: string;
@@ -18,7 +19,7 @@ export interface userStatsState {
   totalConsecutiveDays: number;
   totalTasksCompleted: number;
   totalNotesCreated: number;
-  favoriteScene: string | null;
+  sceneCounts: SceneCounts | null;
   alarmsExpiredCount: number;
 
   setUserStats: () => Promise<void>;
@@ -41,7 +42,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
   totalConsecutiveDays: 0,
   totalTasksCompleted: 0,
   totalNotesCreated: 0,
-  favoriteScene: null,
+  sceneCounts: null,
   alarmsExpiredCount: 0,
 
   async setUserStats() {
@@ -120,7 +121,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       totalConsecutiveDays: 0,
       totalTasksCompleted: 0,
       totalNotesCreated: 0,
-      favoriteScene: null,
+      sceneCounts: null,
       alarmsExpiredCount: 0,
     });
   },
