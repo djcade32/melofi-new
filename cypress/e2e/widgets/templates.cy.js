@@ -14,7 +14,6 @@ describe("Testing Templates Widget", () => {
       skipOnboarding: false,
       loggedIn: true,
     });
-    cy.wait(5000);
   });
 
   after(() => {
