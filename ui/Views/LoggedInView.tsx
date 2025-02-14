@@ -2,7 +2,6 @@
 
 import React, { lazy } from "react";
 import Header from "../components/header/Header";
-import SceneModal from "../modals/sceneModal/SceneModal";
 import MixerModal from "../modals/mixerModal/MixerModal";
 import NowPlaying from "../components/nowPlaying/NowPlaying";
 import useMixerStore from "@/stores/mixer-store";
@@ -11,6 +10,7 @@ import QuoteDisplay from "../components/quoteDisplay/QuoteDisplay";
 import ComponentLoader from "../components/shared/componentLoader/ComponentLoader";
 
 // Lazy load the components
+const SceneModal = lazy(() => import("@/ui/modals/sceneModal/SceneModal"));
 const Alarms = lazy(() => import("@/ui/widgets/alarms/Alarms"));
 const Calculator = lazy(() => import("@/ui/widgets/calculator/Calculator"));
 const Calendar = lazy(() => import("@/ui/widgets/calendar/Calendar"));
@@ -31,6 +31,7 @@ import useTemplatesStore from "@/stores/widgets/templates-store";
 import useYoutubeStore from "@/stores/widgets/youtube-store";
 import useMenuStore from "@/stores/menu-store";
 import Toolbar from "../components/toolbar/Toolbar";
+import useSceneStore from "@/stores/scene-store";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
@@ -43,12 +44,13 @@ const LoggedInView = () => {
   const { isTemplatesOpen } = useTemplatesStore();
   const { isYoutubeOpen } = useYoutubeStore();
   const { isMenuOpen } = useMenuStore();
+  const { sceneModalOpen } = useSceneStore();
 
   return (
     <div>
       <Header />
       <Toolbar />
-      <SceneModal />
+      <ComponentLoader component={<SceneModal />} isComponentOpen={sceneModalOpen} />
       <MixerModal />
       {musicSource === MusicSource.MELOFI && <NowPlaying />}
       <QuoteDisplay />

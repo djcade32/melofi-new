@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { scenes } from "@/data/scenes";
 import { Scene } from "@/types/general";
 import useTemplatesStore from "./widgets/templates-store";
+import useUserStatsStore from "./user-stats-store";
 
 export interface SceneState {
   currentScene: Scene;
@@ -31,6 +32,11 @@ const useSceneStore = create<SceneState>((set) => ({
     // Set local storage
     localStorage.setItem("currentScene", JSON.stringify(newScene));
     selectedTemplate && settingsChanged();
+    try {
+      useUserStatsStore.getState().updateSceneCounts(newScene.name);
+    } catch (error) {
+      console.log("Error updating scene counts: ", error);
+    }
   },
 
   toggleSceneModal: (bool: boolean) => set(() => ({ sceneModalOpen: bool })),

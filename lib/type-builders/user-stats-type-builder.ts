@@ -13,7 +13,7 @@ export const buildUserStatsType = (userStats: any): UserStats => {
     totalFocusTime: userStats?.totalFocusTime || 0,
     totalConsecutiveDays: userStats?.totalConsecutiveDays || 0,
     totalTasksCompleted: userStats?.totalTasksCompleted || 0,
-    favoriteScene: userStats?.favoriteScene || null,
+    sceneCounts: userStats?.sceneCounts || null,
     alarmsExpiredCount: userStats?.alarmsExpiredCount || 0,
   };
 };

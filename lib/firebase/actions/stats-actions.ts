@@ -1,8 +1,8 @@
 import { doc, setDoc } from "firebase/firestore";
 import { getFirebaseDB } from "../firebaseClient";
-import { UserStats } from "@/types/general";
+import { SceneCounts, UserStats } from "@/types/general";
 import { PomodoroTimerStats } from "@/types/interfaces/pomodoro_timer";
-import { Auth, User } from "firebase/auth";
+import { User } from "firebase/auth";
 
 const db = getFirebaseDB();
 
@@ -26,7 +26,7 @@ export const addUserToStats = async (user: User) => {
       totalFocusTime: 0,
       totalTasksCompleted: 0,
       totalConsecutiveDays: 0,
-      favoriteScene: null,
+      sceneCounts: null,
       lastLogin: new Date().toISOString(),
     } as UserStats);
   } catch (error) {
@@ -91,6 +91,20 @@ export const updateAlarmsExpiredCount = async (uid: string, alarmsExpiredCount: 
   }
 };
 
+// Update scene counts in stats db
+export const updateSceneCounts = async (uid: string, sceneCounts: SceneCounts) => {
+  if (!db) {
+    throw new Error("Firebase DB is not initialized");
+  }
+  try {
+    const usersDoc = doc(db, `stats/${uid}`);
+    await setDoc(usersDoc, { sceneCounts }, { merge: true });
+  } catch (error) {
+    console.log("Error updating scene counts in stats db: ", error);
+    throw error;
+  }
+};
+
 // Reset user stats data in stats db
 export const resetUserStats = async (uid: string) => {
   if (!db) {
@@ -109,7 +123,7 @@ export const resetUserStats = async (uid: string) => {
       totalFocusTime: 0,
       totalTasksCompleted: 0,
       totalConsecutiveDays: 0,
-      favoriteScene: null,
+      sceneCounts: null,
     } as UserStats);
   } catch (error) {
     console.log("Error resetting user stats data in stats db: ", error);
