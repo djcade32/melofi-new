@@ -8,7 +8,7 @@ import {
   SelectProps as MuiSelectProps,
   SelectProps,
 } from "@mui/material";
-import { cx, css } from "@emotion/css";
+import { cx } from "@emotion/css";
 import Tooltip from "@/ui/components/shared/tooltip/Tooltip";
 import { LongMenuOption, LongMenuRenderedOption } from "@/types/general";
 import { ToolbarButtonProps } from "@/types/interfaces/slate_editor";
@@ -25,7 +25,7 @@ interface LongMenuProps {
   showOptionHoverEffect?: boolean;
   showSelectedOptionHoverEffect?: boolean;
   className?: string;
-  tooltipText: string;
+  tooltipText?: string;
   defaultOption?: LongMenuOption | LongMenuRenderedOption;
   onClose?: () => void;
 }
@@ -50,9 +50,11 @@ const Selector = ({
   const StyledMenuItem = styled(MenuItem)(() => ({
     ...optionItemStyle,
     "&:hover": {
+      borderRadius: "5px",
       backgroundColor: showOptionHoverEffect ? "var(--color-secondary-opacity)" : "transparent",
     },
     "&.Mui-selected": {
+      borderRadius: "5px",
       color: "var(--color-selected-text) !important", // Text color for selected option
       backgroundColor: showSelectedOptionHoverEffect
         ? "var(--color-effect-opacity) !important"
@@ -81,6 +83,7 @@ const Selector = ({
           },
           PaperProps: {
             sx: {
+              backdropFilter: " blur(10px)",
               backgroundColor: "var(--color-primary-opacity)",
               borderRadius: "10px !important",
               color: "var(--color-white)",
@@ -155,9 +158,15 @@ const Selector = ({
             } as ToolbarButtonProps)
           ) : null
         ) : (
-          <Tooltip offset={[0, 8]} noFlex text={tooltipText} tooltipClassName={cx(className)}>
-            <p style={{ color: "var(--color-secondary-white)" }}>{selectedOption.label} </p>
-          </Tooltip>
+          <>
+            {tooltipText ? (
+              <Tooltip offset={[0, 8]} noFlex text={tooltipText} tooltipClassName={cx(className)}>
+                <p style={{ color: "var(--color-secondary-white)" }}>{selectedOption.label} </p>
+              </Tooltip>
+            ) : (
+              <p style={{ color: "var(--color-secondary-white)" }}>{selectedOption.label} </p>
+            )}
+          </>
         )
       }
     >
@@ -175,7 +184,6 @@ const Selector = ({
                         selectedOption.label === option.label
                           ? "var(--color-white)"
                           : "var(--color-secondary-white)",
-                      fontFamily: option.label,
                     }}
                   >
                     {option.label}

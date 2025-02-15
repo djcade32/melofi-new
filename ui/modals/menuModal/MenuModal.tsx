@@ -18,6 +18,7 @@ import useUserStore from "@/stores/user-store";
 import AboutMelofiModal from "./optionModals/aboutMelofiModal/AboutMelofiModal";
 import MenuModalBackdrop from "./optionModals/components/menuModalBackdrop/MenuModalBackdrop";
 import ShareModal from "./optionModals/shareModal/ShareModal";
+import GeneralSettingsModal from "./optionModals/generalSettingsModal/GeneralSettingsModal";
 
 const MenuModal = () => {
   const { anchorEl, handleClose, isMenuOpen, setSelectedOption, selectedOption } = useMenuStore();
@@ -118,10 +119,11 @@ const MenuModal = () => {
         offset={10}
         invertColors
       />
+      <GeneralSettingsModal />
       <MenuModalBackdrop open={showBackdrop()}>
         <AccountModal />
-        <AboutMelofiModal />
         <ShareModal />
+        <AboutMelofiModal />
       </MenuModalBackdrop>
     </>
   );
