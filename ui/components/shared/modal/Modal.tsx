@@ -99,7 +99,6 @@ const Modal = ({
         dimensions: dimensionsObj || { width: dimensions.width, height: dimensions.height },
       };
       if (isOpen) {
-        console.log("adding widget to open widget from Modal", widget);
         !isWidgetOpen(name) && addToOpenWidgets(widget);
       } else {
         removeFromOpenWidgets(widget);
