@@ -101,7 +101,7 @@ const Modal = ({
       if (isOpen) {
         !isWidgetOpen(name) && addToOpenWidgets(widget);
       } else {
-        removeFromOpenWidgets(widget);
+        isWidgetOpen(name) && removeFromOpenWidgets(widget);
       }
     }
 

@@ -25,8 +25,8 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   useEffect(() => {
     // Get the open widgets from local storage and open them
-    fetchOpenWidgets();
-    toggleOpenWidgets();
+    const widgets = fetchOpenWidgets();
+    toggleOpenWidgets(widgets);
     fetchAppSettings();
   }, []);
 
