@@ -17,7 +17,15 @@ const delayOptions: LongMenuOption[] = [
 
 const GeneralSettingsModal = () => {
   const { selectedOption, setSelectedOption } = useMenuStore();
-  const { setInactivityThreshold, appSettings } = useAppStore();
+  const {
+    setInactivityThreshold,
+    appSettings,
+    setAlarmSoundEnabled,
+    setPomodoroTimerSoundEnabled,
+    setCalendarHoverEffectEnabled,
+    setTodoListHoverEffectEnabled,
+    setDailyQuoteEnabled,
+  } = useAppStore();
   const isOpen = selectedOption === "General Settings";
   const [delayOption, setDelayOption] = useState<LongMenuOption>(delayOptions[0]);
 
@@ -110,11 +118,17 @@ const GeneralSettingsModal = () => {
           </div>
           <div className={styles.generalSettingsModal__setting_container}>
             <p>Pomodoro Timer</p>
-            <Switch />
+            <Switch
+              checked={appSettings.pomodoroTimerSoundEnabled}
+              onChange={() => setPomodoroTimerSoundEnabled(!appSettings.pomodoroTimerSoundEnabled)}
+            />
           </div>
           <div style={{ marginTop: 3 }} className={styles.generalSettingsModal__setting_container}>
             <p>Alarms</p>
-            <Switch />
+            <Switch
+              checked={appSettings.alarmSoundEnabled}
+              onChange={() => setAlarmSoundEnabled(!appSettings.alarmSoundEnabled)}
+            />
           </div>
         </div>
         {/* Hover Effects */}
@@ -127,18 +141,31 @@ const GeneralSettingsModal = () => {
           </div>
           <div className={styles.generalSettingsModal__setting_container}>
             <p>Calendar</p>
-            <Switch />
+            <Switch
+              checked={appSettings.calendarHoverEffectEnabled}
+              onChange={() =>
+                setCalendarHoverEffectEnabled(!appSettings.calendarHoverEffectEnabled)
+              }
+            />
           </div>
           <div style={{ marginTop: 3 }} className={styles.generalSettingsModal__setting_container}>
             <p>To-Do List</p>
-            <Switch />
+            <Switch
+              checked={appSettings.todoListHoverEffectEnabled}
+              onChange={() =>
+                setTodoListHoverEffectEnabled(!appSettings.todoListHoverEffectEnabled)
+              }
+            />
           </div>
         </div>
         {/* Quotes */}
         <div className={styles.generalSettingsModal__settings_section}>
           <div className={styles.generalSettingsModal__setting_container}>
             <p>Show Daily Quotes</p>
-            <Switch />
+            <Switch
+              checked={appSettings.showDailyQuote}
+              onChange={() => setDailyQuoteEnabled(!appSettings.showDailyQuote)}
+            />
           </div>
           <p className={styles.generalSettingsModal__setting_description}>
             Display a daily motivational quote in your workspace.

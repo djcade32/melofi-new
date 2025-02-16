@@ -1,5 +1,6 @@
 .toaster__container {
   border-radius: 10px;
+  backdrop-filter: blur(10px);
 }
 
 .toaster__message_container {

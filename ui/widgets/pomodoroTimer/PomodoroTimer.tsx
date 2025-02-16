@@ -13,6 +13,7 @@ import PomodoroTimerExpanded from "./views/PomodoroTimerExpanded";
 import PomodoroTimerCollapsed from "./views/PomodoroTimerCollapsed";
 import DialogModal from "@/ui/components/shared/dialogModal/DialogModal";
 import { DialogModalActions } from "@/types/general";
+import useAppStore from "@/stores/app-store";
 
 const PomodoroTimer = () => {
   const worker = new Worker(getPomodoroTimerWorkerUrl());
@@ -34,6 +35,7 @@ const PomodoroTimer = () => {
     progress,
     setProgress,
   } = usePomodoroTimerStore();
+  const { appSettings } = useAppStore();
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [resetTimerDialog, setResetDialogTimer] = useState<DialogModalActions | null>(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -89,7 +91,7 @@ const PomodoroTimer = () => {
     }
 
     if (wasLastSession()) {
-      tripleBellAudioRef.current?.play();
+      appSettings.pomodoroTimerSoundEnabled && tripleBellAudioRef.current?.play();
     } else if (activePomodoroTimerTask.currentMode === "Focus") {
       doubleBellAudioRef.current?.play();
     } else {
