@@ -8,11 +8,11 @@ import { LongMenuOption } from "@/types/general";
 import useAppStore from "@/stores/app-store";
 
 const delayOptions: LongMenuOption[] = [
-  { id: "0", label: "5 seconds" },
-  { id: "1", label: "15 seconds" },
-  { id: "2", label: "30 seconds" },
-  { id: "3", label: "1 minute" },
-  { id: "4", label: "Never" },
+  { id: "delay-option-0", label: "5 seconds" },
+  { id: "delay-option-1", label: "15 seconds" },
+  { id: "delay-option-2", label: "30 seconds" },
+  { id: "delay-option-3", label: "1 minute" },
+  { id: "delay-option-4", label: "Never" },
 ];
 
 const GeneralSettingsModal = () => {
@@ -38,19 +38,19 @@ const GeneralSettingsModal = () => {
   const handleInactivityDelayChange = (option: LongMenuOption) => {
     setDelayOption(option);
     switch (option.id) {
-      case "0":
+      case "delay-option-0":
         setInactivityThreshold(5000);
         break;
-      case "1":
+      case "delay-option-1":
         setInactivityThreshold(15000);
         break;
-      case "2":
+      case "delay-option-2":
         setInactivityThreshold(30000);
         break;
-      case "3":
+      case "delay-option-3":
         setInactivityThreshold(60000);
         break;
-      case "4":
+      case "delay-option-4":
         setInactivityThreshold(0);
         break;
       default:
