@@ -29,7 +29,7 @@ const useTodoListStore = create<TodoListState>((set, get) => ({
   getTodoListTitle: () => {
     if (get().taskList.length === 0) return "To - do List";
     const completedTasks = get().taskList.filter((task) => task.completed).length;
-    return `To - do List (${completedTasks}/${get().taskList.length})`;
+    return `TO - DO LIST (${completedTasks}/${get().taskList.length})`;
   },
 
   setIsTodoListOpen: (bool) => set({ isTodoListOpen: bool }),
