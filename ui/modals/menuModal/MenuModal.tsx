@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Menu from "@/ui/components/shared/menu/Menu";
 import { MenuOption } from "@/types/general";
 import {
@@ -19,10 +19,19 @@ import AboutMelofiModal from "./optionModals/aboutMelofiModal/AboutMelofiModal";
 import MenuModalBackdrop from "./optionModals/components/menuModalBackdrop/MenuModalBackdrop";
 import ShareModal from "./optionModals/shareModal/ShareModal";
 import GeneralSettingsModal from "./optionModals/generalSettingsModal/GeneralSettingsModal";
+import { useAppContext } from "@/contexts/AppContext";
 
 const MenuModal = () => {
-  const { anchorEl, handleClose, isMenuOpen, setSelectedOption, selectedOption } = useMenuStore();
+  const { anchorEl, handleClose, isMenuOpen, setSelectedOption, selectedOption, setIsMenuOpen } =
+    useMenuStore();
   const { signUserOut, isUserLoggedIn, currentUser } = useUserStore();
+  const { isSleep } = useAppContext();
+
+  useMemo(() => {
+    if (isSleep) {
+      setIsMenuOpen(false);
+    }
+  }, [isSleep]);
 
   const options: MenuOption[] = [
     {
