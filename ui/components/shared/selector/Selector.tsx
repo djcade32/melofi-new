@@ -172,7 +172,7 @@ const Selector = ({
     >
       {options &&
         options.map((option) => (
-          <StyledMenuItem key={option.id} value={option.label}>
+          <StyledMenuItem id={option.id} key={option.id} value={option.label}>
             {"element" in option ? (
               <ListItemIcon>{option.element}</ListItemIcon>
             ) : (
