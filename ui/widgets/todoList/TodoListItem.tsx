@@ -8,11 +8,12 @@ import useTodoListStore from "@/stores/widgets/todoList-store";
 interface TodoListItemProps {
   text: string;
   id: string;
+  completed: boolean;
 }
 
-const TodoListItem = ({ id, text }: TodoListItemProps) => {
+const TodoListItem = ({ id, text, completed }: TodoListItemProps) => {
   const { removeTask, changeTaskStatus } = useTodoListStore();
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(completed);
 
   const handleClick = () => {
     setChecked((prev) => !prev);

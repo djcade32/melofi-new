@@ -84,7 +84,7 @@ const TodoList = () => {
       </div>
       <div className={styles.todoList__task_container}>
         {taskList.map((task) => (
-          <TodoListItem key={task.id} id={task.id} text={task.text} />
+          <TodoListItem key={task.id} id={task.id} text={task.text} completed={task.completed} />
         ))}
       </div>
     </Modal>
