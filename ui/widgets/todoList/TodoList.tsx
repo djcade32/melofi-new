@@ -5,13 +5,16 @@ import useTodoListStore from "@/stores/widgets/todoList-store";
 import { FiPlus } from "@/imports/icons";
 import HoverIcon from "@/ui/components/shared/hoverIcon/HoverIcon";
 import TodoListItem from "./TodoListItem";
+import useAppStore from "@/stores/app-store";
 
 const TodoList = () => {
   const { isTodoListOpen, setIsTodoListOpen, taskList, addTask, getTodoListTitle, fetchTaskList } =
     useTodoListStore();
+  const { appSettings } = useAppStore();
 
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [taskInput, setTaskInput] = useState("");
+  const [isHovered, setIsHovered] = useState(false);
 
   // Handle enter key press to add task
   useEffect(() => {
@@ -55,12 +58,20 @@ const TodoList = () => {
       close={() => setIsTodoListOpen(!isTodoListOpen)}
       isWidget
       name="to-do-list"
+      fadeBackground={appSettings.todoListHoverEffectEnabled}
+      onMouseOver={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <div style={{ display: "flex", gap: 5, alignItems: "center", marginTop: 10 }}>
         <input
           id="to-do-list-widget-input"
-          className={`${styles.todoList__input} ${
-            isInputFocused && styles.todoList__input_focused
+          className={`${
+            appSettings.todoListHoverEffectEnabled
+              ? styles.todoList__input_background_fade
+              : styles.todoList__input
+          } ${
+            (isInputFocused || (!isHovered && appSettings.todoListHoverEffectEnabled)) &&
+            styles.todoList__input_focused
           }`}
           placeholder="Add new task"
           onFocus={() => setIsInputFocused(true)}
@@ -79,12 +90,16 @@ const TodoList = () => {
           onClick={() => handleAddTask(taskInput)}
           iconStyle={{ cursor: "pointer" }}
           hoverColor="var(--color-white)"
-          color="var(--color-secondary)"
+          color={
+            !isHovered && appSettings.todoListHoverEffectEnabled
+              ? "var(--color-white)"
+              : "var(--color-secondary)"
+          }
         />
       </div>
       <div className={styles.todoList__task_container}>
         {taskList.map((task) => (
-          <TodoListItem key={task.id} id={task.id} text={task.text} />
+          <TodoListItem key={task.id} id={task.id} text={task.text} isHovered={isHovered} />
         ))}
       </div>
     </Modal>

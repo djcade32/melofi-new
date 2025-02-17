@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import styles from "./quoteDisplay.module.css";
 import useQuoteDisplayStore from "@/stores/quote-display-store";
 import { useAppContext } from "@/contexts/AppContext";
+import useAppStore from "@/stores/app-store";
 
 const QuoteDisplay = () => {
   const { quote, getQuote } = useQuoteDisplayStore();
   const { isSleep } = useAppContext();
+  const { appSettings } = useAppStore();
 
   const scheduleQuoteUpdate = () => {
     const now = new Date();
@@ -30,14 +32,18 @@ const QuoteDisplay = () => {
   }
 
   return (
-    <div
-      className={`${styles.quoteDisplay__container} ${
-        isSleep ? styles.slide_down : styles.slide_up
-      }`}
-    >
-      <p className={styles.quoteDisplay__text}>{`"${quote.text}"`}</p>
-      {quote.author && <p className={styles.quoteDisplay__author}>{`- ${quote.author}`}</p>}
-    </div>
+    <>
+      {appSettings.showDailyQuote && (
+        <div
+          className={`${styles.quoteDisplay__container} ${
+            isSleep ? styles.slide_down : styles.slide_up
+          }`}
+        >
+          <p className={styles.quoteDisplay__text}>{`"${quote.text}"`}</p>
+          {quote.author && <p className={styles.quoteDisplay__author}>{`- ${quote.author}`}</p>}
+        </div>
+      )}
+    </>
   );
 };
 

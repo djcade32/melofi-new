@@ -5,6 +5,7 @@ import useCalendarStore from "@/stores/widgets/calendar-store";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import CalendarAuthView from "./views/calendarAuthView/CalendarAuthView";
 import CalendarsListView from "./views/calendarsListView/CalendarsListView";
+import useAppStore from "@/stores/app-store";
 
 const Calendar = () => {
   const date = new Date();
@@ -26,6 +27,7 @@ const Calendar = () => {
     getCalendarsList,
     resetCalendarState,
   } = useCalendarStore();
+  const { appSettings } = useAppStore();
 
   useEffect(() => {
     setGoogleCalendarUser(JSON.parse(localStorage.getItem("google_calendar_user") || "null"));
@@ -71,6 +73,7 @@ const Calendar = () => {
       close={() => toggleCalendar(!isCalendarOpen)}
       isWidget
       name="calendar"
+      fadeBackground={appSettings.calendarHoverEffectEnabled}
     >
       {googleCalendarUser ? <CalendarsListView /> : <CalendarAuthView login={login} />}
     </Modal>
