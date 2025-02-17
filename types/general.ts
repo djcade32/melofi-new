@@ -140,3 +140,12 @@ export interface ToolbarSettings {
   isUndocked: boolean;
   position: Coordinates;
 }
+
+export interface AppSettings {
+  inActivityThreshold: number;
+  pomodoroTimerSoundEnabled: boolean;
+  alarmSoundEnabled: boolean;
+  calendarHoverEffectEnabled: boolean;
+  todoListHoverEffectEnabled: boolean;
+  showDailyQuote: boolean;
+}

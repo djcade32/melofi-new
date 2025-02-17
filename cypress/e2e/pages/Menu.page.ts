@@ -55,6 +55,27 @@ export class Menu {
     },
   };
 
+  static generalSettingsModal = {
+    container: () => cy.get("#general-settings-modal"),
+    closeBtn: () => cy.get("#general-settings-modal-close-icon"),
+    title: () => getElementWithClassName("generalSettingsModal__title"),
+    settings: (setting: string) => {
+      return {
+        toggle: () =>
+          getElementWithClassName("generalSettingsModal__setting_container")
+            .contains(setting)
+            .parent()
+            .find("input")
+            .click({ force: true }),
+      };
+    },
+    // cy.contains(`[class*="generalSettingsModal__setting_container"]`, setting),
+    delayOptions: {
+      container: () => cy.get("#general-settings-delay-selector"),
+      option: (id: number) => cy.get(`#delay-option-${id}`),
+    },
+  };
+
   static aboutMelofiModal = {
     container: () => cy.get("#about-melofi-modal"),
     emailContact: () =>

@@ -4,15 +4,20 @@ import Checkbox from "@/ui/components/shared/checkbox/Checkbox";
 import { HiTrash } from "@/imports/icons";
 import HoverIcon from "@/ui/components/shared/hoverIcon/HoverIcon";
 import useTodoListStore from "@/stores/widgets/todoList-store";
+import useAppStore from "@/stores/app-store";
 
 interface TodoListItemProps {
   text: string;
   id: string;
   completed: boolean;
+
+  isHovered?: boolean;
 }
 
-const TodoListItem = ({ id, text, completed }: TodoListItemProps) => {
+const TodoListItem = ({ id, text, isHovered, completed }: TodoListItemProps) => {
   const { removeTask, changeTaskStatus } = useTodoListStore();
+  const { appSettings } = useAppStore();
+
   const [checked, setChecked] = useState(completed);
 
   const handleClick = () => {
@@ -32,7 +37,13 @@ const TodoListItem = ({ id, text, completed }: TodoListItemProps) => {
         onClick={handleClick}
         value={checked}
         centerCheckbox={false}
-        textClassName={checked ? styles.todoListItem__task_complete : ""}
+        textClassName={
+          checked
+            ? !isHovered && appSettings.todoListHoverEffectEnabled
+              ? styles.todoListItem__task_complete_background_fade
+              : styles.todoListItem__task_complete
+            : ""
+        }
       />
       <div className={styles.todoListItem__delete_icon_container}>
         <HoverIcon

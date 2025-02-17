@@ -12,7 +12,6 @@ const alarmsWorker = () => {
 
         alarms.forEach((alarm) => {
           const alarmTime = new Date(alarm.time).toLocaleString();
-          console.log(alarmTime, now);
 
           if (alarmTime === now) {
             console.log(`Alarm triggered for: ${alarm.time}`);

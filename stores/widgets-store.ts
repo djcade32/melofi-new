@@ -13,13 +13,13 @@ import useMixerStore from "./mixer-store";
 export interface WidgetsState {
   openWidgets: Widget[];
 
-  fetchOpenWidgets: () => void;
+  fetchOpenWidgets: () => Widget[];
   addToOpenWidgets: (widget: Widget) => void;
   removeFromOpenWidgets: (widget: Widget) => void;
   clearOpenWidgets: () => void;
   onDragEnd: (name: string, position: { x: number; y: number }) => void;
   onResizeEnd: (name: string, dimensions: { width: number; height: number }) => void;
-  toggleOpenWidgets: () => void;
+  toggleOpenWidgets: (widgets: Widget[]) => void;
   getWidgetZIndex: (name: string) => number;
   isWidgetOpen: (name: string) => boolean;
   focusWidget: (name: string) => void;
@@ -30,14 +30,15 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
   openWidgets: [],
 
   fetchOpenWidgets: () => {
-    const widgets = localStorage.getItem("openWidgets");
+    const widgets = JSON.parse(localStorage.getItem("open_widgets") || "[]") as Widget[];
     if (widgets) {
-      set(() => ({ openWidgets: JSON.parse(widgets) }));
+      set(() => ({ openWidgets: widgets }));
     }
+    return widgets;
   },
 
   addToOpenWidgets: (widget) => {
-    localStorage.setItem("openWidgets", JSON.stringify([...get().openWidgets, widget]));
+    localStorage.setItem("open_widgets", JSON.stringify([...get().openWidgets, widget]));
     set((state) => {
       return { openWidgets: [...state.openWidgets, widget] };
     });
@@ -45,12 +46,12 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
 
   removeFromOpenWidgets: (widget) => {
     const newOpenWidgets = get().openWidgets.filter((w) => w.name !== widget.name);
-    localStorage.setItem("openWidgets", JSON.stringify(newOpenWidgets));
+    localStorage.setItem("open_widgets", JSON.stringify(newOpenWidgets));
     set(() => ({ openWidgets: newOpenWidgets }));
   },
 
   clearOpenWidgets: () => {
-    localStorage.removeItem("openWidgets");
+    localStorage.removeItem("open_widgets");
     set(() => ({ openWidgets: [] }));
   },
 
@@ -61,7 +62,7 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
       }
       return w;
     });
-    localStorage.setItem("openWidgets", JSON.stringify(newOpenWidgets));
+    localStorage.setItem("open_widgets", JSON.stringify(newOpenWidgets));
     set(() => ({ openWidgets: newOpenWidgets }));
   },
 
@@ -72,12 +73,11 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
       }
       return w;
     });
-    localStorage.setItem("openWidgets", JSON.stringify(newOpenWidgets));
+    localStorage.setItem("open_widgets", JSON.stringify(newOpenWidgets));
     set(() => ({ openWidgets: newOpenWidgets }));
   },
 
-  toggleOpenWidgets: () => {
-    const widgets = get().openWidgets;
+  toggleOpenWidgets: (widgets: Widget[]) => {
     widgets.length > 0 && console.log("Opening Widgets: ", widgets);
     widgets.forEach((widget) => {
       switch (widget.name) {
@@ -135,7 +135,7 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
     const widget = openWidgets.find((w) => w.name === name);
     if (widget && openWidgets[openWidgets.length - 1].name !== name) {
       const newOpenWidgets = get().openWidgets.filter((w) => w.name !== name);
-      localStorage.setItem("openWidgets", JSON.stringify([...newOpenWidgets, widget]));
+      localStorage.setItem("open_widgets", JSON.stringify([...newOpenWidgets, widget]));
       set(() => ({ openWidgets: [...newOpenWidgets, widget] }));
     }
   },

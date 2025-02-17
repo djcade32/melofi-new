@@ -8,6 +8,7 @@
   overflow: hidden;
   outline: none;
   resize: none;
+  transition: background-color 0.3s;
 }
 
 .modal__dragHandle {

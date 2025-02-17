@@ -12,6 +12,7 @@ import useNotificationProviderStore from "@/stores/notification-provider-store";
 import { NotificationType } from "@/types/general";
 import { timer_alarm } from "@/imports/effects/index";
 import useUserStatsStore from "@/stores/user-stats-store";
+import useAppStore from "@/stores/app-store";
 
 const AlarmButton = (text: string, bgColor: string) => {
   return (
@@ -39,6 +40,7 @@ const Alarms = () => {
     snoozeAlarm,
     fetchAlarms,
   } = useAlarmsStore();
+  const { appSettings } = useAppStore();
   const { addNotification } = useNotificationProviderStore();
   const { incrementExpiredAlarmsCount } = useUserStatsStore();
   const [editAlarmModal, setEditAlarmModal] = useState<Alarm | null | Partial<Alarm>>(null);
@@ -72,7 +74,7 @@ const Alarms = () => {
 
     if (type === "ALARM_TRIGGERED") {
       console.log(`Alarm triggered for: ${alarm}`);
-      timerAudioRef.current?.play();
+      appSettings.alarmSoundEnabled && timerAudioRef.current?.play();
       addNotification({
         message: `${alarm.title}`,
         type: "alarm",

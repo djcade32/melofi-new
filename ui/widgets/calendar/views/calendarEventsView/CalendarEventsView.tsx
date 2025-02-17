@@ -1,9 +1,9 @@
-import { CalendarListItem } from "@/types/general";
 import React, { useEffect, useState } from "react";
 import styles from "./calendarEventsView.module.css";
 import { RxCaretLeft } from "@/imports/icons";
 import useCalendarStore from "@/stores/widgets/calendar-store";
 import CalendarEventItem from "@/ui/components/calendar/calendarEventItem/CalendarEventItem";
+import { CalendarListItem } from "@/types/interfaces/calendar";
 
 interface CalendarEventsViewProps {
   calendar: CalendarListItem;
@@ -16,7 +16,6 @@ const CalendarEventsView = ({ calendar }: CalendarEventsViewProps) => {
     googleCalendarUser,
     calendarEvents,
     setCalendarEvents,
-    selectedCalendar,
   } = useCalendarStore();
   const [isLoading, setIsLoading] = useState(true);
 

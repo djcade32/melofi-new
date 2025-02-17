@@ -32,6 +32,7 @@ interface ModalProps extends React.HTMLProps<HTMLDivElement> {
   isWidget?: boolean;
   name?: string;
   zIndex?: number;
+  fadeBackground?: boolean;
 }
 
 const Modal = ({
@@ -55,6 +56,7 @@ const Modal = ({
   isWidget = false,
   name,
   zIndex,
+  fadeBackground = false,
   ...props
 }: ModalProps) => {
   const nodeRef = useRef<HTMLDivElement | null>(null);
@@ -99,10 +101,9 @@ const Modal = ({
         dimensions: dimensionsObj || { width: dimensions.width, height: dimensions.height },
       };
       if (isOpen) {
-        console.log("adding widget to open widget from Modal", widget);
         !isWidgetOpen(name) && addToOpenWidgets(widget);
       } else {
-        removeFromOpenWidgets(widget);
+        isWidgetOpen(name) && removeFromOpenWidgets(widget);
       }
     }
 
@@ -204,6 +205,10 @@ const Modal = ({
         width: resizable ? `${dimensions.width}px` : props.style?.width,
         height: resizable ? `${dimensions.height}px` : props.style?.height,
         zIndex: zIndexState,
+        backgroundColor:
+          fadeBackground && !isHovered ? "transparent" : props.style?.backgroundColor,
+        backdropFilter: fadeBackground && !isHovered ? "none" : "blur(10px)",
+        boxShadow: fadeBackground && !isHovered ? "none" : "0px 4px 4px rgba(0, 0, 0, 0.25)",
       }}
       id={id}
       onMouseEnter={() => {
