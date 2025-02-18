@@ -9,14 +9,16 @@ import useAppStore from "@/stores/app-store";
 interface TodoListItemProps {
   text: string;
   id: string;
+  completed: boolean;
+
   isHovered?: boolean;
 }
 
-const TodoListItem = ({ id, text, isHovered }: TodoListItemProps) => {
+const TodoListItem = ({ id, text, isHovered, completed }: TodoListItemProps) => {
   const { removeTask, changeTaskStatus } = useTodoListStore();
   const { appSettings } = useAppStore();
 
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(completed);
 
   const handleClick = () => {
     setChecked((prev) => !prev);
