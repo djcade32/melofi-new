@@ -72,6 +72,7 @@ const MenuModal = () => {
       icon: <FaCommentDots size={20} color="var(--color-white)" />,
       onClick: () => {
         handleMenuClick("Leave Feedback");
+        window.open("https://tally.so/r/waax4Z");
       },
     },
     {
