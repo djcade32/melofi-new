@@ -105,7 +105,7 @@ const Alarms = () => {
       id="alarms-widget"
       isOpen={isAlarmsOpen}
       className={styles.alarms__container}
-      title="Alarms"
+      title="ALARMS"
       titleClassName={styles.alarms__title}
       draggable
       close={() => setIsAlarmsOpen(!isAlarmsOpen)}

@@ -30,10 +30,8 @@ const GeneralSettingsModal = () => {
   const [delayOption, setDelayOption] = useState<LongMenuOption>(delayOptions[0]);
 
   useEffect(() => {
-    if (isOpen) {
-      setDelayOption(convertThresholdToOption(appSettings.inActivityThreshold));
-    }
-  }, [isOpen]);
+    setDelayOption(convertThresholdToOption(appSettings.inActivityThreshold));
+  }, []);
 
   const handleInactivityDelayChange = (option: LongMenuOption) => {
     setDelayOption(option);

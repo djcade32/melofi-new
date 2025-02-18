@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { lazy, useMemo } from "react";
 import Menu from "@/ui/components/shared/menu/Menu";
 import { MenuOption } from "@/types/general";
 import {
@@ -13,13 +13,21 @@ import {
 } from "@/imports/icons";
 import useMenuStore from "@/stores/menu-store";
 import { MenuOptionNames } from "@/enums/general";
-import AccountModal from "./optionModals/accountModal/AccountModal";
 import useUserStore from "@/stores/user-store";
-import AboutMelofiModal from "./optionModals/aboutMelofiModal/AboutMelofiModal";
 import MenuModalBackdrop from "./optionModals/components/menuModalBackdrop/MenuModalBackdrop";
-import ShareModal from "./optionModals/shareModal/ShareModal";
-import GeneralSettingsModal from "./optionModals/generalSettingsModal/GeneralSettingsModal";
 import { useAppContext } from "@/contexts/AppContext";
+import ComponentLoader from "@/ui/components/shared/componentLoader/ComponentLoader";
+
+const GeneralSettingsModal = lazy(
+  () => import("@/ui/modals/menuModal/optionModals/generalSettingsModal/GeneralSettingsModal")
+);
+const AccountModal = lazy(
+  () => import("@/ui/modals/menuModal/optionModals/accountModal/AccountModal")
+);
+const ShareModal = lazy(() => import("@/ui/modals/menuModal/optionModals/shareModal/ShareModal"));
+const AboutMelofiModal = lazy(
+  () => import("@/ui/modals/menuModal/optionModals/aboutMelofiModal/AboutMelofiModal")
+);
 
 const MenuModal = () => {
   const { anchorEl, handleClose, isMenuOpen, setSelectedOption, selectedOption, setIsMenuOpen } =
@@ -128,11 +136,23 @@ const MenuModal = () => {
         offset={10}
         invertColors
       />
-      <GeneralSettingsModal />
+      <ComponentLoader
+        isComponentOpen={selectedOption === "General Settings"}
+        component={<GeneralSettingsModal />}
+      />
       <MenuModalBackdrop open={showBackdrop()}>
-        <AccountModal />
-        <ShareModal />
-        <AboutMelofiModal />
+        <ComponentLoader
+          isComponentOpen={selectedOption === "Account"}
+          component={<AccountModal />}
+        />
+        <ComponentLoader
+          isComponentOpen={selectedOption === "Share With Friends"}
+          component={<ShareModal />}
+        />
+        <ComponentLoader
+          isComponentOpen={selectedOption === "About Melofi"}
+          component={<AboutMelofiModal />}
+        />
       </MenuModalBackdrop>
     </>
   );

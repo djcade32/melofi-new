@@ -23,7 +23,7 @@ const Templates = () => {
       id="templates-widget"
       isOpen={isTemplatesOpen}
       className={styles.templates__container}
-      title="Templates"
+      title="TEMPLATES"
       draggable
       titleClassName={styles.templates__title}
       close={() => setIsTemplatesOpen(!isTemplatesOpen)}
