@@ -99,7 +99,13 @@ const TodoList = () => {
       </div>
       <div className={styles.todoList__task_container}>
         {taskList.map((task) => (
-          <TodoListItem key={task.id} id={task.id} text={task.text} isHovered={isHovered} />
+          <TodoListItem
+            key={task.id}
+            id={task.id}
+            text={task.text}
+            isHovered={isHovered}
+            completed={task.completed}
+          />
         ))}
       </div>
     </Modal>
