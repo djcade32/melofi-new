@@ -20,7 +20,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const [grantAccess, setGrantAccess] = useState(false);
   const [loading, setLoading] = useState(true);
   const [onMobileDevice, setOnMobileDevice] = useState(
-    window.innerWidth < MOBILE_SCREEN_WIDTH ? true : false
+    window?.innerWidth < MOBILE_SCREEN_WIDTH ? true : false
   );
 
   const { setCurrentUser, currentUser, checkIfUserIsInDb, isUserLoggedIn, setIsUserLoggedIn } =
