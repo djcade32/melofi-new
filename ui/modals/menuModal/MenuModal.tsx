@@ -81,6 +81,7 @@ const MenuModal = () => {
       icon: <FaHandsHelping size={20} color="var(--color-white)" />,
       onClick: () => {
         handleMenuClick("Support");
+        window.open("https://buymeacoffee.com/normancade");
       },
     },
     {
