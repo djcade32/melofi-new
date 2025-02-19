@@ -14,6 +14,7 @@ import PomodoroTimerCollapsed from "./views/PomodoroTimerCollapsed";
 import DialogModal from "@/ui/components/shared/dialogModal/DialogModal";
 import { DialogModalActions } from "@/types/general";
 import useAppStore from "@/stores/app-store";
+import { getDayOfWeek } from "@/utils/date";
 
 const PomodoroTimer = () => {
   const worker = new Worker(getPomodoroTimerWorkerUrl());

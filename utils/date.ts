@@ -28,3 +28,9 @@ export const isNewDay = (date: Date) => {
   const currentDate = new Date();
   return date.getDate() !== currentDate.getDate();
 };
+
+// Get day of the week from a date
+export const getDayOfWeek = (date: Date): string => {
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  return days[date.getDay()];
+};

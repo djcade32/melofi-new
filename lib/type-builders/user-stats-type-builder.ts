@@ -8,6 +8,7 @@ export const buildUserStatsType = (userStats: any): UserStats => {
       totalBreakTime: userStats?.pomodoroTimer?.totalBreakTime || 0,
       totalSessionsCompleted: userStats?.pomodoroTimer?.totalSessionsCompleted || 0,
       totalTasksCompleted: userStats?.pomodoroTimer?.totalTasksCompleted || 0,
+      weeklyStats: userStats?.pomodoroTimer?.weeklyStats || null,
     },
     totalNotesCreated: userStats?.totalNotesCreated || 0,
     sceneCounts: userStats?.sceneCounts || null,

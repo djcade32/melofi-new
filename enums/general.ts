@@ -24,3 +24,5 @@ export type MenuOptionNames =
   | "Share With Friends"
   | "About Melofi"
   | "Logout";
+
+export type DaysOfWeek = "Sun" | "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat";

@@ -1,9 +1,22 @@
+import { DaysOfWeek } from "@/enums/general";
+
 export interface PomodoroTimerStats {
   totalFocusTime: number;
   totalBreakTime: number;
   totalSessionsCompleted: number;
   totalTasksCompleted: number;
+  weeklyStats: WeeklyStats | null;
 }
+
+export type WeeklyStats =
+  | {
+      [key in DaysOfWeek]: {
+        focusTime: number;
+        breakTime: number;
+        sessionsCompleted: number;
+        tasksCompleted: number;
+      };
+    };
 
 export interface PomodoroTimerTaskPayload {
   title: string;
