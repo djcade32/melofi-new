@@ -10,9 +10,6 @@ export const buildUserStatsType = (userStats: any): UserStats => {
       totalTasksCompleted: userStats?.pomodoroTimer?.totalTasksCompleted || 0,
     },
     totalNotesCreated: userStats?.totalNotesCreated || 0,
-    totalFocusTime: userStats?.totalFocusTime || 0,
-    totalConsecutiveDays: userStats?.totalConsecutiveDays || 0,
-    totalTasksCompleted: userStats?.totalTasksCompleted || 0,
     sceneCounts: userStats?.sceneCounts || null,
     alarmsExpiredCount: userStats?.alarmsExpiredCount || 0,
   };
