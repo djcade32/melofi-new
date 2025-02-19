@@ -19,9 +19,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [grantAccess, setGrantAccess] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [onMobileDevice, setOnMobileDevice] = useState(
-    window?.innerWidth < MOBILE_SCREEN_WIDTH ? true : false
-  );
+  const [onMobileDevice, setOnMobileDevice] = useState(false);
 
   const { setCurrentUser, currentUser, checkIfUserIsInDb, isUserLoggedIn, setIsUserLoggedIn } =
     useUserStore();
@@ -78,6 +76,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         setOnMobileDevice(false);
       }
     };
+    if (window) {
+      updateDimension();
+    }
     window.addEventListener("resize", updateDimension);
 
     return () => {
