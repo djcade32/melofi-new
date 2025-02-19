@@ -225,6 +225,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
             await updatePomodoroTimerStats({
               ...updatedStats,
               weeklyStats: calculateWeeklyStats(updatedStats),
+              focusDay: calculateFocusDay(updatedStats, focusTime),
             } as PomodoroTimerStats);
           } catch (error) {
             console.log("Error updating pomodoro timer task in db: ", error);
@@ -248,6 +249,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
           await updatePomodoroTimerStats({
             ...updatedStats,
             weeklyStats: calculateWeeklyStats(updatedStats),
+            focusDay: calculateFocusDay(updatedStats, focusTime),
           } as PomodoroTimerStats);
         } catch (error) {
           console.log("Error updating pomodoro timer task in db: ", error);
@@ -383,6 +385,52 @@ const calculateWeeklyStats = (pomodoroTimerStats: Partial<PomodoroTimerStats>): 
         pomodoroTimerStats.totalTasksCompleted || weeklyStats[dayOfWeek]?.tasksCompleted || 0,
     },
   } as WeeklyStats;
+};
+
+const calculateFocusDay = (pomodoroTimerStats: Partial<PomodoroTimerStats>, focusTime: number) => {
+  const today = new Date();
+  const focusDay = pomodoroTimerStats.focusDay || null;
+  if (!focusDay) {
+    return {
+      current: {
+        date: today,
+        focusTime,
+      },
+      best: {
+        date: today,
+        focusTime,
+      },
+    };
+  }
+  const currentFocusDate = today;
+  const currentFocusTime = focusDay.current!.focusTime + focusTime;
+
+  const bestFocusDate = focusDay.best!.date;
+  const bestFocusTime = focusDay.best!.focusTime;
+
+  if (currentFocusTime > bestFocusTime) {
+    return {
+      current: {
+        date: currentFocusDate,
+        focusTime: currentFocusTime,
+      },
+      best: {
+        date: currentFocusDate,
+        focusTime: currentFocusTime,
+      },
+    };
+  }
+
+  return {
+    current: {
+      date: today,
+      focusTime: currentFocusTime,
+    },
+    best: {
+      date: bestFocusDate,
+      focusTime: bestFocusTime,
+    },
+  };
 };
 
 export default usePomodoroTimerStore;

@@ -6,17 +6,25 @@ export interface PomodoroTimerStats {
   totalSessionsCompleted: number;
   totalTasksCompleted: number;
   weeklyStats: WeeklyStats | null;
+  focusDay: {
+    current: FocusDay | null;
+    best: FocusDay | null;
+  } | null;
 }
 
-export type WeeklyStats =
-  | {
-      [key in DaysOfWeek]: {
-        focusTime: number;
-        breakTime: number;
-        sessionsCompleted: number;
-        tasksCompleted: number;
-      };
-    };
+export type WeeklyStats = {
+  [key in DaysOfWeek]: {
+    focusTime: number;
+    breakTime: number;
+    sessionsCompleted: number;
+    tasksCompleted: number;
+  };
+};
+
+export interface FocusDay {
+  date: Date;
+  focusTime: number;
+}
 
 export interface PomodoroTimerTaskPayload {
   title: string;
