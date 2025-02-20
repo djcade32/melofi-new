@@ -16,9 +16,6 @@ export interface userStatsState {
   lastLogin: string;
 
   pomodoroTimerStats: PomodoroTimerStats;
-  totalFocusTime: number;
-  totalConsecutiveDays: number;
-  totalTasksCompleted: number;
   totalNotesCreated: number;
   sceneCounts: SceneCounts | null;
   alarmsExpiredCount: number;
@@ -39,10 +36,9 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
     totalBreakTime: 0,
     totalSessionsCompleted: 0,
     totalTasksCompleted: 0,
+    weeklyStats: null,
+    focusDay: null,
   },
-  totalFocusTime: 0,
-  totalConsecutiveDays: 0,
-  totalTasksCompleted: 0,
   totalNotesCreated: 0,
   sceneCounts: null,
   alarmsExpiredCount: 0,
@@ -162,10 +158,9 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
         totalBreakTime: 0,
         totalSessionsCompleted: 0,
         totalTasksCompleted: 0,
+        weeklyStats: null,
+        focusDay: null,
       },
-      totalFocusTime: 0,
-      totalConsecutiveDays: 0,
-      totalTasksCompleted: 0,
       totalNotesCreated: 0,
       sceneCounts: null,
       alarmsExpiredCount: 0,

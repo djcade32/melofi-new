@@ -23,9 +23,7 @@ export const addUserToStats = async (user: User) => {
         totalTasksCompleted: 0,
       },
       totalNotesCreated: 0,
-      totalFocusTime: 0,
-      totalTasksCompleted: 0,
-      totalConsecutiveDays: 0,
+
       sceneCounts: null,
       lastLogin: new Date().toISOString(),
     } as UserStats);
@@ -120,9 +118,6 @@ export const resetUserStats = async (uid: string) => {
         totalTasksCompleted: 0,
       },
       totalNotesCreated: 0,
-      totalFocusTime: 0,
-      totalTasksCompleted: 0,
-      totalConsecutiveDays: 0,
       sceneCounts: null,
     } as UserStats);
   } catch (error) {

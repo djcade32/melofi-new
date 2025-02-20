@@ -92,9 +92,6 @@ export interface SceneCounts {
 export interface UserStats {
   lastLogin: string;
   pomodoroTimer: PomodoroTimerStats;
-  totalFocusTime: number;
-  totalConsecutiveDays: number;
-  totalTasksCompleted: number;
   totalNotesCreated: number;
   sceneCounts: SceneCounts | null;
   alarmsExpiredCount: number;
