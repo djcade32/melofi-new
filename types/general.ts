@@ -90,7 +90,6 @@ export interface SceneCounts {
 }
 
 export interface UserStats {
-  lastLogin: string;
   pomodoroTimer: PomodoroTimerStats;
   totalNotesCreated: number;
   sceneCounts: SceneCounts | null;

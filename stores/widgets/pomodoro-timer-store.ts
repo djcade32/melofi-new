@@ -7,6 +7,7 @@ import { buildPomodoroTimerTasks } from "@/lib/type-builders/pomodoro-task-type-
 import { wait } from "@/utils/general";
 import useUserStatsStore from "../user-stats-store";
 import {
+  FocusDay,
   PomodoroTimerStats,
   PomodoroTimerTask,
   PomodoroTimerTaskPayload,
@@ -214,7 +215,6 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
           );
           set({ pomodoroTimerTasks: newTasksList });
           try {
-            console.log("day of week: ", getDayOfWeek(new Date()));
             await updatePomodoroTimerTaskInDb(uid, newTasksList);
             const updatedStats = {
               ...pomodoroTimerStats,
@@ -225,8 +225,13 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
             await updatePomodoroTimerStats({
               ...updatedStats,
               weeklyStats: calculateWeeklyStats(updatedStats),
-              focusDay: calculateFocusDay(updatedStats, focusTime),
-            } as PomodoroTimerStats);
+              focusDay: calculateFocusDay(updatedStats, {
+                focusTime: focusTime,
+                breakTime: 0,
+                sessionsCompleted: 1,
+                tasksCompleted: 1,
+              }),
+            });
           } catch (error) {
             console.log("Error updating pomodoro timer task in db: ", error);
           }
@@ -249,8 +254,13 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
           await updatePomodoroTimerStats({
             ...updatedStats,
             weeklyStats: calculateWeeklyStats(updatedStats),
-            focusDay: calculateFocusDay(updatedStats, focusTime),
-          } as PomodoroTimerStats);
+            focusDay: calculateFocusDay(updatedStats, {
+              focusTime: focusTime,
+              breakTime: 0,
+              sessionsCompleted: 1,
+              tasksCompleted: 0,
+            }),
+          });
         } catch (error) {
           console.log("Error updating pomodoro timer task in db: ", error);
         }
@@ -277,7 +287,13 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
           await updatePomodoroTimerStats({
             ...updatedStats,
             weeklyStats: calculateWeeklyStats(updatedStats),
-          } as PomodoroTimerStats);
+            focusDay: calculateFocusDay(updatedStats, {
+              focusTime: 0,
+              breakTime: breakTime,
+              sessionsCompleted: 0,
+              tasksCompleted: 0,
+            }),
+          });
         } catch (error) {
           console.log("Error updating pomodoro timer task in db: ", error);
         }
@@ -387,37 +403,47 @@ const calculateWeeklyStats = (pomodoroTimerStats: Partial<PomodoroTimerStats>): 
   } as WeeklyStats;
 };
 
-const calculateFocusDay = (pomodoroTimerStats: Partial<PomodoroTimerStats>, focusTime: number) => {
+interface incrementObj {
+  focusTime: number;
+  breakTime: number;
+  sessionsCompleted: number;
+  tasksCompleted: number;
+}
+
+const calculateFocusDay = (
+  pomodoroTimerStats: Partial<PomodoroTimerStats>,
+  incrementObj: incrementObj
+): { current: FocusDay; best: FocusDay } => {
   const today = new Date();
   const focusDay = pomodoroTimerStats.focusDay || null;
+
   if (!focusDay) {
+    const newFocusDay = {
+      date: today,
+      ...incrementObj,
+    };
     return {
-      current: {
-        date: today,
-        focusTime,
-      },
-      best: {
-        date: today,
-        focusTime,
-      },
+      current: newFocusDay,
+      best: newFocusDay,
     };
   }
   const currentFocusDate = today;
-  const currentFocusTime = focusDay.current!.focusTime + focusTime;
+  const currentFocusTime = focusDay.current!.focusTime + incrementObj.focusTime;
 
   const bestFocusDate = focusDay.best!.date;
   const bestFocusTime = focusDay.best!.focusTime;
 
   if (currentFocusTime > bestFocusTime) {
+    const newFocusDay = {
+      date: currentFocusDate,
+      focusTime: currentFocusTime,
+      breakTime: focusDay.current!.breakTime + incrementObj.breakTime,
+      sessionsCompleted: focusDay.current!.sessionsCompleted + incrementObj.sessionsCompleted,
+      tasksCompleted: focusDay.current!.tasksCompleted + incrementObj.tasksCompleted,
+    };
     return {
-      current: {
-        date: currentFocusDate,
-        focusTime: currentFocusTime,
-      },
-      best: {
-        date: currentFocusDate,
-        focusTime: currentFocusTime,
-      },
+      current: newFocusDay,
+      best: newFocusDay,
     };
   }
 
@@ -425,10 +451,16 @@ const calculateFocusDay = (pomodoroTimerStats: Partial<PomodoroTimerStats>, focu
     current: {
       date: today,
       focusTime: currentFocusTime,
+      breakTime: focusDay.current!.breakTime + incrementObj.breakTime,
+      sessionsCompleted: focusDay.current!.sessionsCompleted + incrementObj.sessionsCompleted,
+      tasksCompleted: focusDay.current!.tasksCompleted + incrementObj.tasksCompleted,
     },
     best: {
       date: bestFocusDate,
       focusTime: bestFocusTime,
+      breakTime: focusDay.best!.breakTime,
+      sessionsCompleted: focusDay.best!.sessionsCompleted,
+      tasksCompleted: focusDay.best!.tasksCompleted,
     },
   };
 };

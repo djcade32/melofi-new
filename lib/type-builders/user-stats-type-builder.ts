@@ -2,7 +2,6 @@ import { UserStats } from "@/types/general";
 
 export const buildUserStatsType = (userStats: any): UserStats => {
   return {
-    lastLogin: userStats?.lastLogin || "",
     pomodoroTimer: {
       totalFocusTime: userStats?.pomodoroTimer?.totalFocusTime || 0,
       totalBreakTime: userStats?.pomodoroTimer?.totalBreakTime || 0,

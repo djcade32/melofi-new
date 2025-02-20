@@ -24,6 +24,9 @@ export type WeeklyStats = {
 export interface FocusDay {
   date: Date;
   focusTime: number;
+  breakTime: number;
+  sessionsCompleted: number;
+  tasksCompleted: number;
 }
 
 export interface PomodoroTimerTaskPayload {
