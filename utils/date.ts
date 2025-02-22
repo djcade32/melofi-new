@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export const dateInPast = (time: string) => {
   const currentDate = new Date();
   const endTime = new Date(time);
@@ -33,4 +35,8 @@ export const isNewDay = (date: Date) => {
 export const getDayOfWeek = (date: Date): string => {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   return days[date.getDay()];
+};
+
+export const firestoreTimestampToDate = (timestamp: any): Date => {
+  return new Date(timestamp.seconds * 1000 + Math.round(timestamp.nanoseconds / 1e6));
 };

@@ -1,0 +1,38 @@
+.focusStatsSection_stats_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 5px 0px;
+}
+
+.focusStatsSection_button_container {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  margin: 5px 0px;
+}
+
+.focusStatsSection_button {
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: fit-content;
+  padding: 2px 10px;
+  border-radius: 5px;
+  border: 1px solid var(--color-secondary-white);
+  transition: all 0.3s;
+}
+
+.focusStatsSection_button:hover {
+  background-color: var(--color-secondary-white);
+}
+
+.focusStatsSection_button.active {
+  background-color: var(--color-effect-opacity);
+  border-color: var(--color-effect-opacity);
+}
+
+.focusStatsSection_button_text {
+  font-size: 14px;
+}

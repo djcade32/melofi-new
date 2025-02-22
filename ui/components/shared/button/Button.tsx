@@ -6,7 +6,7 @@ import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 interface ButtonProps extends React.HTMLProps<HTMLDivElement> {
   id: string;
   text: string;
-  onClick: () => Promise<any> | void;
+  onClick: (e?: React.MouseEvent<HTMLDivElement>) => Promise<any> | void;
 
   containerClassName?: string;
   hoverClassName?: string;
@@ -34,10 +34,10 @@ const Button = ({
   const [showLoading, setShowLoading] = useState(false);
   const buttonHoverClassName = hoverClassName ? hoverClassName : styles.button__hover;
 
-  const handleOnClick = async () => {
+  const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     if (disable || showLoading) return;
     showLoadingState && setShowLoading(true);
-    await onClick();
+    await onClick(e);
     showLoadingState && setShowLoading(false);
   };
 

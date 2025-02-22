@@ -8,8 +8,6 @@
   border-radius: 10px;
   width: 370px;
   height: min-content;
-  /* padding-top: 5px;
-  padding: 0px; */
   display: flex;
   flex-direction: column;
 }
