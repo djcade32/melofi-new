@@ -4,6 +4,7 @@ import styles from "./insightsModal.module.css";
 import useMenuStore from "@/stores/menu-store";
 
 import FocusStatsSection from "./section/focusStatsSection/FocusStatsSection";
+import UsageTrendsSection from "./section/usageTrendsSection/UsageTrendsSection";
 
 const InsightsModal = () => {
   const { selectedOption, setSelectedOption } = useMenuStore();
@@ -21,8 +22,15 @@ const InsightsModal = () => {
       <div className={styles.insightsModal__content}>
         <p className={styles.insightsModal__subtitle}>Track your progress and stay motivated!</p>
         <div className={styles.insightsModal__section}>
+          <p className={styles.insightsModal__section_title}>✨ Usage Trends</p>
+          <UsageTrendsSection />
+        </div>
+        <div className={styles.insightsModal__section}>
           <p className={styles.insightsModal__section_title}>⏳ Focus Stats</p>
           <FocusStatsSection />
+        </div>
+        <div className={styles.insightsModal__section}>
+          <p className={styles.insightsModal__section_title}>🏆 Achievements & Milestones</p>
         </div>
       </div>
     </Modal>

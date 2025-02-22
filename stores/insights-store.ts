@@ -4,6 +4,10 @@ import { FocusDay, WeeklyStats } from "@/types/interfaces/pomodoro_timer";
 import { convertSecsToHrMinsSec } from "@/utils/time";
 
 export interface InsightsState {
+  getStickyNoteStats: () => number;
+  getAlarmsExpiredCount: () => number;
+  getFavoriteScene: () => string | null;
+
   getTodaysFocusStats: () => Partial<FocusDay> | null;
   getAllFocusStats: () => Partial<FocusDay> | null;
   getBestFocusDay: () => FocusDay | null;
@@ -11,6 +15,24 @@ export interface InsightsState {
 }
 
 const useInsightsStore = create<InsightsState>((set, get) => ({
+  getStickyNoteStats: () => {
+    const { totalNotesCreated } = useUserStatsStore.getState();
+    return totalNotesCreated;
+  },
+
+  getAlarmsExpiredCount: () => {
+    const { alarmsExpiredCount } = useUserStatsStore.getState();
+    return alarmsExpiredCount;
+  },
+
+  getFavoriteScene: () => {
+    const { sceneCounts } = useUserStatsStore.getState();
+    if (!sceneCounts) {
+      return null;
+    }
+    return sceneCounts.favoriteSceneName;
+  },
+
   getTodaysFocusStats: () => {
     const { pomodoroTimerStats } = useUserStatsStore.getState();
     const { focusDay } = pomodoroTimerStats;

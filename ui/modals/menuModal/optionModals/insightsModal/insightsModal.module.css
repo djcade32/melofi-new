@@ -13,7 +13,7 @@
 }
 
 .insightsModal__content {
-  overflow-y: auto;
+  overflow-y: scroll;
   height: 100%;
   padding-right: 10px;
 }
@@ -33,6 +33,8 @@
   display: flex;
   flex-direction: column;
   margin-top: 15px;
+  border-bottom: 2px solid var(--color-secondary-opacity);
+  padding-bottom: 10px;
 }
 
 .insightsModal__section_title {
