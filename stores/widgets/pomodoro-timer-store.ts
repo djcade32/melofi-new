@@ -222,15 +222,16 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
               totalSessionsCompleted: pomodoroTimerStats.totalSessionsCompleted + 1,
               totalTasksCompleted: pomodoroTimerStats.totalTasksCompleted + 1,
             };
+            const incrementObj = {
+              focusTime: focusTime,
+              breakTime: 0,
+              sessionsCompleted: 1,
+              tasksCompleted: 1,
+            };
             await updatePomodoroTimerStats({
               ...updatedStats,
-              weeklyStats: calculateWeeklyStats(updatedStats),
-              focusDay: calculateFocusDay(updatedStats, {
-                focusTime: focusTime,
-                breakTime: 0,
-                sessionsCompleted: 1,
-                tasksCompleted: 1,
-              }),
+              weeklyStats: calculateWeeklyStats(updatedStats, incrementObj),
+              focusDay: calculateFocusDay(updatedStats, incrementObj),
             });
           } catch (error) {
             console.log("Error updating pomodoro timer task in db: ", error);
@@ -251,15 +252,17 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
             totalFocusTime: pomodoroTimerStats.totalFocusTime + focusTime,
             totalSessionsCompleted: pomodoroTimerStats.totalSessionsCompleted + 1,
           };
+
+          const incrementObj = {
+            focusTime: focusTime,
+            breakTime: 0,
+            sessionsCompleted: 1,
+            tasksCompleted: 0,
+          };
           await updatePomodoroTimerStats({
             ...updatedStats,
-            weeklyStats: calculateWeeklyStats(updatedStats),
-            focusDay: calculateFocusDay(updatedStats, {
-              focusTime: focusTime,
-              breakTime: 0,
-              sessionsCompleted: 1,
-              tasksCompleted: 0,
-            }),
+            weeklyStats: calculateWeeklyStats(updatedStats, incrementObj),
+            focusDay: calculateFocusDay(updatedStats, incrementObj),
           });
         } catch (error) {
           console.log("Error updating pomodoro timer task in db: ", error);
@@ -284,15 +287,17 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
             ...pomodoroTimerStats,
             totalBreakTime: pomodoroTimerStats.totalBreakTime + breakTime,
           };
+
+          const incrementObj = {
+            focusTime: 0,
+            breakTime: breakTime,
+            sessionsCompleted: 0,
+            tasksCompleted: 0,
+          };
           await updatePomodoroTimerStats({
             ...updatedStats,
-            weeklyStats: calculateWeeklyStats(updatedStats),
-            focusDay: calculateFocusDay(updatedStats, {
-              focusTime: 0,
-              breakTime: breakTime,
-              sessionsCompleted: 0,
-              tasksCompleted: 0,
-            }),
+            weeklyStats: calculateWeeklyStats(updatedStats, incrementObj),
+            focusDay: calculateFocusDay(updatedStats, incrementObj),
           });
         } catch (error) {
           console.log("Error updating pomodoro timer task in db: ", error);
@@ -374,7 +379,10 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
 }));
 
 // Helper functions
-const calculateWeeklyStats = (pomodoroTimerStats: Partial<PomodoroTimerStats>): WeeklyStats => {
+const calculateWeeklyStats = (
+  pomodoroTimerStats: Partial<PomodoroTimerStats>,
+  incrementObj: incrementObj
+): WeeklyStats => {
   const weeklyStats = pomodoroTimerStats?.weeklyStats || null;
 
   const today = new Date();
@@ -393,12 +401,11 @@ const calculateWeeklyStats = (pomodoroTimerStats: Partial<PomodoroTimerStats>): 
   return {
     ...weeklyStats,
     [dayOfWeek]: {
-      focusTime: pomodoroTimerStats.totalFocusTime || weeklyStats[dayOfWeek]?.focusTime || 0,
-      breakTime: pomodoroTimerStats.totalBreakTime || weeklyStats[dayOfWeek]?.breakTime || 0,
+      focusTime: weeklyStats[dayOfWeek]?.focusTime + incrementObj.focusTime || 0,
+      breakTime: weeklyStats[dayOfWeek]?.breakTime + incrementObj.breakTime || 0,
       sessionsCompleted:
-        pomodoroTimerStats.totalSessionsCompleted || weeklyStats[dayOfWeek]?.sessionsCompleted || 0,
-      tasksCompleted:
-        pomodoroTimerStats.totalTasksCompleted || weeklyStats[dayOfWeek]?.tasksCompleted || 0,
+        weeklyStats[dayOfWeek]?.sessionsCompleted + incrementObj.sessionsCompleted || 0,
+      tasksCompleted: weeklyStats[dayOfWeek]?.tasksCompleted + incrementObj.tasksCompleted || 0,
     },
   } as WeeklyStats;
 };
@@ -446,7 +453,6 @@ const calculateFocusDay = (
       best: newFocusDay,
     };
   }
-
   return {
     current: {
       date: today,

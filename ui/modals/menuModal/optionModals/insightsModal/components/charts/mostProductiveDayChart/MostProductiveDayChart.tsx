@@ -4,17 +4,6 @@ import React from "react";
 import { BarChart, Bar, XAxis, ResponsiveContainer, CartesianGrid } from "recharts";
 import styles from "./mostProductiveDayChart.module.css";
 import useInsightsStore from "@/stores/insights-store";
-import { convertSecsToHrMinsSec } from "@/utils/time";
-
-const data = [
-  { day: "Mon", focusHours: 12 },
-  { day: "Tue", focusHours: 32 },
-  { day: "Wed", focusHours: 10 },
-  { day: "Thu", focusHours: 7 },
-  { day: "Fri", focusHours: 39 },
-  { day: "Sat", focusHours: 50 },
-  { day: "Sun", focusHours: 13 },
-];
 
 const MostProductiveDayChart = () => {
   const { getWeeklyFocusStats } = useInsightsStore();
