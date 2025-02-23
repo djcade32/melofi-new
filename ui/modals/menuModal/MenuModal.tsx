@@ -17,6 +17,7 @@ import useUserStore from "@/stores/user-store";
 import MenuModalBackdrop from "./optionModals/components/menuModalBackdrop/MenuModalBackdrop";
 import { useAppContext } from "@/contexts/AppContext";
 import ComponentLoader from "@/ui/components/shared/componentLoader/ComponentLoader";
+import InsightsModal from "./optionModals/insightsModal/InsightsModal";
 
 const GeneralSettingsModal = lazy(
   () => import("@/ui/modals/menuModal/optionModals/generalSettingsModal/GeneralSettingsModal")
@@ -120,7 +121,8 @@ const MenuModal = () => {
     if (
       selectedOption === "Account" ||
       selectedOption === "About Melofi" ||
-      selectedOption === "Share With Friends"
+      selectedOption === "Share With Friends" ||
+      selectedOption === "Insights"
     ) {
       return true;
     }
@@ -146,6 +148,10 @@ const MenuModal = () => {
         <ComponentLoader
           isComponentOpen={selectedOption === "Account"}
           component={<AccountModal />}
+        />
+        <ComponentLoader
+          isComponentOpen={selectedOption === "Insights"}
+          component={<InsightsModal />}
         />
         <ComponentLoader
           isComponentOpen={selectedOption === "Share With Friends"}

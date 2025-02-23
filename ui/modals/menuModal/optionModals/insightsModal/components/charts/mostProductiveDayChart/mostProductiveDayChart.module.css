@@ -1,0 +1,9 @@
+.mostProductiveDayChart__container {
+  margin-top: 5px;
+}
+
+.mostProductiveDayChart__label {
+  font-weight: 500;
+  color: var(--color-secondary);
+  margin-bottom: 5px;
+}

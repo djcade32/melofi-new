@@ -13,8 +13,6 @@ import { PomodoroTimerStats } from "@/types/interfaces/pomodoro_timer";
 import { SceneCounts } from "@/types/general";
 
 export interface userStatsState {
-  lastLogin: string;
-
   pomodoroTimerStats: PomodoroTimerStats;
   totalNotesCreated: number;
   sceneCounts: SceneCounts | null;
@@ -29,8 +27,6 @@ export interface userStatsState {
 }
 
 const useUserStatsStore = create<userStatsState>((set, get) => ({
-  lastLogin: "",
-
   pomodoroTimerStats: {
     totalFocusTime: 0,
     totalBreakTime: 0,
@@ -56,7 +52,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
         return;
       }
       const userStatsBuilt = buildUserStatsType(userStats);
-      set({ ...userStatsBuilt });
+      set({ ...userStatsBuilt, pomodoroTimerStats: userStatsBuilt.pomodoroTimer });
     } catch (error) {
       console.log("Error getting user stats: ", error);
     }
@@ -152,7 +148,6 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
     }
     await resetUserStats(uid);
     set({
-      lastLogin: "",
       pomodoroTimerStats: {
         totalFocusTime: 0,
         totalBreakTime: 0,
