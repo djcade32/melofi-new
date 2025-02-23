@@ -14,7 +14,7 @@ const MostProductiveDayChart = () => {
   };
   return (
     <div className={styles.mostProductiveDayChart__container}>
-      <p className={styles.mostProductiveDayChart__label}>📅 Most Productive Day</p>
+      <p className={styles.mostProductiveDayChart__label}>📅 Most Productive Day of the Week</p>
       <ResponsiveContainer width="100%" height={250}>
         <BarChart data={getWeeklyFocusStats()} margin={{ top: 15, right: 0, left: 0, bottom: 20 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#444" />

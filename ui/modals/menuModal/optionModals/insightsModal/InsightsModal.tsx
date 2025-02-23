@@ -5,6 +5,7 @@ import useMenuStore from "@/stores/menu-store";
 
 import FocusStatsSection from "./section/focusStatsSection/FocusStatsSection";
 import UsageTrendsSection from "./section/usageTrendsSection/UsageTrendsSection";
+import AchievementsSection from "./section/achievementsSection/AchievementsSection";
 
 const InsightsModal = () => {
   const { selectedOption, setSelectedOption } = useMenuStore();
@@ -31,6 +32,7 @@ const InsightsModal = () => {
         </div>
         <div className={styles.insightsModal__section}>
           <p className={styles.insightsModal__section_title}>🏆 Achievements & Milestones</p>
+          <AchievementsSection />
         </div>
       </div>
     </Modal>
