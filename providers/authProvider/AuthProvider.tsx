@@ -10,6 +10,7 @@ import LoadingScreen from "@/ui/Views/loadingScreen/LoadingScreen";
 import useUserStatsStore from "@/stores/user-stats-store";
 import { MelofiUser } from "@/types/general";
 import SmallerScreenView from "@/ui/Views/SmallerScreenView";
+import NoInternetView from "@/ui/Views/NoInternetView";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -24,9 +25,21 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const { setCurrentUser, currentUser, checkIfUserIsInDb, isUserLoggedIn, setIsUserLoggedIn } =
     useUserStore();
   const { setUserStats } = useUserStatsStore();
+  const [isOnline, setIsOnline] = useState(true);
 
   // Check if user is logged in
   useEffect(() => {
+    // Check if user is online
+    window.addEventListener("online", () => {
+      console.log("Melofi is back online!");
+      setIsOnline(true);
+    });
+
+    window.addEventListener("offline", () => {
+      console.log("Melofi is offline.");
+      setIsOnline(false);
+    });
+
     // Check if localStorage has user key
     const user = localStorage.getItem("user");
     if (user) {
@@ -34,6 +47,16 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       setCurrentUser(MelofiUser);
       setIsUserLoggedIn(MelofiUser.authUser ? true : false);
     }
+
+    return () => {
+      window.removeEventListener("online", () => {
+        console.log("Melofi is back online!");
+      });
+
+      window.removeEventListener("offline", () => {
+        console.log("Melofi is offline.");
+      });
+    };
   }, []);
 
   // Check if user's email is verified and if user is in db
@@ -88,17 +111,23 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   return (
     <div className={styles.authProvider__container}>
-      {grantAccess ? (
-        <>{onMobileDevice ? <SmallerScreenView /> : children}</>
+      {!isOnline ? (
+        <NoInternetView />
       ) : (
         <>
-          {onMobileDevice ? (
-            <SmallerScreenView />
+          {grantAccess ? (
+            <>{onMobileDevice ? <SmallerScreenView /> : children}</>
           ) : (
-            <LoggedOutView
-              showEmailVerification={showEmailVerification}
-              setShowEmailVerification={setShowEmailVerification}
-            />
+            <>
+              {onMobileDevice ? (
+                <SmallerScreenView />
+              ) : (
+                <LoggedOutView
+                  showEmailVerification={showEmailVerification}
+                  setShowEmailVerification={setShowEmailVerification}
+                />
+              )}
+            </>
           )}
         </>
       )}
