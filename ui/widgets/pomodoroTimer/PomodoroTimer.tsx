@@ -16,7 +16,7 @@ import { DialogModalActions } from "@/types/general";
 import useAppStore from "@/stores/app-store";
 
 const PomodoroTimer = () => {
-  const worker = new Worker(getPomodoroTimerWorkerUrl());
+  // const worker = new Worker(getPomodoroTimerWorkerUrl());
   const singleBellAudioRef = useRef<HTMLAudioElement>(null);
   const doubleBellAudioRef = useRef<HTMLAudioElement>(null);
   const tripleBellAudioRef = useRef<HTMLAudioElement>(null);
@@ -27,42 +27,40 @@ const PomodoroTimer = () => {
     activePomodoroTimerTask,
     fetchPomodoroTimerTasks,
     stopTimer,
-    timerTime,
-    setTimerTime,
     isTimerRunning,
-    setWorker,
     timerDone,
-    progress,
-    setProgress,
   } = usePomodoroTimerStore();
   const { appSettings } = useAppStore();
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [resetTimerDialog, setResetDialogTimer] = useState<DialogModalActions | null>(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [timerTime, setTimerTime] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [worker, setWorker] = useState<Worker | null>(null);
 
   useEffect(() => {
     const fetchTasks = async () => {
       await fetchPomodoroTimerTasks();
     };
     fetchTasks();
-    setWorker(worker);
+    setWorker(new Worker(getPomodoroTimerWorkerUrl()));
   }, []);
 
   useEffect(() => {
     if (activePomodoroTimerTask) {
       stopTimer();
+      worker?.postMessage({ turn: "off", timeInput: timerTime });
       // If this doesn't work, try using wait function from utils/general.ts
       process.nextTick(() => {
         if (activePomodoroTimerTask.completed) {
           setProgress(100);
         } else {
+          const { focusTime, breakTime, currentMode } = activePomodoroTimerTask;
           setProgress(0);
+          setTimerTime(currentMode === "Focus" ? focusTime : breakTime);
         }
       });
     }
-    worker.onmessage = ({ data: { time } }) => {
-      setTimerTime(time);
-    };
   }, [activePomodoroTimerTask]);
 
   useEffect(() => {
@@ -77,9 +75,30 @@ const PomodoroTimer = () => {
       setProgress(progress + increment);
     } else if (timerTime <= 0 && isTimerRunning) {
       playSound();
-      timerDone();
+      timerIsDone();
     }
   }, [timerTime]);
+
+  useEffect(() => {
+    if (!worker) {
+      return;
+    }
+    worker.onmessage = ({ data: { time } }) => {
+      setTimerTime(time);
+    };
+  }, [worker]);
+
+  useEffect(() => {
+    if (isTimerRunning) {
+      worker?.postMessage({ turn: "on", timeInput: timerTime });
+    } else {
+      worker?.postMessage({ turn: "off", timeInput: timerTime });
+    }
+  }, [isTimerRunning]);
+
+  const timerIsDone = async () => {
+    await timerDone(setTimerTime);
+  };
 
   const playSound = () => {
     if (!activePomodoroTimerTask) {
@@ -227,6 +246,11 @@ const PomodoroTimer = () => {
           sessionCountString={getSessionCountString()}
           timeString={getTimeString(timerTime)}
           setDialogProps={setResetDialogTimer}
+          timerTime={timerTime}
+          setTimerTime={setTimerTime}
+          worker={worker}
+          progress={progress}
+          setProgress={setProgress}
         />
         <PomodoroTimerCollapsed
           isShown={isCollapsed}
