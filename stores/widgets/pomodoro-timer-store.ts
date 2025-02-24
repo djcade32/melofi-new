@@ -14,6 +14,7 @@ import {
   WeeklyStats,
 } from "@/types/interfaces/pomodoro_timer";
 import { getDayOfWeek } from "@/utils/date";
+import React from "react";
 
 export interface PomodoroTimerState {
   isPomodoroTimerOpen: boolean;
@@ -30,19 +31,13 @@ export interface PomodoroTimerState {
 
   // Timer state
   isTimerRunning: boolean;
-  timerTime: number;
-  worker: Worker | null;
-  progress: number;
 
   // Timer actions
-  setWorker: (worker: Worker) => void;
   setIsTimerRunning: (isRunning: boolean) => void;
-  setTimerTime: (time: number) => void;
   startTimer: () => void;
   stopTimer: () => void;
-  timerDone: () => void;
+  timerDone: (setTimerTime: React.Dispatch<React.SetStateAction<number>>) => Promise<void>;
   restartTimer: () => void;
-  setProgress: (progress: number) => void;
   resetTimer: () => void;
 }
 
@@ -72,7 +67,6 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
   },
 
   setActivePomodoroTimerTask: (task: PomodoroTimerTask) => {
-    get().setTimerTime(task.currentMode === "Focus" ? task.focusTime : task.breakTime);
     set({ activePomodoroTimerTask: task });
   },
 
@@ -118,13 +112,6 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
         pomodoroTimerTasks: newTasksList,
         activePomodoroTimerTask: newActivePomodoroTimerTask,
       });
-      if (newActivePomodoroTimerTask) {
-        get().setTimerTime(
-          newActivePomodoroTimerTask.currentMode === "Focus"
-            ? newActivePomodoroTimerTask.focusTime
-            : newActivePomodoroTimerTask.breakTime
-        );
-      }
     } catch (error) {
       console.log("Error deleting pomodoro timer task: ", error);
     }
@@ -149,37 +136,22 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
   // Timer state
   isTimerRunning: false,
   timerTime: 0,
-  worker: null,
   progress: 0,
 
   // Timer actions
-  setWorker: (worker: Worker) => set({ worker: worker }),
-
   setIsTimerRunning: (isRunning: boolean) => set({ isTimerRunning: isRunning }),
-
-  setTimerTime: (time: number) => set({ timerTime: time }),
-
   startTimer: () => {
-    const worker = get().worker;
-    if (!worker) return;
-
     set({ isTimerRunning: true });
-    worker.postMessage({ turn: "on", timeInput: get().timerTime });
   },
 
   stopTimer: () => {
-    const worker = get().worker;
-    if (!worker) return;
-
     set({ isTimerRunning: false });
-    worker.postMessage({ turn: "off", timeInput: get().timerTime });
   },
 
-  timerDone: async () => {
+  timerDone: async (setTimerTime) => {
     const {
       activePomodoroTimerTask,
       startTimer,
-      setTimerTime,
       setActivePomodoroTimerTask,
       stopTimer,
       findAndUpdateTask,
@@ -269,7 +241,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
         }
 
         await wait(250);
-
+        console.log("starting timer up again");
         startTimer();
         return;
       }
@@ -312,32 +284,22 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
   },
 
   restartTimer: () => {
-    const { activePomodoroTimerTask, setTimerTime, stopTimer, setProgress, progress } = get();
+    const { activePomodoroTimerTask, stopTimer } = get();
     if (!activePomodoroTimerTask) {
       return;
     }
     stopTimer();
-    setTimerTime(
-      activePomodoroTimerTask.currentMode === "Focus"
-        ? activePomodoroTimerTask.focusTime
-        : activePomodoroTimerTask.breakTime
-    );
-    const newValue = progress - (progress % 100);
-    setProgress(newValue);
   },
-
-  setProgress: (progress: number) => set({ progress }),
 
   resetTimer: async () => {
     const {
       stopTimer,
-      setProgress,
+      // setProgress,
       activePomodoroTimerTask,
       setActivePomodoroTimerTask,
       findAndUpdateTask,
     } = get();
     stopTimer();
-    setProgress(0);
     const uid = useUserStore.getState().currentUser?.authUser?.uid;
     if (!activePomodoroTimerTask || !uid) {
       return;

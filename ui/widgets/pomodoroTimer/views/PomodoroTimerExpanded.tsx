@@ -15,6 +15,11 @@ interface PomodoroTimerExpandedProps {
   timeString: string;
   sessionCountString: string;
   setDialogProps: React.Dispatch<React.SetStateAction<DialogModalActions | null>>;
+  timerTime: number;
+  setTimerTime: React.Dispatch<React.SetStateAction<number>>;
+  worker: Worker | null;
+  progress: number;
+  setProgress: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const PomodoroTimerExpanded = ({
@@ -24,13 +29,17 @@ const PomodoroTimerExpanded = ({
   timeString,
   sessionCountString,
   setDialogProps,
+  timerTime,
+  setTimerTime,
+  worker,
+  progress,
+  setProgress,
 }: PomodoroTimerExpandedProps) => {
   const {
     pomodoroTimerTasks,
     stopTimer,
     isTimerRunning,
     restartTimer,
-    progress,
     resetTimer,
     setActivePomodoroTimerTask,
     startTimer,
@@ -47,6 +56,7 @@ const PomodoroTimerExpanded = ({
     if (activePomodoroTimerTask) {
       playSound();
       startTimer();
+      worker?.postMessage({ turn: "on", timeInput: timerTime });
     }
   };
 
@@ -57,11 +67,35 @@ const PomodoroTimerExpanded = ({
           ({
             toggleOpen: prev?.toggleOpen === 0 ? 1 : 0,
             cancel: () => {},
-            confirm: resetTimer,
+            confirm: handleResetTimerClick,
             title: "Are you sure?",
             message: "Task and all progress will be reset.",
           } as DialogModalActions)
       );
+  };
+
+  const handleRestartTimerClick = () => {
+    if (!activePomodoroTimerTask) return;
+    restartTimer();
+    const { focusTime, breakTime, currentMode } = activePomodoroTimerTask;
+    worker?.postMessage({ turn: "off", timeInput: timerTime });
+    setTimerTime(currentMode === "Focus" ? focusTime : breakTime);
+    const newValue = progress - (progress % 100);
+    setProgress(newValue);
+  };
+
+  const handleResetTimerClick = () => {
+    worker?.postMessage({ turn: "off", timeInput: 0 });
+    setProgress(0);
+    resetTimer();
+  };
+
+  const handlePlayPauseClick = () => {
+    if (isTimerRunning) {
+      stopTimer();
+    } else {
+      startTask();
+    }
   };
 
   return (
@@ -161,7 +195,7 @@ const PomodoroTimerExpanded = ({
           tooltipText="Restart"
           inverted
           color="var(--color-secondary-white)"
-          onClick={restartTimer}
+          onClick={handleRestartTimerClick}
           disabled={!activePomodoroTimerTask || activePomodoroTimerTask?.completed}
         />
         <HoverIcon
@@ -170,12 +204,12 @@ const PomodoroTimerExpanded = ({
           icon={isTimerRunning ? FaPause : FaPlay}
           size={20}
           showTooltip
-          tooltipText="Start"
+          tooltipText={isTimerRunning ? "Pause" : "Start"}
           inverted
           color="var(--color-white)"
           invertedHoverColor="var(--color-secondary)"
           invertedBackgroundColor="var(--color-secondary-opacity)"
-          onClick={() => (isTimerRunning ? stopTimer() : startTask())}
+          onClick={handlePlayPauseClick}
           disabled={!activePomodoroTimerTask || activePomodoroTimerTask?.completed}
         />
         <HoverIcon
