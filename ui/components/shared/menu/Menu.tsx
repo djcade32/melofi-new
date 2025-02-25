@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import MuiMenu, { MenuProps as MuiMenuProps } from "@mui/material/Menu";
 import { MenuOption } from "@/types/general";
 import useAppStore from "@/stores/app-store";
+import { PiCrownSimpleFill } from "@/imports/icons";
 
 interface MenuProps {
   id?: string;
@@ -71,6 +72,13 @@ const Menu = ({
         <MenuItem id={option.id} key={option.label} onClick={option.onClick}>
           <ListItemIcon>{option.icon}</ListItemIcon>
           <ListItemText primary={option.label} />
+          {option.showPremiumIcon && (
+            <PiCrownSimpleFill
+              size={15}
+              color="var(--color-effect-opacity)"
+              style={{ marginLeft: 5 }}
+            />
+          )}
         </MenuItem>
       ))}
     </StyledMenu>

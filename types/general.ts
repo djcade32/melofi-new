@@ -41,6 +41,7 @@ export interface MenuOption {
   label: string;
   icon: ReactElement;
   onClick: () => void;
+  showPremiumIcon?: boolean;
 }
 
 export interface LongMenuOption {
