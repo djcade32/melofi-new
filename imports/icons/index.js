@@ -5,7 +5,6 @@ import {
   FaUserAlt,
   FaMedal,
   FaHeadphones,
-  FaCrown,
   FaLock,
   FaFan,
   FaStop,
@@ -112,7 +111,13 @@ import {
   RxCaretUp,
   RxDragHandleDots2,
 } from "react-icons/rx";
-import { PiMoonFill, PiSunHorizonFill, PiWavesDuotone, PiSignOutBold } from "react-icons/pi";
+import {
+  PiMoonFill,
+  PiSunHorizonFill,
+  PiWavesDuotone,
+  PiSignOutBold,
+  PiCrownSimpleFill,
+} from "react-icons/pi";
 import { VscDebugRestart } from "react-icons/vsc";
 import { LuGalleryVertical, LuGalleryHorizontal } from "react-icons/lu";
 import { BiSolidHide, BiSolidShow, BiWifiOff } from "react-icons/bi";
@@ -177,7 +182,6 @@ export {
   MdWaterDrop,
   PiMoonFill,
   FaHeadphones,
-  FaCrown,
   IoBookSharp,
   MdLibraryMusic,
   MdError,
@@ -240,4 +244,5 @@ export {
   PiSignOutBold,
   IoCopy,
   BiWifiOff,
+  PiCrownSimpleFill,
 };

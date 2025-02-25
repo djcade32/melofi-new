@@ -5,6 +5,8 @@ import styles from "./toolbarButton.module.css";
 import { IconType } from "react-icons";
 import Tooltip from "@/ui/components/shared/tooltip/Tooltip";
 import useToolsStore from "@/stores/tools-store";
+import { PiCrownSimpleFill } from "@/imports/icons";
+import useUserStore from "@/stores/user-store";
 
 interface ToolbarButtonProps {
   id: string;
@@ -12,17 +14,30 @@ interface ToolbarButtonProps {
   label: string;
   onClick: () => void;
   active: boolean;
+  premiumWidget?: boolean;
 }
 
-const ToolbarButton = ({ id, icon: Icon, label, onClick, active }: ToolbarButtonProps) => {
+const ToolbarButton = ({
+  id,
+  icon: Icon,
+  label,
+  onClick,
+  active,
+  premiumWidget = false,
+}: ToolbarButtonProps) => {
   const { isVertical } = useToolsStore();
   const [isHovered, setIsHovered] = useState(false);
+  const { isPremiumUser } = useUserStore();
 
   const getIconColor = () => {
     if (active && !isHovered) {
       return "var(--color-effect-opacity)";
     }
     return "var(--color-white)";
+  };
+
+  const showPremiumIcon = () => {
+    return premiumWidget && !isPremiumUser;
   };
 
   return (
@@ -33,12 +48,20 @@ const ToolbarButton = ({ id, icon: Icon, label, onClick, active }: ToolbarButton
       onMouseOver={() => setIsHovered(true)}
       onMouseOut={() => setIsHovered(false)}
     >
-      <Tooltip placement={isVertical ? "left" : "bottom"} text={label}>
+      <Tooltip
+        placement={isVertical ? "left" : "bottom"}
+        text={label}
+        isPremiumTooltip={showPremiumIcon()}
+      >
         {React.createElement(Icon, {
+          className: styles.toolbarButton__widget_icon,
           size: 30,
           color: getIconColor(),
         })}
       </Tooltip>
+      {premiumWidget && !isHovered && (
+        <PiCrownSimpleFill className={styles.toolbarButton__premiumWidget} size={15} />
+      )}
     </div>
   );
 };

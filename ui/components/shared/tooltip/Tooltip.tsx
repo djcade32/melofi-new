@@ -3,7 +3,7 @@ import TooltipMui from "@mui/material/Tooltip";
 import { TransitionProps } from "@mui/material/transitions";
 import { use } from "chai";
 import { PopperProps } from "@mui/material/Popper/BasePopper.types";
-// import { FaCrown } from "../../imports/icons";
+import { PiCrownSimpleFill } from "@/imports/icons";
 
 interface TooltipProps {
   text: string | undefined;
@@ -21,6 +21,7 @@ interface TooltipProps {
   closeOverride?: boolean;
   disableInteractive?: boolean;
   offset?: [number, number];
+  isPremiumTooltip?: boolean;
 }
 
 const Tooltip = ({
@@ -34,6 +35,7 @@ const Tooltip = ({
   closeOverride = false,
   disableInteractive,
   offset = [0, 0],
+  isPremiumTooltip,
   ...props
 }: TooltipProps) => {
   const [openHandler, setOpenHandler] = useState(false);
@@ -45,11 +47,11 @@ const Tooltip = ({
     }
   }, []);
 
-  //   const premiumTooltip = (
-  //     <div style={{ display: "flex", columnGap: 5 }}>
-  //       <p>{props.text}</p> <FaCrown size={15} color="var(--color-effect-opacity)" />
-  //     </div>
-  //   );
+  const premiumTooltip = (
+    <div style={{ display: "flex", columnGap: 5, justifyContent: "center", alignItems: "center" }}>
+      <PiCrownSimpleFill size={15} color="var(--color-effect-opacity)" /> <p>{props.text}</p>
+    </div>
+  );
 
   return (
     <TooltipMui
@@ -61,7 +63,7 @@ const Tooltip = ({
       describeChild
       disableHoverListener={disabled}
       placement={placement}
-      title={props.text}
+      title={isPremiumTooltip ? premiumTooltip : props.text}
       TransitionComponent={TransitionComponent}
       open={openHandler && !closeOverride}
       onOpen={() => setOpenHandler(true)}
