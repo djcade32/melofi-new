@@ -6,7 +6,7 @@ import { PopperProps } from "@mui/material/Popper/BasePopper.types";
 // import { FaCrown } from "../../imports/icons";
 
 interface TooltipProps {
-  text: string;
+  text: string | undefined;
   children: React.ReactNode;
 
   bgColor?: string;
@@ -108,7 +108,6 @@ const Tooltip = ({
               }
         }
         onClick={() => {
-          // console.log("clicked");
           !disableCloseOnClick && setOpenHandler(false);
         }}
       >
