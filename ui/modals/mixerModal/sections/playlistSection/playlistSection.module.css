@@ -30,7 +30,7 @@
   opacity: 1;
 }
 
-.playListSection__container:hover .playListSection__playlist_buttons {
+.playListSection__container:hover .playListSection__playlist_buttons.not_premium_user {
   opacity: 0.5;
   filter: blur(2px);
 }

@@ -20,18 +20,24 @@ const PlaylistSection = () => {
   };
   return (
     <div className={styles.playListSection__container}>
-      <div className={styles.playListSection__premium_container}>
-        <Button
-          id="go-premium-button"
-          text="Go Premium"
-          containerClassName={styles.playListSection__premium_button}
-          hoverClassName={styles.playListSection__premium_button_hover}
-          textClassName={styles.playListSection__premium_button_text}
-          onClick={() => {}}
-        />
-        <p>More moods, more music, more focus. Upgrade now! 🚀</p>
-      </div>
-      <div className={styles.playListSection__playlist_buttons}>
+      {!isPremiumUser && (
+        <div className={styles.playListSection__premium_container}>
+          <Button
+            id="go-premium-button"
+            text="Go Premium"
+            containerClassName={styles.playListSection__premium_button}
+            hoverClassName={styles.playListSection__premium_button_hover}
+            textClassName={styles.playListSection__premium_button_text}
+            onClick={() => {}}
+          />
+          <p>More moods, more music, more focus. Upgrade now! 🚀</p>
+        </div>
+      )}
+      <div
+        className={`${styles.playListSection__playlist_buttons} ${
+          !isPremiumUser && styles.not_premium_user
+        }`}
+      >
         {playlist.map((playlist) => (
           <PlaylistButton
             id={`playlist-button-${playlist.name}`}
