@@ -59,7 +59,7 @@ const ToolbarButton = ({
           color: getIconColor(),
         })}
       </Tooltip>
-      {premiumWidget && !isHovered && (
+      {showPremiumIcon() && !isHovered && (
         <PiCrownSimpleFill className={styles.toolbarButton__premiumWidget} size={15} />
       )}
     </div>
