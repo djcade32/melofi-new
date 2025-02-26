@@ -47,7 +47,7 @@ describe("Testing Notes Widget", () => {
     cy.get("#notes-widget")
       .get('[class*="noteCard__container"]')
       .find('[class*="noteCard__title_container"]')
-      .find('[class*="noteCard__trash_icon"]')
+      .find('[class*="noteCard__delete_button"]')
       .realClick();
 
     cy.get('[class*="notes__notesCard_container"]').children().should("have.length", 0);
