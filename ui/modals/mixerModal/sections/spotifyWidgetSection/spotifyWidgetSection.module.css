@@ -1,13 +1,12 @@
 .spotifyWidgetSection__container {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .spotifyWidgetSection__spotify_widget {
-    margin-top: 10px;
-    height: 152px;
-    width: 100%;
-    border: 0px;
-    border-radius: 13px;
-    background-color: var(--color-secondary-opacity);
+  margin-top: 10px;
+  height: 152px;
+  width: 100%;
+  border: 0px;
+  border-radius: 13px;
+  background-color: var(--color-secondary-opacity);
 }
-
