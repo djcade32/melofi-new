@@ -9,6 +9,7 @@ import { firestoreTimestampToDate } from "@/utils/date";
 import MostProductiveDayChart from "../../components/charts/mostProductiveDayChart/MostProductiveDayChart";
 import useUserStore from "@/stores/user-store";
 import { PiCrownSimpleFill } from "@/imports/icons";
+import PremiumBadge from "@/ui/components/premiumBadge/PremiumBadge";
 
 const dummyFocusStats = {
   focusTime: "62h 45m",
@@ -61,23 +62,22 @@ const FocusStatsSection = () => {
   };
   return (
     <div className={styles.focusStatsSection__container}>
-      <div className={styles.focusStatsSection__premium_container}>
-        <div className={styles.focusStatsSection__premium_badge}>
-          <PiCrownSimpleFill color="var(--color-effect-opacity" size={15} />
-          <p>PREMIUM</p>
+      {!isPremiumUser && (
+        <div className={styles.focusStatsSection__premium_container}>
+          <PremiumBadge />
+          <p className={styles.focusStatsSection__premium_text}>
+            Total focus time, best days, and more—upgrade to see it all. 🔥
+          </p>
+          <Button
+            id="go-premium-button"
+            text="Go Premium"
+            containerClassName={styles.focusStatsSection__premium_button}
+            hoverClassName={styles.focusStatsSection__premium_button_hover}
+            textClassName={styles.focusStatsSection__premium_button_text}
+            onClick={() => {}}
+          />
         </div>
-        <p className={styles.focusStatsSection__premium_text}>
-          Total focus time, best days, and more—upgrade to see it all. 🔥
-        </p>
-        <Button
-          id="go-premium-button"
-          text="Go Premium"
-          containerClassName={styles.focusStatsSection__premium_button}
-          hoverClassName={styles.focusStatsSection__premium_button_hover}
-          textClassName={styles.focusStatsSection__premium_button_text}
-          onClick={() => {}}
-        />
-      </div>
+      )}
       <div>
         <div className={styles.focusStatsSection_button_container}>
           <Button
