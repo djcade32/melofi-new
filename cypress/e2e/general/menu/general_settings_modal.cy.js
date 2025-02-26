@@ -28,6 +28,7 @@ describe("Testing General Settings", () => {
       seedWithUser: true,
       skipOnboarding: false,
       loggedIn: true,
+      clearLocalStorage: true,
     });
   });
   after(() => {

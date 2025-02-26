@@ -65,6 +65,7 @@ export class Menu {
           getElementWithClassName("generalSettingsModal__setting_container")
             .contains(setting)
             .parent()
+            .scrollIntoView()
             .find("input")
             .click({ force: true }),
       };
