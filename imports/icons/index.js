@@ -62,7 +62,7 @@ import { HiTemplate, HiTrash } from "react-icons/hi";
 import { ImTwitter, ImCalculator } from "react-icons/im";
 import { WiNightAltStormShowers } from "react-icons/wi";
 import { CgEditNoise, CgArrowsExpandDownRight, CgArrowsExpandUpLeft } from "react-icons/cg";
-import { GiTacos, GiBigWave, GiSubmarine } from "react-icons/gi";
+import { GiBigWave, GiSubmarine } from "react-icons/gi";
 import {
   MdLandscape,
   MdDelete,
@@ -122,6 +122,7 @@ import { VscDebugRestart } from "react-icons/vsc";
 import { LuGalleryVertical, LuGalleryHorizontal } from "react-icons/lu";
 import { BiSolidHide, BiSolidShow, BiWifiOff } from "react-icons/bi";
 import { LiaTimesSolid } from "react-icons/lia";
+import { SiBuymeacoffee } from "react-icons/si";
 
 export {
   FaPause,
@@ -146,7 +147,6 @@ export {
   IoThunderstorm,
   IoCheckmarkCircle,
   PiWavesDuotone,
-  GiTacos,
   MdLandscape,
   BsPhoneFill,
   AiFillTool,
@@ -245,4 +245,5 @@ export {
   IoCopy,
   BiWifiOff,
   PiCrownSimpleFill,
+  SiBuymeacoffee,
 };

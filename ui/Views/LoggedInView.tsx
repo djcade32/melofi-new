@@ -31,6 +31,7 @@ import useYoutubeStore from "@/stores/widgets/youtube-store";
 import Toolbar from "../components/toolbar/Toolbar";
 import useSceneStore from "@/stores/scene-store";
 import MenuModal from "../modals/menuModal/MenuModal";
+import SupportCreatorBanner from "../components/supportCreatorBanner/SupportCreatorBanner";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
@@ -53,6 +54,7 @@ const LoggedInView = () => {
       <MixerModal />
       {musicSource === MusicSource.MELOFI && <NowPlaying />}
       <QuoteDisplay />
+      <SupportCreatorBanner />
 
       {/* Widgets */}
       <ComponentLoader component={<Alarms />} isComponentOpen={isAlarmsOpen} />
