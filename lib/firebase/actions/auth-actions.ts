@@ -10,7 +10,7 @@ import {
   updatePassword as firebaseUpdatePassword,
 } from "firebase/auth";
 import { getFirebaseAuth, getFirebaseDB } from "../firebaseClient";
-import { collection, deleteDoc, doc, setDoc } from "firebase/firestore";
+import { deleteDoc, doc, setDoc } from "firebase/firestore";
 import { MelofiUser, PromiseResolveType } from "@/types/general";
 import { addUserToNewsletter, changeUserEmailVerificationStatus } from "./newsletter-actions";
 import { getUserFromUserDb } from "../getters/auth-getters";

@@ -11,6 +11,7 @@ import { create } from "zustand";
 import useUserStore from "./user-store";
 import { PomodoroTimerStats } from "@/types/interfaces/pomodoro_timer";
 import { SceneCounts } from "@/types/general";
+import { Logger } from "@/classes/Logger";
 
 export interface userStatsState {
   pomodoroTimerStats: PomodoroTimerStats;
@@ -43,18 +44,18 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
     const uid = useUserStore.getState().currentUser?.authUser?.uid;
     try {
       if (!uid) {
-        console.log("No user uid provided");
+        Logger.getInstance().error("No user uid provided");
         return;
       }
       const userStats = await getUserStats(uid);
       if (!userStats) {
-        console.log("No user stats found");
+        Logger.getInstance().warn("No user stats found");
         return;
       }
       const userStatsBuilt = buildUserStatsType(userStats);
       set({ ...userStatsBuilt, pomodoroTimerStats: userStatsBuilt.pomodoroTimer });
     } catch (error) {
-      console.log("Error getting user stats: ", error);
+      Logger.getInstance().error(`Error setting user stats: ${error}`);
     }
   },
 

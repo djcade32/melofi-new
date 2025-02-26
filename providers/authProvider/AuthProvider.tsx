@@ -11,6 +11,7 @@ import useUserStatsStore from "@/stores/user-stats-store";
 import { MelofiUser } from "@/types/general";
 import SmallerScreenView from "@/ui/Views/SmallerScreenView";
 import NoInternetView from "@/ui/Views/NoInternetView";
+import { Logger } from "@/classes/Logger";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -31,12 +32,12 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     // Check if user is online
     window.addEventListener("online", () => {
-      console.log("Melofi is back online!");
+      Logger.getInstance().info("Melofi is online.");
       setIsOnline(true);
     });
 
     window.addEventListener("offline", () => {
-      console.log("Melofi is offline.");
+      Logger.getInstance().error("Melofi is offline.");
       setIsOnline(false);
     });
 
@@ -49,13 +50,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     return () => {
-      window.removeEventListener("online", () => {
-        console.log("Melofi is back online!");
-      });
+      window.removeEventListener("online", () => {});
 
-      window.removeEventListener("offline", () => {
-        console.log("Melofi is offline.");
-      });
+      window.removeEventListener("offline", () => {});
     };
   }, []);
 
@@ -63,6 +60,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     // Get current user
     if (currentUser?.skippedOnboarding) {
+      currentUser.authUser && setUserStats();
       setGrantAccess(true);
     } else if (currentUser?.authUser && isUserLoggedIn) {
       // Check if user's email is verified
