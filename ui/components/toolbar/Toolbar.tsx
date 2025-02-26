@@ -15,6 +15,7 @@ import { MenuOption } from "@/types/general";
 import ToolbarWidgetButtons from "./toolbarWidgetButtons/ToolbarWidgetButtons";
 import { wait } from "@/utils/general";
 import { useAppContext } from "@/contexts/AppContext";
+import useUserStore from "@/stores/user-store";
 
 const Toolbar = () => {
   const nodeRef = useRef<HTMLDivElement | null>(null);
@@ -31,6 +32,7 @@ const Toolbar = () => {
     toggleTools,
   } = useToolsStore();
   const { isSleep } = useAppContext();
+  const { isPremiumUser } = useUserStore();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -71,6 +73,7 @@ const Toolbar = () => {
         toggleUndocked(!isUndocked);
         handleClose();
       },
+      showPremiumIcon: isPremiumUser === false,
     },
     {
       id: "menu-option-2",
@@ -84,6 +87,7 @@ const Toolbar = () => {
         toggleVertical(!isVertical);
         handleClose();
       },
+      showPremiumIcon: isPremiumUser === false,
     },
   ];
 

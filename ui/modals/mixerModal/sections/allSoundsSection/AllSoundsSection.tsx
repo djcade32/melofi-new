@@ -5,16 +5,20 @@ import useMixerStore from "@/stores/mixer-store";
 import MixerSlider from "@/ui/components/mixerSlider/MixerSlider";
 import Tooltip from "@/ui/components/shared/tooltip/Tooltip";
 import { Sound } from "@/types/interfaces/mixer";
+import useUserStore from "@/stores/user-store";
 
 const AllSoundsSection = () => {
   const { currentScene } = useSceneStore();
   const { getOtherSounds, mixerSoundsConfig } = useMixerStore();
+  const { isPremiumUser } = useUserStore();
 
   const [otherSounds, setOtherSounds] = useState<Sound[] | undefined>(undefined);
 
   useEffect(() => {
     setOtherSounds(getOtherSounds(currentScene));
   }, [currentScene, mixerSoundsConfig]);
+
+  const soundIsDisabled = (sound: Sound) => sound.premium && !isPremiumUser;
 
   return (
     <div className={styles.allSoundsSection__container}>
@@ -23,8 +27,8 @@ const AllSoundsSection = () => {
         {otherSounds?.map((sound) => (
           <Tooltip
             key={sound.name}
-            text="Upgrade to use all sounds"
-            disabled={!sound.premium}
+            text={soundIsDisabled(sound) ? "Upgrade to use all sounds" : undefined}
+            disabled={!soundIsDisabled(sound)}
             noFlex
             disableCloseOnClick
           >
@@ -33,7 +37,7 @@ const AllSoundsSection = () => {
               soundName={sound.name}
               soundVolume={sound.volume}
               soundIcon={sound.icon}
-              premium={sound.premium}
+              premium={soundIsDisabled(sound)}
             />
           </Tooltip>
         ))}

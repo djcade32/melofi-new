@@ -25,6 +25,7 @@ export interface UserState {
   isUserLoggedIn: boolean;
   currentUser?: MelofiUser;
   userStats?: UserStats;
+  isPremiumUser: boolean;
 
   setIsUserLoggedIn: (value: boolean) => void;
   setCurrentUser: (user: MelofiUser) => void;
@@ -43,6 +44,7 @@ const useUserStore = create<UserState>((set, get) => ({
   isUserLoggedIn: false,
   currentUser: undefined,
   userStats: undefined,
+  isPremiumUser: true,
 
   setIsUserLoggedIn: (value) => {
     set({ isUserLoggedIn: value });

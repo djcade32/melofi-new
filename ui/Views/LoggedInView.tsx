@@ -19,7 +19,6 @@ const Notes = lazy(() => import("@/ui/widgets/notes/Notes"));
 const PomodoroTimer = lazy(() => import("@/ui/widgets/pomodoroTimer/PomodoroTimer"));
 const Templates = lazy(() => import("@/ui/widgets/templates/Templates"));
 const Youtube = lazy(() => import("@/ui/widgets/youtube/Youtube"));
-const MenuModal = lazy(() => import("@/ui/modals/menuModal/MenuModal"));
 
 import useCalendarStore from "@/stores/widgets/calendar-store";
 import usePomodoroTimerStore from "@/stores/widgets/pomodoro-timer-store";
@@ -29,9 +28,10 @@ import useTodoListStore from "@/stores/widgets/todoList-store";
 import useNotesStore from "@/stores/widgets/notes-store";
 import useTemplatesStore from "@/stores/widgets/templates-store";
 import useYoutubeStore from "@/stores/widgets/youtube-store";
-import useMenuStore from "@/stores/menu-store";
 import Toolbar from "../components/toolbar/Toolbar";
 import useSceneStore from "@/stores/scene-store";
+import MenuModal from "../modals/menuModal/MenuModal";
+import SupportCreatorBanner from "../components/supportCreatorBanner/SupportCreatorBanner";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
@@ -43,7 +43,6 @@ const LoggedInView = () => {
   const { isNotesOpen } = useNotesStore();
   const { isTemplatesOpen } = useTemplatesStore();
   const { isYoutubeOpen } = useYoutubeStore();
-  const { isMenuOpen } = useMenuStore();
   const { sceneModalOpen } = useSceneStore();
 
   return (
@@ -51,9 +50,11 @@ const LoggedInView = () => {
       <Header />
       <Toolbar />
       <ComponentLoader component={<SceneModal />} isComponentOpen={sceneModalOpen} />
+      <MenuModal />
       <MixerModal />
       {musicSource === MusicSource.MELOFI && <NowPlaying />}
       <QuoteDisplay />
+      <SupportCreatorBanner />
 
       {/* Widgets */}
       <ComponentLoader component={<Alarms />} isComponentOpen={isAlarmsOpen} />
@@ -64,7 +65,6 @@ const LoggedInView = () => {
       <ComponentLoader component={<PomodoroTimer />} isComponentOpen={isPomodoroTimerOpen} />
       <ComponentLoader component={<Templates />} isComponentOpen={isTemplatesOpen} />
       <ComponentLoader component={<Youtube />} isComponentOpen={isYoutubeOpen} />
-      <ComponentLoader component={<MenuModal />} isComponentOpen={isMenuOpen} />
     </div>
   );
 };

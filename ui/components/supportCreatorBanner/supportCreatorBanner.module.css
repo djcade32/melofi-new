@@ -1,0 +1,60 @@
+.supportCreatorBanner__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  position: absolute;
+  bottom: 19px;
+  right: 19px;
+  transition: opacity 0.3s;
+  border-radius: 10px;
+  opacity: 0.5;
+}
+
+.supportCreatorBanner__container.slide_up {
+  animation: slide-up 0.3s forwards;
+}
+
+.supportCreatorBanner__container.slide_down {
+  animation: slide-down 0.3s forwards;
+}
+
+.supportCreatorBanner__text {
+  font-size: 1.5rem;
+  text-align: right;
+  font-family: var(--font-primary);
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.supportCreatorBanner__text span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.supportCreatorBanner__container:hover {
+  opacity: 1;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(-35px);
+  }
+  to {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(125px);
+  }
+}
