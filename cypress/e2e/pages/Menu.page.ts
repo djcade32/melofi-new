@@ -65,11 +65,11 @@ export class Menu {
           getElementWithClassName("generalSettingsModal__setting_container")
             .contains(setting)
             .parent()
+            .parent()
             .find("input")
             .click({ force: true }),
       };
     },
-    // cy.contains(`[class*="generalSettingsModal__setting_container"]`, setting),
     delayOptions: {
       container: () => cy.get("#general-settings-delay-selector"),
       option: (id: number) => cy.get(`#delay-option-${id}`),

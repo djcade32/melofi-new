@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styles from "./templatesListItem.module.css";
-import { RiPlayListFill, MdLandscape, BsSoundwave, HiTrash } from "@/imports/icons";
-import HoverIcon from "@/ui/components/shared/hoverIcon/HoverIcon";
+import { RiPlayListFill, MdLandscape, BsSoundwave, IoClose } from "@/imports/icons";
 import { Template } from "@/types/interfaces/templates";
 import useTemplatesStore from "@/stores/widgets/templates-store";
 import { Sound } from "@/types/interfaces/mixer";
@@ -49,7 +48,7 @@ const TemplatesListItem = ({ template }: TemplatesListItemProps) => {
     return true;
   }, [hoveredIndex, templateSounds]);
 
-  const handleDeleteTemplate = async (e: MouseEvent) => {
+  const handleDeleteTemplate = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     await deleteTemplate(template.id);
   };
@@ -97,15 +96,13 @@ const TemplatesListItem = ({ template }: TemplatesListItemProps) => {
       />
       <div className={styles.templatesListItem__content}>
         <div className={styles.templatesListItem__titleContainer}>
-          <p className={styles.templatesListItem__title}>{template.name}</p>
-          <HoverIcon
-            iconContainerClassName={styles.templatesListItem__trash_icon}
-            size={20}
-            color="var(--color-secondary)"
-            icon={HiTrash}
-            hoverColor="var(--color-error)"
-            onClick={handleDeleteTemplate}
-          />
+          <p className={styles.templatesListItem__title}>{template.name}</p>\
+          <div
+            className={styles.templatesListItem__delete_button}
+            onClick={(e) => handleDeleteTemplate(e)}
+          >
+            <IoClose size={12} color="var(--color-primary-opacity)" />
+          </div>
         </div>
         <div className={styles.templatesListItem__settingsContainer}>
           {settings.map((setting, index) => (

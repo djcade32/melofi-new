@@ -118,14 +118,18 @@ const GeneralSettingsModal = () => {
             </p>
           </div>
           <div className={styles.generalSettingsModal__setting_container}>
-            <p>Pomodoro Timer</p>
+            <div>
+              <p>Pomodoro Timer</p>
+            </div>
             <Switch
               checked={appSettings.pomodoroTimerSoundEnabled}
               onChange={() => setPomodoroTimerSoundEnabled(!appSettings.pomodoroTimerSoundEnabled)}
             />
           </div>
           <div style={{ marginTop: 3 }} className={styles.generalSettingsModal__setting_container}>
-            <p>Alarms</p>
+            <div>
+              <p>Alarms</p>
+            </div>
             <Switch
               checked={appSettings.alarmSoundEnabled}
               onChange={() => setAlarmSoundEnabled(!appSettings.alarmSoundEnabled)}
@@ -141,7 +145,9 @@ const GeneralSettingsModal = () => {
             </p>
           </div>
           <div className={styles.generalSettingsModal__setting_container}>
-            <p>Calendar</p>
+            <div>
+              <p>Calendar</p>
+            </div>
             <Switch
               checked={appSettings.calendarHoverEffectEnabled}
               onChange={() =>
@@ -150,7 +156,9 @@ const GeneralSettingsModal = () => {
             />
           </div>
           <div style={{ marginTop: 3 }} className={styles.generalSettingsModal__setting_container}>
-            <p>To-Do List</p>
+            <div>
+              <p>To-Do List</p>
+            </div>
             <Switch
               checked={appSettings.todoListHoverEffectEnabled}
               onChange={() =>

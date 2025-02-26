@@ -1,8 +1,8 @@
 .todoListItem__container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   padding: 10px 0;
+  gap: 5px;
 }
 
 .todoListItem__task_complete {
@@ -17,12 +17,24 @@
   color: var(--color-white);
 }
 
+.todoListItem__delete_button {
+  display: flex;
+  align-self: flex-start;
+  border-radius: 50%;
+  margin-right: 5px;
+  padding: 2px;
+  background-color: var(--color-secondary);
+  transition: opacity 0.3s;
+  cursor: pointer;
+  opacity: 0;
+}
+
 .todoListItem__delete_icon_container {
   opacity: 0;
   transition: opacity 0.3s;
   padding-right: 5px;
 }
 
-.todoListItem__container:hover .todoListItem__delete_icon_container {
+.todoListItem__container:hover .todoListItem__delete_button {
   opacity: 1;
 }

@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./noteCard.module.css";
-import { HiTrash } from "@/imports/icons";
-import HoverIcon from "@/ui/components/shared/hoverIcon/HoverIcon";
+import { IoClose } from "@/imports/icons";
 import { Note } from "@/types/general";
 import useNotesStore from "@/stores/widgets/notes-store";
 import { serializeToPlainText } from "@/utils/strings";
@@ -34,17 +33,15 @@ const NoteCard = ({ selected, note }: NoteCardProps) => {
     >
       <div className={styles.noteCard__title_container}>
         <h3>{note.title} </h3>
-        <HoverIcon
-          containerClassName={styles.noteCard__trash_icon}
-          size={15}
-          color="var(--color-secondary)"
-          icon={HiTrash}
-          hoverColor="var(--color-error)"
+        <div
+          className={styles.noteCard__delete_button}
           onClick={(e) => {
             e.stopPropagation();
             deleteNote(note.id);
           }}
-        />
+        >
+          <IoClose size={12} color="var(--color-primary-opacity)" />
+        </div>
       </div>
       <div className={styles.noteCard__footer}>
         <p className={styles.noteCard__date}>{getNoteDate(note.updatedAt)}</p>

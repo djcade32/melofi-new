@@ -15,6 +15,9 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
     seedWithUser: false,
   };
   cy.visit("/");
+  if (options.clearLocalStorage) {
+    cy.clearLocalStorage();
+  }
   if (options.loggedIn) {
     const userObj = options.skipOnboarding
       ? {
@@ -40,10 +43,6 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
     cy.clearAuthEmulator();
     cy.clearFirestoreEmulator();
     cy.signUpUser("test@example.com", "Password123");
-    // cy.signInUser("test@example.com", "Password123");
-  }
-  if (options.clearLocalStorage) {
-    cy.clearLocalStorage();
   }
   cy.wait(3000);
 };

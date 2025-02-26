@@ -33,7 +33,7 @@ describe("Testing Templates Widget", () => {
       if ($el.find("[class*='templatesListItem__container']").length) {
         getElementWithClassName("templatesListItem__container").then(($elements) => {
           cy.wrap($elements).each(($el) => {
-            cy.wrap($el).find("[class*='templatesListItem__trash_icon']").click({ force: true });
+            cy.wrap($el).find("[class*='templatesListItem__delete_button']").click({ force: true });
             cy.wait(1000);
           });
         });
@@ -79,7 +79,7 @@ describe("Testing Templates Widget", () => {
   });
 
   it("Should delete a template", () => {
-    getElementWithClassName("templatesListItem__trash_icon").click({ force: true });
+    getElementWithClassName("templatesListItem__delete_button").click({ force: true });
     getElementWithClassName("templates__empty").contains("No Templates");
   });
 
@@ -168,7 +168,7 @@ describe("Testing Templates Widget", () => {
     getElementWithClassName("templates__content")
       .children()
       .each(($el) => {
-        cy.wrap($el).find("[class*=templatesListItem__trash_icon]").click({ force: true });
+        cy.wrap($el).find("[class*=templatesListItem__delete_button]").click({ force: true });
       });
     getElementWithClassName("templates__empty").contains("No Templates");
   });
