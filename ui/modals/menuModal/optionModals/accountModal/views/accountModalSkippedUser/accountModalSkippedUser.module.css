@@ -75,7 +75,7 @@
   background: var(--color-effect);
   font-size: 21px;
   font-weight: 700;
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: var(--box-shadow-primary);
   align-self: center;
 }
