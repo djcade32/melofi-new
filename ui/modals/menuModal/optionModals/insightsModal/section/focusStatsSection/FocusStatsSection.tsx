@@ -7,9 +7,20 @@ import { convertSecsToHrMinsSec } from "@/utils/time";
 import StatDisplay from "../../components/statDisplay/StatDisplay";
 import { firestoreTimestampToDate } from "@/utils/date";
 import MostProductiveDayChart from "../../components/charts/mostProductiveDayChart/MostProductiveDayChart";
+import useUserStore from "@/stores/user-store";
+import { PiCrownSimpleFill } from "@/imports/icons";
+
+const dummyFocusStats = {
+  focusTime: "62h 45m",
+  breakTime: "10h 30m",
+  sessionsCompleted: 41,
+  tasksCompleted: 25,
+  bestFocusDay: "3h 10m - Fri, Sept 27 2024",
+};
 
 const FocusStatsSection = () => {
   const { getTodaysFocusStats, getAllFocusStats, getBestFocusDay } = useInsightsStore();
+  const { isPremiumUser } = useUserStore();
   const [focusTimePeriod, setFocusTimePeriod] = useState("Today");
   const [focusStats, setFocusStats] = useState<Partial<FocusDay> | null>(null);
 
@@ -49,42 +60,90 @@ const FocusStatsSection = () => {
     return `${getFocusStatTimeString(focusTime)} - ${dateToString}`;
   };
   return (
-    <>
-      <div className={styles.focusStatsSection_button_container}>
+    <div className={styles.focusStatsSection__container}>
+      <div className={styles.focusStatsSection__premium_container}>
+        <div className={styles.focusStatsSection__premium_badge}>
+          <PiCrownSimpleFill color="var(--color-effect-opacity" size={15} />
+          <p>PREMIUM</p>
+        </div>
+        <p className={styles.focusStatsSection__premium_text}>
+          Total focus time, best days, and more—upgrade to see it all. 🔥
+        </p>
         <Button
-          id="focus-stats-button-today"
-          className={`${styles.focusStatsSection_button} ${
-            focusTimePeriod === "Today" && styles.active
-          }`}
-          text="Today"
-          onClick={(e) => e && handleFocusTimePeriodChange(e)}
-          hoverClassName={styles.focusStatsSection_button_hover}
-          textClassName={styles.focusStatsSection_button_text}
+          id="go-premium-button"
+          text="Go Premium"
+          containerClassName={styles.focusStatsSection__premium_button}
+          hoverClassName={styles.focusStatsSection__premium_button_hover}
+          textClassName={styles.focusStatsSection__premium_button_text}
+          onClick={() => {}}
         />
-        <Button
-          id="focus-stats-button-all"
-          className={`${styles.focusStatsSection_button} ${
-            focusTimePeriod === "All" && styles.active
-          }`}
-          text="All"
-          onClick={(e) => e && handleFocusTimePeriodChange(e)}
-          hoverClassName={styles.focusStatsSection_button_hover}
-          textClassName={styles.focusStatsSection_button_text}
-        />
-      </div>
-      <div className={styles.focusStatsSection_stats_container}>
-        <StatDisplay label="Focus" stat={getFocusStatTimeString(focusStats?.focusTime)} />
-        <StatDisplay label="Break" stat={getFocusStatTimeString(focusStats?.breakTime)} />
-        <StatDisplay label="Sessions" stat={focusStats?.sessionsCompleted || 0} />
-        <StatDisplay label="Tasks" stat={focusStats?.tasksCompleted || 0} />
-      </div>
-      <div className={styles.focusStatsSection_stats_container}>
-        <StatDisplay label="🔥 Best Focus Day" stat={getBestFocusDayString(getBestFocusDay())} />
       </div>
       <div>
-        <MostProductiveDayChart />
+        <div className={styles.focusStatsSection_button_container}>
+          <Button
+            id="focus-stats-button-today"
+            className={`${styles.focusStatsSection_button} ${
+              focusTimePeriod === "Today" && styles.active
+            }`}
+            text="Today"
+            onClick={(e) => e && handleFocusTimePeriodChange(e)}
+            hoverClassName={styles.focusStatsSection_button_hover}
+            textClassName={styles.focusStatsSection_button_text}
+          />
+          <Button
+            id="focus-stats-button-all"
+            className={`${styles.focusStatsSection_button} ${
+              focusTimePeriod === "All" && styles.active
+            }`}
+            text="All"
+            onClick={(e) => e && handleFocusTimePeriodChange(e)}
+            hoverClassName={styles.focusStatsSection_button_hover}
+            textClassName={styles.focusStatsSection_button_text}
+          />
+        </div>
+        <div className={styles.focusStatsSection_stats_container}>
+          <StatDisplay
+            label="Focus"
+            stat={
+              isPremiumUser
+                ? getFocusStatTimeString(focusStats?.focusTime)
+                : dummyFocusStats.focusTime
+            }
+          />
+          <StatDisplay
+            label="Break"
+            stat={
+              isPremiumUser
+                ? getFocusStatTimeString(focusStats?.breakTime)
+                : dummyFocusStats.breakTime
+            }
+          />
+          <StatDisplay
+            label="Sessions"
+            stat={
+              isPremiumUser ? focusStats?.sessionsCompleted || 0 : dummyFocusStats.sessionsCompleted
+            }
+          />
+          <StatDisplay
+            label="Tasks"
+            stat={isPremiumUser ? focusStats?.tasksCompleted || 0 : dummyFocusStats.tasksCompleted}
+          />
+        </div>
+        <div className={styles.focusStatsSection_stats_container}>
+          <StatDisplay
+            label="🔥 Best Focus Day"
+            stat={
+              isPremiumUser
+                ? getBestFocusDayString(getBestFocusDay())
+                : dummyFocusStats.bestFocusDay
+            }
+          />
+        </div>
+        <div>
+          <MostProductiveDayChart />
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

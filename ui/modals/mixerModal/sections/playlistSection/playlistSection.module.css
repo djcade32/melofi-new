@@ -38,6 +38,7 @@
 .playListSection__premium_button {
   background-color: var(--color-secondary);
   padding: 5px 10px !important;
+  box-shadow: var(--box-shadow-primary);
 }
 
 .playListSection__premium_button_hover {
@@ -46,4 +47,8 @@
 
 .playListSection__premium_button_text {
   font-weight: 500;
+}
+
+.playListSection__premium_button + p {
+  text-shadow: var(--box-shadow-primary);
 }
