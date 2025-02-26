@@ -119,7 +119,9 @@ describe("Testing Pomodoro Timer", () => {
     it("Should delete task", () => {
       cy.get("#pomodoro-timer-expand-button").realClick();
       cy.wait(1000);
-      getElementWithClassName("pomoTimerSessionCard__trash_icon").realClick({ force: true });
+      getElementWithClassName("pomoTimerSessionCard__active__delete_button").realClick({
+        force: true,
+      });
       getElementWithClassName("pomodoroTimer__empty_tasks_container").contains("No tasks added");
     });
   });
