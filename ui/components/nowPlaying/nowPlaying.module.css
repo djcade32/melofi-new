@@ -34,6 +34,7 @@
   font-size: 16px;
   opacity: 50%;
   font-weight: 500;
+  transition: opacity 0.3s;
 }
 
 .nowPlaying__song_provider:hover {

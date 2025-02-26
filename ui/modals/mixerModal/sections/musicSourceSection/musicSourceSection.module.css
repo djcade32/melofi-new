@@ -1,7 +1,7 @@
 .musicSourceSection__container {
-    display: flex;
-    justify-content: space-around;
-    column-gap: 15px;
-    padding: 5px;
-    margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  column-gap: 15px;
+  padding: 5px;
+  margin-top: 15px;
 }

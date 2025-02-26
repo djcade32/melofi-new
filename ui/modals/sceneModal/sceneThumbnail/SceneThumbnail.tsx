@@ -1,7 +1,9 @@
 import { Scene } from "@/types/general";
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./sceneThumbnail.module.css";
 import useSceneStore from "@/stores/scene-store";
+import useUserStore from "@/stores/user-store";
+import { PiCrownSimpleFill } from "@/imports/icons";
 
 interface SceneThumbnailProps {
   scene: Scene;
@@ -16,6 +18,9 @@ const iconProps = {
 
 const SceneThumbnail = ({ scene, setSelectedScene }: SceneThumbnailProps) => {
   const { currentScene } = useSceneStore();
+  const { isPremiumUser } = useUserStore();
+  const showPremiumIcon = scene.premium && !isPremiumUser;
+
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
 
@@ -53,6 +58,13 @@ const SceneThumbnail = ({ scene, setSelectedScene }: SceneThumbnailProps) => {
     >
       <div>
         {!isVisible && <p>Loading...</p>}
+        {showPremiumIcon && (
+          <PiCrownSimpleFill
+            className={styles.sceneThumbnail__premium_icon}
+            size={25}
+            color="var(--color-effect-opacity)"
+          />
+        )}
         <p className={styles.sceneThumbnail__sceneName} style={{ fontFamily: scene.fontFamily }}>
           {scene.name}
         </p>

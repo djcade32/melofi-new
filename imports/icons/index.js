@@ -5,7 +5,6 @@ import {
   FaUserAlt,
   FaMedal,
   FaHeadphones,
-  FaCrown,
   FaLock,
   FaFan,
   FaStop,
@@ -63,7 +62,7 @@ import { HiTemplate, HiTrash } from "react-icons/hi";
 import { ImTwitter, ImCalculator } from "react-icons/im";
 import { WiNightAltStormShowers } from "react-icons/wi";
 import { CgEditNoise, CgArrowsExpandDownRight, CgArrowsExpandUpLeft } from "react-icons/cg";
-import { GiTacos, GiBigWave, GiSubmarine } from "react-icons/gi";
+import { GiBigWave, GiSubmarine } from "react-icons/gi";
 import {
   MdLandscape,
   MdDelete,
@@ -112,11 +111,18 @@ import {
   RxCaretUp,
   RxDragHandleDots2,
 } from "react-icons/rx";
-import { PiMoonFill, PiSunHorizonFill, PiWavesDuotone, PiSignOutBold } from "react-icons/pi";
+import {
+  PiMoonFill,
+  PiSunHorizonFill,
+  PiWavesDuotone,
+  PiSignOutBold,
+  PiCrownSimpleFill,
+} from "react-icons/pi";
 import { VscDebugRestart } from "react-icons/vsc";
 import { LuGalleryVertical, LuGalleryHorizontal } from "react-icons/lu";
 import { BiSolidHide, BiSolidShow, BiWifiOff } from "react-icons/bi";
 import { LiaTimesSolid } from "react-icons/lia";
+import { SiBuymeacoffee } from "react-icons/si";
 
 export {
   FaPause,
@@ -141,7 +147,6 @@ export {
   IoThunderstorm,
   IoCheckmarkCircle,
   PiWavesDuotone,
-  GiTacos,
   MdLandscape,
   BsPhoneFill,
   AiFillTool,
@@ -177,7 +182,6 @@ export {
   MdWaterDrop,
   PiMoonFill,
   FaHeadphones,
-  FaCrown,
   IoBookSharp,
   MdLibraryMusic,
   MdError,
@@ -240,4 +244,6 @@ export {
   PiSignOutBold,
   IoCopy,
   BiWifiOff,
+  PiCrownSimpleFill,
+  SiBuymeacoffee,
 };

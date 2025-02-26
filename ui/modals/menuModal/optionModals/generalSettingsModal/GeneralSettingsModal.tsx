@@ -6,6 +6,8 @@ import Switch from "@/ui/components/shared/switch/Switch";
 import Selector from "@/ui/components/shared/selector/Selector";
 import { LongMenuOption } from "@/types/general";
 import useAppStore from "@/stores/app-store";
+import PremiumBadge from "@/ui/components/premiumBadge/PremiumBadge";
+import useUserStore from "@/stores/user-store";
 
 const delayOptions: LongMenuOption[] = [
   { id: "delay-option-0", label: "5 seconds" },
@@ -26,6 +28,7 @@ const GeneralSettingsModal = () => {
     setTodoListHoverEffectEnabled,
     setDailyQuoteEnabled,
   } = useAppStore();
+  const { isPremiumUser } = useUserStore();
   const isOpen = selectedOption === "General Settings";
   const [delayOption, setDelayOption] = useState<LongMenuOption>(delayOptions[0]);
 
@@ -159,9 +162,12 @@ const GeneralSettingsModal = () => {
         {/* Quotes */}
         <div className={styles.generalSettingsModal__settings_section}>
           <div className={styles.generalSettingsModal__setting_container}>
-            <p>Show Daily Quotes</p>
+            <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
+              <p>Show Daily Quotes</p>
+              {!isPremiumUser && <PremiumBadge />}
+            </div>
             <Switch
-              checked={appSettings.showDailyQuote}
+              checked={isPremiumUser && appSettings.showDailyQuote}
               onChange={() => setDailyQuoteEnabled(!appSettings.showDailyQuote)}
             />
           </div>
