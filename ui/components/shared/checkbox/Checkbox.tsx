@@ -37,11 +37,14 @@ const Checkbox = ({
       style={{ alignItems: centerCheckbox ? "center" : "flex-start" }}
       onClick={handleClick}
     >
-      {checked ? (
-        <MdCheckBox size={size} color="var(--color-effect)" />
-      ) : (
-        <MdOutlineCheckBoxOutlineBlank size={size} />
-      )}
+      <div>
+        {checked ? (
+          <MdCheckBox size={size} color="var(--color-effect)" />
+        ) : (
+          <MdOutlineCheckBoxOutlineBlank size={size} />
+        )}
+      </div>
+
       <p className={textClassName}>{text}</p>
     </div>
   );
