@@ -53,17 +53,6 @@ const PomodoroTimerSessionCard = ({ task, active, onClick }: PomodoroTimerSessio
         >
           {task.title}
         </p>
-        {/* <HoverIcon
-          containerClassName={styles.pomoTimerSessionCard__trash_icon}
-          size={20}
-          color="var(--color-secondary)"
-          icon={HiTrash}
-          hoverColor="var(--color-error)"
-          onClick={(e) => {
-            e.stopPropagation();
-            deletePomodoroTimerTask(task.id);
-          }}
-        /> */}
         <div
           className={styles.pomoTimerSessionCard__active__delete_button}
           onClick={(e) => {
