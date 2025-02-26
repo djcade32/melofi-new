@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./pomodoroTimerSessionCard.module.css";
-import { RxTimer, BsLightningCharge, BsArrowRepeat, HiTrash } from "@/imports/icons";
+import { RxTimer, BsLightningCharge, BsArrowRepeat, IoClose } from "@/imports/icons";
 import { LinearProgress, linearProgressClasses } from "@mui/material";
-import HoverIcon from "@/ui/components/shared/hoverIcon/HoverIcon";
 import usePomodoroTimerStore from "@/stores/widgets/pomodoro-timer-store";
 import { convertSecsToHrMinsSec, convertSecsToMins } from "@/utils/time";
 import { PomodoroTimerTask } from "@/types/interfaces/pomodoro_timer";
@@ -54,7 +53,7 @@ const PomodoroTimerSessionCard = ({ task, active, onClick }: PomodoroTimerSessio
         >
           {task.title}
         </p>
-        <HoverIcon
+        {/* <HoverIcon
           containerClassName={styles.pomoTimerSessionCard__trash_icon}
           size={20}
           color="var(--color-secondary)"
@@ -64,7 +63,16 @@ const PomodoroTimerSessionCard = ({ task, active, onClick }: PomodoroTimerSessio
             e.stopPropagation();
             deletePomodoroTimerTask(task.id);
           }}
-        />
+        /> */}
+        <div
+          className={styles.pomoTimerSessionCard__active__delete_button}
+          onClick={(e) => {
+            e.stopPropagation();
+            deletePomodoroTimerTask(task.id);
+          }}
+        >
+          <IoClose size={12} color="var(--color-primary-opacity)" />
+        </div>
       </div>
       <div className={styles.pomoTimerSessionCard__linear_progress_container}>
         <LinearProgress
