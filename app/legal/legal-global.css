@@ -1,0 +1,36 @@
+* {
+  box-sizing: revert;
+  padding: revert;
+  margin: revert;
+}
+
+p,
+h1 {
+  margin: 0px;
+}
+
+body {
+  background-color: var(--color-secondary-opacity);
+}
+
+.legalDoc__container {
+  overflow: scroll;
+  height: 100vh;
+  padding-left: 10px;
+}
+
+.legalDoc__container::-webkit-scrollbar {
+  background-color: transparent;
+  width: 10px;
+}
+
+.legalDoc__container::-webkit-scrollbar-thumb {
+  background-color: var(--color-secondary-opacity);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.legalDoc__container::-webkit-scrollbar-track {
+  background-color: transparent;
+  width: 30px;
+}

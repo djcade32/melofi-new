@@ -43,7 +43,7 @@
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow: hidden;
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none;
@@ -54,6 +54,8 @@ h1,
 h2,
 h3,
 h4 h5,
+li,
+a,
 h6 input {
   font-family: var(--font-primary);
   color: var(--color-white);
