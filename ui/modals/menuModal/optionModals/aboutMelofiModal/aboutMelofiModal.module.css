@@ -50,13 +50,14 @@
   align-items: center;
 }
 
-.aboutMelofiModal__legal_link p {
+.aboutMelofiModal__legal_link a {
+  font-family: var(--font-primary);
   font-size: 14px;
   color: var(--color-secondary);
   transition: all 0.3s;
 }
 
-.aboutMelofiModal__legal_link p:hover {
+.aboutMelofiModal__legal_link a:hover {
   color: var(--color-white);
   text-decoration: underline;
   cursor: pointer;

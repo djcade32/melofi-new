@@ -3,6 +3,7 @@ import styles from "./aboutMelofiModal.module.css";
 import Modal from "@/ui/components/shared/modal/Modal";
 import useMenuStore from "@/stores/menu-store";
 import { MdEmail, AiFillInstagram } from "@/imports/icons";
+import Link from "next/link";
 
 const AboutMelofiModal = () => {
   const { selectedOption, setSelectedOption, copyToClipboard } = useMenuStore();
@@ -33,12 +34,16 @@ const AboutMelofiModal = () => {
         <div className={styles.aboutMelofiModal__footer}>
           <div className={styles.aboutMelofiModal__legal_links}>
             <div className={styles.aboutMelofiModal__legal_link}>
-              <p>Privacy Policy</p>
+              <Link href="/legal/privacy-policy" target="_blank" rel="noopener noreferrer">
+                Privacy Policy
+              </Link>
             </div>
             <div className={styles.aboutMelofiModal__footer_separator} />
 
             <div className={styles.aboutMelofiModal__legal_link}>
-              <p>Terms & Conditions</p>
+              <Link href="/legal/terms-and-conditions" target="_blank" rel="noopener noreferrer">
+                Terms & Conditions
+              </Link>
             </div>
           </div>
 

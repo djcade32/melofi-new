@@ -9,6 +9,7 @@ import useUserStore from "@/stores/user-store";
 import { signup } from "@/lib/firebase/actions/auth-actions";
 import { isValidEmail } from "@/utils/general";
 import { ERROR_MESSAGES } from "@/enums/general";
+import Link from "next/link";
 
 interface CredentialsViewProps extends AuthViewProps {
   setAuthViewStep: React.Dispatch<React.SetStateAction<number>>;
@@ -190,7 +191,17 @@ const CredentialsView = ({
           <p className={styles.signup__terms_and_policy_text}>By proceeding, you agree to our </p>
 
           <p className={styles.signup__terms_and_policy_text} style={{ marginTop: -5 }}>
-            <span>Terms of Service</span> and <span>Privacy Policy</span>
+            <span>
+              <Link href="/legal/terms-and-conditions" target="_blank" rel="noopener noreferrer">
+                Terms & Conditions
+              </Link>
+            </span>{" "}
+            and{" "}
+            <span>
+              <Link href="/legal/privacy-policy" target="_blank" rel="noopener noreferrer">
+                Privacy Policy
+              </Link>
+            </span>
           </p>
         </div>
 
