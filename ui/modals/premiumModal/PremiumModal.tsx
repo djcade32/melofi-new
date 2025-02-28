@@ -90,6 +90,53 @@ const PremiumModal = () => {
             />
           </>
         );
+      case "toolbar_settings":
+        return (
+          <>
+            <p className={styles.premiumModal__title}>Customize Your Workflow</p>
+            <p className={styles.premiumModal__description}>
+              Unlock toolbar customization to change its orientation or undock it for a setup that
+              fits your flow.
+            </p>
+            <Image
+              src="/assets/premium-pics/toolbar-settings-premium-pic.png"
+              alt="Premium Modal"
+              width={266.67}
+              height={200}
+            />
+          </>
+        );
+      case "focus_stats":
+        return (
+          <>
+            <p className={styles.premiumModal__title}>Track Your Focus</p>
+            <p className={styles.premiumModal__description}>
+              Unlock detailed focus stats—track your best days, total focus time, breaks, and more
+              to optimize your productivity.
+            </p>
+            <Image
+              src="/assets/premium-pics/focus-stats-premium-pic-1.png"
+              alt="Premium Modal"
+              width={333.33}
+              height={200}
+            />
+          </>
+        );
+      case "show_quotes":
+        return (
+          <>
+            <p className={styles.premiumModal__title}>Focus with Inspiration</p>
+            <p className={styles.premiumModal__description}>
+              Unlock a collection of motivational quotes to keep you inspired and in the zone.
+            </p>
+            <Image
+              src="/assets/premium-pics/quotes-premium-pic.png"
+              alt="Premium Modal"
+              width={400}
+              height={200}
+            />
+          </>
+        );
       default:
         return null;
     }

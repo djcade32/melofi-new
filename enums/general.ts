@@ -31,8 +31,8 @@ export type PremiumModalTypes =
   | "mixer"
   | "pomodoro_timer"
   | "templates"
-  | "toolbar_orientation"
-  | "toolbar_undock"
+  | "toolbar_settings"
   | "show_quotes"
   | "scenes"
+  | "focus_stats"
   | "youtube";

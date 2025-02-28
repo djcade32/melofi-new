@@ -27,6 +27,7 @@ const GeneralSettingsModal = () => {
     setCalendarHoverEffectEnabled,
     setTodoListHoverEffectEnabled,
     setDailyQuoteEnabled,
+    setShowPremiumModal,
   } = useAppStore();
   const { isPremiumUser } = useUserStore();
   const isOpen = selectedOption === "General Settings";
@@ -176,7 +177,14 @@ const GeneralSettingsModal = () => {
             </div>
             <Switch
               checked={isPremiumUser && appSettings.showDailyQuote}
-              onChange={() => setDailyQuoteEnabled(!appSettings.showDailyQuote)}
+              onChange={() => {
+                if (!isPremiumUser) {
+                  setShowPremiumModal("show_quotes");
+                  setDailyQuoteEnabled(false);
+                  return;
+                }
+                setDailyQuoteEnabled(!appSettings.showDailyQuote);
+              }}
             />
           </div>
           <p className={styles.generalSettingsModal__setting_description}>
