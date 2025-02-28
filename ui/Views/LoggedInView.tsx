@@ -32,6 +32,7 @@ import Toolbar from "../components/toolbar/Toolbar";
 import useSceneStore from "@/stores/scene-store";
 import MenuModal from "../modals/menuModal/MenuModal";
 import SupportCreatorBanner from "../components/supportCreatorBanner/SupportCreatorBanner";
+import PremiumModal from "../modals/premiumModal/PremiumModal";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
@@ -55,6 +56,7 @@ const LoggedInView = () => {
       {musicSource === MusicSource.MELOFI && <NowPlaying />}
       <QuoteDisplay />
       <SupportCreatorBanner />
+      <PremiumModal />
 
       {/* Widgets */}
       <ComponentLoader component={<Alarms />} isComponentOpen={isAlarmsOpen} />
