@@ -4,11 +4,11 @@ import styles from "./sceneThumbnail.module.css";
 import useSceneStore from "@/stores/scene-store";
 import useUserStore from "@/stores/user-store";
 import { PiCrownSimpleFill } from "@/imports/icons";
+import useAppStore from "@/stores/app-store";
 
 interface SceneThumbnailProps {
   scene: Scene;
   setSelectedScene: (newScene: Scene) => void;
-  // setSelectedScene: Dispatch<SetStateAction<Scene>>;
 }
 
 const iconProps = {
@@ -19,6 +19,7 @@ const iconProps = {
 const SceneThumbnail = ({ scene, setSelectedScene }: SceneThumbnailProps) => {
   const { currentScene } = useSceneStore();
   const { isPremiumUser } = useUserStore();
+  const { setShowPremiumModal } = useAppStore();
   const showPremiumIcon = scene.premium && !isPremiumUser;
 
   const [isVisible, setIsVisible] = useState(false);
@@ -43,6 +44,14 @@ const SceneThumbnail = ({ scene, setSelectedScene }: SceneThumbnailProps) => {
     };
   }, []);
 
+  const handleThumbnailClick = () => {
+    if (showPremiumIcon) {
+      setShowPremiumModal("scenes");
+      return;
+    }
+    setSelectedScene(scene);
+  };
+
   return (
     <div
       ref={ref}
@@ -54,7 +63,7 @@ const SceneThumbnail = ({ scene, setSelectedScene }: SceneThumbnailProps) => {
         backgroundSize: "cover",
         filter: isVisible ? "none" : "blur(5px)",
       }}
-      onClick={() => setSelectedScene(scene)}
+      onClick={handleThumbnailClick}
     >
       <div>
         {!isVisible && <p>Loading...</p>}

@@ -153,6 +153,22 @@ const PremiumModal = () => {
             />
           </>
         );
+      case "scenes":
+        return (
+          <>
+            <p className={styles.premiumModal__title}>Exclusive Scenes</p>
+            <p className={styles.premiumModal__description}>
+              Upgrade to Premium to access a collection of immersive scenes that set the perfect
+              mood for focus and relaxation.
+            </p>
+            <Image
+              src="/assets/premium-pics/scenes-premium-pic.png"
+              alt="Premium Modal"
+              width={320}
+              height={200}
+            />
+          </>
+        );
       default:
         return null;
     }
