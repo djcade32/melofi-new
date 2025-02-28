@@ -12,8 +12,12 @@ export const wait = (time: number) => new Promise((resolve) => setTimeout(resolv
 // Get correct PremiumModalType based on string
 export const getPremiumModalType = (type: string): PremiumModalTypes => {
   switch (type) {
-    case "pomodoro_timer":
+    case "Pomodoro Timer":
       return "pomodoro_timer";
+    case "Templates":
+      return "templates";
+    case "Watch Youtube":
+      return "youtube";
 
     default:
       return "pomodoro_timer";

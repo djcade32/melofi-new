@@ -96,7 +96,7 @@ const TemplatesListItem = ({ template }: TemplatesListItemProps) => {
       />
       <div className={styles.templatesListItem__content}>
         <div className={styles.templatesListItem__titleContainer}>
-          <p className={styles.templatesListItem__title}>{template.name}</p>\
+          <p className={styles.templatesListItem__title}>{template.name}</p>
           <div
             className={styles.templatesListItem__delete_button}
             onClick={(e) => handleDeleteTemplate(e)}

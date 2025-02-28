@@ -58,6 +58,38 @@ const PremiumModal = () => {
             />
           </>
         );
+      case "templates":
+        return (
+          <>
+            <p className={styles.premiumModal__title}>Save the Vibe</p>
+            <p className={styles.premiumModal__description}>
+              Unlock Templates to save and switch between your favorite Melofi setups—scenes, and
+              sounds.
+            </p>
+            <Image
+              src="/assets/premium-pics/templates-premium-pic.png"
+              alt="Premium Modal"
+              width={215}
+              height={215}
+            />
+          </>
+        );
+      case "youtube":
+        return (
+          <>
+            <p className={styles.premiumModal__title}>Watch, Focus, Repeat</p>
+            <p className={styles.premiumModal__description}>
+              Unlock the YouTube widget to watch videos while staying in the zone—seamless,
+              distraction-free focus.
+            </p>
+            <Image
+              src="/assets/premium-pics/youtube-premium-pic.png"
+              alt="Premium Modal"
+              width={355.56}
+              height={200}
+            />
+          </>
+        );
       default:
         return null;
     }
