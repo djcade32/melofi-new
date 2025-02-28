@@ -7,6 +7,9 @@ import Tooltip from "@/ui/components/shared/tooltip/Tooltip";
 import useToolsStore from "@/stores/tools-store";
 import { PiCrownSimpleFill } from "@/imports/icons";
 import useUserStore from "@/stores/user-store";
+import useAppStore from "@/stores/app-store";
+import { PremiumModalTypes } from "@/enums/general";
+import { getPremiumModalType } from "@/utils/general";
 
 interface ToolbarButtonProps {
   id: string;
@@ -25,7 +28,8 @@ const ToolbarButton = ({
   active,
   premiumWidget = false,
 }: ToolbarButtonProps) => {
-  const { isVertical } = useToolsStore();
+  const { setShowPremiumModal } = useAppStore();
+  const { isVertical, toggleTools } = useToolsStore();
   const [isHovered, setIsHovered] = useState(false);
   const { isPremiumUser } = useUserStore();
 
@@ -40,11 +44,20 @@ const ToolbarButton = ({
     return premiumWidget && !isPremiumUser;
   };
 
+  const handleOnClick = () => {
+    if (showPremiumIcon()) {
+      setShowPremiumModal(getPremiumModalType(label));
+      toggleTools(false);
+    } else {
+      onClick();
+    }
+  };
+
   return (
     <div
       id={`${id}-widget-button`}
       className={styles.toolbarButton__container}
-      onClick={onClick}
+      onClick={handleOnClick}
       onMouseOver={() => setIsHovered(true)}
       onMouseOut={() => setIsHovered(false)}
     >

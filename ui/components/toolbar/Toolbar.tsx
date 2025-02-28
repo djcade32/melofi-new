@@ -16,6 +16,7 @@ import ToolbarWidgetButtons from "./toolbarWidgetButtons/ToolbarWidgetButtons";
 import { wait } from "@/utils/general";
 import { useAppContext } from "@/contexts/AppContext";
 import useUserStore from "@/stores/user-store";
+import useAppStore from "@/stores/app-store";
 
 const Toolbar = () => {
   const nodeRef = useRef<HTMLDivElement | null>(null);
@@ -33,6 +34,7 @@ const Toolbar = () => {
   } = useToolsStore();
   const { isSleep } = useAppContext();
   const { isPremiumUser } = useUserStore();
+  const { setShowPremiumModal } = useAppStore();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -70,6 +72,11 @@ const Toolbar = () => {
         <CgArrowsExpandDownRight size={20} color="var(--color-primary-opacity)" />
       ),
       onClick: () => {
+        if (!isPremiumUser) {
+          setShowPremiumModal("toolbar_settings");
+          handleClose();
+          return;
+        }
         toggleUndocked(!isUndocked);
         handleClose();
       },
@@ -84,6 +91,11 @@ const Toolbar = () => {
         <LuGalleryVertical size={20} color="var(--color-primary-opacity)" />
       ),
       onClick: () => {
+        if (!isPremiumUser) {
+          setShowPremiumModal("toolbar_settings");
+          handleClose();
+          return;
+        }
         toggleVertical(!isVertical);
         handleClose();
       },

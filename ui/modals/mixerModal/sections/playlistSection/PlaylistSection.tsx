@@ -6,12 +6,14 @@ import useMusicPlayerStore from "@/stores/music-player-store";
 import { Playlist } from "@/types/interfaces/mixer";
 import useUserStore from "@/stores/user-store";
 import Button from "@/ui/components/shared/button/Button";
+import useAppStore from "@/stores/app-store";
 
 const playlist = [Study, Relax, Sleepy];
 
 const PlaylistSection = () => {
   const { setCurrentPlaylist, currentPlaylist, shufflePlaylist } = useMusicPlayerStore();
   const { isPremiumUser } = useUserStore();
+  const { setShowPremiumModal } = useAppStore();
 
   const handlePlayListButtonPress = (playlist: Playlist) => {
     if (currentPlaylist.id === playlist.id) return;
@@ -28,7 +30,7 @@ const PlaylistSection = () => {
             containerClassName={styles.playListSection__premium_button}
             hoverClassName={styles.playListSection__premium_button_hover}
             textClassName={styles.playListSection__premium_button_text}
-            onClick={() => {}}
+            onClick={() => setShowPremiumModal("mixer")}
           />
           <p>More moods, more music, more focus. Upgrade now! 🚀</p>
         </div>

@@ -10,6 +10,7 @@ import MostProductiveDayChart from "../../components/charts/mostProductiveDayCha
 import useUserStore from "@/stores/user-store";
 import { PiCrownSimpleFill } from "@/imports/icons";
 import PremiumBadge from "@/ui/components/premiumBadge/PremiumBadge";
+import useAppStore from "@/stores/app-store";
 
 const dummyFocusStats = {
   focusTime: "62h 45m",
@@ -21,6 +22,7 @@ const dummyFocusStats = {
 
 const FocusStatsSection = () => {
   const { getTodaysFocusStats, getAllFocusStats, getBestFocusDay } = useInsightsStore();
+  const { setShowPremiumModal } = useAppStore();
   const { isPremiumUser } = useUserStore();
   const [focusTimePeriod, setFocusTimePeriod] = useState("Today");
   const [focusStats, setFocusStats] = useState<Partial<FocusDay> | null>(null);
@@ -74,7 +76,7 @@ const FocusStatsSection = () => {
             containerClassName={styles.focusStatsSection__premium_button}
             hoverClassName={styles.focusStatsSection__premium_button_hover}
             textClassName={styles.focusStatsSection__premium_button_text}
-            onClick={() => {}}
+            onClick={() => setShowPremiumModal("focus_stats")}
           />
         </div>
       )}
