@@ -26,3 +26,13 @@ export type MenuOptionNames =
   | "Logout";
 
 export type DaysOfWeek = "Sun" | "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat";
+
+export type PremiumModalTypes =
+  | "mixer"
+  | "pomodoro_timer"
+  | "templates"
+  | "toolbar_orientation"
+  | "toolbar_undock"
+  | "show_quotes"
+  | "scenes"
+  | "youtube";

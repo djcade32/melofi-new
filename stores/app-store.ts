@@ -1,10 +1,12 @@
 import { create } from "zustand";
 import screenfull from "screenfull";
 import { AppSettings } from "@/types/general";
+import { PremiumModalTypes } from "@/enums/general";
 
 export interface AppState {
   isFullscreen: boolean;
   appSettings: AppSettings;
+  showPremiumModal: PremiumModalTypes | null;
 
   toggleFullscreen: (boolean: boolean) => void;
   isElectron: () => boolean;
@@ -15,6 +17,7 @@ export interface AppState {
   setTodoListHoverEffectEnabled: (boolean: boolean) => void;
   setDailyQuoteEnabled: (boolean: boolean) => void;
   fetchAppSettings: () => void;
+  setShowPremiumModal: (modal: PremiumModalTypes | null) => void;
 }
 
 const useAppStore = create<AppState>((set, get) => ({
@@ -27,6 +30,7 @@ const useAppStore = create<AppState>((set, get) => ({
     todoListHoverEffectEnabled: true,
     showDailyQuote: true,
   },
+  showPremiumModal: null,
 
   toggleFullscreen: (boolean) => {
     screenfull.toggle();
@@ -91,6 +95,10 @@ const useAppStore = create<AppState>((set, get) => ({
     if (appSettings) {
       set(() => ({ appSettings: JSON.parse(appSettings) }));
     }
+  },
+
+  setShowPremiumModal: (modal) => {
+    set(() => ({ showPremiumModal: modal }));
   },
 }));
 

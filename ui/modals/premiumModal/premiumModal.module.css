@@ -21,6 +21,8 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
+  transition: all 0.5s;
+  backdrop-filter: blur(10px);
 }
 
 .premiumModal__content {
@@ -43,7 +45,7 @@
 }
 
 .premiumModal__subtitle {
-  font-size: 24px;
+  font-size: 21px;
   font-weight: 700;
 }
 
@@ -79,6 +81,10 @@
 
 .premiumModal__features_list p {
   margin-right: 5px;
+}
+
+.premiumModal__features_list_clickable {
+  cursor: pointer;
 }
 
 .premiumModal__features_list p:last-of-type {
