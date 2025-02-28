@@ -3,10 +3,14 @@ import useMusicPlayerStore from "@/stores/music-player-store";
 import styles from "./spotifyWidgetSection.module.css";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
 import SearchInput from "@/ui/components/shared/searchInput/SearchInput";
+import useUserStore from "@/stores/user-store";
+import useAppStore from "@/stores/app-store";
 
 const SpotifyWidgetSection = () => {
   const { currentPlaylist } = useMusicPlayerStore();
   const { addNotification } = useNotificationProviderStore();
+  const { isPremiumUser } = useUserStore();
+  const { setShowPremiumModal } = useAppStore();
 
   const [spotifyPlaylistId, setSpotifyPlaylistId] = useState("");
   const [spotifyPlaylistInput, setSpotifyPlaylistInput] = useState("");
@@ -18,6 +22,10 @@ const SpotifyWidgetSection = () => {
   }, [currentPlaylist]);
 
   const handleSpotifyPlaylistChange = (): Promise<boolean> => {
+    if (!isPremiumUser) {
+      setShowPremiumModal("spotify");
+      return Promise.resolve(true);
+    }
     // If the input is empty, do nothing
     if (spotifyPlaylistInput === "") {
       return Promise.resolve(true);

@@ -35,4 +35,5 @@ export type PremiumModalTypes =
   | "show_quotes"
   | "scenes"
   | "focus_stats"
-  | "youtube";
+  | "youtube"
+  | "spotify";

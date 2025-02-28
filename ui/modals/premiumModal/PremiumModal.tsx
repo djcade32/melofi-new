@@ -137,6 +137,22 @@ const PremiumModal = () => {
             />
           </>
         );
+      case "spotify":
+        return (
+          <>
+            <p className={styles.premiumModal__title}>Stream Your Soundtrack</p>
+            <p className={styles.premiumModal__description}>
+              Unlock Spotify integration to paste any playlist URL and enjoy your perfect focus
+              soundtrack right in Melofi.
+            </p>
+            <Image
+              src="/assets/premium-pics/spotify-premium-pic.png"
+              alt="Premium Modal"
+              width={355.56}
+              height={200}
+            />
+          </>
+        );
       default:
         return null;
     }
