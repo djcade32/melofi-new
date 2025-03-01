@@ -1,6 +1,6 @@
 import useMenuStore from "@/stores/menu-store";
 import React, { useEffect, useState } from "react";
-import { IoCloseOutline } from "@/imports/icons";
+import { MdOutlineOpenInNew } from "@/imports/icons";
 import Input from "@/ui/components/shared/input/Input";
 import useUserStore from "@/stores/user-store";
 import Button from "@/ui/components/shared/button/Button";
@@ -10,6 +10,9 @@ import ReauthenticateModal from "../components/reauthenticateModal/Reauthenticat
 import { isValidEmail } from "@/utils/general";
 import DialogModal from "@/ui/components/shared/dialogModal/DialogModal";
 import styles from "../accountModal.module.css";
+import { manageSubscription } from "@/lib/stripe/manageSubscription";
+import useNotificationProviderStore from "@/stores/notification-provider-store";
+import LoadingSpinner from "@/ui/components/shared/loadingSpinner/LoadingSpinner";
 
 interface AccountModalSignedInUserProps {
   showReauthenticateModal: boolean;
@@ -36,6 +39,7 @@ const AccountModalSignedInUser = ({
   }>({});
   const [showDialog, setShowDialog] = useState(0);
   const [dialopProps, setDialogProps] = useState<DialogModalActions | null>(null);
+  const [loadingManageSubscription, setLoadingManageSubscription] = useState(false);
 
   useEffect(() => {
     setFullname(currentUser?.name);
@@ -135,8 +139,24 @@ const AccountModalSignedInUser = ({
     });
   };
 
+  const handleManageSubscriptionClick = async () => {
+    setLoadingManageSubscription(true);
+    const success = await manageSubscription();
+    if (!success) {
+      useNotificationProviderStore.getState().addNotification({
+        type: "error",
+        message: "Error retrieving billing subscription information",
+      });
+    }
+    setLoadingManageSubscription(false);
+  };
+
   return (
-    <div>
+    <div
+      style={{
+        position: "relative",
+      }}
+    >
       <div className={styles.accountModal__content}>
         <div className={styles.accountModal__section}>
           <div>
@@ -230,6 +250,20 @@ const AccountModalSignedInUser = ({
             />
           </div>
         </div>
+
+        {!loadingManageSubscription ? (
+          <div
+            className={styles.accountModal__manage_subscription}
+            onClick={handleManageSubscriptionClick}
+          >
+            <p>Manage Subscription</p>
+            <MdOutlineOpenInNew size={20} />
+          </div>
+        ) : (
+          <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+            <LoadingSpinner showBackground={false} />
+          </div>
+        )}
 
         <div
           className={`${styles.accountModal__section} ${styles.accountModal__danger_zone}`}

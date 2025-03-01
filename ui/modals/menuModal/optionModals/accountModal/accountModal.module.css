@@ -29,6 +29,7 @@
 
   height: 400px;
   padding: 0px 20px;
+  position: relative;
 }
 
 .accountModal__section {
@@ -68,6 +69,28 @@
   padding: 10px 10px;
   background-color: rgba(239, 83, 80, 0.036);
   margin-top: 10px;
+}
+
+.accountModal__manage_subscription {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+  text-decoration: none;
+}
+
+.accountModal__manage_subscription p,
+.accountModal__manage_subscription svg {
+  color: var(--color-secondary);
+  transition: color 0.3s;
+}
+
+.accountModal__manage_subscription:hover p,
+.accountModal__manage_subscription:hover svg {
+  color: var(--color-white);
 }
 
 .accountModal__content::-webkit-scrollbar {
