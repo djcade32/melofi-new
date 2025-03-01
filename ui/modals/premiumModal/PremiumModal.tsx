@@ -4,6 +4,11 @@ import Modal from "@/ui/components/shared/modal/Modal";
 import Image from "next/image";
 import Button from "@/ui/components/shared/button/Button";
 import useAppStore from "@/stores/app-store";
+import { createCheckoutSession } from "@/lib/stripe/createCheckoutSession";
+import useUserStore from "@/stores/user-store";
+import Switch from "@/ui/components/shared/switch/Switch";
+import { Logger } from "@/classes/Logger";
+import useNotificationProviderStore from "@/stores/notification-provider-store";
 
 const featuresList = [
   "📊 Focus stats",
@@ -19,7 +24,10 @@ const featuresList = [
 
 const PremiumModal = () => {
   const { showPremiumModal, setShowPremiumModal } = useAppStore();
+  const { currentUser } = useUserStore();
   const [content, setContent] = useState<React.ReactNode>(null);
+  const [isYearly, setIsYearly] = useState(true);
+
   useEffect(() => {
     setContent(getContent());
   }, [showPremiumModal]);
@@ -173,6 +181,18 @@ const PremiumModal = () => {
         return null;
     }
   };
+
+  const handleGoPremiumClick = async () => {
+    try {
+      await createCheckoutSession(currentUser?.authUser?.uid, isYearly ? "yearly" : "monthly");
+    } catch (error) {
+      Logger.getInstance().error(`Error creating checkout session: ${error}`);
+      useNotificationProviderStore.getState().addNotification({
+        type: "error",
+        message: "Error creating checkout session",
+      });
+    }
+  };
   return (
     <>
       <div
@@ -191,23 +211,18 @@ const PremiumModal = () => {
           <div className={styles.premiumModal__content}>
             {content}
             <div className={styles.premiumModal__pricing_container}>
+              <div className={styles.premiumModal__pricing_switch}>
+                <p className={`${!isYearly ? styles.active : ""}`}>MONTHLY</p>
+                <Switch checked={isYearly} onChange={() => setIsYearly((prev) => !prev)} />
+                <p className={`${isYearly ? styles.active : ""}`}>YEARLY</p>
+                <div className={styles.premiumModal__pricing_save}>
+                  <p>SAVE 33%</p>
+                </div>
+              </div>
               <p className={styles.premiumModal__pricing}>
-                <span
-                  style={{
-                    fontWeight: 700,
-                  }}
-                >
-                  $6
-                </span>
-                /mo or{" "}
-                <span
-                  style={{
-                    fontWeight: 700,
-                  }}
-                >
-                  $4
-                </span>
-                /mo annually
+                <span>$6</span>
+                /mo or <span>$4</span>
+                /mo yearly
               </p>
               <Button
                 id="go-premium-button"
@@ -215,7 +230,8 @@ const PremiumModal = () => {
                 containerClassName={styles.premiumModal__premium_button}
                 hoverClassName={styles.premiumModal__premium_button_hover}
                 textClassName={styles.premiumModal__premium_button_text}
-                onClick={() => {}}
+                onClick={handleGoPremiumClick}
+                showLoadingState={true}
               />
             </div>
             <div className={styles.premiumModal__features_container}>
