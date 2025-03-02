@@ -14,7 +14,6 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
     clearLocalStorage: false,
     seedWithUser: false,
   };
-  cy.visit("/");
   if (options.clearLocalStorage) {
     cy.clearLocalStorage();
   }
@@ -44,6 +43,7 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
     cy.clearFirestoreEmulator();
     cy.signUpUser("test@example.com", "Password123");
   }
+  cy.visit("/");
   cy.wait(3000);
   cy.get("#melofi-app").trigger("mouseover");
 };
