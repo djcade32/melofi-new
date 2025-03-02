@@ -8,7 +8,6 @@ import useToolsStore from "@/stores/tools-store";
 import { PiCrownSimpleFill } from "@/imports/icons";
 import useUserStore from "@/stores/user-store";
 import useAppStore from "@/stores/app-store";
-import { PremiumModalTypes } from "@/enums/general";
 import { getPremiumModalType } from "@/utils/general";
 
 interface ToolbarButtonProps {

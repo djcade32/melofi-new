@@ -92,6 +92,7 @@ import {
   MdFormatAlignCenter,
   MdFormatAlignRight,
   MdFormatAlignJustify,
+  MdOutlineOpenInNew,
 } from "react-icons/md";
 import {
   AiFillTool,
@@ -246,4 +247,5 @@ export {
   BiWifiOff,
   PiCrownSimpleFill,
   SiBuymeacoffee,
+  MdOutlineOpenInNew,
 };

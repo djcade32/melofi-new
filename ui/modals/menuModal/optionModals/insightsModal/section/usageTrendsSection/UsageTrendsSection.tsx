@@ -8,7 +8,7 @@ const UsageTrendsSection = () => {
   return (
     <div className={styles.usageTrendsSection__container}>
       <div className={styles.usageTrendsSection__stats}>
-        <StatDisplay label="📝 Sticky Notes" stat={getStickyNoteStats()} />
+        <StatDisplay label="📝 Notes" stat={getStickyNoteStats()} />
         <StatDisplay label="⏰ Alarms Expired" stat={getAlarmsExpiredCount()} />
         <StatDisplay label="🎬 Favorite Scene" stat={getFavoriteScene() || "none"} />
       </div>

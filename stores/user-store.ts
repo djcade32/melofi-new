@@ -20,12 +20,13 @@ import usePomodoroTimerStore from "./widgets/pomodoro-timer-store";
 import useTemplatesStore from "./widgets/templates-store";
 import useAlarmsStore from "./widgets/alarms-store";
 import useUserStatsStore from "./user-stats-store";
+import useWidgetsStore from "./widgets-store";
 
 export interface UserState {
   isUserLoggedIn: boolean;
   currentUser?: MelofiUser;
   userStats?: UserStats;
-  isPremiumUser: boolean;
+  isPremiumUser?: boolean;
 
   setIsUserLoggedIn: (value: boolean) => void;
   setCurrentUser: (user: MelofiUser) => void;
@@ -38,13 +39,14 @@ export interface UserState {
   clearUserData: () => Promise<void>;
   deleteUserAccount: () => Promise<void>;
   signUserOut: () => void;
+  setIsPremiumUser: (value: boolean) => void;
 }
 
 const useUserStore = create<UserState>((set, get) => ({
   isUserLoggedIn: false,
   currentUser: undefined,
   userStats: undefined,
-  isPremiumUser: true,
+  isPremiumUser: false,
 
   setIsUserLoggedIn: (value) => {
     set({ isUserLoggedIn: value });
@@ -192,10 +194,15 @@ const useUserStore = create<UserState>((set, get) => ({
 
     localStorage.setItem("user", JSON.stringify(user));
     signOut();
-    set({ currentUser: user, isUserLoggedIn: false, userStats: undefined });
+    set({ currentUser: user, isUserLoggedIn: false, userStats: undefined, isPremiumUser: false });
+    useWidgetsStore.getState().closePremiumWidgets();
     useNotificationProviderStore
       .getState()
       .addNotification({ type: "success", message: "Logged out" });
+  },
+
+  setIsPremiumUser: (value) => {
+    set({ isPremiumUser: value });
   },
 }));
 
