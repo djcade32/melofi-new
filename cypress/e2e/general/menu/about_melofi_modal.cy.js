@@ -12,7 +12,7 @@ describe("Testing About Melofi Modal", () => {
     });
   });
   after(() => {
-    // cy.clearLocalStorage();
+    cy.clearLocalStorage();
   });
 
   it("Should open the about melofi modal", () => {
