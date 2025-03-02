@@ -3,7 +3,11 @@ import "cypress-real-events/support.js";
 
 describe("Testing Mixer Modal", () => {
   before(() => {
-    navigateToMelofi();
+    navigateToMelofi({
+      seedWithUser: true,
+      skipOnboarding: false,
+      loggedIn: true,
+    });
   });
 
   after(() => {

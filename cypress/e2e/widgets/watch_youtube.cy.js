@@ -4,7 +4,11 @@ import "cypress-real-events/support.js";
 
 describe("Testing Watch Youtube Widget", () => {
   before(() => {
-    navigateToMelofi();
+    navigateToMelofi({
+      seedWithUser: true,
+      skipOnboarding: false,
+      loggedIn: true,
+    });
   });
 
   it("Should open and close watch youtube widget", () => {
