@@ -1,4 +1,4 @@
-import React, { lazy, useMemo } from "react";
+import React, { lazy, memo, useMemo } from "react";
 import Menu from "@/ui/components/shared/menu/Menu";
 import { MenuOption } from "@/types/general";
 import {
@@ -30,7 +30,7 @@ const AboutMelofiModal = lazy(
   () => import("@/ui/modals/menuModal/optionModals/aboutMelofiModal/AboutMelofiModal")
 );
 
-const MenuModal = () => {
+const MenuModal = memo(() => {
   const { anchorEl, handleClose, isMenuOpen, setSelectedOption, selectedOption, setIsMenuOpen } =
     useMenuStore();
   const { signUserOut, isUserLoggedIn, currentUser } = useUserStore();
@@ -164,6 +164,6 @@ const MenuModal = () => {
       </MenuModalBackdrop>
     </>
   );
-};
+});
 
 export default MenuModal;

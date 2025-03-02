@@ -11,7 +11,7 @@
   flex-direction: column;
   overflow: hidden;
   width: 600px;
-  height: 650px;
+  height: 695px;
 }
 
 .premiumModal__backdrop {
@@ -63,11 +63,15 @@
   margin: 0 0 10px 0;
 }
 
+.premiumModal__pricing span {
+  font-weight: 700;
+}
+
 .premiumModal__features_container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 5px;
   height: 100%;
 }
@@ -96,10 +100,42 @@
   background-color: var(--color-effect-opacity);
   padding: 5px 10px !important;
   box-shadow: var(--box-shadow-primary);
+  width: 152px;
 }
 
 .premiumModal__premium_button_text {
   font-size: 21px;
   font-weight: 500;
   text-shadow: var(--box-shadow-primary);
+}
+
+.premiumModal__pricing_switch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 100%;
+}
+
+.premiumModal__pricing_switch p {
+  transition: all 0.3s;
+  color: var(--color-secondary);
+}
+
+.premiumModal__pricing_switch p.active {
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.premiumModal__pricing_save {
+  background-color: rgba(254, 165, 57, 0.224);
+  padding: 2px;
+  border-radius: 5px;
+}
+
+.premiumModal__pricing_save p {
+  color: var(--color-effect-opacity);
+  font-size: 0.8rem;
 }

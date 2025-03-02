@@ -20,7 +20,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 const isCypress = process.env.IS_CYPRESS === "true";
 export let db: Firestore | undefined = undefined;
 

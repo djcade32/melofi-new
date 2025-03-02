@@ -12,6 +12,7 @@ import { MelofiUser } from "@/types/general";
 import SmallerScreenView from "@/ui/Views/SmallerScreenView";
 import NoInternetView from "@/ui/Views/NoInternetView";
 import { Logger } from "@/classes/Logger";
+import checkPremiumStatus from "@/lib/stripe/checkPremiumStatus";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -23,8 +24,14 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(true);
   const [onMobileDevice, setOnMobileDevice] = useState(false);
 
-  const { setCurrentUser, currentUser, checkIfUserIsInDb, isUserLoggedIn, setIsUserLoggedIn } =
-    useUserStore();
+  const {
+    setCurrentUser,
+    currentUser,
+    checkIfUserIsInDb,
+    isUserLoggedIn,
+    setIsUserLoggedIn,
+    setIsPremiumUser,
+  } = useUserStore();
   const { setUserStats } = useUserStatsStore();
   const [isOnline, setIsOnline] = useState(true);
 
@@ -60,7 +67,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     // Get current user
     if (currentUser?.skippedOnboarding) {
-      currentUser.authUser && setUserStats();
+      if (currentUser.authUser) {
+        setUserStats();
+        setUserPremium();
+      }
       setGrantAccess(true);
     } else if (currentUser?.authUser && isUserLoggedIn) {
       // Check if user's email is verified
@@ -72,6 +82,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
           if (isInDb) {
             setUserStats();
             setGrantAccess(true);
+            setUserPremium();
           } else {
             logout();
             // Remove user from localStorage
@@ -106,6 +117,11 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       window.removeEventListener("resize", updateDimension);
     };
   }, []);
+
+  const setUserPremium = async () => {
+    const isPremiumUser = await checkPremiumStatus();
+    setIsPremiumUser(isPremiumUser);
+  };
 
   return (
     <div className={styles.authProvider__container}>

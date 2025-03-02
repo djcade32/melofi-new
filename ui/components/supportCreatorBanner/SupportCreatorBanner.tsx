@@ -5,7 +5,6 @@ import useUserStore from "@/stores/user-store";
 import { SiBuymeacoffee } from "@/imports/icons";
 
 const SupportCreatorBanner = () => {
-  const { isSleep } = useAppContext();
   const { isPremiumUser } = useUserStore();
 
   return (
