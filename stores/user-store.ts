@@ -21,6 +21,7 @@ import useTemplatesStore from "./widgets/templates-store";
 import useAlarmsStore from "./widgets/alarms-store";
 import useUserStatsStore from "./user-stats-store";
 import useWidgetsStore from "./widgets-store";
+import useAppStore from "./app-store";
 
 export interface UserState {
   isUserLoggedIn: boolean;
@@ -195,7 +196,7 @@ const useUserStore = create<UserState>((set, get) => ({
     localStorage.setItem("user", JSON.stringify(user));
     signOut();
     set({ currentUser: user, isUserLoggedIn: false, userStats: undefined, isPremiumUser: false });
-    useWidgetsStore.getState().closePremiumWidgets();
+    useAppStore.getState().removePremiumFeatures();
     useNotificationProviderStore
       .getState()
       .addNotification({ type: "success", message: "Logged out" });

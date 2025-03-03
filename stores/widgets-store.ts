@@ -24,6 +24,7 @@ export interface WidgetsState {
   isWidgetOpen: (name: string) => boolean;
   focusWidget: (name: string) => void;
   zIndexForFocus: () => number;
+  closePremiumWidgets: () => void;
 }
 
 const useWidgetsStore = create<WidgetsState>((set, get) => ({
@@ -113,6 +114,13 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
           break;
       }
     });
+  },
+
+  // Close all premium widgets
+  closePremiumWidgets: () => {
+    usePomodoroTimerStore.getState().setIsPomodoroTimerOpen(false);
+    useAlarmsStore.getState().setIsAlarmsOpen(false);
+    useYoutubeStore.getState().setIsYoutubeOpen(false);
   },
 
   getWidgetZIndex: (name) => {

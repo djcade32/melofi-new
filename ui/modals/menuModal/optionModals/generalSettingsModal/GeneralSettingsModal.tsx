@@ -173,18 +173,14 @@ const GeneralSettingsModal = () => {
           <div className={styles.generalSettingsModal__setting_container}>
             <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
               <p>Show Daily Quotes</p>
-              {!isPremiumUser && <PremiumBadge />}
+              {!isPremiumUser && (
+                <PremiumBadge onClick={() => setShowPremiumModal("show_quotes")} />
+              )}
             </div>
             <Switch
+              disabled={!isPremiumUser}
               checked={isPremiumUser && appSettings.showDailyQuote}
-              onChange={() => {
-                if (!isPremiumUser) {
-                  setShowPremiumModal("show_quotes");
-                  setDailyQuoteEnabled(false);
-                  return;
-                }
-                setDailyQuoteEnabled(!appSettings.showDailyQuote);
-              }}
+              onChange={() => setDailyQuoteEnabled(!appSettings.showDailyQuote)}
             />
           </div>
           <p className={styles.generalSettingsModal__setting_description}>

@@ -8,6 +8,7 @@
   font-size: 12px;
   gap: 5px;
   box-shadow: var(--box-shadow-primary);
+  cursor: pointer;
 }
 
 .premiumBadge__container p {

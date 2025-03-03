@@ -1,4 +1,3 @@
-import { Playlist } from "@/types/general";
 import { IoBookSharp, PiMoonFill, FaHeadphones } from "@/imports/icons";
 import {
   fallenHorizon_gCoope_oddPanda_earlyGarden,
@@ -56,6 +55,7 @@ import {
   peacefulSleep_noSpirit,
   shimmersOfADream_noSpirit_kainbeats,
 } from "../imports/songs";
+import { Playlist } from "@/types/interfaces/mixer";
 
 const Study: Playlist = {
   id: 0,

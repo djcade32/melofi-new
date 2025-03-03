@@ -2,6 +2,12 @@ import { create } from "zustand";
 import screenfull from "screenfull";
 import { AppSettings } from "@/types/general";
 import { PremiumModalTypes } from "@/enums/general";
+import useSceneStore from "./scene-store";
+import { scenes } from "@/data/scenes";
+import useMixerStore from "./mixer-store";
+import useMusicPlayerStore from "./music-player-store";
+import { Study } from "@/data/songs";
+import useWidgetsStore from "./widgets-store";
 
 export interface AppState {
   isFullscreen: boolean;
@@ -18,6 +24,7 @@ export interface AppState {
   setDailyQuoteEnabled: (boolean: boolean) => void;
   fetchAppSettings: () => void;
   setShowPremiumModal: (modal: PremiumModalTypes | null) => void;
+  removePremiumFeatures: () => void;
 }
 
 const useAppStore = create<AppState>((set, get) => ({
@@ -99,6 +106,22 @@ const useAppStore = create<AppState>((set, get) => ({
 
   setShowPremiumModal: (modal) => {
     set(() => ({ showPremiumModal: modal }));
+  },
+
+  removePremiumFeatures: () => {
+    const { setCurrentScene } = useSceneStore.getState();
+    const { resetSoundVolumes } = useMixerStore.getState();
+    const { setCurrentPlaylist } = useMusicPlayerStore.getState();
+    const { closePremiumWidgets } = useWidgetsStore.getState();
+
+    // Reset scene
+    setCurrentScene(scenes[0]);
+    // Reset playlist
+    setCurrentPlaylist(Study);
+    // Reset mixer sounds
+    resetSoundVolumes();
+    // Close all premium widgets
+    closePremiumWidgets();
   },
 }));
 
