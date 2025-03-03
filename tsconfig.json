@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["cypress-real-events"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,

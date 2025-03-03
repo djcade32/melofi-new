@@ -66,7 +66,7 @@ const FocusStatsSection = () => {
     <div className={styles.focusStatsSection__container}>
       {!isPremiumUser && (
         <div className={styles.focusStatsSection__premium_container}>
-          <PremiumBadge />
+          <PremiumBadge onClick={() => setShowPremiumModal("focus_stats")} />
           <p className={styles.focusStatsSection__premium_text}>
             Total focus time, best days, and more—upgrade to see it all. 🔥
           </p>

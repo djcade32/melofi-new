@@ -55,6 +55,15 @@ export class Menu {
     },
   };
 
+  static insightsModal = {
+    container: () => cy.get("#insights-modal"),
+    closeBtn: () => cy.get("#insights-modal-close-icon"),
+    title: () => getElementWithClassName("insightsModal__title"),
+    focusSection: {
+      container: () => getElementWithClassName("focusStatsSection__container"),
+    },
+  };
+
   static generalSettingsModal = {
     container: () => cy.get("#general-settings-modal"),
     closeBtn: () => cy.get("#general-settings-modal-close-icon"),
