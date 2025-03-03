@@ -8,6 +8,10 @@ import useMixerStore from "./mixer-store";
 import useMusicPlayerStore from "./music-player-store";
 import { Study } from "@/data/songs";
 import useWidgetsStore from "./widgets-store";
+import { updateAppSettings } from "@/lib/firebase/actions/app-settings";
+import useUserStore from "./user-store";
+import { getUserFromUserDb } from "@/lib/firebase/getters/auth-getters";
+import { Logger } from "@/classes/Logger";
 
 export interface AppState {
   isFullscreen: boolean;
@@ -22,7 +26,8 @@ export interface AppState {
   setCalendarHoverEffectEnabled: (boolean: boolean) => void;
   setTodoListHoverEffectEnabled: (boolean: boolean) => void;
   setDailyQuoteEnabled: (boolean: boolean) => void;
-  fetchAppSettings: () => void;
+  fetchAppSettings: () => Promise<void>;
+  setAppSettings: (appSettings: AppSettings) => void;
   setShowPremiumModal: (modal: PremiumModalTypes | null) => void;
   removePremiumFeatures: () => void;
 }
@@ -30,6 +35,7 @@ export interface AppState {
 const useAppStore = create<AppState>((set, get) => ({
   isFullscreen: false,
   appSettings: {
+    userUid: null,
     inActivityThreshold: 15000,
     pomodoroTimerSoundEnabled: true,
     alarmSoundEnabled: true,
@@ -49,43 +55,57 @@ const useAppStore = create<AppState>((set, get) => ({
   },
 
   setInactivityThreshold: (threshold) => {
+    const { currentUser, isUserLoggedIn } = useUserStore.getState();
     // Set in local storage
     const newAppSettings = { ...get().appSettings, inActivityThreshold: threshold };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
+    isUserLoggedIn && updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings);
     set(() => ({ appSettings: newAppSettings }));
   },
 
   setPomodoroTimerSoundEnabled: (boolean) => {
+    const { currentUser, isUserLoggedIn } = useUserStore.getState();
     const newAppSettings = { ...get().appSettings, pomodoroTimerSoundEnabled: boolean };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
+    isUserLoggedIn && updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings);
     set(() => ({ appSettings: newAppSettings }));
   },
 
   setAlarmSoundEnabled: (boolean) => {
+    const { currentUser, isUserLoggedIn } = useUserStore.getState();
     const newAppSettings = { ...get().appSettings, alarmSoundEnabled: boolean };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
+    isUserLoggedIn && updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings);
     set(() => ({ appSettings: newAppSettings }));
   },
 
   setCalendarHoverEffectEnabled: (boolean) => {
+    const { currentUser, isUserLoggedIn } = useUserStore.getState();
     const newAppSettings = { ...get().appSettings, calendarHoverEffectEnabled: boolean };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
+    isUserLoggedIn && updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings);
     set(() => ({ appSettings: newAppSettings }));
   },
 
   setTodoListHoverEffectEnabled: (boolean) => {
+    const { currentUser, isUserLoggedIn } = useUserStore.getState();
     const newAppSettings = { ...get().appSettings, todoListHoverEffectEnabled: boolean };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
+    isUserLoggedIn && updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings);
     set(() => ({ appSettings: newAppSettings }));
   },
 
   setDailyQuoteEnabled: (boolean) => {
+    const { currentUser, isUserLoggedIn } = useUserStore.getState();
     const newAppSettings = { ...get().appSettings, showDailyQuote: boolean };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
+    isUserLoggedIn &&
+      currentUser?.authUser?.uid &&
+      updateAppSettings(currentUser?.authUser?.uid, newAppSettings);
     set(() => ({ appSettings: newAppSettings }));
   },
 
-  fetchAppSettings: () => {
+  fetchAppSettings: async () => {
     const appSettings = localStorage.getItem("app_settings");
     // check if AppSettings type is correct
     const localAppSettings = JSON.parse(appSettings || "{}") as AppSettings;
@@ -99,9 +119,43 @@ const useAppStore = create<AppState>((set, get) => ({
         return;
       }
     }
-    if (appSettings) {
-      set(() => ({ appSettings: JSON.parse(appSettings) }));
+    const { currentUser } = useUserStore.getState();
+    const currentUserUid = currentUser?.authUser?.uid;
+
+    if (currentUserUid) {
+      if (appSettings && currentUserUid === localAppSettings.userUid) {
+        Logger.getInstance().info("App settings in local storage");
+        set(() => ({
+          appSettings: { userUid: currentUserUid, ...JSON.parse(appSettings) },
+        }));
+      } else {
+        Logger.getInstance().info("No app settings in local storage fetch from db");
+        try {
+          const user = await getUserFromUserDb(currentUserUid);
+          if (user?.appSettings) {
+            useAppStore.getState().setAppSettings(user.appSettings);
+            localStorage.setItem(
+              "app_settings",
+              JSON.stringify({ userUid: currentUserUid, ...user.appSettings } as AppSettings)
+            );
+          }
+        } catch (error) {
+          Logger.getInstance().error(`Error fetching app settings: ${error}`);
+        }
+      }
+    } else {
+      const newAppSettings: AppSettings = appSettings
+        ? { ...JSON.parse(appSettings), userUid: null }
+        : { ...get().appSettings, userUid: null };
+      set(() => ({
+        appSettings: newAppSettings,
+      }));
+      localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
     }
+  },
+
+  setAppSettings: (appSettings) => {
+    set(() => ({ appSettings }));
   },
 
   setShowPremiumModal: (modal) => {

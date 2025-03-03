@@ -20,7 +20,7 @@ import usePomodoroTimerStore from "./widgets/pomodoro-timer-store";
 import useTemplatesStore from "./widgets/templates-store";
 import useAlarmsStore from "./widgets/alarms-store";
 import useUserStatsStore from "./user-stats-store";
-import useWidgetsStore from "./widgets-store";
+import { Logger } from "@/classes/Logger";
 import useAppStore from "./app-store";
 
 export interface UserState {
@@ -61,10 +61,11 @@ const useUserStore = create<UserState>((set, get) => ({
 
   async checkIfUserIsInDb(uid) {
     if (process.env.NEXT_PUBLIC_IS_CYPRESS) {
-      console.log("Mocked checkIfUserIsInDb");
+      Logger.getInstance().warn("Mocked checkIfUserIsInDb");
       return true;
     }
-    return !!(await getUserFromUserDb(uid));
+    const userInDb = await getUserFromUserDb(uid);
+    return !!userInDb;
   },
 
   async resetUserPassword(email) {
@@ -189,6 +190,7 @@ const useUserStore = create<UserState>((set, get) => ({
 
   signUserOut: () => {
     const user = {
+      authUser: undefined,
       name: get().currentUser?.name || "",
       skippedOnboarding: true,
     } as MelofiUser;

@@ -139,6 +139,7 @@ export interface ToolbarSettings {
 }
 
 export interface AppSettings {
+  userUid: string | null;
   inActivityThreshold: number;
   pomodoroTimerSoundEnabled: boolean;
   alarmSoundEnabled: boolean;

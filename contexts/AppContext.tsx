@@ -1,7 +1,9 @@
 "use client";
+import { Logger } from "@/classes/Logger";
 import useAppStore from "@/stores/app-store";
+import useUserStore from "@/stores/user-store";
 import useWidgetsStore from "@/stores/widgets-store";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 export interface AppContextInterface {
   isSleep: boolean;
@@ -20,15 +22,27 @@ interface AppContextProviderProps {
 const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const { appSettings, fetchAppSettings } = useAppStore();
   const { fetchOpenWidgets, toggleOpenWidgets } = useWidgetsStore();
+  const { currentUser } = useUserStore();
 
   const [isSleep, setIsSleep] = useState(false);
+  const [userUid, setUserUid] = useState<string | null>(null);
 
   useEffect(() => {
     // Get the open widgets from local storage and open them
     const widgets = fetchOpenWidgets();
     toggleOpenWidgets(widgets);
-    fetchAppSettings();
   }, []);
+
+  useMemo(() => {
+    const fetchUserAppSettings = async () => {
+      await fetchAppSettings();
+    };
+    if (currentUser?.authUser?.uid !== userUid) {
+      Logger.getInstance().info("fetching user app settings");
+      setUserUid(currentUser?.authUser?.uid || null);
+      fetchUserAppSettings();
+    }
+  }, [currentUser]);
 
   let timeout: NodeJS.Timeout;
   useEffect(() => {
@@ -69,6 +83,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       clearTimeout(timeout);
     };
   }, [appSettings.inActivityThreshold]);
+
   return (
     <AppContext.Provider
       value={{
