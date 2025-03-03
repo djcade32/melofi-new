@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TooltipMui from "@mui/material/Tooltip";
 import { TransitionProps } from "@mui/material/transitions";
-import { use } from "chai";
-import { PopperProps } from "@mui/material/Popper/BasePopper.types";
 import { PiCrownSimpleFill } from "@/imports/icons";
 
 interface TooltipProps {

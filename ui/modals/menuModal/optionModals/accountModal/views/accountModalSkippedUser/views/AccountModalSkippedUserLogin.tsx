@@ -8,6 +8,7 @@ import useUserStore from "@/stores/user-store";
 import useMenuStore from "@/stores/menu-store";
 import { RxCaretLeft } from "@/imports/icons";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
+import { Logger } from "@/classes/Logger";
 
 interface AccountModalSkippedUserLoginProps {
   setCurrentView: React.Dispatch<React.SetStateAction<string[]>>;
@@ -37,7 +38,7 @@ const AccountModalSkippedUserLogin = ({ setCurrentView }: AccountModalSkippedUse
           await sendEmailVerification();
           return;
         }
-        console.log("User logged in: ", user);
+        Logger.getInstance().info(`User logged in: ${user}`);
         setCurrentUser(user);
         setIsUserLoggedIn(true);
         addNotification({
@@ -47,7 +48,7 @@ const AccountModalSkippedUserLogin = ({ setCurrentView }: AccountModalSkippedUse
         setSelectedOption(null);
       }
     } catch (error: any) {
-      console.log("Error logging in: ", error);
+      Logger.getInstance().error(`Error logging in: ${error}`);
       setErrorState([
         {
           name: "email-input",
@@ -105,9 +106,9 @@ const AccountModalSkippedUserLogin = ({ setCurrentView }: AccountModalSkippedUse
       });
       setShowForgotPassword(false);
       setEmail("");
-      console.log("Password reset email sent");
+      Logger.getInstance().info("Password reset email sent");
     } catch (error: any) {
-      console.log("Error sending password reset email: ", error);
+      Logger.getInstance().error(`Error sending password reset email: ${error}`);
       addNotification({
         type: "error",
         message: "Error sending password reset email",
