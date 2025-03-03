@@ -11,6 +11,10 @@ describe("Testing Watch Youtube Widget", () => {
     });
   });
 
+  after(() => {
+    cy.clearLocalStorage();
+  });
+
   it("Should open and close watch youtube widget", () => {
     // open the calendar widget
     pressToolsButton();
