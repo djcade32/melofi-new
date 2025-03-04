@@ -64,7 +64,6 @@ const Timer = () => {
     if (isDone && originalTime) {
       setIsDone(false);
       timerRef.current?.play();
-      changeTimeDisplay(originalTime);
       useNotificationProviderStore.getState().addNotification({
         message: `${getOriginalTimeDisplay()} timer is done!`,
         type: "alarm",
@@ -166,7 +165,7 @@ const Timer = () => {
       onMouseOver={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <audio ref={timerRef} src={timer_alarm} loop typeof="audio/mpeg" />
+      <audio id="timer-audio" ref={timerRef} src={timer_alarm} loop typeof="audio/mpeg" />
       <div className={styles.timer__content}>
         <IoCloseOutline
           id="timer-widget-close-button"
@@ -186,6 +185,7 @@ const Timer = () => {
         <div className={styles.timer__time_container}>
           <div className={styles.timer__time_input_container}>
             <input
+              id="timer-input-hours"
               type="text"
               value={hours}
               name="hours"
@@ -199,6 +199,7 @@ const Timer = () => {
           <span>:</span>
           <div className={styles.timer__time_input_container}>
             <input
+              id="timer-input-minutes"
               type="text"
               value={minutes}
               name="minutes"
@@ -211,6 +212,7 @@ const Timer = () => {
           <span>:</span>
           <div className={styles.timer__time_input_container}>
             <input
+              id="timer-input-seconds"
               type="text"
               value={seconds}
               name="seconds"
@@ -223,7 +225,7 @@ const Timer = () => {
         </div>
         <div className={styles.timer__action_buttons_container}>
           <HoverIcon
-            id="timer-play-pause-button"
+            id="timer-start-pause-button"
             iconContainerClassName={styles.timer__play_button}
             icon={isTimerRunning ? FaPause : FaPlay}
             size={20}
