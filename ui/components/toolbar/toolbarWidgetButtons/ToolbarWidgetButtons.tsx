@@ -95,6 +95,7 @@ const ToolbarWidgetButtons = () => {
         icon={IoAlarm}
         onClick={() => handleWidgetButtonPress(() => setIsAlarmsOpen(!isAlarmsOpen))}
         active={isAlarmsOpen}
+        premiumWidget
       />
       <ToolbarButton
         id="watch-youtube"
