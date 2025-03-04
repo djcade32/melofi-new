@@ -177,6 +177,21 @@ const PremiumModal = () => {
             />
           </>
         );
+      case "alarms":
+        return (
+          <>
+            <p className={styles.premiumModal__title}>Stay on Track</p>
+            <p className={styles.premiumModal__description}>
+              Set custom alerts and stay in control of your time and focus.
+            </p>
+            <Image
+              src="/assets/premium-pics/alarms-premium-pic.png"
+              alt="Premium Modal"
+              width={215}
+              height={215}
+            />
+          </>
+        );
       default:
         return null;
     }

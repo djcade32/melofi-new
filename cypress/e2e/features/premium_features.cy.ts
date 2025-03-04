@@ -122,6 +122,15 @@ describe("Premium Features", () => {
       cy.get("#premium-modal").should("not.be.visible");
     });
 
+    it("should show premium modal for using alarms widget", () => {
+      pressToolsButton();
+      pressToolbarButton("alarms");
+      cy.get("#premium-modal").should("be.visible");
+      getElementWithClassName("premiumModal__title").should("contain.text", "Stay on Track");
+      cy.get("#premium-modal-close-icon").click();
+      cy.get("#premium-modal").should("not.be.visible");
+    });
+
     it("should show premium modal for using watch youtube widget", () => {
       pressToolsButton();
       pressToolbarButton("watch-youtube");

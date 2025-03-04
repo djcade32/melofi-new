@@ -14,9 +14,9 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
     clearLocalStorage: false,
     seedWithUser: false,
   };
-  if (options.clearLocalStorage) {
-    cy.clearLocalStorage();
-  }
+  // if (options.clearLocalStorage) {
+  cy.clearLocalStorage();
+  // }
   if (options.loggedIn) {
     const userObj = options.skipOnboarding
       ? {

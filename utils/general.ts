@@ -18,7 +18,8 @@ export const getPremiumModalType = (type: string): PremiumModalTypes => {
       return "templates";
     case "Watch Youtube":
       return "youtube";
-
+    case "Alarms":
+      return "alarms";
     default:
       return "pomodoro_timer";
   }
