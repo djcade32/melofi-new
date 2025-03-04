@@ -31,6 +31,7 @@ export type PremiumModalTypes =
   | "mixer"
   | "pomodoro_timer"
   | "templates"
+  | "alarms"
   | "toolbar_settings"
   | "show_quotes"
   | "scenes"
