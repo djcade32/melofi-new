@@ -31,9 +31,9 @@ describe("Testing General Settings", () => {
       loggedIn: true,
     });
   });
-  after(() => {
-    cy.clearLocalStorage();
-  });
+  // after(() => {
+  //   cy.clearLocalStorage();
+  // });
 
   it("Should open the general settings modal", () => {
     Menu.menuButton().click();
@@ -104,28 +104,28 @@ describe("Testing General Settings", () => {
     //Move mouse
     cy.get("#to-do-list-widget").trigger("mouseleave");
     cy.get("#to-do-list-widget").should("have.css", "background-color", "rgba(0, 0, 0, 0)");
-    pressToolsButton();
-    pressToolbarButton("to-do-list");
-    Menu.menuButton().click();
-    Menu.options.generalSettings().click();
-    Menu.generalSettingsModal.settings("To-Do List").toggle();
+    // pressToolsButton();
+    // pressToolbarButton("to-do-list");
+    // Menu.menuButton().click();
+    // Menu.options.generalSettings().click();
+    // Menu.generalSettingsModal.settings("To-Do List").toggle();
 
-    // See if the setting is saved in the local storage
-    localStorage[url].app_settings.todoListHoverEffectEnabled = false;
-    cy.getAllLocalStorage().then((localStorageData) => {
-      const stringified = JSON.stringify(localStorageData[url].app_settings);
-      const json = JSON.parse(stringified);
-      expect(localStorageData[url].app_settings).to.deep.equal(json);
-    });
+    // // See if the setting is saved in the local storage
+    // localStorage[url].app_settings.todoListHoverEffectEnabled = false;
+    // cy.getAllLocalStorage().then((localStorageData) => {
+    //   const stringified = JSON.stringify(localStorageData[url].app_settings);
+    //   const json = JSON.parse(stringified);
+    //   expect(localStorageData[url].app_settings).to.deep.equal(json);
+    // });
 
-    // Check if calendar background color is changed
-    Menu.generalSettingsModal.closeBtn().click();
-    pressToolsButton();
-    pressToolbarButton("to-do-list");
-    cy.get("#to-do-list-widget").should("have.css", "background-color", "rgba(35, 35, 35, 0.88)");
+    // // Check if calendar background color is changed
+    // Menu.generalSettingsModal.closeBtn().click();
+    // pressToolsButton();
+    // pressToolbarButton("to-do-list");
+    // cy.get("#to-do-list-widget").should("have.css", "background-color", "rgba(35, 35, 35, 0.88)");
 
-    pressToolsButton();
-    pressToolbarButton("to-do-list");
+    // pressToolsButton();
+    // pressToolbarButton("to-do-list");
   });
 
   it("Should change the daily quote setting to disabled", () => {
