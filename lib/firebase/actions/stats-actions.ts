@@ -23,9 +23,9 @@ export const addUserToStats = async (user: User) => {
         totalTasksCompleted: 0,
       },
       totalNotesCreated: 0,
+      alarmsExpiredCount: 0,
 
       sceneCounts: null,
-      lastLogin: new Date().toISOString(),
     } as UserStats);
   } catch (error) {
     console.log("Error adding user to stats db: ", error);

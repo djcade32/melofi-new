@@ -11,12 +11,12 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
   options = options || {
     loggedIn: true,
     skipOnboarding: true,
-    clearLocalStorage: false,
+    clearLocalStorage: true,
     seedWithUser: false,
   };
-  // if (options.clearLocalStorage) {
-  cy.clearLocalStorage();
-  // }
+  if (options.clearLocalStorage) {
+    cy.clearLocalStorage();
+  }
   if (options.loggedIn) {
     const userObj = options.skipOnboarding
       ? {
@@ -45,7 +45,7 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
   }
   cy.visit("/");
   cy.wait(3000);
-  cy.get("#melofi-app").trigger("mouseover");
+  (options.loggedIn || options.skipOnboarding) && cy.get("#melofi-app").trigger("mouseover");
 };
 
 export const pressSceneButton = () => cy.get("#scenes-button").click({ timeout: 8000 });

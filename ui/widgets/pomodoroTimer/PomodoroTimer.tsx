@@ -16,7 +16,6 @@ import { DialogModalActions } from "@/types/general";
 import useAppStore from "@/stores/app-store";
 
 const PomodoroTimer = () => {
-  // const worker = new Worker(getPomodoroTimerWorkerUrl());
   const singleBellAudioRef = useRef<HTMLAudioElement>(null);
   const doubleBellAudioRef = useRef<HTMLAudioElement>(null);
   const tripleBellAudioRef = useRef<HTMLAudioElement>(null);

@@ -12,6 +12,7 @@ const url = "http://localhost:3000";
 let localStorage = {
   [url]: {
     app_settings: {
+      userUid: "123",
       inActivityThreshold: 15000,
       pomodoroTimerSoundEnabled: true,
       alarmSoundEnabled: true,
@@ -28,14 +29,23 @@ describe("Testing General Settings", () => {
       seedWithUser: true,
       skipOnboarding: false,
       loggedIn: true,
-      clearLocalStorage: true,
     });
   });
   after(() => {
+    // Reset the settings
+    Menu.generalSettingsModal.delayOptions.container().click();
+    Menu.generalSettingsModal.delayOptions.option(1).click();
+    Menu.generalSettingsModal.settings("Pomodoro Timer").toggle();
+    Menu.generalSettingsModal.settings("Alarm").toggle();
+    Menu.generalSettingsModal.settings("Calendar").toggle();
+    Menu.generalSettingsModal.settings("To-Do List").toggle();
+    Menu.generalSettingsModal.settings("Show Daily Quotes").toggle();
+
     cy.clearLocalStorage();
   });
 
   it("Should open the general settings modal", () => {
+    console.log("Testing general settings modal");
     Menu.menuButton().click();
     Menu.menuModal().should("be.visible");
     Menu.options.generalSettings().click();
@@ -53,9 +63,10 @@ describe("Testing General Settings", () => {
     // See if the setting is saved in the local storage
     localStorage[url].app_settings.inActivityThreshold = 5000;
     cy.getAllLocalStorage().then((localStorageData) => {
-      const stringified = JSON.stringify(localStorageData[url].app_settings);
-      const json = JSON.parse(stringified);
-      expect(localStorageData[url].app_settings).to.deep.equal(json);
+      const json = JSON.parse(localStorageData[url].app_settings);
+      const stringified = JSON.stringify(localStorage[url].app_settings);
+      const json2 = JSON.parse(stringified);
+      expect(json2).to.deep.equal(json);
     });
     cy.wait(7000);
     cy.get("#header").should("not.be.visible");
@@ -67,9 +78,10 @@ describe("Testing General Settings", () => {
     // See if the setting is saved in the local storage
     localStorage[url].app_settings.pomodoroTimerSoundEnabled = false;
     cy.getAllLocalStorage().then((localStorageData) => {
-      const stringified = JSON.stringify(localStorageData[url].app_settings);
-      const json = JSON.parse(stringified);
-      expect(localStorageData[url].app_settings).to.deep.equal(json);
+      const json = JSON.parse(localStorageData[url].app_settings);
+      const stringified = JSON.stringify(localStorage[url].app_settings);
+      const json2 = JSON.parse(stringified);
+      expect(json2).to.deep.equal(json);
     });
   });
 
@@ -79,9 +91,10 @@ describe("Testing General Settings", () => {
     // See if the setting is saved in the local storage
     localStorage[url].app_settings.alarmSoundEnabled = false;
     cy.getAllLocalStorage().then((localStorageData) => {
-      const stringified = JSON.stringify(localStorageData[url].app_settings);
-      const json = JSON.parse(stringified);
-      expect(localStorageData[url].app_settings).to.deep.equal(json);
+      const json = JSON.parse(localStorageData[url].app_settings);
+      const stringified = JSON.stringify(localStorage[url].app_settings);
+      const json2 = JSON.parse(stringified);
+      expect(json2).to.deep.equal(json);
     });
   });
 
@@ -91,9 +104,10 @@ describe("Testing General Settings", () => {
     // See if the setting is saved in the local storage
     localStorage[url].app_settings.calendarHoverEffectEnabled = false;
     cy.getAllLocalStorage().then((localStorageData) => {
-      const stringified = JSON.stringify(localStorageData[url].app_settings);
-      const json = JSON.parse(stringified);
-      expect(localStorageData[url].app_settings).to.deep.equal(json);
+      const json = JSON.parse(localStorageData[url].app_settings);
+      const stringified = JSON.stringify(localStorage[url].app_settings);
+      const json2 = JSON.parse(stringified);
+      expect(json2).to.deep.equal(json);
     });
   });
 
@@ -101,6 +115,7 @@ describe("Testing General Settings", () => {
     Menu.generalSettingsModal.closeBtn().click();
     pressToolsButton();
     pressToolbarButton("to-do-list");
+
     cy.get("#to-do-list-widget").should("have.css", "background-color", "rgba(0, 0, 0, 0)");
     pressToolsButton();
     pressToolbarButton("to-do-list");
@@ -111,9 +126,10 @@ describe("Testing General Settings", () => {
     // See if the setting is saved in the local storage
     localStorage[url].app_settings.todoListHoverEffectEnabled = false;
     cy.getAllLocalStorage().then((localStorageData) => {
-      const stringified = JSON.stringify(localStorageData[url].app_settings);
-      const json = JSON.parse(stringified);
-      expect(localStorageData[url].app_settings).to.deep.equal(json);
+      const json = JSON.parse(localStorageData[url].app_settings);
+      const stringified = JSON.stringify(localStorage[url].app_settings);
+      const json2 = JSON.parse(stringified);
+      expect(json2).to.deep.equal(json);
     });
 
     // Check if calendar background color is changed
@@ -134,9 +150,10 @@ describe("Testing General Settings", () => {
     // See if the setting is saved in the local storage
     localStorage[url].app_settings.showDailyQuote = false;
     cy.getAllLocalStorage().then((localStorageData) => {
-      const stringified = JSON.stringify(localStorageData[url].app_settings);
-      const json = JSON.parse(stringified);
-      expect(localStorageData[url].app_settings).to.deep.equal(json);
+      const json = JSON.parse(localStorageData[url].app_settings);
+      const stringified = JSON.stringify(localStorage[url].app_settings);
+      const json2 = JSON.parse(stringified);
+      expect(json2).to.deep.equal(json);
     });
 
     // Check if the daily quote is hidden

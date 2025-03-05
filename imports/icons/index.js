@@ -62,7 +62,7 @@ import { HiTemplate, HiTrash } from "react-icons/hi";
 import { ImTwitter, ImCalculator } from "react-icons/im";
 import { WiNightAltStormShowers } from "react-icons/wi";
 import { CgEditNoise, CgArrowsExpandDownRight, CgArrowsExpandUpLeft } from "react-icons/cg";
-import { GiBigWave, GiSubmarine } from "react-icons/gi";
+import { GiBigWave, GiSubmarine, GiTomato } from "react-icons/gi";
 import {
   MdLandscape,
   MdDelete,
@@ -248,4 +248,5 @@ export {
   PiCrownSimpleFill,
   SiBuymeacoffee,
   MdOutlineOpenInNew,
+  GiTomato,
 };

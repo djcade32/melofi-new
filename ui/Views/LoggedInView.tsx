@@ -33,6 +33,8 @@ import useSceneStore from "@/stores/scene-store";
 import MenuModal from "../modals/menuModal/MenuModal";
 import SupportCreatorBanner from "../components/supportCreatorBanner/SupportCreatorBanner";
 import PremiumModal from "../modals/premiumModal/PremiumModal";
+import Timer from "../widgets/timer/Timer";
+import useTimerStore from "@/stores/widgets/timer-store";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
@@ -45,6 +47,7 @@ const LoggedInView = () => {
   const { isTemplatesOpen } = useTemplatesStore();
   const { isYoutubeOpen } = useYoutubeStore();
   const { sceneModalOpen } = useSceneStore();
+  const { isTimerOpen } = useTimerStore();
 
   return (
     <div>
@@ -67,6 +70,7 @@ const LoggedInView = () => {
       <ComponentLoader component={<PomodoroTimer />} isComponentOpen={isPomodoroTimerOpen} />
       <ComponentLoader component={<Templates />} isComponentOpen={isTemplatesOpen} />
       <ComponentLoader component={<Youtube />} isComponentOpen={isYoutubeOpen} />
+      <ComponentLoader component={<Timer />} isComponentOpen={isTimerOpen} />
     </div>
   );
 };

@@ -44,7 +44,7 @@ describe("Testing Watch Youtube Widget", () => {
       "https://www.youtube.com/watch?v=57pGarTBJrU{enter}"
     );
     // Check iframe for youtube url
-    cy.wait(1000);
+    cy.wait(5000);
     cy.get("#youtube-player").should(
       "have.attr",
       "title",

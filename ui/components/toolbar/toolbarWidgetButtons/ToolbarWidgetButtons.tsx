@@ -10,6 +10,7 @@ import {
   IoAlarm,
   IoLogoYoutube,
   MdTimer,
+  GiTomato,
 } from "@/imports/icons";
 import useToolsStore from "@/stores/tools-store";
 import useCalendarStore from "@/stores/widgets/calendar-store";
@@ -20,6 +21,7 @@ import useCalculatorStore from "@/stores/widgets/calculator-store";
 import useTemplatesStore from "@/stores/widgets/templates-store";
 import useAlarmsStore from "@/stores/widgets/alarms-store";
 import useYoutubeStore from "@/stores/widgets/youtube-store";
+import useTimerStore from "@/stores/widgets/timer-store";
 
 const ToolbarWidgetButtons = () => {
   const { isVertical, toggleTools, isUndocked } = useToolsStore();
@@ -31,6 +33,7 @@ const ToolbarWidgetButtons = () => {
   const { isTemplatesOpen, setIsTemplatesOpen } = useTemplatesStore();
   const { isAlarmsOpen, setIsAlarmsOpen } = useAlarmsStore();
   const { isYoutubeOpen, setIsYoutubeOpen } = useYoutubeStore();
+  const { isTimerOpen, setIsTimerOpen } = useTimerStore();
 
   const handleWidgetButtonPress = (toggleWidgetFunction: Function) => {
     toggleWidgetFunction();
@@ -69,7 +72,7 @@ const ToolbarWidgetButtons = () => {
       <ToolbarButton
         id="pomodoro-timer"
         label="Pomodoro Timer"
-        icon={MdTimer}
+        icon={GiTomato}
         onClick={() => handleWidgetButtonPress(() => setIsPomodoroTimerOpen(!isPomodoroTimerOpen))}
         active={isPomodoroTimerOpen}
         premiumWidget
@@ -88,6 +91,13 @@ const ToolbarWidgetButtons = () => {
         icon={ImCalculator}
         onClick={() => handleWidgetButtonPress(() => setIsCalculatorOpen(!isCalculatorOpen))}
         active={isCalculatorOpen}
+      />
+      <ToolbarButton
+        id="timer"
+        label="Timer"
+        icon={MdTimer}
+        onClick={() => handleWidgetButtonPress(() => setIsTimerOpen(!isTimerOpen))}
+        active={isTimerOpen}
       />
       <ToolbarButton
         id="alarms"

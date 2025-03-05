@@ -5,15 +5,21 @@ const isCI = process.env.CI === "true";
 const testToSkip = ["**/auth/*.cy.js", "**/general/rotating_logo.cy.js"];
 // const testToSkip = [
 //   "**/auth/*.cy.js",
-//   "**/general/*.cy.js",
-//   "**/widgets/alarms.cy.js",
-//   "**/widgets/calculator.cy.js",
-//   "**/widgets/calendar.cy.js",
-//   "**/widgets/notes.cy.js",
-//   "**/widgets/pomodoro_timer.cy.js",
-//   "**/widgets/todoList.cy.js",
-//   "**/widgets/watch_youtube.cy.js",
-//   "**/general/menu/*.cy.js",
+//   "**/widgets/*.cy.js",
+//   "**/widgets/*.cy.ts",
+//   "**/general/menu/about_melofi_modal.cy.js",
+//   "**/general/menu/account_modal.cy.js",
+//   "**/general/menu/share_modal.cy.js",
+//   // "**/general/menu/*.cy.js",
+//   "**/features/*.cy.ts",
+//   "**/general/mixer_modal.cy.js",
+//   "**/general/rotating_logo.cy.js",
+//   "**/general/scene_modal.cy.js",
+//   "**/general/tools.cy.js",
+//   "**/general/time_display.cy.js",
+//   "**/general/now_playing.cy.js",
+//   "**/general/music_controls.cy.js",
+//   "**/general/quote_display.cy.js",
 // ];
 
 export default defineConfig({
