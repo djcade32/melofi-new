@@ -12,6 +12,7 @@ describe("Calendar Widget Tests", () => {
       JSON.stringify({
         access_token: "mocked_access_token",
         expires_in: 3600,
+        expired_at: Date.now() + 3600,
         token_type: "Bearer",
       })
     );
