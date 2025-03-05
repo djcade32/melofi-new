@@ -1,4 +1,9 @@
-import { navigateToMelofi, pressToolbarButton, pressToolsButton } from "../../utils/general.ts";
+import {
+  getElementWithClassName,
+  navigateToMelofi,
+  pressToolbarButton,
+  pressToolsButton,
+} from "../../utils/general.ts";
 import "cypress-real-events/support.js";
 
 describe("Calendar Widget Tests", () => {
@@ -6,13 +11,15 @@ describe("Calendar Widget Tests", () => {
     // Mock indexedDB before each test
     cy.mockIndexedDB();
     cy.mockGetCalendarList();
+    const date = new Date();
+    date.setSeconds(date.getSeconds() + 3600);
     // Mock Google OAuth
     localStorage.setItem(
       "google_calendar_user",
       JSON.stringify({
         access_token: "mocked_access_token",
         expires_in: 3600,
-        expired_at: Date.now() + 3600,
+        expired_at: date.toISOString(),
         token_type: "Bearer",
       })
     );
@@ -67,7 +74,7 @@ describe("Calendar Widget Tests", () => {
     // Check for 4 calendars
     cy.get(".calendarsListView_calendarsListView__container__jVO_1")
       .children()
-      .should("have.length", 4);
+      .should("have.length", 5);
   });
 
   it("Should show 6 events in the calendar", () => {
@@ -88,6 +95,14 @@ describe("Calendar Widget Tests", () => {
       "have.text",
       "Work Calendar"
     );
+  });
+
+  it("Should disconnect calendar", () => {
+    getElementWithClassName("calendarEventsView__header").within(() => {
+      cy.get("svg").click();
+    });
+    getElementWithClassName("calendarsListView__disconnect_button").click();
+    getElementWithClassName("calendarAuthView__no_event").contains("No events to view");
   });
 
   after(() => {
