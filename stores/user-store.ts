@@ -205,8 +205,7 @@ const useUserStore = create<UserState>((set, get) => ({
   },
 
   setIsPremiumUser: (value) => {
-    // TODO: This is set to true for testing purposes
-    set({ isPremiumUser: true });
+    set({ isPremiumUser: value });
   },
 }));
 

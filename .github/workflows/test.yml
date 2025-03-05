@@ -14,10 +14,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    # steps:
-    #   # Step 1: Check out the code from the repository
-    #   - name: Checkout code
-    #     uses: actions/checkout@v2
+    steps:
+      # Step 1: Check out the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
 
     #   # Step 2: Set up Node.js environment (assuming you are using Node.js)
     #   - name: Set up Node.js
