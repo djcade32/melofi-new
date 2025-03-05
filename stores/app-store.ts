@@ -57,7 +57,11 @@ const useAppStore = create<AppState>((set, get) => ({
   setInactivityThreshold: (threshold) => {
     const { currentUser, isUserLoggedIn } = useUserStore.getState();
     // Set in local storage
-    const newAppSettings = { ...get().appSettings, inActivityThreshold: threshold };
+    const newAppSettings = {
+      ...get().appSettings,
+      inActivityThreshold: threshold,
+      userUid: currentUser?.authUser?.uid || "",
+    };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
     isUserLoggedIn && updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings);
     set(() => ({ appSettings: newAppSettings }));
@@ -73,7 +77,11 @@ const useAppStore = create<AppState>((set, get) => ({
 
   setAlarmSoundEnabled: (boolean) => {
     const { currentUser, isUserLoggedIn } = useUserStore.getState();
-    const newAppSettings = { ...get().appSettings, alarmSoundEnabled: boolean };
+    const newAppSettings = {
+      ...get().appSettings,
+      alarmSoundEnabled: boolean,
+      userUid: currentUser?.authUser?.uid || "",
+    };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
     isUserLoggedIn && updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings);
     set(() => ({ appSettings: newAppSettings }));
@@ -81,7 +89,11 @@ const useAppStore = create<AppState>((set, get) => ({
 
   setCalendarHoverEffectEnabled: (boolean) => {
     const { currentUser, isUserLoggedIn } = useUserStore.getState();
-    const newAppSettings = { ...get().appSettings, calendarHoverEffectEnabled: boolean };
+    const newAppSettings = {
+      ...get().appSettings,
+      calendarHoverEffectEnabled: boolean,
+      userUid: currentUser?.authUser?.uid || "",
+    };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
     isUserLoggedIn && updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings);
     set(() => ({ appSettings: newAppSettings }));
@@ -89,7 +101,11 @@ const useAppStore = create<AppState>((set, get) => ({
 
   setTodoListHoverEffectEnabled: (boolean) => {
     const { currentUser, isUserLoggedIn } = useUserStore.getState();
-    const newAppSettings = { ...get().appSettings, todoListHoverEffectEnabled: boolean };
+    const newAppSettings = {
+      ...get().appSettings,
+      todoListHoverEffectEnabled: boolean,
+      userUid: currentUser?.authUser?.uid || "",
+    };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
     isUserLoggedIn && updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings);
     set(() => ({ appSettings: newAppSettings }));
@@ -97,7 +113,11 @@ const useAppStore = create<AppState>((set, get) => ({
 
   setDailyQuoteEnabled: (boolean) => {
     const { currentUser, isUserLoggedIn } = useUserStore.getState();
-    const newAppSettings = { ...get().appSettings, showDailyQuote: boolean };
+    const newAppSettings = {
+      ...get().appSettings,
+      showDailyQuote: boolean,
+      userUid: currentUser?.authUser?.uid || "",
+    };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
     isUserLoggedIn &&
       currentUser?.authUser?.uid &&
