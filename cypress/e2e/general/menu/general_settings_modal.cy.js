@@ -98,11 +98,14 @@ describe("Testing General Settings", () => {
   });
 
   it.only("Should change the to do list hover effect setting to disabled", () => {
+    Menu.menuButton().click();
+    Menu.options.generalSettings().click();
+    Menu.generalSettingsModal.settings("To-Do List").toggle();
     // Menu.generalSettingsModal.closeBtn().click();
-    pressToolsButton();
-    pressToolbarButton("to-do-list");
-    //Move mouse
-    cy.get("#to-do-list-widget").trigger("mouseleave");
+    // pressToolsButton();
+    // pressToolbarButton("to-do-list");
+    // //Move mouse
+    // cy.get("#to-do-list-widget").trigger("mouseleave");
     cy.get("#to-do-list-widget").should("have.css", "background-color", "rgba(0, 0, 0, 0)");
     // pressToolsButton();
     // pressToolbarButton("to-do-list");
