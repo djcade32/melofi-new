@@ -35,3 +35,10 @@ export const convertSecsToHrMinsSec = (secs: number) => {
 export const convertSecsToMins = (secs: number) => {
   return secs / 60;
 };
+
+// Add given seconds to current time
+export const addSecondsToCurrentTime = (secs: number) => {
+  const date = new Date();
+  date.setSeconds(date.getSeconds() + secs);
+  return date.toISOString();
+};

@@ -6,6 +6,8 @@ import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import CalendarAuthView from "./views/calendarAuthView/CalendarAuthView";
 import CalendarsListView from "./views/calendarsListView/CalendarsListView";
 import useAppStore from "@/stores/app-store";
+import { addSecondsToCurrentTime } from "@/utils/time";
+import { dateInPast } from "@/utils/date";
 
 const Calendar = () => {
   const date = new Date();
@@ -34,15 +36,29 @@ const Calendar = () => {
   }, []);
 
   useEffect(() => {
+    const fetchCalendarsList = async () => {
+      await getCalendarsList(googleCalendarUser.access_token);
+    };
+
     if (googleCalendarUser) {
+      // If the token is expired or the date is in the past, log out
+      if (!googleCalendarUser.expired_at || dateInPast(googleCalendarUser.expired_at)) {
+        logOut();
+        return;
+      }
       setTokenExpiration(googleCalendarUser.expires_in);
-      getCalendarsList(googleCalendarUser.access_token);
+      fetchCalendarsList();
     }
   }, [googleCalendarUser]);
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
-      setGoogleCalendarUser(codeResponse);
+      const { expires_in } = codeResponse;
+      const googleCalendarUser = {
+        ...codeResponse,
+        expired_at: addSecondsToCurrentTime(expires_in),
+      };
+      setGoogleCalendarUser(googleCalendarUser);
     },
     onError: (error) => console.log("Login Failed:", error),
     scope:
