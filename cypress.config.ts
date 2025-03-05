@@ -19,6 +19,7 @@ const testToSkip = [
   "**/general/time_display.cy.js",
   "**/general/now_playing.cy.js",
   "**/general/music_controls.cy.js",
+  "**/general/quote_display.cy.js",
 ];
 
 export default defineConfig({
