@@ -22,7 +22,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
-const isCypress = process.env.IS_CYPRESS === "true";
+const isCypress = process.env.NEXT_PUBLIC_IS_CYPRESS === "true";
 export let db: Firestore | undefined = undefined;
 
 export const analytics = () => {
