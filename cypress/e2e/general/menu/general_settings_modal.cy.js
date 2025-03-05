@@ -31,9 +31,9 @@ describe("Testing General Settings", () => {
       loggedIn: true,
     });
   });
-  // after(() => {
-  //   cy.clearLocalStorage();
-  // });
+  after(() => {
+    cy.clearLocalStorage();
+  });
 
   it("Should open the general settings modal", () => {
     Menu.menuButton().click();
