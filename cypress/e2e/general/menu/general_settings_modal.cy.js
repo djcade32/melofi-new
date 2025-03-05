@@ -12,6 +12,7 @@ const url = "http://localhost:3000";
 let localStorage = {
   [url]: {
     app_settings: {
+      userUid: "123",
       inActivityThreshold: 15000,
       pomodoroTimerSoundEnabled: true,
       alarmSoundEnabled: true,

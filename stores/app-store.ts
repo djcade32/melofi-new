@@ -27,7 +27,7 @@ export interface AppState {
   setTodoListHoverEffectEnabled: (boolean: boolean) => void;
   setDailyQuoteEnabled: (boolean: boolean) => void;
   fetchAppSettings: () => Promise<void>;
-  setAppSettings: (appSettings: AppSettings) => void;
+  setAppSettings: (appSettings: AppSettings, userId: string | null) => void;
   setShowPremiumModal: (modal: PremiumModalTypes | null) => void;
   removePremiumFeatures: () => void;
 }
@@ -133,11 +133,7 @@ const useAppStore = create<AppState>((set, get) => ({
         try {
           const user = await getUserFromUserDb(currentUserUid);
           if (user?.appSettings) {
-            useAppStore.getState().setAppSettings(user.appSettings);
-            localStorage.setItem(
-              "app_settings",
-              JSON.stringify({ userUid: currentUserUid, ...user.appSettings } as AppSettings)
-            );
+            useAppStore.getState().setAppSettings(user.appSettings, currentUserUid);
           }
         } catch (error) {
           Logger.getInstance().error(`Error fetching app settings: ${error}`);
@@ -154,7 +150,9 @@ const useAppStore = create<AppState>((set, get) => ({
     }
   },
 
-  setAppSettings: (appSettings) => {
+  setAppSettings: (appSettings, userUid) => {
+    appSettings.userUid = userUid;
+    localStorage.setItem("app_settings", JSON.stringify(appSettings));
     set(() => ({ appSettings }));
   },
 

@@ -199,7 +199,6 @@ export const Quotes: Quote[] = [
   {
     id: "40",
     text: "Fall seven times and stand up eight.",
-    author: "Japanese Proverb",
   },
   {
     id: "41",
