@@ -4,6 +4,7 @@ import { getFirestore, Firestore, connectFirestoreEmulator } from "firebase/fire
 import { getAnalytics } from "firebase/analytics";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
 import firebase from "firebase/compat/app";
+import { Logger } from "@/classes/Logger";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -46,7 +47,7 @@ export const getFirebaseDB = (): Firestore | undefined => {
     console.log("INFO: Firebase DB Connected");
 
     if (isCypress) {
-      console.log("INFO: Firebase Emulator Enabled");
+      Logger.getInstance().warn("Firebase Emulator Enabled");
       const [host, port] = "localhost:8080".split(":");
       connectFirestoreEmulator(db, host, Number(port));
     }
@@ -67,7 +68,7 @@ export const getFirebaseAuth = () => {
   try {
     const auth = getAuth(app);
     if (isCypress) {
-      console.log("INFO: Firebase Auth Emulator Enabled");
+      Logger.getInstance().warn("Firebase Auth Emulator Enabled");
       connectAuthEmulator(auth, "http://localhost:9099");
     }
     return auth;
