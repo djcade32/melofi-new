@@ -97,10 +97,22 @@ const alarmModal = ({ alarm, close }: AlarmModalProps) => {
   };
 
   const handleConfirm = async () => {
+    let timeHConverted = parseInt(timeH);
+
+    if (timeHConverted === 12) {
+      if (ampm === "AM") {
+        timeHConverted = 0;
+      } else if (ampm === "PM") {
+        timeHConverted = 12;
+      }
+    } else if (timeHConverted !== 12 && ampm === "PM") {
+      timeHConverted += 12;
+    }
+
     if (addingAlarm) {
       // Convert time to iso string
       const time = new Date();
-      time.setHours(parseInt(timeH) + (ampm === "PM" ? 12 : 0));
+      time.setHours(timeHConverted);
       time.setMinutes(parseInt(timeM));
       time.setSeconds(0);
       await addAlarm(label, time.toISOString());
@@ -108,7 +120,7 @@ const alarmModal = ({ alarm, close }: AlarmModalProps) => {
       if (!alarm?.id) return;
 
       const time = new Date();
-      time.setHours(parseInt(timeH) + (ampm === "PM" ? 12 : 0));
+      time.setHours(timeHConverted);
       time.setMinutes(parseInt(timeM));
       time.setSeconds(0);
       await updateAlarm(alarm.id, { title: label, time: time.toISOString(), isActive: true });
