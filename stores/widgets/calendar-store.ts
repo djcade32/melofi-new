@@ -19,7 +19,7 @@ export interface CalendarState {
 
   setGoogleCalendarUser: (user: any) => void;
   toggleCalendar: (bool: boolean) => void;
-  getCalendarsList: (accessToken: string) => void;
+  getCalendarsList: (accessToken: string) => Promise<void>;
   setSelectedCalendar: (calendar: CalendarListItem | null) => void;
   getCalendarEvents: (accessToken: string, calendarId: string) => void;
   setCalendarEvents: (events: CalendarEvent[] | null) => void;

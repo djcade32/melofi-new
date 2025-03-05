@@ -1,11 +1,23 @@
 .calendarsListView__container {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow: hidden;
-    overflow-y: scroll;
-    margin-top: 10px;
-    row-gap: 10px;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  overflow-y: scroll;
+  margin-top: 10px;
+  row-gap: 10px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.calendarsListView__disconnect_button {
+  display: flex;
+  justify-self: center;
+  color: var(--color-secondary);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.calendarsListView__disconnect_button:hover {
+  color: var(--color-secondary-white);
 }
