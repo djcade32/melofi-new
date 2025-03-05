@@ -3,19 +3,6 @@ const isCI = process.env.CI === "true";
 // Have to run these tests locally
 
 // const testToSkip = ["**/auth/*.cy.js", "**/general/rotating_logo.cy.js"];
-// const testToSkip = [
-//   "**/auth/*.cy.js",
-//   "**/general/*.cy.js",
-//   "**/widgets/alarms.cy.js",
-//   "**/widgets/calculator.cy.js",
-//   "**/widgets/calendar.cy.js",
-//   "**/widgets/notes.cy.js",
-//   "**/widgets/pomodoro_timer.cy.js",
-//   "**/widgets/todoList.cy.js",
-//   "**/widgets/watch_youtube.cy.js",
-//   "**/general/menu/*.cy.js",
-//   "**/features/*.cy.js",
-// ];
 const testToSkip = [
   "**/auth/*.cy.js",
   "**/widgets/*.cy.js",

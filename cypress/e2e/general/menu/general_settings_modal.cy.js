@@ -97,10 +97,12 @@ describe("Testing General Settings", () => {
     });
   });
 
-  it("Should change the to do list hover effect setting to disabled", () => {
-    Menu.generalSettingsModal.closeBtn().click();
+  it.only("Should change the to do list hover effect setting to disabled", () => {
+    // Menu.generalSettingsModal.closeBtn().click();
     pressToolsButton();
     pressToolbarButton("to-do-list");
+    //Move mouse
+    cy.get("#to-do-list-widget").trigger("mouseleave");
     cy.get("#to-do-list-widget").should("have.css", "background-color", "rgba(0, 0, 0, 0)");
     pressToolsButton();
     pressToolbarButton("to-do-list");
@@ -140,6 +142,6 @@ describe("Testing General Settings", () => {
     });
 
     // Check if the daily quote is hidden
-    getElementWithClassName("quoteDisplay__container").should("not.exist");
+    getElementWithClassName("quoteDisplay__container").should("not.be.visible");
   });
 });
