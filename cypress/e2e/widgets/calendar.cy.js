@@ -15,7 +15,16 @@ describe("Calendar Widget Tests", () => {
         token_type: "Bearer",
       })
     );
-    navigateToMelofi();
+    navigateToMelofi({
+      seedWithUser: true,
+      skipOnboarding: false,
+      loggedIn: true,
+      clearLocalStorage: false,
+    });
+  });
+
+  after(() => {
+    cy.clearLocalStorage();
   });
 
   it("Should open and close Calendar Widget", () => {

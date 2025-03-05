@@ -11,12 +11,12 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
   options = options || {
     loggedIn: true,
     skipOnboarding: true,
-    clearLocalStorage: false,
+    clearLocalStorage: true,
     seedWithUser: false,
   };
-  // if (options.clearLocalStorage) {
-  cy.clearLocalStorage();
-  // }
+  if (options.clearLocalStorage) {
+    cy.clearLocalStorage();
+  }
   if (options.loggedIn) {
     const userObj = options.skipOnboarding
       ? {
