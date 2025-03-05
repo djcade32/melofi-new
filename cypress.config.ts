@@ -2,25 +2,25 @@ import { defineConfig } from "cypress";
 const isCI = process.env.CI === "true";
 // Have to run these tests locally
 
-// const testToSkip = ["**/auth/*.cy.js", "**/general/rotating_logo.cy.js"];
-const testToSkip = [
-  "**/auth/*.cy.js",
-  "**/widgets/*.cy.js",
-  "**/widgets/*.cy.ts",
-  "**/general/menu/about_melofi_modal.cy.js",
-  "**/general/menu/account_modal.cy.js",
-  "**/general/menu/share_modal.cy.js",
-  // "**/general/menu/*.cy.js",
-  "**/features/*.cy.ts",
-  "**/general/mixer_modal.cy.js",
-  "**/general/rotating_logo.cy.js",
-  "**/general/scene_modal.cy.js",
-  "**/general/tools.cy.js",
-  "**/general/time_display.cy.js",
-  "**/general/now_playing.cy.js",
-  "**/general/music_controls.cy.js",
-  "**/general/quote_display.cy.js",
-];
+const testToSkip = ["**/auth/*.cy.js", "**/general/rotating_logo.cy.js"];
+// const testToSkip = [
+//   "**/auth/*.cy.js",
+//   "**/widgets/*.cy.js",
+//   "**/widgets/*.cy.ts",
+//   "**/general/menu/about_melofi_modal.cy.js",
+//   "**/general/menu/account_modal.cy.js",
+//   "**/general/menu/share_modal.cy.js",
+//   // "**/general/menu/*.cy.js",
+//   "**/features/*.cy.ts",
+//   "**/general/mixer_modal.cy.js",
+//   "**/general/rotating_logo.cy.js",
+//   "**/general/scene_modal.cy.js",
+//   "**/general/tools.cy.js",
+//   "**/general/time_display.cy.js",
+//   "**/general/now_playing.cy.js",
+//   "**/general/music_controls.cy.js",
+//   "**/general/quote_display.cy.js",
+// ];
 
 export default defineConfig({
   projectId: "ci9g2u",
