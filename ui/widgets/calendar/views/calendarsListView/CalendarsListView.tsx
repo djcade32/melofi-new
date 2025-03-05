@@ -5,7 +5,8 @@ import CalendarListItem from "@/ui/components/calendar/calendarListItem/Calendar
 import CalendarEventsView from "../calendarEventsView/CalendarEventsView";
 
 const CalendarsListView = () => {
-  const { calendarsList, selectedCalendar, setSelectedCalendar } = useCalendarStore();
+  const { calendarsList, selectedCalendar, setSelectedCalendar, resetCalendarState } =
+    useCalendarStore();
 
   return (
     <>
@@ -14,6 +15,11 @@ const CalendarsListView = () => {
           {calendarsList?.map((calendar) => (
             <CalendarListItem key={calendar.id} item={calendar} onClick={setSelectedCalendar} />
           ))}
+          <div>
+            <p onClick={resetCalendarState} className={styles.calendarsListView__disconnect_button}>
+              Disconnect
+            </p>
+          </div>
         </div>
       ) : (
         <CalendarEventsView calendar={selectedCalendar} />
