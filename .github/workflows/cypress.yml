@@ -53,6 +53,8 @@ jobs:
           NEXT_PUBLIC_IS_CYPRESS: "true"
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIRESTORE_EMULATOR_HOST: localhost:8080
+          FIREBASE_AUTH_EMULATOR_HOST: localhost:9099
 
       - name: Upload Cypress Screenshots
         if: failure()

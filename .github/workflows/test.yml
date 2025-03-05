@@ -1,34 +1,34 @@
-# name: Run Unit Tests on Pull Request to Develop Branch
+name: Run Unit Tests on Pull Request to Develop Branch
 
 # Trigger the workflow when a pull request is detected for 'develop'
-# on:
-#   pull_request:
-#     branches:
-#       - develop
-#     types:
-#       - opened # Trigger when a pull request is opened
-#       - synchronize # Trigger when a pull request is updated
+on:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - opened # Trigger when a pull request is opened
+      - synchronize # Trigger when a pull request is updated
 
-# # Define jobs to run in this workflow
-# jobs:
-#   test:
-#     runs-on: ubuntu-latest
+# Define jobs to run in this workflow
+jobs:
+  test:
+    runs-on: ubuntu-latest
 
-#     steps:
-#       # Step 1: Check out the code from the repository
-#       - name: Checkout code
-#         uses: actions/checkout@v2
+    # steps:
+    #   # Step 1: Check out the code from the repository
+    #   - name: Checkout code
+    #     uses: actions/checkout@v2
 
-#       # Step 2: Set up Node.js environment (assuming you are using Node.js)
-#       - name: Set up Node.js
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: "16"
+    #   # Step 2: Set up Node.js environment (assuming you are using Node.js)
+    #   - name: Set up Node.js
+    #     uses: actions/setup-node@v3
+    #     with:
+    #       node-version: "16"
 
-#       # Step 3: Install project dependencies
-#       - name: Install dependencies
-#         run: npm install
+    #   # Step 3: Install project dependencies
+    #   - name: Install dependencies
+    #     run: npm install
 
-#       # Step 4: Run your tests
-#       - name: Run unit tests
-#         run: npm run test:unit
+    #   # Step 4: Run your tests
+    #   - name: Run unit tests
+    #     run: npm run test:unit
