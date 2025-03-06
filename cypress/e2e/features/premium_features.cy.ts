@@ -165,4 +165,24 @@ describe("Premium Features", () => {
       cy.get("#premium-modal").should("not.be.visible");
     });
   });
+
+  describe("Skipped User", () => {
+    before(() => {
+      navigateToMelofi({
+        seedWithUser: true,
+        skipOnboarding: true,
+        loggedIn: true,
+      });
+
+      pressMixerButton();
+      getElementWithClassName("playListSection__premium_container").trigger("mouseover");
+      getElementWithClassName("playListSection__premium_button").first().click();
+    });
+
+    it("should show account modal", () => {
+      cy.get("#premium-modal").should("be.visible");
+      getElementWithClassName("premiumModal__premium_button").first().click();
+      cy.get("#account-modal").should("be.visible");
+    });
+  });
 });
