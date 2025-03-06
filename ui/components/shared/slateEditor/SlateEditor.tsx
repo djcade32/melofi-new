@@ -144,6 +144,7 @@ const SlateEditor = ({ note }: SlateEditorProps) => {
 
   // Needed to force re-render when the note changes
   const [noteId, setNoteId] = useState<string | null>(null);
+  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (!note) return;
@@ -157,11 +158,16 @@ const SlateEditor = ({ note }: SlateEditorProps) => {
 
   const handleOnChange = (newValue: Descendant[]) => {
     if (newValue === note.text || noteId !== note.id) return;
-
-    updateNote({
-      ...note,
-      text: newValue,
-    });
+    clearTimeout(debounceTimeout as NodeJS.Timeout);
+    setDebounceTimeout(
+      setTimeout(() => {
+        console.log("Saved note");
+        updateNote({
+          ...note,
+          text: newValue,
+        });
+      }, 1000)
+    );
   };
 
   return (

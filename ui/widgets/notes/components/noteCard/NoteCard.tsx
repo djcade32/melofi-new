@@ -5,6 +5,8 @@ import { Note } from "@/types/general";
 import useNotesStore from "@/stores/widgets/notes-store";
 import { serializeToPlainText } from "@/utils/strings";
 import { format } from "date-fns";
+import { updateSelectedNote } from "@/lib/firebase/actions/notes-actions";
+import useUserStore from "@/stores/user-store";
 
 interface NoteCardProps {
   selected: boolean;
@@ -13,6 +15,7 @@ interface NoteCardProps {
 
 const NoteCard = ({ selected, note }: NoteCardProps) => {
   const { setSelectedNote, deleteNote } = useNotesStore();
+  const { currentUser } = useUserStore();
 
   const getNoteDate = (date: string) => {
     // If date is today, return time
@@ -22,6 +25,11 @@ const NoteCard = ({ selected, note }: NoteCardProps) => {
     return format(new Date(date), "MMM dd, yyyy");
   };
 
+  const handleNoteSelection = () => {
+    setSelectedNote(note);
+    currentUser?.authUser?.uid && updateSelectedNote(currentUser.authUser.uid, note);
+  };
+
   return (
     <div
       id={note.id}
@@ -29,7 +37,7 @@ const NoteCard = ({ selected, note }: NoteCardProps) => {
       style={{
         backgroundColor: selected ? "var(--color-secondary-opacity)" : "transparent",
       }}
-      onClick={() => setSelectedNote(note)}
+      onClick={handleNoteSelection}
     >
       <div className={styles.noteCard__title_container}>
         <h3>{note.title} </h3>

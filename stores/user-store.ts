@@ -159,7 +159,7 @@ const useUserStore = create<UserState>((set, get) => ({
     if (!currentUser?.authUser?.uid) return;
 
     useCalendarStore.getState().resetCalendarState();
-    useNotesStore.getState().resetNotesData();
+    useNotesStore.getState().resetNotesData(currentUser.authUser.uid);
     await useTodoListStore.getState().resetTodoListData(currentUser.authUser.uid);
     await usePomodoroTimerStore.getState().resetPomodoroTimerData();
     await useTemplatesStore.getState().resetTemplatesData();
@@ -203,8 +203,8 @@ const useUserStore = create<UserState>((set, get) => ({
     localStorage.setItem("user", JSON.stringify(user));
     signOut();
     set({ currentUser: user, isUserLoggedIn: false, userStats: undefined, isPremiumUser: false });
-    useNotesStore.getState().resetNotesData();
-    useTodoListStore.getState().resetTodoListData(userUid, false);
+    // useNotesStore.getState().resetNotesData(userUid, false);
+    // useTodoListStore.getState().resetTodoListData(userUid, false);
     useAppStore.getState().removePremiumFeatures();
     useNotificationProviderStore
       .getState()

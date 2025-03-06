@@ -22,6 +22,7 @@ const Notes = () => {
     createNewNote,
     deleteNote,
     setSelectedNote,
+    fetchNotes,
   } = useNotesStore();
   const { incrementTotalNotesCreated } = useUserStatsStore();
   const { currentUser } = useUserStore();
@@ -29,9 +30,9 @@ const Notes = () => {
   const [selectedNoteTitle, setSelectedNoteTitle] = useState(selectedNote?.title || "");
 
   useEffect(() => {
-    setNotes((JSON.parse(localStorage.getItem("notes") as string) as Note[]) || []);
-    setSelectedNote((JSON.parse(localStorage.getItem("selected_note") as string) as Note) || null);
-  }, []);
+    const fetchNotesData = async () => await fetchNotes();
+    fetchNotesData();
+  }, [currentUser]);
 
   useEffect(() => {
     const note = JSON.parse(localStorage.getItem("selected_note") as string) as Note;
@@ -53,8 +54,8 @@ const Notes = () => {
         } as Note);
   };
 
-  const handleCreateNewNote = () => {
-    createNewNote();
+  const handleCreateNewNote = async () => {
+    await createNewNote();
     currentUser?.authUser?.email && incrementTotalNotesCreated();
     //Give time for note to render and then Focus on the title input of the new note
     setTimeout(() => {
