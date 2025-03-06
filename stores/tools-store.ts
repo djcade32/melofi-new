@@ -6,6 +6,7 @@ export interface ToolsState {
   isUndocked: boolean;
   isVertical: boolean;
   toolbarPosition: Coordinates;
+  originalDockedPosition: Coordinates;
 
   toggleTools: (boolean: boolean) => void;
   toggleUndocked: (boolean: boolean) => void;
@@ -13,6 +14,8 @@ export interface ToolsState {
   fetchToolbarSettings: () => void;
   onToolbarDragEnd: (position: Coordinates) => void;
   setToolbarPosition: (position: Coordinates) => void;
+  resetToolbarSettings: () => void;
+  setOriginalDockedPosition: (position: Coordinates) => void;
 }
 
 const useToolsStore = create<ToolsState>((set, get) => ({
@@ -20,6 +23,7 @@ const useToolsStore = create<ToolsState>((set, get) => ({
   isUndocked: false,
   isVertical: false,
   toolbarPosition: { x: 0, y: -35 },
+  originalDockedPosition: { x: 0, y: -35 },
 
   toggleTools: (boolean) => {
     if (get().isUndocked) return;
@@ -79,6 +83,19 @@ const useToolsStore = create<ToolsState>((set, get) => ({
     };
     localStorage.setItem("toolbarSettings", JSON.stringify(newSettings));
     set(() => ({ toolbarPosition: position }));
+  },
+
+  resetToolbarSettings: () => {
+    localStorage.removeItem("toolbarSettings");
+    set(() => ({
+      isUndocked: false,
+      isVertical: false,
+      toolbarPosition: get().originalDockedPosition,
+    }));
+  },
+
+  setOriginalDockedPosition: (position) => {
+    set(() => ({ originalDockedPosition: position }));
   },
 }));
 
