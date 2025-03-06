@@ -24,7 +24,8 @@ const AccountModalSignedInUser = ({
   setShowReauthenticateModal,
 }: AccountModalSignedInUserProps) => {
   const { setSelectedOption } = useMenuStore();
-  const { currentUser, changeFullName, clearUserData, deleteUserAccount } = useUserStore();
+  const { currentUser, changeFullName, clearUserData, deleteUserAccount, isPremiumUser } =
+    useUserStore();
 
   const [fullname, setFullname] = useState(currentUser?.name);
   const [email, setEmail] = useState(currentUser?.authUser?.email || "");
@@ -252,13 +253,15 @@ const AccountModalSignedInUser = ({
         </div>
 
         {!loadingManageSubscription ? (
-          <div
-            className={styles.accountModal__manage_subscription}
-            onClick={handleManageSubscriptionClick}
-          >
-            <p>Manage Subscription</p>
-            <MdOutlineOpenInNew size={20} />
-          </div>
+          isPremiumUser && (
+            <div
+              className={styles.accountModal__manage_subscription}
+              onClick={handleManageSubscriptionClick}
+            >
+              <p>Manage Subscription</p>
+              <MdOutlineOpenInNew size={20} />
+            </div>
+          )
         ) : (
           <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
             <LoadingSpinner showBackground={false} />
