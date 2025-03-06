@@ -155,9 +155,12 @@ const useUserStore = create<UserState>((set, get) => ({
   },
 
   async clearUserData() {
+    const { currentUser } = get();
+    if (!currentUser?.authUser?.uid) return;
+
     useCalendarStore.getState().resetCalendarState();
     useNotesStore.getState().resetNotesData();
-    useTodoListStore.getState().resetTodoListData();
+    await useTodoListStore.getState().resetTodoListData(currentUser.authUser.uid);
     await usePomodoroTimerStore.getState().resetPomodoroTimerData();
     await useTemplatesStore.getState().resetTemplatesData();
     await useAlarmsStore.getState().resetAlarmsData();
@@ -194,12 +197,14 @@ const useUserStore = create<UserState>((set, get) => ({
       name: get().currentUser?.name || "",
       skippedOnboarding: true,
     } as MelofiUser;
+    const userUid = get().currentUser?.authUser?.uid;
+    if (!userUid) return console.log("User not logged in");
 
     localStorage.setItem("user", JSON.stringify(user));
     signOut();
     set({ currentUser: user, isUserLoggedIn: false, userStats: undefined, isPremiumUser: false });
     useNotesStore.getState().resetNotesData();
-    useTodoListStore.getState().resetTodoListData();
+    useTodoListStore.getState().resetTodoListData(userUid, false);
     useAppStore.getState().removePremiumFeatures();
     useNotificationProviderStore
       .getState()
