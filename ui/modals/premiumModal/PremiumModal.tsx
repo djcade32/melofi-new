@@ -9,6 +9,7 @@ import useUserStore from "@/stores/user-store";
 import Switch from "@/ui/components/shared/switch/Switch";
 import { Logger } from "@/classes/Logger";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
+import useMenuStore from "@/stores/menu-store";
 
 const featuresList = [
   "📊 Focus stats",
@@ -198,6 +199,15 @@ const PremiumModal = () => {
   };
 
   const handleGoPremiumClick = async () => {
+    const { isUserLoggedIn } = useUserStore.getState();
+    const { setSelectedOption } = useMenuStore.getState();
+    // If user is not logged in, show account modal
+    if (!isUserLoggedIn) {
+      setSelectedOption("Account");
+      setShowPremiumModal(null);
+      return;
+    }
+
     try {
       await createCheckoutSession(currentUser?.authUser?.uid, isYearly ? "yearly" : "monthly");
     } catch (error) {
