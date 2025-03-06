@@ -21,13 +21,14 @@
   justify-content: center;
   align-items: center;
   transition: all 0.3s;
-  z-index: 3;
+  z-index: -1;
   text-align: center;
   gap: 5px;
 }
 
-.playListSection__container:hover .playListSection__premium_container {
+.playListSection__container:hover .playListSection__premium_container.not_premium_user {
   opacity: 1;
+  z-index: 3;
 }
 
 .playListSection__container:hover .playListSection__playlist_buttons.not_premium_user {

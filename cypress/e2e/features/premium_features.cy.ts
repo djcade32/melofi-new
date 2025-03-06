@@ -70,7 +70,7 @@ describe("Premium Features", () => {
     });
 
     it("should show premium modal for changing playlist", () => {
-      getElementWithClassName("playListSection__premium_container").trigger("mouseover");
+      getElementWithClassName("playListSection__premium_container").realHover();
       getElementWithClassName("playListSection__premium_button").first().click();
       cy.get("#premium-modal").should("be.visible");
       getElementWithClassName("premiumModal__title").should("contain.text", "Mix It Your Way");
@@ -175,7 +175,7 @@ describe("Premium Features", () => {
       });
 
       pressMixerButton();
-      getElementWithClassName("playListSection__premium_container").trigger("mouseover");
+      getElementWithClassName("playListSection__premium_container").realHover();
       getElementWithClassName("playListSection__premium_button").first().click();
     });
 

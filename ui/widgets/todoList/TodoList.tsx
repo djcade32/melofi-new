@@ -6,19 +6,25 @@ import { FiPlus } from "@/imports/icons";
 import HoverIcon from "@/ui/components/shared/hoverIcon/HoverIcon";
 import TodoListItem from "./TodoListItem";
 import useAppStore from "@/stores/app-store";
+import useUserStore from "@/stores/user-store";
 
 const TodoList = () => {
   const { isTodoListOpen, setIsTodoListOpen, taskList, addTask, getTodoListTitle, fetchTaskList } =
     useTodoListStore();
   const { appSettings } = useAppStore();
+  const { currentUser } = useUserStore();
 
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [taskInput, setTaskInput] = useState("");
   const [isHovered, setIsHovered] = useState(false);
 
+  useEffect(() => {
+    const fetchTasks = async () => await fetchTaskList();
+    fetchTasks();
+  }, [currentUser]);
+
   // Handle enter key press to add task
   useEffect(() => {
-    fetchTaskList();
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
         const task = document.getElementById("to-do-list-widget-input")?.getAttribute("value");
@@ -27,7 +33,6 @@ const TodoList = () => {
     };
     const input = document.getElementById("to-do-list-widget-input");
     input?.addEventListener("keydown", handleKeyDown);
-
     return () => {
       input?.removeEventListener("keydown", handleKeyDown);
     };
