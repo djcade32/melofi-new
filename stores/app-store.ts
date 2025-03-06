@@ -12,6 +12,7 @@ import { updateAppSettings } from "@/lib/firebase/actions/app-settings";
 import useUserStore from "./user-store";
 import { getUserFromUserDb } from "@/lib/firebase/getters/auth-getters";
 import { Logger } from "@/classes/Logger";
+import useToolsStore from "./tools-store";
 
 export interface AppState {
   isFullscreen: boolean;
@@ -185,6 +186,7 @@ const useAppStore = create<AppState>((set, get) => ({
     const { resetSoundVolumes } = useMixerStore.getState();
     const { setCurrentPlaylist } = useMusicPlayerStore.getState();
     const { closePremiumWidgets } = useWidgetsStore.getState();
+    const { resetToolbarSettings } = useToolsStore.getState();
 
     // Reset scene
     setCurrentScene(scenes[0]);
@@ -194,6 +196,8 @@ const useAppStore = create<AppState>((set, get) => ({
     resetSoundVolumes();
     // Close all premium widgets
     closePremiumWidgets();
+    // Reset toolbar settings
+    resetToolbarSettings();
   },
 }));
 

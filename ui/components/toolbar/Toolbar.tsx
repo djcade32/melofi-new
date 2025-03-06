@@ -31,6 +31,7 @@ const Toolbar = () => {
     toolbarPosition,
     setToolbarPosition,
     toggleTools,
+    setOriginalDockedPosition,
   } = useToolsStore();
   const { isSleep } = useAppContext();
   const { isPremiumUser } = useUserStore();
@@ -132,10 +133,12 @@ const Toolbar = () => {
     if (toolbarButtonRect) {
       // Reset the toolbar to its original docked position
       if (!isUndocked) {
-        setToolbarPosition({
+        const dockedPosition = {
           x: toolbarButtonRect.left - (dimensionsRef.width - toolbarButtonRect.width) / 2,
           y: -35,
-        });
+        };
+        setToolbarPosition(dockedPosition);
+        setOriginalDockedPosition(dockedPosition);
       } else {
         // Reset the toolbar to its original undocked position
         setToolbarPosition({

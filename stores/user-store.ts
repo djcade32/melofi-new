@@ -198,6 +198,8 @@ const useUserStore = create<UserState>((set, get) => ({
     localStorage.setItem("user", JSON.stringify(user));
     signOut();
     set({ currentUser: user, isUserLoggedIn: false, userStats: undefined, isPremiumUser: false });
+    useNotesStore.getState().resetNotesData();
+    useTodoListStore.getState().resetTodoListData();
     useAppStore.getState().removePremiumFeatures();
     useNotificationProviderStore
       .getState()
