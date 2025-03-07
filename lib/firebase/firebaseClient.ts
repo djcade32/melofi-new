@@ -23,8 +23,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const isCypress = process.env.NEXT_PUBLIC_IS_CYPRESS === "true";
-export let auth: Auth | undefined = getAuth(app);
-export let db: Firestore | undefined = getFirestore(app);
+export let auth: Auth | undefined = !isCypress ? undefined : getAuth(app);
+export let db: Firestore | undefined = !isCypress ? undefined : getFirestore(app);
 
 export const analytics = () => {
   if (typeof window !== "undefined") {
@@ -74,7 +74,7 @@ export const getFirebaseAuth = () => {
       Logger.getInstance().warn("Firebase Auth Emulator Enabled");
       connectAuthEmulator(auth, "http://localhost:9099");
     }
-    console.log("INFO: Firebase Auth Connected: ");
+    console.log("INFO: Firebase Auth Connected");
     return auth;
   } catch (error) {
     console.log("ERROR: Firebase Auth Connection Failed");
