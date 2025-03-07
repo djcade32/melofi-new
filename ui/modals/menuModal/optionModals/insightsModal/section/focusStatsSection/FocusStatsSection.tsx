@@ -23,7 +23,7 @@ const dummyFocusStats = {
 const FocusStatsSection = () => {
   const { getTodaysFocusStats, getAllFocusStats, getBestFocusDay } = useInsightsStore();
   const { setShowPremiumModal } = useAppStore();
-  const { isPremiumUser, currentUser } = useUserStore();
+  const { isPremiumUser } = useUserStore();
   const { selectedOption } = useMenuStore();
   const [focusTimePeriod, setFocusTimePeriod] = useState("Today");
   const [focusStats, setFocusStats] = useState<Partial<FocusDay> | null>(null);
@@ -31,13 +31,14 @@ const FocusStatsSection = () => {
   const isOpenState = selectedOption === "Insights";
 
   useMemo(() => {
+    if (!isPremiumUser) return;
     if (!isOpenState) return;
     const fetchFocusStats = () => {
       const stats = getTodaysFocusStats();
       setFocusStats(stats);
     };
     fetchFocusStats();
-  }, [isOpenState]);
+  }, [isOpenState, isPremiumUser]);
 
   useEffect(() => {
     setBestFocusDay(getBestFocusDayString() || "No best focus day");
