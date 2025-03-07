@@ -63,7 +63,12 @@ export interface MelofiUser {
   // likedSongs: Song[];
   name: string;
   skippedOnboarding?: boolean;
-  authUser?: User;
+  authUser?: {
+    uid: string;
+    email: string;
+    emailVerified: boolean;
+    displayName: string;
+  };
 }
 
 export interface Error {

@@ -241,7 +241,6 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
         }
 
         await wait(250);
-        console.log("starting timer up again");
         startTimer();
         return;
       }

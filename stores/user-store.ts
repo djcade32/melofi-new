@@ -87,7 +87,10 @@ const useUserStore = create<UserState>((set, get) => ({
         if (currentUser.authUser) {
           const authUser = getFirebaseAuth()?.currentUser;
           if (authUser) {
-            currentUser.authUser = authUser;
+            currentUser.authUser = {
+              ...currentUser.authUser,
+              displayName: fullName,
+            };
           }
         }
         set({ currentUser });
@@ -111,7 +114,10 @@ const useUserStore = create<UserState>((set, get) => ({
         if (currentUser.authUser) {
           const authUser = getFirebaseAuth()?.currentUser;
           if (authUser) {
-            currentUser.authUser = authUser;
+            currentUser.authUser = {
+              ...currentUser.authUser,
+              email,
+            };
           }
         }
         set({ currentUser });
@@ -203,8 +209,6 @@ const useUserStore = create<UserState>((set, get) => ({
     localStorage.setItem("user", JSON.stringify(user));
     signOut();
     set({ currentUser: user, isUserLoggedIn: false, userStats: undefined, isPremiumUser: false });
-    // useNotesStore.getState().resetNotesData(userUid, false);
-    // useTodoListStore.getState().resetTodoListData(userUid, false);
     useAppStore.getState().removePremiumFeatures();
     useNotificationProviderStore
       .getState()

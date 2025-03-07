@@ -104,6 +104,7 @@ const useNotesStore = create<NotesState>((set, get) => ({
     set({ notes: [], selectedNote: null });
     localStorage.removeItem("notes");
     localStorage.removeItem("selected_note");
+    resetDb && updateNotes(uid, []);
   },
 
   fetchNotes: async () => {
