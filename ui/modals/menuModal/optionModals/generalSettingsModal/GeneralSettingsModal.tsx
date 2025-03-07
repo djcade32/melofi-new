@@ -17,6 +17,16 @@ const delayOptions: LongMenuOption[] = [
   { id: "delay-option-4", label: "Never" },
 ];
 
+const musicControlHotKeys = [
+  { action: "Play / Pause", hotKey: "Shift + Space" },
+  { action: "Next Song", hotKey: "Shift + Right Arrow" },
+  { action: "Previous Song", hotKey: "Shift + Left Arrow" },
+  { action: "Volume Up", hotKey: "Shift + Up Arrow" },
+  { action: "Volume Down", hotKey: "Shift + Down Arrow" },
+  { action: "Mute / Unmute", hotKey: "Shift + M" },
+  { action: "Toggle Volume Slider", hotKey: "Shift + V" },
+];
+
 const GeneralSettingsModal = () => {
   const { selectedOption, setSelectedOption } = useMenuStore();
   const {
@@ -186,6 +196,29 @@ const GeneralSettingsModal = () => {
           <p className={styles.generalSettingsModal__setting_description}>
             Display a daily motivational quote in your workspace.
           </p>
+        </div>
+
+        {/* Hot Keys */}
+        <div className={styles.generalSettingsModal__settings_section}>
+          <div>
+            <p className={styles.generalSettingsModal__setting_section_title}>Hot Keys</p>
+          </div>
+          <div>
+            <div
+              style={{ paddingLeft: 10 }}
+              className={styles.generalSettingsModal__setting_section_title}
+            >
+              <p>Music Controls</p>
+            </div>
+            <div style={{ paddingLeft: 10, display: "flex", flexDirection: "column", gap: 5 }}>
+              {musicControlHotKeys.map((control, index) => (
+                <div key={index} style={{ display: "flex", justifyContent: "space-between" }}>
+                  <p style={{ color: "var(--color-secondary)" }}>{control.action}</p>
+                  <p>{control.hotKey}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </Modal>
