@@ -36,5 +36,6 @@ export const getDayOfWeek = (date: Date): string => {
 };
 
 export const firestoreTimestampToDate = (timestamp: any): Date => {
+  if (!timestamp.seconds) return timestamp;
   return new Date(timestamp.seconds * 1000 + Math.round(timestamp.nanoseconds / 1e6));
 };

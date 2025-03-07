@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styles from "./focusStatsSection.module.css";
 import useInsightsStore from "@/stores/insights-store";
 import { FocusDay } from "@/types/interfaces/pomodoro_timer";
@@ -8,9 +8,9 @@ import StatDisplay from "../../components/statDisplay/StatDisplay";
 import { firestoreTimestampToDate } from "@/utils/date";
 import MostProductiveDayChart from "../../components/charts/mostProductiveDayChart/MostProductiveDayChart";
 import useUserStore from "@/stores/user-store";
-import { PiCrownSimpleFill } from "@/imports/icons";
 import PremiumBadge from "@/ui/components/premiumBadge/PremiumBadge";
 import useAppStore from "@/stores/app-store";
+import useMenuStore from "@/stores/menu-store";
 
 const dummyFocusStats = {
   focusTime: "62h 45m",
@@ -23,17 +23,25 @@ const dummyFocusStats = {
 const FocusStatsSection = () => {
   const { getTodaysFocusStats, getAllFocusStats, getBestFocusDay } = useInsightsStore();
   const { setShowPremiumModal } = useAppStore();
-  const { isPremiumUser } = useUserStore();
+  const { isPremiumUser, currentUser } = useUserStore();
+  const { selectedOption } = useMenuStore();
   const [focusTimePeriod, setFocusTimePeriod] = useState("Today");
   const [focusStats, setFocusStats] = useState<Partial<FocusDay> | null>(null);
+  const [bestFocusDay, setBestFocusDay] = useState<string>("");
+  const isOpenState = selectedOption === "Insights";
 
-  useEffect(() => {
+  useMemo(() => {
+    if (!isOpenState) return;
     const fetchFocusStats = () => {
       const stats = getTodaysFocusStats();
       setFocusStats(stats);
     };
     fetchFocusStats();
-  }, []);
+  }, [isOpenState]);
+
+  useEffect(() => {
+    setBestFocusDay(getBestFocusDayString() || "No best focus day");
+  }, [focusStats]);
 
   const handleFocusTimePeriodChange = (event: React.MouseEvent<HTMLDivElement>) => {
     const buttonId = event.currentTarget.id;
@@ -54,7 +62,9 @@ const FocusStatsSection = () => {
     return `${hr}h ${min}m`;
   };
 
-  const getBestFocusDayString = (day: FocusDay | null) => {
+  const getBestFocusDayString = () => {
+    if (!isPremiumUser) return dummyFocusStats.bestFocusDay;
+    const day = getBestFocusDay();
     if (!day) return "No best focus day";
     const { date, focusTime } = day;
     const convertedToDate = firestoreTimestampToDate(date);
@@ -132,14 +142,7 @@ const FocusStatsSection = () => {
           />
         </div>
         <div className={styles.focusStatsSection_stats_container}>
-          <StatDisplay
-            label="🔥 Best Focus Day"
-            stat={
-              isPremiumUser
-                ? getBestFocusDayString(getBestFocusDay())
-                : dummyFocusStats.bestFocusDay
-            }
-          />
+          <StatDisplay label="🔥 Best Focus Day" stat={bestFocusDay} />
         </div>
         <div>
           <MostProductiveDayChart />
