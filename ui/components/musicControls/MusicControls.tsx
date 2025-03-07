@@ -22,7 +22,6 @@ const MusicControls = () => {
   const [volumePressed, setVolumePressed] = useState(false);
 
   const {
-    shufflePlaylist,
     goToPreviousSong,
     currentSong,
     goToNextSong,
