@@ -16,6 +16,7 @@ import { addUserToNewsletter, changeUserEmailVerificationStatus } from "./newsle
 import { getUserFromUserDb } from "../getters/auth-getters";
 import { getUserFromNewsletterDb } from "../getters/newsletter-getters";
 import { addUserToStats } from "./stats-actions";
+import { user } from "firebase-functions/v1/auth";
 
 const auth = getFirebaseAuth();
 const db = getFirebaseDB();
@@ -81,7 +82,12 @@ export const login = async (email: string, password: string, fromDashboard?: boo
 
     const user: MelofiUser = {
       name: userCredential.user.displayName || "",
-      authUser: userCredential.user,
+      authUser: {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email || "",
+        emailVerified: userCredential.user.emailVerified,
+        displayName: userCredential.user.displayName || "",
+      },
     };
 
     fromDashboard && (user.skippedOnboarding = true);

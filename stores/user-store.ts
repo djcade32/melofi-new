@@ -87,7 +87,10 @@ const useUserStore = create<UserState>((set, get) => ({
         if (currentUser.authUser) {
           const authUser = getFirebaseAuth()?.currentUser;
           if (authUser) {
-            currentUser.authUser = authUser;
+            currentUser.authUser = {
+              ...currentUser.authUser,
+              displayName: fullName,
+            };
           }
         }
         set({ currentUser });
@@ -111,7 +114,10 @@ const useUserStore = create<UserState>((set, get) => ({
         if (currentUser.authUser) {
           const authUser = getFirebaseAuth()?.currentUser;
           if (authUser) {
-            currentUser.authUser = authUser;
+            currentUser.authUser = {
+              ...currentUser.authUser,
+              email,
+            };
           }
         }
         set({ currentUser });
