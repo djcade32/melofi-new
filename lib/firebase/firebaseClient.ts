@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, Firestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
-import { connectAuthEmulator, getAuth } from "firebase/auth";
+import { Auth, connectAuthEmulator, getAuth } from "firebase/auth";
 import firebase from "firebase/compat/app";
 import { Logger } from "@/classes/Logger";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -21,9 +21,10 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 const isCypress = process.env.NEXT_PUBLIC_IS_CYPRESS === "true";
-export let db: Firestore | undefined = undefined;
+export let auth: Auth | undefined = getAuth(app);
+export let db: Firestore | undefined = getFirestore(app);
 
 export const analytics = () => {
   if (typeof window !== "undefined") {
@@ -64,13 +65,16 @@ export const getFirebaseAuth = () => {
     console.log("FIREBASE_API_KEY and NEXT_PUBLIC_FIREBASE_API_KEY are not defined in .env");
     return;
   }
-
+  if (auth) {
+    return auth;
+  }
   try {
     const auth = getAuth(app);
     if (isCypress) {
       Logger.getInstance().warn("Firebase Auth Emulator Enabled");
       connectAuthEmulator(auth, "http://localhost:9099");
     }
+    console.log("INFO: Firebase Auth Connected: ");
     return auth;
   } catch (error) {
     console.log("ERROR: Firebase Auth Connection Failed");
