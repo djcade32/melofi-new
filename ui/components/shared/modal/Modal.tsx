@@ -74,11 +74,15 @@ const Modal = ({
   const [isHovered, setIsHovered] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 400, height: 225 }); // Default dimensions
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [zIndexState, setZIndexState] = useState(zIndex || 1);
+  const [zIndexState, setZIndexState] = useState(1);
 
   if (isWidget && !name) {
     throw new Error("name prop is required for widgets");
   }
+
+  useEffect(() => {
+    setZIndexState(zIndex || 1);
+  }, [zIndex]);
 
   useEffect(() => {
     // Get the width and height of the modal

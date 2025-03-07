@@ -75,9 +75,7 @@ const ReauthenticateModal = ({
       close={closeModal}
       className={styles.reauthenticateModal__container}
       showCloseIcon={false}
-      style={{
-        zIndex: isOpen ? 100 : -1,
-      }}
+      zIndex={isOpen ? 100 : -1}
     >
       <div className={styles.reauthenticateModal__content}>
         <p className={styles.reauthenticateModal__text}>
