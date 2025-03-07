@@ -23,8 +23,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const isCypress = process.env.NEXT_PUBLIC_IS_CYPRESS === "true";
-export let auth: Auth | undefined = !isCypress ? undefined : getAuth(app);
-export let db: Firestore | undefined = !isCypress ? undefined : getFirestore(app);
+export let auth: Auth | undefined;
+export let db: Firestore | undefined;
+// export let auth: Auth | undefined = !isCypress ? undefined : getAuth(app);
+// export let db: Firestore | undefined = !isCypress ? undefined : getFirestore(app);
 
 export const analytics = () => {
   if (typeof window !== "undefined") {
@@ -82,3 +84,6 @@ export const getFirebaseAuth = () => {
     return;
   }
 };
+
+getFirebaseAuth();
+getFirebaseDB();

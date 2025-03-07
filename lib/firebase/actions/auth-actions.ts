@@ -9,17 +9,13 @@ import {
   updateProfile,
   updatePassword as firebaseUpdatePassword,
 } from "firebase/auth";
-import { getFirebaseAuth, getFirebaseDB } from "../firebaseClient";
+import { auth, db, getFirebaseAuth, getFirebaseDB } from "../firebaseClient";
 import { deleteDoc, doc, setDoc } from "firebase/firestore";
 import { MelofiUser, PromiseResolveType } from "@/types/general";
 import { addUserToNewsletter, changeUserEmailVerificationStatus } from "./newsletter-actions";
 import { getUserFromUserDb } from "../getters/auth-getters";
 import { getUserFromNewsletterDb } from "../getters/newsletter-getters";
 import { addUserToStats } from "./stats-actions";
-import { user } from "firebase-functions/v1/auth";
-
-const auth = getFirebaseAuth();
-const db = getFirebaseDB();
 
 export const signup = async (
   email: string,
