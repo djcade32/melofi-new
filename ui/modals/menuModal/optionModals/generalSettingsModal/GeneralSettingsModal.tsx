@@ -214,7 +214,16 @@ const GeneralSettingsModal = () => {
               {musicControlHotKeys.map((control, index) => (
                 <div key={index} style={{ display: "flex", justifyContent: "space-between" }}>
                   <p style={{ color: "var(--color-secondary)" }}>{control.action}</p>
-                  <p>{control.hotKey}</p>
+                  <p
+                    style={{
+                      border: "1px solid var(--color-secondary-opacity)",
+                      padding: "2px",
+                      borderRadius: 5,
+                      backgroundColor: "var(--color-primary)",
+                    }}
+                  >
+                    {control.hotKey}
+                  </p>
                 </div>
               ))}
             </div>
