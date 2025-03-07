@@ -4,16 +4,20 @@ import useSceneStore from "@/stores/scene-store";
 import useMixerStore from "@/stores/mixer-store";
 import MixerSlider from "@/ui/components/mixerSlider/MixerSlider";
 import { Sound } from "@/types/interfaces/mixer";
+import useUserStore from "@/stores/user-store";
 
 const SceneSoundsSection = () => {
   const { currentScene } = useSceneStore();
   const { getSceneSounds, mixerSoundsConfig } = useMixerStore();
+  const { isPremiumUser } = useUserStore();
 
   const [sceneSounds, setSceneSounds] = useState<Sound[] | undefined>(undefined);
 
   useEffect(() => {
     setSceneSounds(getSceneSounds(currentScene));
   }, [currentScene, mixerSoundsConfig]);
+
+  const soundIsDisabled = (sound: Sound) => sound.premium && !isPremiumUser;
 
   return (
     <div className={styles.sceneSoundsSection__container}>
@@ -26,7 +30,7 @@ const SceneSoundsSection = () => {
             soundName={sound.name}
             soundVolume={sound.volume}
             soundIcon={sound.icon}
-            premium={sound.premium}
+            premium={soundIsDisabled(sound)}
           />
         ))}
       </div>

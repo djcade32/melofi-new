@@ -1,34 +1,28 @@
 .header_logo_clockwise {
-    animation: spin-clockwise 5s linear infinite;
-    cursor: pointer;
-    display: inline-block;
+  animation: spin-clockwise 5s linear infinite;
+  cursor: pointer;
+  display: inline-block;
 }
 
 .header_logo_counter_clockwise {
-    animation: spin-counter-clockwise 5s linear infinite;
-    cursor: pointer;
-    display: inline-block;
+  animation: spin-counter-clockwise 5s linear infinite;
+  cursor: pointer;
+  display: inline-block;
 }
-
-.header_logo_clockwise:hover, 
-.header_logo_counter_clockwise:hover {
-    animation: reverse;
-}
-
 
 @keyframes spin-clockwise {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 @keyframes spin-counter-clockwise {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(-360deg);
-    }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
 }

@@ -171,4 +171,44 @@ export const scenes: Scene[] = [
     fontFamily: "Bruno Ace",
     premium: true,
   },
+
+  {
+    id: 13,
+    name: "Tree House",
+    thumbnail: "/assets/thumbnails/tree-house_pic.webp",
+    video: "/assets/videos/tree-house_vid.mp4",
+    soundIcons: [
+      { name: sounds.NATURE.name, icon: sounds.NATURE.icon },
+      { name: sounds.MORNING.name, icon: sounds.MORNING.icon },
+      { name: sounds.BIRDS_CHIRPING.name, icon: sounds.BIRDS_CHIRPING.icon },
+    ],
+    fontFamily: "Bruno Ace",
+    premium: true,
+  },
+  {
+    id: 14,
+    name: "Winter Cafe",
+    thumbnail: "/assets/thumbnails/winter-cafe_pic.webp",
+    video: "/assets/videos/winter-cafe_vid.mp4",
+    soundIcons: [
+      { name: sounds.CHATTER.name, icon: sounds.CHATTER.icon },
+      { name: sounds.NATURE.name, icon: sounds.NATURE.icon },
+      { name: sounds.FIREPLACE.name, icon: sounds.FIREPLACE.icon },
+    ],
+    fontFamily: "var(--font-dancing-script)",
+    premium: true,
+  },
+  {
+    id: 15,
+    name: "Book Lover",
+    thumbnail: "/assets/thumbnails/book-lover_pic.webp",
+    video: "/assets/videos/book-lover_vid.mp4",
+    soundIcons: [
+      { name: sounds.FAN.name, icon: sounds.FAN.icon },
+      { name: sounds.KEYBOARD.name, icon: sounds.KEYBOARD.icon },
+      { name: sounds.CLOCK.name, icon: sounds.CLOCK.icon },
+    ],
+    fontFamily: "var(--font-patrick-hand)",
+    premium: true,
+  },
 ];
