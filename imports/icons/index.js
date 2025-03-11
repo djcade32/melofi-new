@@ -50,6 +50,7 @@ import {
   IoCreate,
   IoStatsChartSharp,
   IoCopy,
+  IoMenuOutline,
 } from "react-icons/io5";
 import {
   RiSoundModuleFill,
@@ -249,4 +250,5 @@ export {
   SiBuymeacoffee,
   MdOutlineOpenInNew,
   GiTomato,
+  IoMenuOutline,
 };
