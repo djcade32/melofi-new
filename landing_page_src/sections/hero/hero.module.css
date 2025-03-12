@@ -86,3 +86,9 @@
     width: 30ch;
   }
 }
+
+@media (max-width: 350px) {
+  .hero__subtitle {
+    width: 25ch;
+  }
+}

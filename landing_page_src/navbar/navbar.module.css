@@ -14,6 +14,7 @@
   max-width: 1420px;
   padding: 25px 75px;
   width: calc(100vw - 75px);
+  z-index: 100;
 }
 
 .navbar__scrolled {
