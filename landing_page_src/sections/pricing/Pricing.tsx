@@ -31,7 +31,7 @@ const premiumFeatures = [
 const Pricing = () => {
   const [isYearly, setIsYearly] = useState(true);
   return (
-    <div className={`lp-section ${styles.pricing}`}>
+    <section className={`lp-section ${styles.pricing}`} id="pricing">
       <h1 className="lp-section-title">Pricing</h1>
       <div className={styles.pricing__switch}>
         <p className={`${!isYearly ? styles.active : ""} ${styles.pricing__switch_txt}`}>MONTHLY</p>
@@ -136,7 +136,7 @@ const Pricing = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
