@@ -43,6 +43,10 @@
   width: 850px;
   height: 478.13px;
 }
+
+.hero__content_txt span {
+  color: var(--color-effect-opacity);
+}
 @media (max-width: 950px) {
   .hero__image {
     width: 700px;
@@ -58,6 +62,10 @@
   .hero__image {
     width: 600px;
     height: 337.5px;
+  }
+
+  .hero__button:first-of-type {
+    display: none;
   }
 }
 
