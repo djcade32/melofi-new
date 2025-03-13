@@ -1,3 +1,4 @@
+import Footer from "@/landing_page_src/footer/Footer";
 import Navbar from "@/landing_page_src/navbar/Navbar";
 import About from "@/landing_page_src/sections/about/About";
 import Contact from "@/landing_page_src/sections/contact/Contact";
@@ -14,6 +15,7 @@ export default function LandingPage() {
       <Features />
       <Pricing />
       <Contact />
+      <Footer />
     </div>
   );
 }

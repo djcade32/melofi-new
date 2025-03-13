@@ -60,3 +60,46 @@
 .contact__form_button:hover {
   opacity: 75%;
 }
+
+@media (max-width: 900px) {
+  .contact__subtitle {
+    width: 50ch;
+  }
+}
+
+@media (max-width: 840px) {
+  .contact__form input {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 530px) {
+  .contact__subtitle {
+    max-width: 40ch;
+    padding: 0px 15px;
+    width: 100%;
+  }
+
+  .contact__form input {
+    width: 200px;
+  }
+}
+
+@media (max-width: 426px) {
+  .contact__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contact__form input {
+    width: 300px;
+    padding: 10px 10px;
+  }
+}
+
+@media (max-width: 350px) {
+  .contact__form input {
+    width: 250px;
+    padding: 10px 10px;
+  }
+}
