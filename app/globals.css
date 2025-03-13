@@ -42,6 +42,7 @@
 }
 
 #home-layout {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,7 +64,8 @@
 html,
 body {
   max-width: 100vw;
-  overflow: hidden;
+  /* If app starts scrolling uncomment this */
+  /* overflow: hidden; */
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none;

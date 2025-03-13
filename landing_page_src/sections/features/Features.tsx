@@ -2,6 +2,7 @@
 
 import React from "react";
 import styles from "./features.module.css";
+import { motion } from "framer-motion";
 
 const features = [
   {
@@ -42,7 +43,13 @@ const Features = () => {
   return (
     <section className={`"lp-section" ${styles.features}`} id="features">
       <h1 className="lp-section-title">Features</h1>
-      <div className={styles.features__content}>
+      <motion.div
+        initial={{ scale: 0.5 }}
+        whileInView={{ scale: 1 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+        className={styles.features__content}
+      >
         {features.map((feature, index) => (
           <div key={index} className={styles.features_card}>
             <div className={styles.features__card_icon}>{feature.icon}</div>
@@ -50,7 +57,7 @@ const Features = () => {
             <p className={styles.features__card_description}>{feature.description}</p>
           </div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 };

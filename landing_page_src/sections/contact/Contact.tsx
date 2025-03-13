@@ -2,10 +2,18 @@
 
 import React from "react";
 import styles from "./contact.module.css";
+import { motion } from "framer-motion";
 
 const Contact = () => {
   return (
-    <section className={styles.contact} id="contact">
+    <motion.section
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1 }}
+      className={styles.contact}
+      id="contact"
+    >
       <div className={styles.contact__txt}>
         <h1 className="lp-section-title">
           Stay in the Flow <br />
@@ -27,7 +35,7 @@ const Contact = () => {
           <p style={{ color: "white" }}>Subscribe</p>
         </div>
       </form>
-    </section>
+    </motion.section>
   );
 };
 

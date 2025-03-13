@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import styles from "./pricing.module.css";
 import Switch from "@/ui/components/shared/switch/Switch";
 import { BsCheck2 } from "@/imports/icons";
+import { motion } from "framer-motion";
 
 const freeFeatures = [
   "Melofi Lofi Player",
@@ -53,7 +54,13 @@ const Pricing = () => {
           <p>SAVE 33%</p>
         </div>
       </div>
-      <div className={styles.pricing__plans}>
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className={styles.pricing__plans}
+      >
         {/* Free Plan */}
         <div className={styles.pricing__plans_plan_border_free}>
           <div className={styles.pricing__plans_plan}>
@@ -135,7 +142,7 @@ const Pricing = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

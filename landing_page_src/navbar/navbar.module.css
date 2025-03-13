@@ -98,8 +98,7 @@
   }
 
   .navbar__side_menu {
-    display: block;
-    position: absolute;
+    display: none;
     top: 0;
     right: 0;
     bottom: 0;
@@ -108,13 +107,14 @@
   }
 
   .navbar__side_menu.open {
+    display: block;
     animation: grow_side_menu 0.3s forwards;
     z-index: 100;
+    position: fixed;
   }
 
   .navbar__backdrop {
-    display: block;
-    position: absolute;
+    display: none;
     top: 0;
     right: 0;
     bottom: 0;
@@ -126,18 +126,21 @@
   }
 
   .navbar__backdrop.open {
+    display: block;
     opacity: 1;
     z-index: 99;
+    position: fixed;
   }
 
   .navbar__close_btn {
-    display: block;
+    display: none;
     padding: 25px;
     transition: opacity 1s;
     opacity: 0;
   }
 
   .navbar__close_btn.open {
+    display: block;
     opacity: 1;
   }
 
