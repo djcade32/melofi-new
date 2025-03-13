@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 const About = () => {
   return (
-    <section className={`lp-section ${styles.about}`} id="about">
+    <section className={`lp-section ${styles.about} section`} id="about">
       <motion.div
         initial={{ scale: 0.5 }}
         whileInView={{ scale: 1 }}

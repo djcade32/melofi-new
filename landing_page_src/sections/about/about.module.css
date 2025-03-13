@@ -3,6 +3,7 @@
   align-items: center;
   gap: 20px;
   padding: 200px 25px 100px 25px;
+  scroll-margin-top: -75px;
 }
 
 @media (max-width: 1200px) {

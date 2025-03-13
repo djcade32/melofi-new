@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./navbar.module.css";
 import { IoMenuOutline, IoCloseOutline } from "@/imports/icons";
+import { capitalizeFirstLetter } from "@/utils/strings";
 
 const links = ["Home", "About", "Features", "Pricing", "Contact"];
 
@@ -14,21 +15,22 @@ const Navbar = () => {
     const doc = document.getElementById("home-layout");
     if (!doc) return;
     const handleScroll = () => {
+      const scrollableElement = document.querySelector("#home-layout") || document.documentElement;
       const navbar = document.querySelector(`.${styles.navbar}`);
       // Add class to navbar when user scrolls down
       navbar?.classList.remove(styles.navbar__scrolled_end);
       navbar?.classList.add(styles.navbar__scrolled);
-      // console.log(navbar);
-      // const scrollY = window.scrollY;
-      // const sections = document.querySelectorAll(".lp-section");
-      // const links = document.querySelectorAll(`.${styles.navbar__link}`);
-      // sections.forEach((section, index) => {
-      //   const sectionTop = section.getBoundingClientRect().top;
-      //   const sectionBottom = section.getBoundingClientRect().bottom;
-      //   if (scrollY >= sectionTop && scrollY < sectionBottom) {
-      //     setSelectedLink(links[index].textContent);
-      //   }
-      // });
+      // Determine which link is currently in view
+      const sections = document.querySelectorAll("section");
+      let current: string = "";
+      sections.forEach((section) => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 0) {
+          current = section.id;
+        }
+      });
+
+      current !== "" && setSelectedLink(capitalizeFirstLetter(current));
     };
     const handleOnScrollEnd = () => {
       const navbar = document.querySelector(`.${styles.navbar}`);

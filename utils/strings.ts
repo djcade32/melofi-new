@@ -13,3 +13,8 @@ export function toSnakeCase(str: string): string {
 export const serializeToPlainText = (nodes: Node[]): string => {
   return nodes.map((n) => Node.string(n)).join("\n");
 };
+
+// Upper case the first letter of a string
+export function capitalizeFirstLetter(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

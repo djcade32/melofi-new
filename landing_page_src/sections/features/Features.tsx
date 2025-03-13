@@ -41,7 +41,7 @@ const features = [
 
 const Features = () => {
   return (
-    <section className={`"lp-section" ${styles.features}`} id="features">
+    <section className={`"lp-section" ${styles.features} section`} id="features">
       <h1 className="lp-section-title">Features</h1>
       <motion.div
         initial={{ scale: 0.5 }}

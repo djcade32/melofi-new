@@ -11,7 +11,7 @@ const Hero = () => {
     about?.scrollIntoView({ behavior: "smooth" });
   };
   return (
-    <section className={`${styles.hero}`} id="home">
+    <section className={`${styles.hero} section`} id="home">
       <div className={styles.hero__content}>
         <div className={styles.hero__content_txt}>
           <motion.h1

@@ -11,7 +11,7 @@ const Contact = () => {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 1 }}
-      className={styles.contact}
+      className={`${styles.contact} section`}
       id="contact"
     >
       <div className={styles.contact__txt}>
