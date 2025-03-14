@@ -58,10 +58,6 @@
   .features_card {
     width: 300px;
   }
-
-  .features__card_icon {
-    font-size: 30px;
-  }
 }
 
 @media (max-width: 630px) {

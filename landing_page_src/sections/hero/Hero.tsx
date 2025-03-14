@@ -66,18 +66,10 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <Image
-            className={styles.hero__image}
-            src="/assets/landing-page/hero.png"
-            alt="hero"
-            width={850}
-            height={478.13}
-            style={{
-              borderRadius: 10,
-              boxShadow: "var(--box-shadow-primary)",
-              marginTop: 20,
-            }}
-          />
+          <video autoPlay loop muted className={styles.hero__video}>
+            <source src="/assets/landing-page/hero.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </motion.div>
       </div>
     </section>
