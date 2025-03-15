@@ -23,17 +23,32 @@ const useQuoteDisplayStore = create<QuoteDisplayState>((set, get) => ({
     if (quote) {
       const quoteObj = JSON.parse(quote);
       const dateAdded = new Date(quoteObj.dateAdded);
+
       // If the quote is from a different day, set a new quote
       if (isNewDay(dateAdded)) {
-        const idx = quoteObj.id === Quotes.length ? 1 : parseInt(quoteObj.id) + 1;
-        set({ quote: Quotes[idx] });
-        localStorage.setItem("quote", JSON.stringify({ ...Quotes[idx], dateAdded: new Date() }));
+        let idx = quoteObj.id + 1;
+        idx = idx >= Quotes.length ? 0 : idx;
+        const quote = {
+          dateAdded: new Date(),
+          author: Quotes[idx].author,
+          id: Quotes[idx].id,
+          text: Quotes[idx].text,
+        };
+
+        set({ quote });
+        localStorage.setItem("quote", JSON.stringify(quote));
       }
       set({ quote: { id: quoteObj.id, text: quoteObj.text, author: quoteObj.author } });
     } else {
+      const quote = {
+        dateAdded: new Date(),
+        author: Quotes[0].author,
+        id: Quotes[0].id,
+        text: Quotes[0].text,
+      };
       // If there isn't a quote, set a random quote
-      set({ quote: Quotes[1] });
-      localStorage.setItem("quote", JSON.stringify({ ...Quotes[1], dateAdded: new Date() }));
+      set({ quote });
+      localStorage.setItem("quote", JSON.stringify(quote));
     }
   },
 }));
