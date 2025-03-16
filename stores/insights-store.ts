@@ -2,6 +2,7 @@ import { create } from "zustand";
 import useUserStatsStore from "./user-stats-store";
 import { FocusDay, WeeklyStats } from "@/types/interfaces/pomodoro_timer";
 import { convertSecsToHrMinsSec } from "@/utils/time";
+import { firestoreTimestampToDate, isNewDay } from "@/utils/date";
 
 export interface InsightsState {
   getStickyNoteStats: () => number;
@@ -39,13 +40,15 @@ const useInsightsStore = create<InsightsState>((set, get) => ({
     if (!focusDay || !focusDay.current) {
       return null;
     }
-    const { focusTime, breakTime, sessionsCompleted, tasksCompleted } = focusDay.current;
-    return {
-      focusTime,
-      breakTime,
-      sessionsCompleted,
-      tasksCompleted,
+    const { focusTime, breakTime, sessionsCompleted, tasksCompleted, date } = focusDay.current;
+    const convertedDate = firestoreTimestampToDate(date);
+    const obj = {
+      focusTime: isNewDay(convertedDate) ? 0 : focusTime,
+      breakTime: isNewDay(convertedDate) ? 0 : breakTime,
+      sessionsCompleted: isNewDay(convertedDate) ? 0 : sessionsCompleted,
+      tasksCompleted: isNewDay(convertedDate) ? 0 : tasksCompleted,
     };
+    return obj;
   },
 
   getAllFocusStats: () => {

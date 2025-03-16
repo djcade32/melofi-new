@@ -1,4 +1,6 @@
-import React, { useEffect } from "react";
+"use client";
+
+import React, { useMemo } from "react";
 import styles from "./quoteDisplay.module.css";
 import useQuoteDisplayStore from "@/stores/quote-display-store";
 import { useAppContext } from "@/contexts/AppContext";
@@ -24,7 +26,7 @@ const QuoteDisplay = () => {
     }, timeUntilMidnight);
   };
 
-  useEffect(() => {
+  useMemo(() => {
     getQuote();
     scheduleQuoteUpdate();
   }, []);
