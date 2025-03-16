@@ -25,8 +25,13 @@ export const convertISOTimestamp = (timestamp: string) => {
 };
 
 export const isNewDay = (date: Date) => {
-  const currentDate = new Date();
-  return date.getDate() !== currentDate.getDate();
+  const today = new Date();
+
+  return !(
+    date.getFullYear() === today.getFullYear() &&
+    date.getMonth() === today.getMonth() &&
+    date.getDate() === today.getDate()
+  );
 };
 
 // Get day of the week from a date

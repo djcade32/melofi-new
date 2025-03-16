@@ -13,7 +13,7 @@ import {
   PomodoroTimerTaskPayload,
   WeeklyStats,
 } from "@/types/interfaces/pomodoro_timer";
-import { getDayOfWeek } from "@/utils/date";
+import { firestoreTimestampToDate, getDayOfWeek, isNewDay } from "@/utils/date";
 import React from "react";
 
 export interface PomodoroTimerState {
@@ -362,11 +362,16 @@ const calculateWeeklyStats = (
   return {
     ...weeklyStats,
     [dayOfWeek]: {
-      focusTime: weeklyStats[dayOfWeek]?.focusTime + incrementObj.focusTime || 0,
-      breakTime: weeklyStats[dayOfWeek]?.breakTime + incrementObj.breakTime || 0,
+      focusTime:
+        weeklyStats[dayOfWeek]?.focusTime + incrementObj.focusTime || incrementObj.focusTime,
+      breakTime:
+        weeklyStats[dayOfWeek]?.breakTime + incrementObj.breakTime || incrementObj.breakTime,
       sessionsCompleted:
-        weeklyStats[dayOfWeek]?.sessionsCompleted + incrementObj.sessionsCompleted || 0,
-      tasksCompleted: weeklyStats[dayOfWeek]?.tasksCompleted + incrementObj.tasksCompleted || 0,
+        weeklyStats[dayOfWeek]?.sessionsCompleted + incrementObj.sessionsCompleted ||
+        incrementObj.sessionsCompleted,
+      tasksCompleted:
+        weeklyStats[dayOfWeek]?.tasksCompleted + incrementObj.tasksCompleted ||
+        incrementObj.tasksCompleted,
     },
   } as WeeklyStats;
 };
@@ -395,8 +400,12 @@ const calculateFocusDay = (
       best: newFocusDay,
     };
   }
+  const sameDay = !isNewDay(firestoreTimestampToDate(focusDay.current!.date));
+
   const currentFocusDate = today;
-  const currentFocusTime = focusDay.current!.focusTime + incrementObj.focusTime;
+  const currentFocusTime = sameDay
+    ? focusDay.current!.focusTime + incrementObj.focusTime
+    : incrementObj.focusTime;
 
   const bestFocusDate = focusDay.best!.date;
   const bestFocusTime = focusDay.best!.focusTime;
@@ -414,13 +423,20 @@ const calculateFocusDay = (
       best: newFocusDay,
     };
   }
+
   return {
     current: {
       date: today,
       focusTime: currentFocusTime,
-      breakTime: focusDay.current!.breakTime + incrementObj.breakTime,
-      sessionsCompleted: focusDay.current!.sessionsCompleted + incrementObj.sessionsCompleted,
-      tasksCompleted: focusDay.current!.tasksCompleted + incrementObj.tasksCompleted,
+      breakTime: sameDay
+        ? focusDay.current!.breakTime + incrementObj.breakTime
+        : incrementObj.breakTime,
+      sessionsCompleted: sameDay
+        ? focusDay.current!.sessionsCompleted + incrementObj.sessionsCompleted
+        : incrementObj.sessionsCompleted,
+      tasksCompleted: sameDay
+        ? focusDay.current!.tasksCompleted + incrementObj.tasksCompleted
+        : incrementObj.tasksCompleted,
     },
     best: {
       date: bestFocusDate,
