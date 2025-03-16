@@ -121,7 +121,7 @@ import {
   PiCrownSimpleFill,
 } from "react-icons/pi";
 import { VscDebugRestart } from "react-icons/vsc";
-import { LuGalleryVertical, LuGalleryHorizontal } from "react-icons/lu";
+import { LuGalleryVertical, LuGalleryHorizontal, LuConstruction } from "react-icons/lu";
 import { BiSolidHide, BiSolidShow, BiWifiOff } from "react-icons/bi";
 import { LiaTimesSolid } from "react-icons/lia";
 import { SiBuymeacoffee } from "react-icons/si";
@@ -251,4 +251,5 @@ export {
   MdOutlineOpenInNew,
   GiTomato,
   IoMenuOutline,
+  LuConstruction,
 };

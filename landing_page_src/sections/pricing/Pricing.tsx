@@ -128,7 +128,7 @@ const Pricing = () => {
               style={{
                 backgroundColor: "var(--color-effect-opacity)",
               }}
-              onClick={() => window.open("/")}
+              onClick={() => window.open("/portal")}
             >
               <p style={{ color: "white" }}>Go Premium</p>
             </div>
