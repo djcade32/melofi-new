@@ -1,6 +1,7 @@
 import { doc, setDoc } from "firebase/firestore";
 import { getFirebaseDB } from "../firebaseClient";
 import { User } from "firebase/auth";
+import { subscribeUser } from "@/lib/brevo";
 
 const db = getFirebaseDB();
 
@@ -32,6 +33,7 @@ export const changeUserEmailVerificationStatus = async (
   try {
     const usersDoc = doc(db, `newsletter/${uid}`);
     await setDoc(usersDoc, { email, isEmailVerified });
+    isEmailVerified && subscribeUser(email, "melofi_signup");
   } catch (error) {
     console.log("Error changing user email verification status in newsletter db: ", error);
     throw error;
