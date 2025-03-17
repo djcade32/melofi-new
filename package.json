@@ -46,6 +46,7 @@
     "react-resizable": "^3.0.5",
     "recharts": "^2.15.1",
     "screenfull": "^6.0.2",
+    "sib-api-v3-sdk": "^8.5.0",
     "slate": "^0.110.2",
     "slate-history": "^0.110.3",
     "slate-react": "^0.111.0",
