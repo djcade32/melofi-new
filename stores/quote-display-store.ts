@@ -26,7 +26,7 @@ const useQuoteDisplayStore = create<QuoteDisplayState>((set, get) => ({
 
       // If the quote is from a different day, set a new quote
       if (isNewDay(dateAdded)) {
-        let idx = quoteObj.id + 1;
+        let idx = parseInt(quoteObj.id) + 1;
         idx = idx >= Quotes.length ? 0 : idx;
         const quote = {
           dateAdded: new Date(),
@@ -37,6 +37,7 @@ const useQuoteDisplayStore = create<QuoteDisplayState>((set, get) => ({
 
         set({ quote });
         localStorage.setItem("quote", JSON.stringify(quote));
+        return;
       }
       set({ quote: { id: quoteObj.id, text: quoteObj.text, author: quoteObj.author } });
     } else {
