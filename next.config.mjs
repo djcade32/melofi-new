@@ -24,6 +24,7 @@ const nextConfig = {
   },
   experimental: {
     optimizeCss: true,
+    serverComponentsExternalPackages: ["cypress", "cypress-real-events"],
   },
 };
 
