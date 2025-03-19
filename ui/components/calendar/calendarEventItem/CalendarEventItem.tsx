@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./calendarEventItem.module.css";
-import { CalendarEvent } from "@/types/general";
 import { convertISOTimestamp, dateInPast } from "@/utils/date";
+import { CalendarEvent } from "@/types/interfaces/calendar";
 
 interface CalendarEventItemProps {
   event: CalendarEvent;

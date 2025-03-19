@@ -1,7 +1,8 @@
 import { create } from "zustand";
-import { Playlist, Song } from "@/types/general";
+import { Song } from "@/types/general";
 import { Study } from "@/data/songs";
 import useTemplatesStore from "./widgets/templates-store";
+import { Playlist } from "@/types/interfaces/mixer";
 
 export interface MusicPlayerState {
   currentSong: Song;
