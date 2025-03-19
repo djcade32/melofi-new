@@ -81,8 +81,14 @@ export const fetchCalendarEvents = async (token: string, calendarId: string) => 
   }
 
   const date = new Date();
-  let timeMin = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0).toISOString();
-  let timeMax = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59).toISOString();
+  const timeMin = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0).toISOString();
+  const timeMax = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    23,
+    59
+  ).toISOString();
 
   const db = await dbPromise;
   const calendarEvents = await db.get("calendar", calendarId);

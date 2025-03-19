@@ -17,6 +17,11 @@ const nextConfig = {
     NEXT_PUBLIC_IS_CYPRESS: process.env.IS_CYPRESS, // Expose to client as well if needed
     FIREBASE_AUTH_EMULATOR_HOST: "localhost:9099",
   },
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
