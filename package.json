@@ -70,6 +70,7 @@
     "@vercel/next": "^4.7.4",
     "babel-loader": "^9.2.1",
     "concurrently": "^9.1.0",
+    "critters": "^0.0.23",
     "cypress": "^13.17.0",
     "electron": "^32.1.2",
     "eslint": "^8",
