@@ -1,4 +1,5 @@
 import { LuConstruction } from "@/imports/icons";
+import { GoogleAnalytics } from "nextjs-google-analytics";
 
 export default function PortalPage() {
   return (
@@ -14,6 +15,8 @@ export default function PortalPage() {
         boxShadow: "0 0 10px var(--color-black)",
       }}
     >
+      <GoogleAnalytics trackPageViews gaMeasurementId="G-J2YND7L37W" />
+
       <LuConstruction size={100} color="var(--color-effect-opacity)" />
       <h1
         style={{
