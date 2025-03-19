@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
-export default {
+
+const nextConfig = {
   webpack(config) {
     config.module.rules.push({
       test: /\.(mp4|webm|mp3|wav)$/,
@@ -17,9 +18,13 @@ export default {
     FIREBASE_AUTH_EMULATOR_HOST: "localhost:9099",
   },
   eslint: {
-    ignoreDuringBuilds: true, // Allows production builds to complete even if there are ESLint errors.
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
   },
   experimental: {
     optimizeCss: true,
   },
 };
+
+export default nextConfig;
