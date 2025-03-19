@@ -29,14 +29,14 @@ import theRidge_allemIverson from "../../public/assets/songs/the-ridge_allem-ive
 // import goldenClouds_rudyRaw_mello from "../../public/assets/songs/goldenClouds_rudyRaw_mello.mp3";
 // import moonBeams_lofty_jaackson_whilst from "../../public/assets/songs/moonBeams_lofty_jaackson_whilst.mp3";
 // import aLittleHelp_hmSurf from "../../public/assets/songs/aLittleHelp_hmSurf.mp3";
-// import firstSteps_phlocalyst_myrad_hilaria from "../../public/assets/songs/first-steps_phlocalyst_x_myrad_x_hilaria.mp3";
+import firstSteps_phlocalyst_myrad_hilaria from "../../public/assets/songs/first-steps_phlocalyst_x_myrad_x_hilaria.mp3";
 // import gentleRain_softy_comodo_otisUbaka from "../../public/assets/songs/gentle-rain_softy_x_comodo_x_otisUbaka.mp3";
 // import gamble_worldtraveller_maxMerseny_viktorMinsky from "../../public/assets/songs/gamble_worldtraveller_x_maxMerseny_x_viktorMinsky.mp3";
 // import sentimentalMood_worldtraveller_maxMerseny from "../../public/assets/songs/sentimental-mood_worldtraveller_x_maxMerseny.mp3";
 // import oldFriends_twoScents from "../../public/assets/songs/old-friends_twoScents.mp3";
 // import shadesOfMySoul_phlocalyst_myriad_hilaria from "../../public/assets/songs/shades-of-my-soul_phlocalyst_x_myriad_x_hilaria.mp3";
 // import ippo_hoko_damien_fleau from "../../public/assets/songs/ippo_hoko_x_damienFleau.mp3";
-// import snoozeButton_purrpleCat from "../../public/assets/songs/snoozeButton_purrpleCat.mp3";
+import snoozeButton_purrpleCat from "../../public/assets/songs/snoozeButton_purrpleCat.mp3";
 // import snowman_wys from "../../public/assets/songs/snowman_wys.mp3";
 // import aloneTime_fleece_sogni_guleum from "../../public/assets/songs/aloneTime_fleece_x_sogni_x_guleum.mp3";
 // import beforeYouGo_jhove from "../../public/assets/songs/beforeYouGo_jhove.mp3";
@@ -85,14 +85,14 @@ export {
   // goldenClouds_rudyRaw_mello,
   // moonBeams_lofty_jaackson_whilst,
   // aLittleHelp_hmSurf,
-  // firstSteps_phlocalyst_myrad_hilaria,
+  firstSteps_phlocalyst_myrad_hilaria,
   // gentleRain_softy_comodo_otisUbaka,
   // gamble_worldtraveller_maxMerseny_viktorMinsky,
   // sentimentalMood_worldtraveller_maxMerseny,
   // oldFriends_twoScents,
   // shadesOfMySoul_phlocalyst_myriad_hilaria,
   // ippo_hoko_damien_fleau,
-  // snoozeButton_purrpleCat,
+  snoozeButton_purrpleCat,
   // snowman_wys,
   // aloneTime_fleece_sogni_guleum,
   // beforeYouGo_jhove,
