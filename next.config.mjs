@@ -20,8 +20,6 @@ export default {
     ignoreDuringBuilds: true, // Allows production builds to complete even if there are ESLint errors.
   },
   experimental: {
-    runtime: "edge",
     optimizeCss: true,
-    optimizeFonts: true,
   },
 };
