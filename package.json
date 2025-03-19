@@ -67,6 +67,7 @@
     "@types/react-dom": "^18",
     "@types/react-resizable": "^3.0.8",
     "@types/youtube-player": "^5.5.11",
+    "@vercel/next": "^4.7.4",
     "babel-loader": "^9.2.1",
     "concurrently": "^9.1.0",
     "cypress": "^13.17.0",
