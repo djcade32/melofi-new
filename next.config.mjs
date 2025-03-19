@@ -22,6 +22,11 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  experimental: {
+    runtime: "edge",
+    optimizeCss: true,
+    optimizeFonts: true,
+  },
 };
 
 export default nextConfig;
