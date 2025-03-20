@@ -62,6 +62,7 @@ const Study: Playlist = {
   name: "Study",
   icon: IoBookSharp,
   spotifyPlaylistId: "6JMt2yxWecgTXAzkDW0TrZ",
+
   songs: [
     {
       id: 0,

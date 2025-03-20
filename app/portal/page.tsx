@@ -1,6 +1,20 @@
+"use client";
+
 import { LuConstruction } from "@/imports/icons";
+import { GoogleAnalytics } from "nextjs-google-analytics";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function PortalPage() {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("config", "G-J2YND7L37W", {
+        page_path: pathname,
+      });
+    }
+  }, [pathname]);
   return (
     <div
       style={{
@@ -14,6 +28,8 @@ export default function PortalPage() {
         boxShadow: "0 0 10px var(--color-black)",
       }}
     >
+      <GoogleAnalytics trackPageViews gaMeasurementId="G-J2YND7L37W" />
+
       <LuConstruction size={100} color="var(--color-effect-opacity)" />
       <h1
         style={{
