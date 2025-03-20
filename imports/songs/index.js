@@ -24,8 +24,6 @@ import daylight_teamAstro from "../../public/assets/songs/daylight_teamAstro.mp3
 import starryNight_eugenioIzzi_mondoLoops from "../../public/assets/songs/starryNight_eugenioIzzi_x_mondoLoops.mp3";
 import votaliya_chauSara from "../../public/assets/songs/votaliya_chauSara.mp3";
 import towardsTheMountains_plantGuy from "../../public/assets/songs/towardsTheMountains_plantGuy.mp3";
-import betterThanYesterday_squeeda_cxlt from "../../public/assets/songs/betterThanYesterday_squeeda_cxlt.mp3";
-import lunarSight_ticofaces_loafyBuilding from "../../public/assets/songs/lunarSight_ticofaces_loafyBuilding.mp3";
 import firstSteps_phlocalyst_myrad_hilaria from "../../public/assets/songs/first-steps_phlocalyst_x_myrad_x_hilaria.mp3";
 import gentleRain_softy_comodo_otisUbaka from "../../public/assets/songs/gentle-rain_softy_x_comodo_x_otisUbaka.mp3";
 import gamble_worldtraveller_maxMerseny_viktorMinsky from "../../public/assets/songs/gamble_worldtraveller_x_maxMerseny_x_viktorMinsky.mp3";
@@ -74,8 +72,6 @@ export {
   starryNight_eugenioIzzi_mondoLoops,
   votaliya_chauSara,
   towardsTheMountains_plantGuy,
-  betterThanYesterday_squeeda_cxlt,
-  lunarSight_ticofaces_loafyBuilding,
   firstSteps_phlocalyst_myrad_hilaria,
   gentleRain_softy_comodo_otisUbaka,
   gamble_worldtraveller_maxMerseny_viktorMinsky,
