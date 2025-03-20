@@ -15,8 +15,6 @@ import cityOnAHill_lOutlander from "../../public/assets/songs/city-on-a-hill_lOu
 import overgrown_tenno from "../../public/assets/songs/overgrown_tenno.mp3";
 import finalMoments_nadavCohen_kokoro from "../../public/assets/songs/final-moments_nadav-cohen_x_kokoro.mp3";
 import theBadParty_wys from "../../public/assets/songs/the-bad-party_wys.mp3";
-import ancestral_casiio from "../../public/assets/songs/ancestral_casiio.mp3";
-import edda_kanisan_darioLessing_claudia from "../../public/assets/songs/edda_kanisan_x_dario-lessing_x_claudia.mp3";
 import votaliya_chauSara from "../../public/assets/songs/votaliya_chauSara.mp3";
 import firstSteps_phlocalyst_myrad_hilaria from "../../public/assets/songs/first-steps_phlocalyst_x_myrad_x_hilaria.mp3";
 import gentleRain_softy_comodo_otisUbaka from "../../public/assets/songs/gentle-rain_softy_x_comodo_x_otisUbaka.mp3";
@@ -57,8 +55,6 @@ export {
   overgrown_tenno,
   finalMoments_nadavCohen_kokoro,
   theBadParty_wys,
-  ancestral_casiio,
-  edda_kanisan_darioLessing_claudia,
   votaliya_chauSara,
   firstSteps_phlocalyst_myrad_hilaria,
   gentleRain_softy_comodo_otisUbaka,
