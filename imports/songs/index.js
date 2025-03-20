@@ -20,10 +20,7 @@ import edda_kanisan_darioLessing_claudia from "../../public/assets/songs/edda_ka
 import willowHill_spencerHunt from "../../public/assets/songs/willow-hill_spencer-hunt.mp3";
 import wellBeAlright_softy_lucidGreen from "../../public/assets/songs/well-be-alright_softy_x_lucid-green.mp3";
 import dontYouKnow_sebastianKamae_Aylior from "../../public/assets/songs/dontYouKnow_sebastianKamae_x_Aylior.mp3";
-import daylight_teamAstro from "../../public/assets/songs/daylight_teamAstro.mp3";
-import starryNight_eugenioIzzi_mondoLoops from "../../public/assets/songs/starryNight_eugenioIzzi_x_mondoLoops.mp3";
 import votaliya_chauSara from "../../public/assets/songs/votaliya_chauSara.mp3";
-import towardsTheMountains_plantGuy from "../../public/assets/songs/towardsTheMountains_plantGuy.mp3";
 import firstSteps_phlocalyst_myrad_hilaria from "../../public/assets/songs/first-steps_phlocalyst_x_myrad_x_hilaria.mp3";
 import gentleRain_softy_comodo_otisUbaka from "../../public/assets/songs/gentle-rain_softy_x_comodo_x_otisUbaka.mp3";
 import gamble_worldtraveller_maxMerseny_viktorMinsky from "../../public/assets/songs/gamble_worldtraveller_x_maxMerseny_x_viktorMinsky.mp3";
@@ -68,10 +65,7 @@ export {
   willowHill_spencerHunt,
   wellBeAlright_softy_lucidGreen,
   dontYouKnow_sebastianKamae_Aylior,
-  daylight_teamAstro,
-  starryNight_eugenioIzzi_mondoLoops,
   votaliya_chauSara,
-  towardsTheMountains_plantGuy,
   firstSteps_phlocalyst_myrad_hilaria,
   gentleRain_softy_comodo_otisUbaka,
   gamble_worldtraveller_maxMerseny_viktorMinsky,
