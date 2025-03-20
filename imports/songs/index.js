@@ -26,9 +26,6 @@ import votaliya_chauSara from "../../public/assets/songs/votaliya_chauSara.mp3";
 import towardsTheMountains_plantGuy from "../../public/assets/songs/towardsTheMountains_plantGuy.mp3";
 import betterThanYesterday_squeeda_cxlt from "../../public/assets/songs/betterThanYesterday_squeeda_cxlt.mp3";
 import lunarSight_ticofaces_loafyBuilding from "../../public/assets/songs/lunarSight_ticofaces_loafyBuilding.mp3";
-import goldenClouds_rudyRaw_mello from "../../public/assets/songs/goldenClouds_rudyRaw_mello.mp3";
-import moonBeams_lofty_jaackson_whilst from "../../public/assets/songs/moonBeams_lofty_jaackson_whilst.mp3";
-import aLittleHelp_hmSurf from "../../public/assets/songs/aLittleHelp_hmSurf.mp3";
 import firstSteps_phlocalyst_myrad_hilaria from "../../public/assets/songs/first-steps_phlocalyst_x_myrad_x_hilaria.mp3";
 import gentleRain_softy_comodo_otisUbaka from "../../public/assets/songs/gentle-rain_softy_x_comodo_x_otisUbaka.mp3";
 import gamble_worldtraveller_maxMerseny_viktorMinsky from "../../public/assets/songs/gamble_worldtraveller_x_maxMerseny_x_viktorMinsky.mp3";
@@ -42,8 +39,6 @@ import aloneTime_fleece_sogni_guleum from "../../public/assets/songs/aloneTime_f
 import beforeYouGo_jhove from "../../public/assets/songs/beforeYouGo_jhove.mp3";
 import abandoned_dlj from "../../public/assets/songs/abandoned_dlj.mp3";
 import mrCatchy_sebastianKamae_Aylior from "../../public/assets/songs/mrCatchy_sebastianKamae_x_Aylior.mp3";
-import you_cocabona from "../../public/assets/songs/you_cocabona.mp3";
-import gatesOfHeaven_bluntOne from "../../public/assets/songs/gatesOfHeaven_bluntOne.mp3";
 import weightless_slingDilly_sleepermane from "../../public/assets/songs/weightless_slingDilly_sleepermane.mp3";
 import diascia_casiio from "../../public/assets/songs/diascia_casiio.mp3";
 import newPaths_ayzic_lennyLoops from "../../public/assets/songs/newPaths_ayzic_lennyLoops.mp3";
@@ -51,7 +46,6 @@ import flyingDoodles_chauSara from "../../public/assets/songs/flyingDoodles_chau
 import sleepermane_raindance from "../../public/assets/songs/sleepermane_raindance.mp3";
 import lilac_gMills from "../../public/assets/songs/lilac_gMills.mp3";
 import peacefulSleep_noSpirit from "../../public/assets/songs/peacefulSleep_noSpirit.mp3";
-import shimmersOfADream_noSpirit_kainbeats from "../../public/assets/songs/shimmersOfADream_noSpirit_kainbeats.mp3";
 
 export {
   theRidge_allemIverson,
@@ -82,9 +76,6 @@ export {
   towardsTheMountains_plantGuy,
   betterThanYesterday_squeeda_cxlt,
   lunarSight_ticofaces_loafyBuilding,
-  goldenClouds_rudyRaw_mello,
-  moonBeams_lofty_jaackson_whilst,
-  aLittleHelp_hmSurf,
   firstSteps_phlocalyst_myrad_hilaria,
   gentleRain_softy_comodo_otisUbaka,
   gamble_worldtraveller_maxMerseny_viktorMinsky,
@@ -98,8 +89,6 @@ export {
   beforeYouGo_jhove,
   abandoned_dlj,
   mrCatchy_sebastianKamae_Aylior,
-  you_cocabona,
-  gatesOfHeaven_bluntOne,
   weightless_slingDilly_sleepermane,
   diascia_casiio,
   newPaths_ayzic_lennyLoops,
@@ -107,5 +96,4 @@ export {
   sleepermane_raindance,
   lilac_gMills,
   peacefulSleep_noSpirit,
-  shimmersOfADream_noSpirit_kainbeats,
 };

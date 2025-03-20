@@ -28,9 +28,6 @@ import {
   towardsTheMountains_plantGuy,
   betterThanYesterday_squeeda_cxlt,
   lunarSight_ticofaces_loafyBuilding,
-  goldenClouds_rudyRaw_mello,
-  aLittleHelp_hmSurf,
-  moonBeams_lofty_jaackson_whilst,
   firstSteps_phlocalyst_myrad_hilaria,
   gentleRain_softy_comodo_otisUbaka,
   gamble_worldtraveller_maxMerseny_viktorMinsky,
@@ -44,8 +41,6 @@ import {
   beforeYouGo_jhove,
   abandoned_dlj,
   mrCatchy_sebastianKamae_Aylior,
-  you_cocabona,
-  gatesOfHeaven_bluntOne,
   weightless_slingDilly_sleepermane,
   diascia_casiio,
   newPaths_ayzic_lennyLoops,
@@ -53,7 +48,6 @@ import {
   sleepermane_raindance,
   lilac_gMills,
   peacefulSleep_noSpirit,
-  shimmersOfADream_noSpirit_kainbeats,
 } from "../imports/songs";
 import { Playlist } from "@/types/interfaces/mixer";
 
@@ -280,30 +274,6 @@ const Study: Playlist = {
       provider: "Lofi Records",
       providerUrl: "https://www.youtube.com/@LofiRecords",
     },
-    {
-      id: 28,
-      mp3Path: goldenClouds_rudyRaw_mello,
-      artist: "Rudy Raw x mello-ø",
-      title: "Golden Clouds",
-      provider: "Lofi Records",
-      providerUrl: "https://www.youtube.com/@LofiRecords",
-    },
-    {
-      id: 29,
-      mp3Path: moonBeams_lofty_jaackson_whilst,
-      artist: "lofty x jaackson x whilst",
-      title: "moonBeams",
-      provider: "Lofi Records",
-      providerUrl: "https://www.youtube.com/@LofiRecords",
-    },
-    {
-      id: 30,
-      mp3Path: aLittleHelp_hmSurf,
-      artist: "HM Surf",
-      title: "A Little Help",
-      provider: "Lofi Records",
-      providerUrl: "https://www.youtube.com/@LofiRecords",
-    },
   ],
 };
 
@@ -401,22 +371,6 @@ const Relax: Playlist = {
       provider: "Sebastian Kamae",
       providerUrl: "https://www.youtube.com/channel/UCP0ctkvqZD-UJctKCNvNaUw",
     },
-    {
-      id: 11,
-      mp3Path: you_cocabona,
-      artist: "Cocabona",
-      title: "You",
-      provider: "StudyVibes",
-      providerUrl: "https://www.youtube.com/@Seppuku4O4",
-    },
-    {
-      id: 12,
-      mp3Path: gatesOfHeaven_bluntOne,
-      artist: "BluntOne",
-      title: "Gates of Heaven",
-      provider: "BluntOne",
-      providerUrl: "https://www.youtube.com/channel/UC0uecFFM-niT87_g8UxBtBA",
-    },
   ],
 };
 
@@ -505,14 +459,6 @@ const Sleepy: Playlist = {
       title: "Peaceful Sleep",
       provider: "No Spirit",
       providerUrl: "https://www.youtube.com/channel/UC1OqjbKCrArd_xR9MF1WeeQ",
-    },
-    {
-      id: 11,
-      mp3Path: shimmersOfADream_noSpirit_kainbeats,
-      artist: "No Spirit x Kainbeats",
-      title: "Shimmers of a Dream",
-      provider: "Lofi Records",
-      providerUrl: "https://www.youtube.com/@LofiRecords",
     },
   ],
 };
