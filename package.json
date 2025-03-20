@@ -15,7 +15,8 @@
     "electron": "electron .",
     "dev:electron": "concurrently \"npm run dev\" \"wait-on http://localhost:3000 && npm run electron\"",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build": "next build"
   },
   "dependencies": {
     "@emotion/css": "^11.13.5",
@@ -42,6 +43,7 @@
     "react-resizable": "^3.0.5",
     "recharts": "^2.15.1",
     "screenfull": "^6.0.2",
+    "sharp": "^0.33.5",
     "slate": "^0.110.2",
     "slate-history": "^0.110.3",
     "slate-react": "^0.111.0",

@@ -2,7 +2,7 @@
 
 import React, { lazy } from "react";
 import Header from "../components/header/Header";
-// import MixerModal from "../modals/mixerModal/MixerModal";
+import MixerModal from "../modals/mixerModal/MixerModal";
 import NowPlaying from "../components/nowPlaying/NowPlaying";
 import useMixerStore from "@/stores/mixer-store";
 import { MusicSource } from "@/enums/general";
@@ -55,7 +55,7 @@ const LoggedInView = () => {
       <Toolbar />
       <ComponentLoader component={<SceneModal />} isComponentOpen={sceneModalOpen} />
       <MenuModal />
-      {/* <MixerModal /> */}
+      <MixerModal />
       {musicSource === MusicSource.MELOFI && <NowPlaying />}
       <QuoteDisplay />
       <SupportCreatorBanner />
