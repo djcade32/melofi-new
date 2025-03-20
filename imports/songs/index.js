@@ -17,9 +17,6 @@ import finalMoments_nadavCohen_kokoro from "../../public/assets/songs/final-mome
 import theBadParty_wys from "../../public/assets/songs/the-bad-party_wys.mp3";
 import ancestral_casiio from "../../public/assets/songs/ancestral_casiio.mp3";
 import edda_kanisan_darioLessing_claudia from "../../public/assets/songs/edda_kanisan_x_dario-lessing_x_claudia.mp3";
-import willowHill_spencerHunt from "../../public/assets/songs/willow-hill_spencer-hunt.mp3";
-import wellBeAlright_softy_lucidGreen from "../../public/assets/songs/well-be-alright_softy_x_lucid-green.mp3";
-import dontYouKnow_sebastianKamae_Aylior from "../../public/assets/songs/dontYouKnow_sebastianKamae_x_Aylior.mp3";
 import votaliya_chauSara from "../../public/assets/songs/votaliya_chauSara.mp3";
 import firstSteps_phlocalyst_myrad_hilaria from "../../public/assets/songs/first-steps_phlocalyst_x_myrad_x_hilaria.mp3";
 import gentleRain_softy_comodo_otisUbaka from "../../public/assets/songs/gentle-rain_softy_x_comodo_x_otisUbaka.mp3";
@@ -62,9 +59,6 @@ export {
   theBadParty_wys,
   ancestral_casiio,
   edda_kanisan_darioLessing_claudia,
-  willowHill_spencerHunt,
-  wellBeAlright_softy_lucidGreen,
-  dontYouKnow_sebastianKamae_Aylior,
   votaliya_chauSara,
   firstSteps_phlocalyst_myrad_hilaria,
   gentleRain_softy_comodo_otisUbaka,
