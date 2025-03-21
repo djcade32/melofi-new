@@ -39,7 +39,7 @@ const AccountModalSignedInUser = ({
     deleteAccount?: boolean;
   }>({});
   const [showDialog, setShowDialog] = useState(0);
-  const [dialopProps, setDialogProps] = useState<DialogModalActions | null>(null);
+  const [dialogProps, setDialogProps] = useState<DialogModalActions | null>(null);
   const [loadingManageSubscription, setLoadingManageSubscription] = useState(false);
 
   useEffect(() => {
@@ -330,7 +330,7 @@ const AccountModalSignedInUser = ({
       />
       <DialogModal
         id="account-modal-dialog"
-        dialogProps={dialopProps}
+        dialogProps={dialogProps}
         modalStyle={{
           width: 300,
           height: 175,
