@@ -13,9 +13,11 @@ interface DialogModalProps {
 
 const DialogModal = ({ id, dialogProps, modalStyle, modalClassName }: DialogModalProps) => {
   const [isOpenState, setIsOpenState] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setIsOpenState((prev) => !prev);
+    !loading && setIsOpenState((prev) => !prev);
+    loading && setLoading(false);
   }, [dialogProps?.toggleOpen]);
   return (
     <div
