@@ -1,0 +1,44 @@
+.dialogModal__backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s;
+
+  backdrop-filter: blur(10px);
+}
+
+.dialogModal__modal {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--color-primary-opacity);
+  transition: all 0.3s;
+  box-shadow: var(--box-shadow-primary);
+  gap: 10px;
+}
+
+.dialogModal__header {
+  text-align: center;
+}
+
+.dialogModal__content {
+  text-align: center;
+}
+.dialogModal__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dialogModal__action_button {
+  height: 35px;
+  padding: 0px 5px;
+  border-radius: 5px;
+}

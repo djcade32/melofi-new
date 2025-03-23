@@ -1,0 +1,40 @@
+.musicSourceButton__container {
+  position: relative;
+  display: flex;
+  column-gap: 5px;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  cursor: pointer;
+  background-color: var(--color-secondary-opacity);
+  border: 1px solid var(--color-secondary-opacity);
+  border-radius: 5px;
+  padding: 5px;
+  transition: all 0.3s;
+}
+
+.musicSourceButton__container:hover {
+  border: 1px solid var(--color-effect-opacity);
+}
+
+.musicSourceButton__container:hover .musicSourceButton_info_icon {
+  opacity: 100%;
+  transition: opacity 0.3s;
+}
+
+.musicSourceButton__container_active {
+  background-color: var(--color-effect-opacity);
+}
+
+.musicSourceButton__container p {
+  font-family: var(--font-primary);
+  color: white;
+  font-size: 16px;
+}
+
+.musicSourceButton_info_icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  opacity: 0%;
+}

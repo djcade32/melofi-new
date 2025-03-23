@@ -1,0 +1,52 @@
+.mixerModal__container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border-radius: 10px;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 425px;
+    height: 600px;
+}
+
+.mixerModal__title {
+    color: var(--color-white);
+    font-family: var(--font-primary);
+    font-size: 21px;
+    font-weight: 500;
+}
+
+.mixerModal__content_container {
+    overflow-y: scroll;
+    height: 100%;
+    margin-top: 15px;
+    padding-right: 22px;
+    padding-left: 22px;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.mixerModal__content_container::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
+.mixerModal__reset_button {
+    color: var(--color-secondary);
+    font-family: var(--font-primary);
+    font-size: 18px;
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
+    width: fit-content
+}
+
+.mixerModal__reset_button:hover {
+    color: var(--color-white);
+}
+

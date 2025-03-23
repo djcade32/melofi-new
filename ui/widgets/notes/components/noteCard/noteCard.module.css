@@ -1,0 +1,57 @@
+.noteCard__container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.noteCard__title_container h3 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.noteCard__container:hover .noteCard__delete_button {
+  opacity: 1;
+}
+
+.noteCard__delete_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  padding: 2px;
+  background-color: var(--color-secondary);
+  transition: opacity 0.3s;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.noteCard__title_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.noteCard__date {
+  font-size: 12px;
+}
+
+.noteCard__footer {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  height: 25px;
+}
+
+.noteCard__content {
+  font-size: 14px;
+  color: var(--color-secondary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 135px;
+}

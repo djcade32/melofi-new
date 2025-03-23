@@ -1,0 +1,149 @@
+.timer__container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  border-radius: 10px;
+  width: 420px;
+  height: 115px;
+  padding: 20px 24px;
+}
+
+.timer__content {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 100%;
+  position: relative;
+}
+
+.timer__time_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timer__time_input_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+}
+
+.timer__time_input_container p {
+  color: var(--color-secondary);
+  font-size: 21px;
+  align-self: flex-end;
+  margin: 0px 3px 8px 0px;
+}
+
+.timer__time_input_container input {
+  width: 60px;
+  text-align: center;
+  font-size: 42px;
+  padding: 5px;
+
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  transition: all 0.3s;
+}
+
+.timer__time_input_container input::placeholder {
+  color: var(--color-secondary-white);
+}
+
+.timer__time_input_container input:hover {
+  background-color: var(--color-secondary-opacity);
+}
+
+.timer__time_input_container input:hover:disabled {
+  background-color: transparent;
+}
+
+.timer__time_input_container input:disabled {
+  color: var(--color-white);
+}
+
+.timer__time_input_container input:focus {
+  background-color: var(--color-secondary-opacity);
+  outline: 1px solid var(--color-secondary);
+}
+
+.timer__time_container span {
+  font-size: 42px;
+}
+
+.timer__action_buttons_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5px;
+  width: 100%;
+  height: 100%;
+  gap: 5px;
+}
+
+.timer__play_button {
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45px;
+  height: 45px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.timer__play_button:hover {
+  background-color: var(--color-secondary);
+}
+
+.timer__restart_button {
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--color-secondary-opacity);
+  width: 45px;
+  height: 45px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.timer__restart_button:hover {
+  background-color: var(--color-secondary-opacity);
+}
+
+.timer__original_time_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -10px;
+  left: 0;
+}
+
+.timer__original_time_container p {
+  color: var(--color-secondary);
+  margin: 0;
+}
+
+.timer__timer_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: var(--color-secondary);
+  box-shadow: var(--box-shadow-primary);
+  transition: all 0.3s;
+  width: 100px;
+}
+
+.timer__timer_button:hover {
+  opacity: 0.75;
+}

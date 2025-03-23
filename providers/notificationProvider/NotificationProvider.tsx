@@ -1,8 +1,7 @@
 "use client";
 
-import Toaster from "@/components/shared/toaster/Toaster";
+import Toaster from "@/ui/components/shared/toaster/Toaster";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
-import { NotificationType } from "@/types/interfaces";
 import React, { useEffect, useState } from "react";
 
 interface NotificationProviderProps {
@@ -18,37 +17,54 @@ const NotificationProvider = ({ children }: NotificationProviderProps) => {
     currentNotification,
     setCurrentNotification,
   } = useNotificationProviderStore();
-
-  //   const [currentNotification, setCurrentNotification] = useState<NotificationType | null>(null);
+  const [timeoutState, setTimeoutState] = useState<NodeJS.Timeout | null>(null);
 
   // Show notification if there is a notification in the queue
   useEffect(() => {
     if (showNotification) {
+      if (currentNotification?.type === "alarm") {
+        removeNotification();
+        setShowNotification(false);
+      }
       return;
     }
     setShowNotification(notificationQueue.length > 0);
     if (notificationQueue.length > 0) {
       setCurrentNotification(notificationQueue[0]);
+    } else {
+      if (timeoutState) clearTimeout(timeoutState);
     }
   }, [notificationQueue]);
 
-  // Remove notification after 5 seconds
+  // Remove notification after 3 seconds
   useEffect(() => {
     if (showNotification) {
-      setTimeout(() => {
-        removeNotification();
-        setShowNotification(false);
-      }, 5000);
+      if (currentNotification?.type === "alarm") return;
+      if (timeoutState) clearTimeout(timeoutState);
+      setTimeoutState(
+        setTimeout(() => {
+          removeNotification();
+          setShowNotification(false);
+        }, 3000)
+      );
     }
   }, [showNotification]);
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+      }}
+    >
       {children}
       <Toaster
         message={currentNotification?.message || ""}
         type={currentNotification?.type}
         show={showNotification}
+        icon={currentNotification?.icon}
+        actions={currentNotification?.actions}
       />
     </div>
   );

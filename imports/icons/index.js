@@ -5,9 +5,11 @@ import {
   FaUserAlt,
   FaMedal,
   FaHeadphones,
-  FaCrown,
   FaLock,
   FaFan,
+  FaStop,
+  FaCommentDots,
+  FaHandsHelping,
 } from "react-icons/fa";
 import {
   BsFillSkipBackwardFill,
@@ -28,17 +30,27 @@ import {
   BsKeyboardFill,
   BsAirplaneFill,
   BsTrainFrontFill,
+  BsBackspace,
+  BsFillGiftFill,
 } from "react-icons/bs";
 import {
   IoVolumeMedium,
   IoVolumeMute,
   IoVolumeOff,
   IoCloseOutline,
+  IoClose,
   IoThunderstorm,
   IoBookSharp,
   IoCloudyNight,
   IoCheckmarkCircle,
   IoSnowSharp,
+  IoAlarm,
+  IoLogoYoutube,
+  IoCheckmarkCircleSharp,
+  IoCreate,
+  IoStatsChartSharp,
+  IoCopy,
+  IoMenuOutline,
 } from "react-icons/io5";
 import {
   RiSoundModuleFill,
@@ -47,11 +59,11 @@ import {
   RiPlayListFill,
 } from "react-icons/ri";
 import { HiChatBubbleLeftRight, HiBuildingOffice2, HiClipboardDocumentList } from "react-icons/hi2";
-import { HiTemplate } from "react-icons/hi";
-import { ImTwitter } from "react-icons/im";
+import { HiTemplate, HiTrash } from "react-icons/hi";
+import { ImTwitter, ImCalculator } from "react-icons/im";
 import { WiNightAltStormShowers } from "react-icons/wi";
-import { CgEditNoise } from "react-icons/cg";
-import { GiTacos, GiBigWave, GiSubmarine } from "react-icons/gi";
+import { CgEditNoise, CgArrowsExpandDownRight, CgArrowsExpandUpLeft } from "react-icons/cg";
+import { GiBigWave, GiSubmarine, GiTomato } from "react-icons/gi";
 import {
   MdLandscape,
   MdDelete,
@@ -65,6 +77,23 @@ import {
   MdLibraryMusic,
   MdOutlineDisabledByDefault,
   MdError,
+  MdMoreHoriz,
+  MdOutlineCheckBoxOutlineBlank,
+  MdCheckBox,
+  MdFormatBold,
+  MdFormatItalic,
+  MdFormatUnderlined,
+  MdCode,
+  MdLooksOne,
+  MdLooksTwo,
+  MdFormatQuote,
+  MdFormatListNumbered,
+  MdFormatListBulleted,
+  MdFormatAlignLeft,
+  MdFormatAlignCenter,
+  MdFormatAlignRight,
+  MdFormatAlignJustify,
+  MdOutlineOpenInNew,
 } from "react-icons/md";
 import {
   AiFillTool,
@@ -74,8 +103,7 @@ import {
   AiFillFire,
   AiFillThunderbolt,
 } from "react-icons/ai";
-import { FiPlus } from "react-icons/fi";
-import { FaCommentDots, FaHandsHelping } from "react-icons/fa";
+import { FiPlus, FiMinimize2, FiMaximize2 } from "react-icons/fi";
 import {
   RxCaretLeft,
   RxCaretRight,
@@ -83,9 +111,20 @@ import {
   RxTimer,
   RxCaretDown,
   RxCaretUp,
+  RxDragHandleDots2,
 } from "react-icons/rx";
-import { PiMoonFill, PiSunHorizonFill, PiWavesDuotone } from "react-icons/pi";
+import {
+  PiMoonFill,
+  PiSunHorizonFill,
+  PiWavesDuotone,
+  PiSignOutBold,
+  PiCrownSimpleFill,
+} from "react-icons/pi";
 import { VscDebugRestart } from "react-icons/vsc";
+import { LuGalleryVertical, LuGalleryHorizontal, LuConstruction } from "react-icons/lu";
+import { BiSolidHide, BiSolidShow, BiWifiOff } from "react-icons/bi";
+import { LiaTimesSolid } from "react-icons/lia";
+import { SiBuymeacoffee } from "react-icons/si";
 
 export {
   FaPause,
@@ -110,7 +149,6 @@ export {
   IoThunderstorm,
   IoCheckmarkCircle,
   PiWavesDuotone,
-  GiTacos,
   MdLandscape,
   BsPhoneFill,
   AiFillTool,
@@ -146,7 +184,6 @@ export {
   MdWaterDrop,
   PiMoonFill,
   FaHeadphones,
-  FaCrown,
   IoBookSharp,
   MdLibraryMusic,
   MdError,
@@ -169,4 +206,50 @@ export {
   GiSubmarine,
   FaLock,
   AiFillThunderbolt,
+  MdMoreHoriz,
+  CgArrowsExpandDownRight,
+  CgArrowsExpandUpLeft,
+  RxDragHandleDots2,
+  LuGalleryVertical,
+  LuGalleryHorizontal,
+  ImCalculator,
+  IoAlarm,
+  IoLogoYoutube,
+  BiSolidHide,
+  BiSolidShow,
+  MdOutlineCheckBoxOutlineBlank,
+  MdCheckBox,
+  IoCheckmarkCircleSharp,
+  HiTrash,
+  MdFormatBold,
+  MdFormatItalic,
+  MdFormatUnderlined,
+  MdCode,
+  MdLooksOne,
+  MdLooksTwo,
+  MdFormatQuote,
+  MdFormatListNumbered,
+  MdFormatListBulleted,
+  MdFormatAlignLeft,
+  MdFormatAlignCenter,
+  MdFormatAlignRight,
+  MdFormatAlignJustify,
+  IoCreate,
+  FiMinimize2,
+  FiMaximize2,
+  FaStop,
+  BsBackspace,
+  LiaTimesSolid,
+  IoClose,
+  BsFillGiftFill,
+  IoStatsChartSharp,
+  PiSignOutBold,
+  IoCopy,
+  BiWifiOff,
+  PiCrownSimpleFill,
+  SiBuymeacoffee,
+  MdOutlineOpenInNew,
+  GiTomato,
+  IoMenuOutline,
+  LuConstruction,
 };

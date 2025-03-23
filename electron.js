@@ -1,5 +1,10 @@
-const { app, BrowserWindow } = require("electron");
-const path = require("path");
+import { app, BrowserWindow } from "electron";
+import path from "path";
+import { fileURLToPath } from "url"; // Needed to work with import.meta.url
+
+// Manually define __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // app.disableHardwareAcceleration(); // Disable GPU acceleration to prevent rendering issues
 
@@ -10,7 +15,7 @@ function createWindow() {
     width: 1200,
     height: 800,
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"), // If needed, add preload scripts
+      preload: path.join(__dirname, "preload.js"), // Use manually defined __dirname
       nodeIntegration: false,
       contextIsolation: true,
     },

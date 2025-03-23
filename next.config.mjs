@@ -1,33 +1,30 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  webpack(config, { isServer }) {
-    // Extend the default Next.js Webpack config for video files
-    config.module.rules.push({
-      test: /\.(mp4|webm)$/, // Handle video files
-      use: {
-        loader: "file-loader",
-        options: {
-          name: "[name].[hash].[ext]",
-          publicPath: `/_next/static/videos/`,
-          outputPath: `${isServer ? "../" : ""}static/videos/`, // Output path for videos
-        },
-      },
-    });
 
-    // Extend the config for audio files
+const nextConfig = {
+  webpack(config) {
     config.module.rules.push({
-      test: /\.(mp3|wav)$/, // Handle audio files (mp3, wav, etc.)
-      use: {
-        loader: "file-loader",
-        options: {
-          name: "[name].[hash].[ext]", // File naming pattern for audio
-          publicPath: `/_next/static/audio/`, // Public path for audio files
-          outputPath: `${isServer ? "../" : ""}static/audio/`, // Output path for audio files
-        },
+      test: /\.(mp4|webm|mp3|wav)$/,
+      type: "asset/resource",
+      generator: {
+        filename: "static/[name].[hash][ext]",
       },
     });
 
     return config;
+  },
+  env: {
+    IS_CYPRESS: process.env.IS_CYPRESS, // Server-side only
+    NEXT_PUBLIC_IS_CYPRESS: process.env.IS_CYPRESS, // Expose to client as well if needed
+    FIREBASE_AUTH_EMULATOR_HOST: "localhost:9099",
+  },
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
+  experimental: {
+    optimizeCss: true,
+    serverComponentsExternalPackages: ["cypress", "cypress-real-events"],
   },
 };
 

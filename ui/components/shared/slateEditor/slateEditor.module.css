@@ -1,0 +1,38 @@
+/* .familyDropdown__container p {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100px;
+}
+
+.alignDropdown__container.editorDropdown__container{
+    padding-left: 0px;
+}
+
+.fontSizeDropdown__container p {
+    width: 25px;
+    text-align: center;
+} */
+
+.slateEditor__editable {
+    padding: 0 10px;
+    margin-top: 10px;
+    border: none;
+    outline: none;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 525px;
+  }
+
+.slateEditor__editable::-webkit-scrollbar {
+    background-color: transparent;
+    width: 10px;
+}
+
+.slateEditor__editable::-webkit-scrollbar-thumb {
+    background-color: var(--color-secondary-opacity);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+

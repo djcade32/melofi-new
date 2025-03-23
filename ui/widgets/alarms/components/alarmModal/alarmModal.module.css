@@ -1,0 +1,104 @@
+.alarmModal__container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--color-primary-opacity);
+  transition: all 0.5s;
+  box-shadow: var(--box-shadow-primary);
+  width: 70%;
+  height: 200px;
+  gap: 10px;
+  z-index: 100;
+}
+
+.alarmModal__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.alarmModal__time {
+  display: flex;
+  border: 1px solid var(--color-secondary);
+  background-color: var(--color-black);
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.alarmModal__time p {
+  font-size: 1.5rem;
+  color: var(--color-white);
+}
+
+.alarmModal__time input {
+  width: 100%;
+  padding: 5px;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  color: var(--color-white);
+  font-size: 1.5rem;
+  caret-color: transparent;
+  cursor: default;
+}
+
+.alarmModal__time input:first-child {
+  direction: rtl;
+}
+
+.alarmModal__time input:focus {
+  background-color: var(--color-effect-opacity);
+  border-radius: 2.5px;
+}
+
+.alarmModal__time input::selection {
+  background-color: transparent;
+}
+
+.alarmModal__label_input {
+  margin-top: 5px;
+  border: 1px solid var(--color-secondary) !important;
+  border-radius: 5px;
+  width: 100%;
+  padding: 5px;
+}
+
+.alarmModal__label_input:focus {
+  outline: none;
+}
+
+.alarmModal__buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.alarmModal__buttons div {
+  display: flex;
+  gap: 5px;
+}
+
+.alarmModal__button {
+  border-radius: 5px;
+  color: var(--color-white);
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 55px;
+  height: 15px;
+}
+
+.alarmModal__button_text {
+  font-size: 14px;
+}

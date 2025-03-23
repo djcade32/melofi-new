@@ -1,0 +1,17 @@
+.premiumBadge__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(254, 165, 57, 0.224);
+  border-radius: 5px;
+  padding: 2px 5px;
+  font-size: 12px;
+  gap: 5px;
+  box-shadow: var(--box-shadow-primary);
+  cursor: pointer;
+}
+
+.premiumBadge__container p {
+  font-weight: 500;
+  color: var(--color-effect-opacity);
+}

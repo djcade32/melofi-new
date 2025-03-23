@@ -1,6 +1,8 @@
 import { create } from "zustand";
-import { Playlist, Song } from "@/types/interfaces";
+import { Song } from "@/types/general";
 import { Study } from "@/data/songs";
+import useTemplatesStore from "./widgets/templates-store";
+import { Playlist } from "@/types/interfaces/mixer";
 
 export interface MusicPlayerState {
   currentSong: Song;
@@ -31,7 +33,9 @@ const useMusicPlayerStore = create<MusicPlayerState>((set) => ({
   },
 
   setCurrentPlaylist: (newPlaylist: Playlist) => {
+    const { settingsChanged, selectedTemplate } = useTemplatesStore.getState();
     set({ currentPlaylist: newPlaylist });
+    selectedTemplate && settingsChanged();
   },
   shufflePlaylist: () => {
     set((state) => {

@@ -1,0 +1,10 @@
+.usageTrendsSection__container {
+  display: flex;
+  flex-direction: column;
+}
+
+.usageTrendsSection__stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

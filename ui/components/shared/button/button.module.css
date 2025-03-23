@@ -1,0 +1,18 @@
+.button__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  padding: 10px 20px;
+  transition: all 0.3s;
+}
+
+.button__hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.button__disabled {
+  opacity: 0.5;
+  cursor: "default";
+}
