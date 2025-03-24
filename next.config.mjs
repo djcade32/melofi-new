@@ -23,7 +23,6 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   experimental: {
-    optimizeCss: true,
     serverComponentsExternalPackages: ["cypress", "cypress-real-events"],
   },
 };
