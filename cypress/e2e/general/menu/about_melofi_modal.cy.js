@@ -28,8 +28,9 @@ describe("Testing About Melofi Modal", () => {
     Menu.aboutMelofiModal.title().should("have.text", "About Melofi");
     Menu.aboutMelofiModal.privacyPolicyLink().should("have.text", "Privacy Policy");
     Menu.aboutMelofiModal.termsAndConditionsLink().should("have.text", "Terms & Conditions");
-    Menu.aboutMelofiModal.emailContact().should("have.text", "welcome@melofi.app");
-    Menu.aboutMelofiModal.instagramLink().should("have.text", "Instagram");
+    Menu.aboutMelofiModal.emailContact().should("be.visible");
+    Menu.aboutMelofiModal.instagramLink().should("be.visible");
+    Menu.aboutMelofiModal.websiteLink().should("be.visible");
     Menu.aboutMelofiModal.version().should("be.visible");
   });
 

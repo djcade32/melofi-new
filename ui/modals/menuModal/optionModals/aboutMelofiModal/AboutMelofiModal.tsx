@@ -48,17 +48,24 @@ const AboutMelofiModal = () => {
           </div>
 
           <div className={styles.aboutMelofiModal__contacts}>
-            <div className={styles.aboutMelofiModal__contact} onClick={handleEmailToClipboard}>
+            <div
+              id="about-melofi-modal-email-button"
+              className={styles.aboutMelofiModal__contact}
+              onClick={handleEmailToClipboard}
+            >
               <MdEmail size={30} color="var(--color-secondary)" />
             </div>
-            <div className={styles.aboutMelofiModal__contact}>
+            <div id="about-melofi-modal-insta-button" className={styles.aboutMelofiModal__contact}>
               <AiFillInstagram
                 size={30}
                 color="var(--color-secondary)"
                 onClick={() => window.open("https://www.instagram.com/melofi.app/", "_blank")}
               />
             </div>
-            <div className={styles.aboutMelofiModal__contact}>
+            <div
+              id="about-melofi-modal-website-button"
+              className={styles.aboutMelofiModal__contact}
+            >
               <BsGlobe
                 size={30}
                 color="var(--color-secondary)"
