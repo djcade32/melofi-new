@@ -32,6 +32,7 @@ import {
   BsTrainFrontFill,
   BsBackspace,
   BsFillGiftFill,
+  BsGlobe,
 } from "react-icons/bs";
 import {
   IoVolumeMedium,
@@ -252,4 +253,5 @@ export {
   GiTomato,
   IoMenuOutline,
   LuConstruction,
+  BsGlobe,
 };
