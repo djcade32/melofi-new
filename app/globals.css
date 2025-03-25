@@ -2,7 +2,6 @@
 
 :root {
   --background: white;
-  --foreground: #171717;
 
   --font-primary: "Poppins", sans-serif;
   --font-signika: "Signika", sans-serif;
@@ -29,13 +28,6 @@
   --box-shadow-primary: 0 4px 4px #00000040;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: white;
-  }
-}
-
 #melofi-app {
   min-height: 100vh;
   position: relative;
@@ -49,7 +41,7 @@
   /* height: 100vh; */
   background-color: var(--foreground);
   color: var(--color-primary);
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   overflow-x: hidden;
   scroll-behavior: smooth;
   -webkit-user-select: text; /* Safari */
@@ -63,12 +55,16 @@
 
 html,
 body {
-  max-width: 100vw;
+  max-width: 100%;
   /* If app starts scrolling uncomment this */
   /* overflow: hidden; */
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none;
+  color: var(--color-white);
+  /* background: var(--background); */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 p,
@@ -95,13 +91,6 @@ h6 input {
   color: var(--color-primary);
 }
 
-body {
-  color: var(--color-white);
-  background: var(--background);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 * {
   box-sizing: border-box;
   padding: 0;
@@ -111,10 +100,4 @@ body {
 a {
   color: inherit;
   text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
 }
