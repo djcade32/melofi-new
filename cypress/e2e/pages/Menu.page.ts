@@ -87,15 +87,15 @@ export class Menu {
 
   static aboutMelofiModal = {
     container: () => cy.get("#about-melofi-modal"),
-    emailContact: () =>
-      getElementWithClassName("aboutMelofiModal__contact").contains("welcome@melofi.app"),
+    emailContact: () => cy.get("#about-melofi-modal-email-button"),
     closeBtn: () => cy.get("#about-melofi-modal-close-icon"),
     title: () => getElementWithClassName("aboutMelofiModal__title"),
     privacyPolicyLink: () =>
       getElementWithClassName("aboutMelofiModal__legal_link").contains("Privacy Policy"),
     termsAndConditionsLink: () =>
       getElementWithClassName("aboutMelofiModal__legal_link").contains("Terms & Conditions"),
-    instagramLink: () => getElementWithClassName("aboutMelofiModal__contact").contains("Instagram"),
+    instagramLink: () => cy.get("#about-melofi-modal-insta-button"),
+    websiteLink: () => cy.get("#about-melofi-modal-website-button"),
     version: () => getElementWithClassName("aboutMelofiModal__version"),
   };
 
