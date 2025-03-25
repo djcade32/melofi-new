@@ -69,12 +69,19 @@
   height: 100%;
 }
 
-.aboutMelofiModal__contact {
+.aboutMelofiModal__contacts {
   display: flex;
-  gap: 3px;
-  align-items: center;
   justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.aboutMelofiModal__contact {
   cursor: pointer;
+}
+
+.aboutMelofiModal__contact svg:hover {
+  fill: var(--color-white);
 }
 
 .aboutMelofiModal__contact p {

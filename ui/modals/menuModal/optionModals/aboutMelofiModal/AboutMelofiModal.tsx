@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./aboutMelofiModal.module.css";
 import Modal from "@/ui/components/shared/modal/Modal";
 import useMenuStore from "@/stores/menu-store";
-import { MdEmail, AiFillInstagram } from "@/imports/icons";
+import { MdEmail, AiFillInstagram, BsGlobe } from "@/imports/icons";
 import Link from "next/link";
 
 const AboutMelofiModal = () => {
@@ -47,19 +47,27 @@ const AboutMelofiModal = () => {
             </div>
           </div>
 
-          <div className={styles.aboutMelofiModal__contact} onClick={handleEmailToClipboard}>
-            <MdEmail size={20} color="var(--color-secondary)" />
-            <p>welcome@melofi.app</p>
+          <div className={styles.aboutMelofiModal__contacts}>
+            <div className={styles.aboutMelofiModal__contact} onClick={handleEmailToClipboard}>
+              <MdEmail size={30} color="var(--color-secondary)" />
+            </div>
+            <div className={styles.aboutMelofiModal__contact}>
+              <AiFillInstagram
+                size={30}
+                color="var(--color-secondary)"
+                onClick={() => window.open("https://www.instagram.com/melofi.app/", "_blank")}
+              />
+            </div>
+            <div className={styles.aboutMelofiModal__contact}>
+              <BsGlobe
+                size={30}
+                color="var(--color-secondary)"
+                onClick={() => window.open("https://www.melofi.app/home", "_blank")}
+              />
+            </div>
           </div>
-          <div className={styles.aboutMelofiModal__contact}>
-            <AiFillInstagram size={20} color="var(--color-secondary)" />
-            <a href="https://www.instagram.com/melofi.app/" target="_blank">
-              <p>Instagram</p>
-            </a>
-          </div>
-
           <div className={styles.aboutMelofiModal__version}>
-            <p>Version 0.0.1</p>
+            <p>Version 1.0.0</p>
           </div>
         </div>
       </div>
