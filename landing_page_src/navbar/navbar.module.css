@@ -4,6 +4,7 @@
   width: 99.8%;
   display: flex;
   justify-content: center;
+  z-index: 100;
 }
 
 .navbar {
@@ -17,7 +18,6 @@
   box-shadow: var(--box-shadow-primary);
   width: 95%;
   padding: 25px 75px;
-  z-index: 100;
 }
 
 .navbar__scrolled {
