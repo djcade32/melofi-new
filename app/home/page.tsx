@@ -23,7 +23,7 @@ export default function LandingPage() {
   }, [pathname]);
 
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column", flex: 1, alignItems: "center" }}>
       <GoogleAnalytics trackPageViews gaMeasurementId="G-J2YND7L37W" />
 
       <Navbar />
