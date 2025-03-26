@@ -124,7 +124,6 @@ Cypress.Commands.add("seedIndexedDB", (dbName, storeName, data) => {
 
     // Insert new data
     for (const item of data) {
-      console.log(`Seeding ${storeName} with:`, item);
       await store.put({ id: item.key, value: item.value });
     }
 
