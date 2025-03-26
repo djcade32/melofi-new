@@ -1,33 +1,35 @@
 import { MetadataRoute } from "next";
 
+const base_url = "https://melofi.app";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     {
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/home`,
+      url: `${base_url}/home`,
     },
     {
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+      url: `${base_url}`,
     },
     {
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/home#about`,
+      url: `${base_url}/home#about`,
     },
     {
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/home#contact`,
+      url: `${base_url}/home#contact`,
     },
     {
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/home#features`,
+      url: `${base_url}/home#features`,
     },
     {
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/home#pricing`,
+      url: `${base_url}/home#pricing`,
     },
     {
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/portal`,
+      url: `${base_url}/portal`,
     },
     {
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/legal/terms-and-conditions`,
+      url: `${base_url}/legal/terms-and-conditions`,
     },
     {
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/legal/privacy-policy`,
+      url: `${base_url}/legal/privacy-policy`,
     },
   ];
 }
