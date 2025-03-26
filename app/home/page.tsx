@@ -13,7 +13,6 @@ import { GoogleAnalytics } from "nextjs-google-analytics";
 
 export default function LandingPage() {
   const pathname = usePathname();
-  console.log("NEXT_PUBLIC_BASE_URL=http://melofi.app", process.env.NEXT_PUBLIC_BASE_URL);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.gtag) {
