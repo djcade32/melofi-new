@@ -1,4 +1,9 @@
+import { Metadata } from "next";
 import "../legal-global.css";
+
+export const metadata: Metadata = {
+  title: "Terms and Conditions",
+};
 
 export default function TermsAndConditions() {
   return (
