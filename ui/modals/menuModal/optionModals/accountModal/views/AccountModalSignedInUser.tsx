@@ -168,6 +168,7 @@ const AccountModalSignedInUser = ({
               placeholder="Full name"
               onChange={(e) => setFullname(e.target.value)}
               value={fullname}
+              transparentBackground
             />
           </div>
           <div>
@@ -178,6 +179,7 @@ const AccountModalSignedInUser = ({
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
+              transparentBackground
             />
           </div>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -198,6 +200,7 @@ const AccountModalSignedInUser = ({
             {/* Prevent autofill with dummy input*/}
             <input type="password" style={{ display: "none" }} autoComplete="off" />
             <Input
+              transparentBackground
               name="newPassword"
               className={styles.accountModal__input}
               placeholder="New Password"
@@ -238,6 +241,7 @@ const AccountModalSignedInUser = ({
                 removeError("confirmPassword");
                 setConfirmPassword(e.target.value);
               }}
+              transparentBackground
             />
           </div>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>

@@ -102,6 +102,7 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
             }}
             errorState={errorState}
             value={email}
+            transparentBackground
           />
           <Input
             name="password-input"
@@ -115,6 +116,7 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
             }}
             errorState={errorState}
             value={password}
+            transparentBackground
           />
           {errorState && errorState.find((error) => error.name === "form-input") && (
             <p className={styles.signin__form_error_text}>{ERROR_MESSAGES.INVALID_CREDENTIALS}</p>
