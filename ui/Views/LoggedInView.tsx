@@ -35,6 +35,7 @@ import SupportCreatorBanner from "../components/supportCreatorBanner/SupportCrea
 import PremiumModal from "../modals/premiumModal/PremiumModal";
 import Timer from "../widgets/timer/Timer";
 import useTimerStore from "@/stores/widgets/timer-store";
+import WelcomeModal from "../modals/welcomeModal/WelcomeModal";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
@@ -60,6 +61,7 @@ const LoggedInView = () => {
       <QuoteDisplay />
       <SupportCreatorBanner />
       <PremiumModal />
+      <WelcomeModal />
 
       {/* Widgets */}
       <ComponentLoader component={<Alarms />} isComponentOpen={isAlarmsOpen} />
