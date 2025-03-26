@@ -108,6 +108,8 @@ Cypress.Commands.add("deleteCalendarDB", () => {
 
 Cypress.Commands.add("seedIndexedDB", (dbName, storeName, data) => {
   cy.window().then(async (win) => {
+    indexedDB.deleteDatabase(dbName);
+
     const db = await openDB(dbName, 1, {
       upgrade(db) {
         if (!db.objectStoreNames.contains(storeName)) {
@@ -118,14 +120,12 @@ Cypress.Commands.add("seedIndexedDB", (dbName, storeName, data) => {
 
     const tx = db.transaction(storeName, "readwrite");
     const store = tx.objectStore(storeName);
-
-    // Clear existing data
     await store.clear();
 
     // Insert new data
     for (const item of data) {
-      console.log("Inserting item", item);
-      await store.put(item.value, item.key);
+      console.log(`Seeding ${storeName} with:`, item);
+      await store.put({ id: item.key, value: item.value });
     }
 
     await tx.done;
