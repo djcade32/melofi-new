@@ -164,6 +164,7 @@ const AccountModalSkippedUserSignup = ({
               }}
               errorState={errorState}
               value={firstName}
+              transparentBackground
             />
 
             <Input
@@ -177,6 +178,7 @@ const AccountModalSkippedUserSignup = ({
               }}
               errorState={errorState}
               value={email}
+              transparentBackground
             />
 
             <Input
@@ -196,6 +198,7 @@ const AccountModalSkippedUserSignup = ({
               errorState={errorState}
               value={password}
               autoComplete="new-password"
+              transparentBackground
             />
             {showPasswordRules && (
               <p className={styles.accountModalSkippedUser__credentials_input_rules}>
