@@ -81,6 +81,7 @@
 }
 
 .aboutMelofiModal__contact svg:hover {
+  transition: fill 0.3s;
   fill: var(--color-white);
 }
 
