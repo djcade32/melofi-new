@@ -14,6 +14,7 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
     clearLocalStorage: true,
     seedWithUser: false,
   };
+  cy.seedIndexedDB("melofiDB", "settings", [{ key: "hasSeenWelcomeModal", value: "true" }]);
   if (options.clearLocalStorage) {
     cy.clearLocalStorage();
   }

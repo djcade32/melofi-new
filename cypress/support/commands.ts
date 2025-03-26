@@ -38,6 +38,7 @@ declare global {
       signInUser(email: string, password: string): Chainable<any>;
       mockCheckingIfUserIsInDb(): Chainable<void>;
       mockAddingPomodoroTimerTask(): Chainable<void>;
+      seedIndexedDB(dbName: string, storeName: string, data: any[]): Chainable<void>;
     }
   }
 }
@@ -45,7 +46,7 @@ declare global {
 // cypress/support/commands.js
 
 import * as calendarRequest from "../../lib/requests/calendar-request";
-// import useUserStore from "../../stores/user-store";
+import { openDB } from "idb";
 
 // Define a mock database object
 const mockDB = {
@@ -60,16 +61,6 @@ const mockDB = {
     return Promise.resolve();
   },
 };
-
-// const mockStore = {
-//   currentUser: {
-//     authUser: { email: "test@example.com", emailVerified: true },
-//     skippedOnboarding: false,
-//   },
-//   checkIfUserIsInDb: cy.stub().resolves(true),
-//   isUserLoggedIn: true,
-//   setIsUserLoggedIn: cy.stub(),
-// };
 
 // Create a function that returns the mockDB object
 const mockGetDb = async () => ({
@@ -112,6 +103,32 @@ Cypress.Commands.add("deleteCalendarDB", () => {
     const request = win.indexedDB.deleteDatabase("calendarDB"); // Replace "calendarDB" with your database name
     request.onsuccess = () => console.log("IndexedDB cleared successfully");
     request.onerror = () => console.error("Error clearing IndexedDB");
+  });
+});
+
+Cypress.Commands.add("seedIndexedDB", (dbName, storeName, data) => {
+  cy.window().then(async (win) => {
+    const db = await openDB(dbName, 1, {
+      upgrade(db) {
+        if (!db.objectStoreNames.contains(storeName)) {
+          db.createObjectStore(storeName, { keyPath: "id" });
+        }
+      },
+    });
+
+    const tx = db.transaction(storeName, "readwrite");
+    const store = tx.objectStore(storeName);
+
+    // Clear existing data
+    await store.clear();
+
+    // Insert new data
+    for (const item of data) {
+      console.log("Inserting item", item);
+      await store.put(item.value, item.key);
+    }
+
+    await tx.done;
   });
 });
 
