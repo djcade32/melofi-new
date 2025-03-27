@@ -106,7 +106,7 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
           />
           <Input
             name="password-input"
-            placeholder="Create Password"
+            placeholder="Password"
             className={styles.signin__credentials_input}
             type="password"
             onChange={(e) => {
