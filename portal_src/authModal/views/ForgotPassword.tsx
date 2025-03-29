@@ -51,7 +51,7 @@ const ForgotPassword = ({ handleViewChange }: ForgotPasswordProps) => {
         <RxCaretLeft size={25} color="var(--color-primary)" />
         <p>Back</p>
       </div>
-      <h1 style={{ textAlign: "center" }}>
+      <h1 style={{ textAlign: "center", marginTop: 20 }}>
         Forgot Your <br />
         Password?
       </h1>
