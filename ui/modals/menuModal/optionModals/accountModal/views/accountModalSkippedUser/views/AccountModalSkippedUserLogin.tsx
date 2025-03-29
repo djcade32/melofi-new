@@ -145,7 +145,7 @@ const AccountModalSkippedUserLogin = ({ setCurrentView }: AccountModalSkippedUse
 
             <Input
               name="password-input"
-              placeholder="Create Password"
+              placeholder="Password"
               className={styles.accountModalSkippedUser__input}
               type="password"
               onChange={(e) => {
