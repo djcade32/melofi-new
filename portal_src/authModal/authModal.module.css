@@ -6,7 +6,7 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px var(--color-black);
-  height: 500px;
+  height: fit-content;
   width: 400px;
   position: relative;
   transition: all 0.3s;
@@ -125,4 +125,11 @@
   position: absolute;
   top: 20px;
   left: 20px;
+}
+
+@media (max-width: 415px) {
+  .authModal__container {
+    width: 90vw;
+    /* height: 70vh !important; */
+  }
 }
