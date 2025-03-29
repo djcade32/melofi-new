@@ -237,7 +237,10 @@ const AccountModalSkippedUserSignup = ({
               }
               style={{ marginTop: -5 }}
             >
-              <span>Terms of Service</span> and <span>Privacy Policy</span>
+              <span onClick={() => window.open("/legal/terms-and-conditions")}>
+                Terms & Conditions
+              </span>{" "}
+              and <span onClick={() => window.open("/legal/privacy-policy")}>Privacy Policy</span>
             </p>
           </div>
 

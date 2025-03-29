@@ -1,6 +1,7 @@
 import { getFunctions, httpsCallableFromURL } from "firebase/functions";
 
-export async function manageSubscription(): Promise<boolean> {
+export async function manageSubscription(page?: string): Promise<boolean> {
+  const param = page ? page : "";
   const functions = getFunctions();
   const customerPortal = httpsCallableFromURL(
     functions,
@@ -8,7 +9,9 @@ export async function manageSubscription(): Promise<boolean> {
   );
 
   try {
-    const { data } = (await customerPortal({ returnUrl: window.location.origin })) as {
+    const { data } = (await customerPortal({
+      returnUrl: `${window.location.origin}/${param}`,
+    })) as {
       data: { url: string };
     };
     window.location.assign(data.url);

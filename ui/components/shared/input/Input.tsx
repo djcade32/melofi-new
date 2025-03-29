@@ -16,6 +16,7 @@ interface InputProps
   errorState?: Error[] | null;
   passwordIconSize?: number;
   transparentBackground?: boolean;
+  variant?: "primary" | "secondary";
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -26,6 +27,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       errorState,
       passwordIconSize = 25,
       transparentBackground = false,
+      variant = "primary",
       ...props
     },
     ref
@@ -42,19 +44,20 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     }, [errorState]);
 
     const getPostpendIcon = () => {
+      const color = variant === "primary" ? "var(--color-white)" : "var(--color-secondary)";
       if (props.type === "password") {
         return (
           <>
             {showPassword ? (
               <BiSolidShow
                 size={passwordIconSize}
-                color="var(--color-white)"
+                color={color}
                 onClick={() => setShowPassword((prev) => !prev)}
               />
             ) : (
               <BiSolidHide
                 size={passwordIconSize}
-                color="var(--color-white)"
+                color={color}
                 onClick={() => setShowPassword((prev) => !prev)}
               />
             )}

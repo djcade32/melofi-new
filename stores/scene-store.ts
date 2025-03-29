@@ -3,6 +3,7 @@ import { scenes } from "@/data/scenes";
 import { Scene } from "@/types/general";
 import useTemplatesStore from "./widgets/templates-store";
 import useUserStatsStore from "./user-stats-store";
+import useUserStore from "./user-store";
 
 export interface SceneState {
   currentScene: Scene;
@@ -20,9 +21,16 @@ const useSceneStore = create<SceneState>((set) => ({
   allScenes: scenes,
 
   getCurrentScene: () => {
+    const { isPremiumUser } = useUserStore.getState();
+
     const currentScene = localStorage.getItem("currentScene");
     if (currentScene) {
-      set({ currentScene: JSON.parse(currentScene) });
+      const parsedScene = JSON.parse(currentScene);
+      if (parsedScene.premium && !isPremiumUser) {
+        set({ currentScene: scenes[0] });
+        return;
+      }
+      set({ currentScene: parsedScene });
     }
   },
 
