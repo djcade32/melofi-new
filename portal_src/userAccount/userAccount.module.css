@@ -128,5 +128,14 @@
 
   .userAccount__logout {
     font-size: 18px;
+    right: 20px;
+  }
+
+  .userAccount__save {
+    right: -27px;
+  }
+
+  .userAccount__save > p {
+    font-size: 0.7rem !important;
   }
 }
