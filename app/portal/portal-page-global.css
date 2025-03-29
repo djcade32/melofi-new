@@ -5,9 +5,7 @@
   align-items: center;
   justify-content: center;
   flex: 1;
-  background-color: var(--foreground);
   color: var(--color-primary);
-  overflow-y: scroll;
   overflow-x: hidden;
   scroll-behavior: smooth;
   -webkit-user-select: text; /* Safari */
