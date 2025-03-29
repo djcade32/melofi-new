@@ -66,7 +66,7 @@ const Toaster = ({ message, type = "normal", icon, show, actions }: ToasterProps
       >
         <div style={{ display: "flex", columnGap: 5, alignItems: "center" }}>
           {chooseIcon()}
-          <p>{message}</p>
+          <p style={{ color: "var(--color-white)" }}>{message}</p>
         </div>
 
         {actions?.length ? (

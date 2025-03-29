@@ -1,11 +1,20 @@
 "use client";
 
-import { LuConstruction } from "@/imports/icons";
 import { GoogleAnalytics } from "nextjs-google-analytics";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import AuthModal from "@/portal_src/authModal/AuthModal";
+import Image from "next/image";
+import NotificationProvider from "@/providers/notificationProvider/NotificationProvider";
+import useUserStore from "@/stores/user-store";
+import { MelofiUser } from "@/types/general";
+import UserAccount from "@/portal_src/userAccount/UserAccount";
+import checkPremiumStatus from "@/lib/stripe/checkPremiumStatus";
 
 export default function PortalPage() {
+  const { setIsUserLoggedIn, setCurrentUser, currentUser, isUserLoggedIn, setIsPremiumUser } =
+    useUserStore();
+  const [grantAccess, setGrantAccess] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -15,33 +24,62 @@ export default function PortalPage() {
       });
     }
   }, [pathname]);
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "var(--color-white)",
-        padding: 20,
-        borderRadius: 10,
-        boxShadow: "0 0 10px var(--color-black)",
-      }}
-    >
-      <GoogleAnalytics trackPageViews gaMeasurementId="G-J2YND7L37W" />
 
-      <LuConstruction size={100} color="var(--color-effect-opacity)" />
-      <h1
+  useEffect(() => {
+    if (!currentUser) {
+      // Check if localStorage has user key
+      const user = localStorage.getItem("user");
+      if (user) {
+        const MelofiUser = JSON.parse(user) as MelofiUser;
+        setCurrentUser(MelofiUser);
+        setIsUserLoggedIn(MelofiUser.authUser ? true : false);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (currentUser?.authUser) {
+      setGrantAccess(currentUser.authUser.emailVerified && isUserLoggedIn);
+    } else {
+      setGrantAccess(false);
+    }
+    setUserPremium();
+  }, [currentUser]);
+
+  const setUserPremium = async () => {
+    const isPremiumUser = await checkPremiumStatus();
+    setIsPremiumUser(isPremiumUser);
+  };
+
+  return (
+    <NotificationProvider>
+      <div
         style={{
-          color: "var(--color-secondary)",
-          border: "1px solid var(--color-secondary-opacity)",
-          padding: 10,
-          borderRadius: 10,
-          marginTop: 20,
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          width: "100%",
+          height: "100%",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        Coming Soon
-      </h1>
-    </div>
+        <GoogleAnalytics trackPageViews gaMeasurementId="G-J2YND7L37W" />
+
+        <Image
+          src="/assets/logos/logo-black.png"
+          alt="Melofi logo"
+          width={122}
+          height={122}
+          style={{
+            position: "absolute",
+            top: 10,
+            left: 28,
+          }}
+        />
+
+        {grantAccess ? <UserAccount /> : <AuthModal />}
+      </div>
+    </NotificationProvider>
   );
 }
