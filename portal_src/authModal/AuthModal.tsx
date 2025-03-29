@@ -14,23 +14,23 @@ const AuthModal = () => {
 
   useEffect(() => {
     setModalContent(getModalContent());
-    setModalHeight(getModalHeight());
+    // setModalHeight(getModalHeight());
   }, [currentView]);
 
   const handleViewChange = (view: Views) => {
     setCurrentView(view);
   };
 
-  const getModalHeight = () => {
-    switch (currentView) {
-      case "signup":
-        return "600px";
-      case "emailVerification":
-        return "350px";
-      default:
-        return "500px";
-    }
-  };
+  // const getModalHeight = () => {
+  //   switch (currentView) {
+  //     case "signup":
+  //       return "600px";
+  //     case "emailVerification":
+  //       return "350px";
+  //     default:
+  //       return "500px";
+  //   }
+  // };
 
   // May need to call this in a useEffect to actually change the view
   const getModalContent = () => {
@@ -50,9 +50,9 @@ const AuthModal = () => {
   return (
     <div
       className={styles.authModal__container}
-      style={{
-        height: modalHeight,
-      }}
+      // style={{
+      //   height: modalHeight,
+      // }}
     >
       {modalContent}
     </div>

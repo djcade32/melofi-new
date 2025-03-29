@@ -112,3 +112,30 @@
   font-size: 0.8rem !important;
   font-weight: 600;
 }
+
+@media (max-width: 415px) {
+  .userAccount__container {
+    width: 90vw;
+  }
+
+  .userAccount__button {
+    width: 275px;
+  }
+
+  .userAccount__button_text {
+    font-size: 18px;
+  }
+
+  .userAccount__logout {
+    font-size: 18px;
+    right: 20px;
+  }
+
+  .userAccount__save {
+    right: -27px;
+  }
+
+  .userAccount__save > p {
+    font-size: 0.7rem !important;
+  }
+}

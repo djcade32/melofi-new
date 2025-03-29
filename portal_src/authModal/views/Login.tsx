@@ -93,7 +93,7 @@ const Login = ({ handleViewChange }: LoginProps) => {
         flex: 1,
       }}
     >
-      <h1>Welcome Back!</h1>
+      <h1 style={{ marginBottom: 15 }}>Welcome Back!</h1>
       <form autoComplete="off" className={styles.authModal__form}>
         <div className={styles.authModal__form_input_container}>
           <Input
@@ -160,10 +160,6 @@ const Login = ({ handleViewChange }: LoginProps) => {
 
       <p
         className={styles.authModal__link_text}
-        style={{
-          position: "absolute",
-          bottom: 20,
-        }}
         onMouseEnter={(e) => {
           e.currentTarget.style.textDecoration = "none";
         }}
