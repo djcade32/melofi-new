@@ -12,7 +12,7 @@ interface ForgotPasswordProps {
 }
 
 const ForgotPassword = ({ handleViewChange }: ForgotPasswordProps) => {
-  const { setCurrentUser, setIsUserLoggedIn, resetUserPassword } = useUserStore();
+  const { resetUserPassword } = useUserStore();
   const { addNotification } = useNotificationProviderStore();
 
   const [email, setEmail] = useState("");
