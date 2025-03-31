@@ -140,6 +140,7 @@ const CredentialsView = ({
             }}
             value={email}
             errorState={errorState}
+            transparentBackground
           />
           <Input
             aria-label="password"
@@ -157,6 +158,7 @@ const CredentialsView = ({
             }}
             value={password}
             errorState={errorState}
+            transparentBackground
           />
           {showPasswordRules && (
             <p className={styles.signup__credentials_input_rules}>

@@ -15,10 +15,23 @@ interface InputProps
   postpendIcon?: JSX.Element;
   errorState?: Error[] | null;
   passwordIconSize?: number;
+  transparentBackground?: boolean;
+  variant?: "primary" | "secondary";
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ prependIcon, postpendIcon, errorState, passwordIconSize = 25, ...props }, ref) => {
+  (
+    {
+      prependIcon,
+      postpendIcon,
+      errorState,
+      passwordIconSize = 25,
+      transparentBackground = false,
+      variant = "primary",
+      ...props
+    },
+    ref
+  ) => {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState<Error | undefined>(undefined);
 
@@ -31,19 +44,20 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     }, [errorState]);
 
     const getPostpendIcon = () => {
+      const color = variant === "primary" ? "var(--color-white)" : "var(--color-secondary)";
       if (props.type === "password") {
         return (
           <>
             {showPassword ? (
               <BiSolidShow
                 size={passwordIconSize}
-                color="var(--color-white)"
+                color={color}
                 onClick={() => setShowPassword((prev) => !prev)}
               />
             ) : (
               <BiSolidHide
                 size={passwordIconSize}
-                color="var(--color-white)"
+                color={color}
                 onClick={() => setShowPassword((prev) => !prev)}
               />
             )}
@@ -66,6 +80,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               paddingLeft: prependIcon && "30px",
               paddingRight: postpendIcon && "30px",
               borderColor: error ? "var(--color-error)" : "",
+              backgroundColor: transparentBackground ? "transparent" : "#0a0a0a",
+              color: "var(--color-white)",
             }}
             type={showPassword ? "text" : props.type}
             autoComplete="new-password"

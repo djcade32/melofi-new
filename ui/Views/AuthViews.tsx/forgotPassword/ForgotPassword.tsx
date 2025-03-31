@@ -50,6 +50,7 @@ const ForgotPassword = ({ setOnboardingStep }: AuthViewProps) => {
                 className={styles.forgotPassword__input}
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
+                transparentBackground
               />
             </form>
             <Button

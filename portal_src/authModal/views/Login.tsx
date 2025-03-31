@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import styles from "./signin.module.css";
+import styles from "../authModal.module.css";
 import Input from "@/ui/components/shared/input/Input";
-import Button from "@/ui/components/shared/button/Button";
-import { AuthViewProps } from "@/types/general";
-import { login } from "@/lib/firebase/actions/auth-actions";
-import useUserStore from "@/stores/user-store";
 import { ERROR_MESSAGES } from "@/enums/general";
+import { login, sendEmailVerification } from "@/lib/firebase/actions/auth-actions";
+import useUserStore from "@/stores/user-store";
+import Button from "@/ui/components/shared/button/Button";
 
-const Signin = ({ setOnboardingStep }: AuthViewProps) => {
+interface LoginProps {
+  handleViewChange: (view: "login" | "signup" | "forgotPassword" | "emailVerification") => void;
+}
+
+const Login = ({ handleViewChange }: LoginProps) => {
   const { setCurrentUser, setIsUserLoggedIn } = useUserStore();
 
   const [email, setEmail] = useState("");
@@ -21,6 +24,12 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
 
     try {
       const user = await login(email, password);
+      const emailVerified = user.authUser?.emailVerified;
+      if (!emailVerified) {
+        handleViewChange("emailVerification");
+        await sendEmailVerification();
+        return;
+      }
       console.log("User logged in: ", user);
       setCurrentUser(user);
       setIsUserLoggedIn(true);
@@ -75,25 +84,22 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
   };
 
   return (
-    <div className={styles.signin__container}>
-      <div className={styles.signin__credentials_content_container}>
-        <p className={styles.signin__title}>Welcome Back!</p>
-        <p
-          className={styles.signin__subtitle}
-          style={{
-            fontWeight: "normal",
-            width: "30ch",
-            lineHeight: 1.25,
-            fontSize: 18,
-          }}
-        >
-          Log in to tune into your personalized lo-fi focus space.
-        </p>
-        <form autoComplete="off" className={styles.signin__credentials_inputs_container}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "space-around",
+        flex: 1,
+      }}
+    >
+      <h1 style={{ marginBottom: 15 }}>Welcome Back!</h1>
+      <form autoComplete="off" className={styles.authModal__form}>
+        <div className={styles.authModal__form_input_container}>
           <Input
             name="email-input"
             placeholder="Email Address"
-            className={styles.signin__credentials_input}
+            className={styles.authModal__input}
             type="text"
             onChange={(e) => {
               removeError("email-input");
@@ -104,10 +110,12 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
             value={email}
             transparentBackground
           />
+        </div>
+        <div className={styles.authModal__form_input_container}>
           <Input
             name="password-input"
             placeholder="Password"
-            className={styles.signin__credentials_input}
+            className={styles.authModal__input}
             type="password"
             onChange={(e) => {
               removeError("password-input");
@@ -117,41 +125,26 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
             errorState={errorState}
             value={password}
             transparentBackground
+            variant="secondary"
           />
-          {errorState && errorState.find((error) => error.name === "form-input") && (
-            <p className={styles.signin__form_error_text}>{ERROR_MESSAGES.INVALID_CREDENTIALS}</p>
-          )}
-        </form>
-        <div>
-          <Button
-            id="sign-in-button"
-            text="Dive In"
-            onClick={handleLoginClick}
-            containerClassName={styles.signin__continue_button}
-            showLoadingState={true}
-          />
-          <p
-            className={styles.signin__have_account_text}
-            style={{
-              marginTop: 30,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.textDecoration = "none";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.textDecoration = "underline";
-            }}
-            onClick={() => setOnboardingStep(2)}
-          >
-            Forgot your password?
-          </p>
         </div>
-
+        {errorState && errorState.find((error) => error.name === "form-input") && (
+          <p className={styles.authModal__form_error_text}>{ERROR_MESSAGES.INVALID_CREDENTIALS}</p>
+        )}
+      </form>
+      <div>
+        <Button
+          id="portal-login-in-button"
+          text="Sign In"
+          onClick={handleLoginClick}
+          containerClassName={styles.authModal__button}
+          textClassName={styles.authModal__button_text}
+          showLoadingState={true}
+        />
         <p
-          className={styles.signin__have_account_text}
+          className={styles.authModal__link_text}
           style={{
-            position: "absolute",
-            bottom: 0,
+            marginTop: 30,
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.textDecoration = "none";
@@ -159,13 +152,26 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
           onMouseLeave={(e) => {
             e.currentTarget.style.textDecoration = "underline";
           }}
-          onClick={() => setOnboardingStep((prev) => prev - 1)}
+          onClick={() => handleViewChange("forgotPassword")}
         >
-          Don't have an Account? Sign up for Free!
+          Forgot your password?
         </p>
       </div>
+
+      <p
+        className={styles.authModal__link_text}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.textDecoration = "none";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.textDecoration = "underline";
+        }}
+        onClick={() => handleViewChange("signup")}
+      >
+        Don't have an Account? Sign up for Free!
+      </p>
     </div>
   );
 };
 
-export default Signin;
+export default Login;

@@ -1,4 +1,9 @@
+import { Metadata } from "next";
 import "../legal-global.css";
+
+export const metadata: Metadata = {
+  title: "Terms and Conditions",
+};
 
 export default function TermsAndConditions() {
   return (
@@ -19,7 +24,7 @@ export default function TermsAndConditions() {
         . The term ‘you’ refers to the user or viewer of our website. Your use of this website
         constitutes a contract with us.
       </p>
-      <h2>Terms of Service</h2>
+      <h2>Terms & Conditions</h2>
       <p>
         We offer a variety of products on our platform customized to meet your personal preference
         such as choosing a Melofi background music loop based on your mood, you may customize it

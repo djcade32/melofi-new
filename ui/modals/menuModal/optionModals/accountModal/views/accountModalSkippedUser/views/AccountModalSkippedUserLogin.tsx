@@ -140,11 +140,12 @@ const AccountModalSkippedUserLogin = ({ setCurrentView }: AccountModalSkippedUse
               }}
               errorState={errorState}
               value={email}
+              transparentBackground
             />
 
             <Input
               name="password-input"
-              placeholder="Create Password"
+              placeholder="Password"
               className={styles.accountModalSkippedUser__input}
               type="password"
               onChange={(e) => {
@@ -154,6 +155,7 @@ const AccountModalSkippedUserLogin = ({ setCurrentView }: AccountModalSkippedUse
               }}
               errorState={errorState}
               value={password}
+              transparentBackground
             />
             {errorState && errorState.find((error) => error.name === "form-input") && (
               <p className={styles.signin__form_error_text}>{ERROR_MESSAGES.INVALID_CREDENTIALS}</p>
@@ -228,6 +230,7 @@ const AccountModalSkippedUserLogin = ({ setCurrentView }: AccountModalSkippedUse
               className={styles.accountModalSkippedUser__input}
               type="email"
               onChange={(e) => setEmail(e.target.value)}
+              transparentBackground
             />
           </form>
           <Button

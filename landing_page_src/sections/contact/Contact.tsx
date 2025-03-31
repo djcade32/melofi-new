@@ -11,7 +11,8 @@ const Contact = () => {
   const [error, setError] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const handleSubscribe = async () => {
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!isValidEmail(email)) return setError("Please enter a valid email");
     const isSuccess = await subscribeUser(email, "landing_page");
     if (isSuccess) {
@@ -61,7 +62,7 @@ const Contact = () => {
         ) : (
           <>
             {" "}
-            <form className={styles.contact__form}>
+            <form className={styles.contact__form} onSubmit={handleSubscribe}>
               <input
                 type="email"
                 placeholder="name@example.com"
