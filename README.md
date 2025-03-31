@@ -1,62 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Melofi
 
-## Getting Started
+Melofi is a productivity and relaxation web application designed to help users stay focused with ambient Lofi music, stunning visuals, and integrated productivity tools.
 
-First, run the development server:
+## Features
 
-```bash
+### 🎵 Music & Soundscapes
+
+- **Curated Lofi tracks** for focus and relaxation.
+- **Background ambient sounds** for a calming work environment.
+- **Seamless playback** with customizable playlists.
+
+### 📅 Calendar Widget
+
+- **Syncs with Google Calendar** to fetch and display user events.
+- **Caches data** for improved performance while ensuring freshness.
+
+### 🔢 Calculator Widget
+
+- **Inline calculator** for quick calculations.
+- **Supports percentage operations** with edge case handling (e.g., `(-3)%` and `(-3%)`).
+
+### ⏰ Alarm Widget
+
+- **Allows users to set alarms** that will ring at a specified time.
+
+### 📝 Notes & Writing Tools
+
+- **Built-in text editor** powered by Slate.js.
+- **Full-screen mode** with `react-full-screen` support.
+- **Rich text formatting** and note organization.
+
+### 📊 User Stats
+
+- **Tracks focused time**, number of notes used, amount of music listened to, and favorite Melofi scene.
+
+### 🔐 Subscription & Premium Features
+
+- **Paid users** gain access to exclusive features via **Stripe-powered subscriptions**.
+
+### 📬 Mailofi (Newsletter)
+
+- **Users can subscribe** via sign-up or through the landing page.
+- **Managed using Brevo** (formerly Sendinblue) for email collection and campaigns.
+
+### 💻 Melofi Desktop App _(WIP)_
+
+- **Built with Electron** for cross-platform desktop support.
+- **Available exclusively for premium users**. _(Coming Soon)_
+
+## Tech Stack
+
+- **Frontend:** React, Next.js, TypeScript
+- **Backend:** Firebase (Authentication, Firestore, Functions)
+- **Database:** IndexedDB (`idb` library for local caching)
+- **Testing:** Cypress with Firebase Emulator
+- **Payment:** Stripe (for subscriptions)
+- **Deployment:** Vercel
+
+## Development Setup
+
+### Prerequisites
+
+- **Node.js** (LTS recommended)
+- **Firebase CLI**
+- **Git**
+
+### Installation
+
+```sh
+# Clone the repository
+git clone https://github.com/yourusername/melofi.git
+cd melofi
+
+# Install dependencies
+npm install
+```
+
+### Running Locally
+
+```sh
+# Start the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Running Cypress Tests
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-Run Electron app:
-
-```bash
-npm run electron
-```
-
-## Run Test
-
-Run unit test
-
-```bash
-npm run test:unit
-```
-
-Run e2e test
-
-```bash
+```sh
 npm run test:e2e
 ```
 
-Run headless e2e test
+## Contributions
 
-```bash
-npm run test:e2e:headless
-```
+Contributions are welcome! Please follow the contribution guidelines and submit a pull request.
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
+**MIT License**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contact
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+For support and inquiries, visit the [Melofi landing page](https://melofi.app/home) or reach out via email.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+🚀 **Stay focused, stay productive with Melofi!**
