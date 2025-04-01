@@ -25,7 +25,7 @@ const CredentialsView = ({
   const [password, setPassword] = useState("");
   const [showPasswordRules, setShowPasswordRules] = useState(false);
   const [errorState, setErrorState] = useState<Error[] | null>(null);
-  const [newsletterChecked, setNewsletterChecked] = useState(true);
+  const [newsletterChecked, setNewsletterChecked] = useState(false);
 
   const { setCurrentUser } = useUserStore();
 
