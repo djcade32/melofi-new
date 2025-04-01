@@ -18,7 +18,7 @@ const SceneBackground = () => {
         setIsFadingIn(false);
       }, 600); // This timeout should match the CSS transition duration
     }
-  }, [currentScene?.video, videoSrc]);
+  }, [currentScene?.video]);
 
   useEffect(() => {
     getCurrentScene();
