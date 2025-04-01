@@ -10,6 +10,7 @@ import {
   FaStop,
   FaCommentDots,
   FaHandsHelping,
+  FaProductHunt,
 } from "react-icons/fa";
 import {
   BsFillSkipBackwardFill,
@@ -254,4 +255,5 @@ export {
   IoMenuOutline,
   LuConstruction,
   BsGlobe,
+  FaProductHunt,
 };
