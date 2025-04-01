@@ -88,27 +88,6 @@ const AboutMelofiModal = () => {
               />
             </div>
           </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 5,
-            }}
-          >
-            <a
-              href="https://www.producthunt.com/posts/melofi-2-0?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-melofi&#0045;2&#0045;0"
-              target="_blank"
-            >
-              <img
-                src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=946095&theme=neutral&t=1742941036955"
-                alt="Melofi&#0032;2&#0046;0 - New&#0032;widgets&#0044;&#0032;and&#0032;features&#0032;–&#0032;designed&#0032;for&#0032;peak&#0032;productivity | Product Hunt"
-                style={{ width: 208.33, height: 45 }}
-                width="208.33"
-                height="45"
-              />
-            </a>
-          </div>         
           <div className={styles.aboutMelofiModal__version}>
             <p>Version 1.0.0</p>
           </div>
