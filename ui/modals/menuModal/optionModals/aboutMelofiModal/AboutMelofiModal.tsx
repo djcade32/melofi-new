@@ -81,7 +81,7 @@ const AboutMelofiModal = () => {
                 color="var(--color-secondary)"
                 onClick={() =>
                   window.open(
-                    "https://www.producthunt.com/posts/melofi-2-0/maker-invite?code=AN0YzN",
+                    "https://www.producthunt.com/posts/melofi-2-0",
                     "_blank"
                   )
                 }
