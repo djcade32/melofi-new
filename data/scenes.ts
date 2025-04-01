@@ -1,12 +1,30 @@
 import { Scene } from "@/types/general";
 import { sounds } from "./sounds";
+import {
+  girlInCafeVid,
+  neighborhoodCafeVid,
+  cozyBedroomVid,
+  cityStudioVid,
+  musicRoomVid,
+  neonCityVid,
+  serenityCabinVid,
+  girlAtDuskVid,
+  cozyRainNightVid,
+  neonNightMarketVid,
+  modernLivingRoomVid,
+  theOfficeVid,
+  pastelParadiseVid,
+  treeHouseVid,
+  winterCafeVid,
+  bookLoverVid,
+} from "@/imports/scenes";
 
 export const scenes: Scene[] = [
   {
     id: 0,
     name: "Girl in Cafe",
     thumbnail: "/assets/thumbnails/girl-in-cafe_pic.webp",
-    video: "/assets/videos/girl-in-cafe_vid.mp4",
+    video: girlInCafeVid,
     soundIcons: [
       { name: sounds.RAIN.name, icon: sounds.RAIN.icon },
       { name: sounds.CHATTER.name, icon: sounds.CHATTER.icon },
@@ -19,7 +37,7 @@ export const scenes: Scene[] = [
     id: 1,
     name: "Neighborhood Cafe",
     thumbnail: "/assets/thumbnails/neighborhood-cafe_pic.webp",
-    video: "/assets/videos/neighborhood-cafe_vid.mp4",
+    video: neighborhoodCafeVid,
     soundIcons: [
       { name: sounds.RAIN.name, icon: sounds.RAIN.icon },
       { name: sounds.CHATTER.name, icon: sounds.CHATTER.icon },
@@ -32,7 +50,7 @@ export const scenes: Scene[] = [
     id: 2,
     name: "Cozy Bedroom",
     thumbnail: "/assets/thumbnails/cozy-bedroom_pic.webp",
-    video: "/assets/videos/cozy-bedroom_vid.mp4",
+    video: cozyBedroomVid,
     soundIcons: [
       { name: sounds.BIRDS_CHIRPING.name, icon: sounds.BIRDS_CHIRPING.icon },
       { name: sounds.CITY_TRAFFIC.name, icon: sounds.CITY_TRAFFIC.icon },
@@ -45,7 +63,7 @@ export const scenes: Scene[] = [
     id: 3,
     name: "City Studio",
     thumbnail: "/assets/thumbnails/city-studio_pic.webp",
-    video: "/assets/videos/city-studio_vid.mp4",
+    video: cityStudioVid,
     soundIcons: [
       { name: sounds.BIRDS_CHIRPING.name, icon: sounds.BIRDS_CHIRPING.icon },
       { name: sounds.CITY_TRAFFIC.name, icon: sounds.CITY_TRAFFIC.icon },
@@ -58,7 +76,7 @@ export const scenes: Scene[] = [
     id: 4,
     name: "Music Room",
     thumbnail: "/assets/thumbnails/music-room_pic.webp",
-    video: "/assets/videos/music-room_vid.mp4",
+    video: musicRoomVid,
     soundIcons: [
       { name: sounds.BIRDS_CHIRPING.name, icon: sounds.BIRDS_CHIRPING.icon },
       { name: sounds.NATURE.name, icon: sounds.NATURE.icon },
@@ -71,7 +89,7 @@ export const scenes: Scene[] = [
     id: 5,
     name: "Neon City",
     thumbnail: "/assets/thumbnails/neon-city_pic.webp",
-    video: "/assets/videos/neon-city_vid.mp4",
+    video: neonCityVid,
     soundIcons: [
       { name: sounds.CITY_TRAFFIC.name, icon: sounds.CITY_TRAFFIC.icon },
       { name: sounds.AMBIENCE.name, icon: sounds.AMBIENCE.icon },
@@ -84,7 +102,7 @@ export const scenes: Scene[] = [
     id: 6,
     name: "Serenity Cabin",
     thumbnail: "/assets/thumbnails/serenity-cabin_pic.webp",
-    video: "/assets/videos/serenity-cabin_vid.mp4",
+    video: serenityCabinVid,
     soundIcons: [
       { name: sounds.BIRDS_CHIRPING.name, icon: sounds.BIRDS_CHIRPING.icon },
       { name: sounds.NATURE.name, icon: sounds.NATURE.icon },
@@ -97,7 +115,7 @@ export const scenes: Scene[] = [
     id: 7,
     name: "Girl At Dusk",
     thumbnail: "/assets/thumbnails/girl-at-dusk_pic.webp",
-    video: "/assets/videos/girl-at-dusk_vid.mp4",
+    video: girlAtDuskVid,
     soundIcons: [
       { name: sounds.OCEAN.name, icon: sounds.OCEAN.icon },
       { name: sounds.CHATTER.name, icon: sounds.CHATTER.icon },
@@ -110,7 +128,7 @@ export const scenes: Scene[] = [
     id: 8,
     name: "Cozy Rain Night",
     thumbnail: "/assets/thumbnails/cozy-rain-night_pic.webp",
-    video: "/assets/videos/cozy-rain-night_vid.mp4",
+    video: cozyRainNightVid,
     soundIcons: [
       { name: sounds.THUNDER.name, icon: sounds.THUNDER.icon },
       { name: sounds.RAIN.name, icon: sounds.RAIN.icon },
@@ -123,7 +141,7 @@ export const scenes: Scene[] = [
     id: 9,
     name: "Neon Night Market",
     thumbnail: "/assets/thumbnails/neon-night-market_pic.webp",
-    video: "/assets/videos/neon-night-market_vid.mp4",
+    video: neonNightMarketVid,
     soundIcons: [
       { name: sounds.STORMY_NIGHT.name, icon: sounds.STORMY_NIGHT.icon },
       { name: sounds.TRAIN.name, icon: sounds.TRAIN.icon },
@@ -136,7 +154,7 @@ export const scenes: Scene[] = [
     id: 10,
     name: "Modern Living Room",
     thumbnail: "/assets/thumbnails/modern-living-room_pic.webp",
-    video: "/assets/videos/modern-living-room_vid.mp4",
+    video: modernLivingRoomVid,
     soundIcons: [
       { name: sounds.RAIN.name, icon: sounds.RAIN.icon },
       { name: sounds.NATURE.name, icon: sounds.NATURE.icon },
@@ -149,7 +167,7 @@ export const scenes: Scene[] = [
     id: 11,
     name: "The Office",
     thumbnail: "/assets/thumbnails/the-office_pic.webp",
-    video: "/assets/videos/the-office_vid.mp4",
+    video: theOfficeVid,
     soundIcons: [
       { name: sounds.RAIN.name, icon: sounds.RAIN.icon },
       { name: sounds.MORNING.name, icon: sounds.MORNING.icon },
@@ -162,7 +180,7 @@ export const scenes: Scene[] = [
     id: 12,
     name: "Pastel Paradise",
     thumbnail: "/assets/thumbnails/pastel-paradise_pic.webp",
-    video: "/assets/videos/pastel-paradise_vid.mp4",
+    video: pastelParadiseVid,
     soundIcons: [
       { name: sounds.FAN.name, icon: sounds.FAN.icon },
       { name: sounds.MORNING.name, icon: sounds.MORNING.icon },
@@ -176,7 +194,7 @@ export const scenes: Scene[] = [
     id: 13,
     name: "Tree House",
     thumbnail: "/assets/thumbnails/tree-house_pic.webp",
-    video: "/assets/videos/tree-house_vid.mp4",
+    video: treeHouseVid,
     soundIcons: [
       { name: sounds.NATURE.name, icon: sounds.NATURE.icon },
       { name: sounds.MORNING.name, icon: sounds.MORNING.icon },
@@ -189,7 +207,7 @@ export const scenes: Scene[] = [
     id: 14,
     name: "Winter Cafe",
     thumbnail: "/assets/thumbnails/winter-cafe_pic.webp",
-    video: "/assets/videos/winter-cafe_vid.mp4",
+    video: winterCafeVid,
     soundIcons: [
       { name: sounds.CHATTER.name, icon: sounds.CHATTER.icon },
       { name: sounds.NATURE.name, icon: sounds.NATURE.icon },
@@ -202,7 +220,7 @@ export const scenes: Scene[] = [
     id: 15,
     name: "Book Lover",
     thumbnail: "/assets/thumbnails/book-lover_pic.webp",
-    video: "/assets/videos/book-lover_vid.mp4",
+    video: bookLoverVid,
     soundIcons: [
       { name: sounds.FAN.name, icon: sounds.FAN.icon },
       { name: sounds.KEYBOARD.name, icon: sounds.KEYBOARD.icon },
