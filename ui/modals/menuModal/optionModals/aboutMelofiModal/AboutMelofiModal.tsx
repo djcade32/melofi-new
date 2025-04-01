@@ -80,16 +80,13 @@ const AboutMelofiModal = () => {
                 size={30}
                 color="var(--color-secondary)"
                 onClick={() =>
-                  window.open(
-                    "https://www.producthunt.com/posts/melofi-2-0",
-                    "_blank"
-                  )
+                  window.open("https://www.producthunt.com/posts/melofi-2-0", "_blank")
                 }
               />
             </div>
           </div>
           <div className={styles.aboutMelofiModal__version}>
-            <p>Version 1.0.0</p>
+            <p>Version 2.0.0</p>
           </div>
         </div>
       </div>
