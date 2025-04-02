@@ -8,6 +8,7 @@
   opacity: 1; /* Default to fully visible */
   transition: opacity 0.6s ease; /* Adjust timing to match the effect duration */
   z-index: -1;
+  background-color: var(--color-black);
 }
 
 .fade_in {
