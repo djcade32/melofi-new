@@ -22,10 +22,15 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
     try {
       const user = await login(email, password);
       console.log("User logged in: ", user);
+      if (!user) return console.log("User is null");
       setCurrentUser(user);
       setIsUserLoggedIn(true);
     } catch (error: any) {
       console.log("Error logging in: ", error);
+      const formErrorMessage =
+        error.message === ERROR_MESSAGES.NO_INTERNET_CONNECTION
+          ? ERROR_MESSAGES.NO_INTERNET_CONNECTION
+          : ERROR_MESSAGES.INVALID_CREDENTIALS;
       setErrorState([
         {
           name: "email-input",
@@ -37,7 +42,7 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
         },
         {
           name: "form-input",
-          message: "",
+          message: formErrorMessage,
         },
       ]);
     }
@@ -119,7 +124,9 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
             transparentBackground
           />
           {errorState && errorState.find((error) => error.name === "form-input") && (
-            <p className={styles.signin__form_error_text}>{ERROR_MESSAGES.INVALID_CREDENTIALS}</p>
+            <p className={styles.signin__form_error_text}>
+              {errorState.find((error) => error.name === "form-input")?.message}
+            </p>
           )}
         </form>
         <div>

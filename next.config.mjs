@@ -3,6 +3,17 @@
 const nextConfig = {
   webpack(config) {
     config.module.rules.push({
+      test: /preload\.mjs$/, // match the preload.js file
+      use: {
+        loader: "babel-loader",
+        options: {
+          presets: ["@babel/preset-env"],
+          plugins: ["@babel/plugin-transform-modules-commonjs"], // Make sure it's transformed for Electron
+        },
+      },
+    });
+
+    config.module.rules.push({
       test: /\.(mp4|webm|mp3|wav)$/,
       type: "asset/resource",
       generator: {

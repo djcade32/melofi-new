@@ -49,6 +49,10 @@ const AccountModalSkippedUserLogin = ({ setCurrentView }: AccountModalSkippedUse
       }
     } catch (error: any) {
       Logger.getInstance().error(`Error logging in: ${error}`);
+      const formErrorMessage =
+        error.message === ERROR_MESSAGES.NO_INTERNET_CONNECTION
+          ? ERROR_MESSAGES.NO_INTERNET_CONNECTION
+          : ERROR_MESSAGES.INVALID_CREDENTIALS;
       setErrorState([
         {
           name: "email-input",
@@ -60,7 +64,7 @@ const AccountModalSkippedUserLogin = ({ setCurrentView }: AccountModalSkippedUse
         },
         {
           name: "form-input",
-          message: "",
+          message: formErrorMessage,
         },
       ]);
     }
@@ -158,7 +162,9 @@ const AccountModalSkippedUserLogin = ({ setCurrentView }: AccountModalSkippedUse
               transparentBackground
             />
             {errorState && errorState.find((error) => error.name === "form-input") && (
-              <p className={styles.signin__form_error_text}>{ERROR_MESSAGES.INVALID_CREDENTIALS}</p>
+              <p className={styles.signin__form_error_text}>
+                {errorState.find((error) => error.name === "form-input")?.message}
+              </p>
             )}
           </div>
 

@@ -11,6 +11,7 @@ export const ERROR_MESSAGES = {
   PASSWORD_WEAK: "Password must be at least 8 characters, contain uppercase letters, and numbers",
   EMAIL_ALREADY_IN_USE: "Email is already in use",
   INVALID_CREDENTIALS: "Invalid email or password",
+  NO_INTERNET_CONNECTION: "No internet connection",
 };
 
 export type NotificationTypes = "success" | "error" | "normal" | "alarm" | "copy_to_clipboard";
