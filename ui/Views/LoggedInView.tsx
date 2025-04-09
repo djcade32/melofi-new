@@ -1,6 +1,6 @@
 "use client";
 
-import React, { lazy } from "react";
+import React from "react";
 import Header from "../components/header/Header";
 import MixerModal from "../modals/mixerModal/MixerModal";
 import NowPlaying from "../components/nowPlaying/NowPlaying";
@@ -9,16 +9,18 @@ import { MusicSource } from "@/enums/general";
 import QuoteDisplay from "../components/quoteDisplay/QuoteDisplay";
 import ComponentLoader from "../components/shared/componentLoader/ComponentLoader";
 
-// Lazy load the components
-const SceneModal = lazy(() => import("@/ui/modals/sceneModal/SceneModal"));
-const Alarms = lazy(() => import("@/ui/widgets/alarms/Alarms"));
-const Calculator = lazy(() => import("@/ui/widgets/calculator/Calculator"));
-const Calendar = lazy(() => import("@/ui/widgets/calendar/Calendar"));
-const TodoList = lazy(() => import("@/ui/widgets/todoList/TodoList"));
-const Notes = lazy(() => import("@/ui/widgets/notes/Notes"));
-const PomodoroTimer = lazy(() => import("@/ui/widgets/pomodoroTimer/PomodoroTimer"));
-const Templates = lazy(() => import("@/ui/widgets/templates/Templates"));
-const Youtube = lazy(() => import("@/ui/widgets/youtube/Youtube"));
+import dynamic from "next/dynamic";
+const SceneModal = dynamic(() => import("@/ui/modals/sceneModal/SceneModal"), { ssr: false });
+const Alarms = dynamic(() => import("@/ui/widgets/alarms/Alarms"), { ssr: false });
+const Calculator = dynamic(() => import("@/ui/widgets/calculator/Calculator"), { ssr: false });
+const Calendar = dynamic(() => import("@/ui/widgets/calendar/Calendar"), { ssr: false });
+const TodoList = dynamic(() => import("@/ui/widgets/todoList/TodoList"), { ssr: false });
+const Notes = dynamic(() => import("@/ui/widgets/notes/Notes"), { ssr: false });
+const PomodoroTimer = dynamic(() => import("@/ui/widgets/pomodoroTimer/PomodoroTimer"), {
+  ssr: false,
+});
+const Templates = dynamic(() => import("@/ui/widgets/templates/Templates"), { ssr: false });
+const Youtube = dynamic(() => import("@/ui/widgets/youtube/Youtube"), { ssr: false });
 
 import useCalendarStore from "@/stores/widgets/calendar-store";
 import usePomodoroTimerStore from "@/stores/widgets/pomodoro-timer-store";

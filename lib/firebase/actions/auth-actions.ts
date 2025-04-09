@@ -71,7 +71,7 @@ export const login = async (email: string, password: string, fromDashboard?: boo
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     console.log("User credential: ", userCredential);
     // Save the user's token locally for offline access
-    if (window.electronAPI.isElectron) {
+    if (typeof window !== "undefined" && window.electronAPI) {
       const token = await userCredential.user.getIdToken();
       console.log("Token: ", token);
       storeAuthToken(email, token);

@@ -28,6 +28,7 @@ const PremiumModal = () => {
   const { currentUser } = useUserStore();
   const [content, setContent] = useState<React.ReactNode>(null);
   const [isYearly, setIsYearly] = useState(true);
+  const isOnline = typeof window !== "undefined" ? navigator.onLine : true;
 
   useEffect(() => {
     setContent(getContent());
@@ -48,6 +49,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={350}
               height={196.88}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -64,6 +66,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={261.33}
               height={196}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -80,6 +83,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={215}
               height={215}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -96,6 +100,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={355.56}
               height={200}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -112,6 +117,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={266.67}
               height={200}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -128,6 +134,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={333.33}
               height={200}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -143,6 +150,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={400}
               height={200}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -159,6 +167,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={355.56}
               height={200}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -175,6 +184,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={320}
               height={200}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -190,6 +200,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={215}
               height={215}
+              unoptimized={!isOnline}
             />
           </>
         );
