@@ -39,7 +39,7 @@ const nextConfig = {
 
 const withPWA = nextPWA({
   dest: "public",
-  disable: process.env.NODE_ENV === "development",
+  disable: process.env.NODE_ENV === "development" || process.env.NEXT_PUBLIC_IS_CYPRESS,
   mode: "production",
   maximumFileSizeToCacheInBytes: 100 * 1024 * 1024, // ✅ 100MB limit to cache large files like MP3
   clientsClaim: true,

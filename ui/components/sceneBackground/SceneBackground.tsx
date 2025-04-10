@@ -29,11 +29,16 @@ const SceneBackground = () => {
 
   useEffect(() => {
     const preload = async () => {
-      const videos = await cacheVideos(scenes);
+      let videos: Record<string, string> = {};
+      try {
+        videos = await cacheVideos(scenes);
+      } catch (error) {
+        console.error("Error preloading videos:", error);
+      }
       setCachedVideos(videos);
     };
     getCurrentScene();
-    preload();
+    process.env.NODE_ENV === "production" && preload();
   }, []);
 
   const cacheVideos = async (videoPaths: Scene[]) => {
@@ -50,7 +55,11 @@ const SceneBackground = () => {
     <div>
       <video
         id="background-video"
-        src={cachedVideos[currentScene?.video]}
+        src={
+          process.env.NODE_ENV === "production"
+            ? currentScene.video
+            : cachedVideos[currentScene?.video]
+        }
         className={styles.melofi_background_video}
         autoPlay
         loop
