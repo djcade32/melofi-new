@@ -3,8 +3,9 @@
 import { useEffect } from "react";
 
 export default function RegisterSW() {
+  const isProduction = process.env.NODE_ENV === "production";
   useEffect(() => {
-    if ("serviceWorker" in navigator && process.env.NODE_ENV === "production") {
+    if ("serviceWorker" in navigator && isProduction) {
       window.addEventListener("load", () => {
         navigator.serviceWorker
           .register("/sw.js")
