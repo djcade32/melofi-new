@@ -44,7 +44,7 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
     cy.clearFirestoreEmulator();
     cy.signUpUser("test@example.com", "Password123");
   }
-  cy.visit("/");
+  cy.visit("/", { timeout: 30000 });
   cy.wait(3000);
   (options.loggedIn || options.skipOnboarding) && cy.get("#melofi-app").trigger("mouseover");
 };

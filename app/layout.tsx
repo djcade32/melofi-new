@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
+import RegisterSW from "@/ui/components/RegisterSW";
 
 export const metadata: Metadata = {
   title: { default: "Melofi", template: "%s | Melofi" },
@@ -22,6 +23,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+      </head>
+      <RegisterSW />
       <body
         style={{
           display: "flex",

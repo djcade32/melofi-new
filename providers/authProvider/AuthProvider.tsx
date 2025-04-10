@@ -8,7 +8,7 @@ import { logout } from "@/lib/firebase/actions/auth-actions";
 import SceneBackground from "@/ui/components/sceneBackground/SceneBackground";
 import LoadingScreen from "@/ui/Views/loadingScreen/LoadingScreen";
 import useUserStatsStore from "@/stores/user-stats-store";
-import { MelofiUser } from "@/types/general";
+import { MelofiUser, UserStats } from "@/types/general";
 import SmallerScreenView from "@/ui/Views/SmallerScreenView";
 import NoInternetView from "@/ui/Views/NoInternetView";
 import { Logger } from "@/classes/Logger";
@@ -32,7 +32,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsUserLoggedIn,
     setIsPremiumUser,
   } = useUserStore();
-  const { setUserStats } = useUserStatsStore();
+  const { setUserStats, setStats } = useUserStatsStore();
   const [isOnline, setIsOnline] = useState(true);
 
   // Check if user is logged in
@@ -77,18 +77,23 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       if (!currentUser.authUser.emailVerified) {
         setShowEmailVerification(true);
       } else if (currentUser?.authUser?.email) {
-        // Check if user is in db
-        checkIfUserIsInDb(currentUser.authUser?.uid).then((isInDb) => {
-          if (isInDb) {
-            setUserStats();
-            setGrantAccess(true);
-            setUserPremium();
-          } else {
-            logout();
-            // Remove user from localStorage
-            localStorage.removeItem("user");
-          }
-        });
+        // Check if user is in db if Melofi is online
+        if (isOnline) {
+          checkIfUserIsInDb(currentUser.authUser?.uid).then((isInDb) => {
+            if (isInDb) {
+              setUserStats();
+              setGrantAccess(true);
+              setUserPremium();
+            } else {
+              logout();
+              // Remove user from localStorage
+              localStorage.removeItem("user");
+            }
+          });
+        } else {
+          setUserStatsOffline();
+          setGrantAccess(true);
+        }
       }
     } else if (!currentUser) {
       setGrantAccess(false);
@@ -123,28 +128,37 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsPremiumUser(isPremiumUser);
   };
 
+  const setUserStatsOffline = async () => {
+    const email = currentUser?.authUser?.email;
+    if (email) {
+      const userStats: UserStats = await window.electronAPI.getUserStats(email);
+      console.log("User stats offline: ", userStats);
+      userStats && setStats(userStats);
+    }
+  };
+
   return (
     <div className={styles.authProvider__container}>
-      {!isOnline ? (
+      {/* {!isOnline ? (
         <NoInternetView />
-      ) : (
-        <>
-          {grantAccess ? (
-            <>{onMobileDevice ? <SmallerScreenView /> : children}</>
-          ) : (
-            <>
-              {onMobileDevice ? (
-                <SmallerScreenView />
-              ) : (
-                <LoggedOutView
-                  showEmailVerification={showEmailVerification}
-                  setShowEmailVerification={setShowEmailVerification}
-                />
-              )}
-            </>
-          )}
-        </>
-      )}
+      ) : ( */}
+      <>
+        {grantAccess ? (
+          <>{onMobileDevice ? <SmallerScreenView /> : children}</>
+        ) : (
+          <>
+            {onMobileDevice ? (
+              <SmallerScreenView />
+            ) : (
+              <LoggedOutView
+                showEmailVerification={showEmailVerification}
+                setShowEmailVerification={setShowEmailVerification}
+              />
+            )}
+          </>
+        )}
+      </>
+      {/* )} */}
       <SceneBackground />
       <LoadingScreen loading={loading} />
     </div>

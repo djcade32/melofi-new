@@ -10,8 +10,9 @@ import { buildUserStatsType } from "@/lib/type-builders/user-stats-type-builder"
 import { create } from "zustand";
 import useUserStore from "./user-store";
 import { PomodoroTimerStats } from "@/types/interfaces/pomodoro_timer";
-import { SceneCounts } from "@/types/general";
+import { SceneCounts, UserStats } from "@/types/general";
 import { Logger } from "@/classes/Logger";
+import { saveUserStats } from "@/lib/firebase/actions/auth-actions";
 
 export interface userStatsState {
   pomodoroTimerStats: PomodoroTimerStats;
@@ -25,6 +26,7 @@ export interface userStatsState {
   incrementExpiredAlarmsCount: () => Promise<void>;
   updateSceneCounts: (scene: string) => Promise<void>;
   resetUserStatsData: () => Promise<void>;
+  setStats: (stats: UserStats) => void;
 }
 
 const useUserStatsStore = create<userStatsState>((set, get) => ({
@@ -42,6 +44,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
 
   async setUserStats() {
     const uid = useUserStore.getState().currentUser?.authUser?.uid;
+    const email = useUserStore.getState().currentUser?.authUser?.email;
     try {
       if (!uid) {
         Logger.getInstance().error("No user uid provided");
@@ -53,7 +56,9 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
         return;
       }
       const userStatsBuilt = buildUserStatsType(userStats);
-      set({ ...userStatsBuilt, pomodoroTimerStats: userStatsBuilt.pomodoroTimer });
+      const userStatsObj = { ...userStatsBuilt, pomodoroTimerStats: userStatsBuilt.pomodoroTimer };
+      set(userStatsObj);
+      email && saveUserStats(email, userStatsObj);
     } catch (error) {
       Logger.getInstance().error(`Error setting user stats: ${error}`);
     }
@@ -160,6 +165,15 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       totalNotesCreated: 0,
       sceneCounts: null,
       alarmsExpiredCount: 0,
+    });
+  },
+
+  setStats(stats: UserStats) {
+    set({
+      pomodoroTimerStats: stats.pomodoroTimer,
+      totalNotesCreated: stats.totalNotesCreated,
+      sceneCounts: stats.sceneCounts,
+      alarmsExpiredCount: stats.alarmsExpiredCount,
     });
   },
 }));

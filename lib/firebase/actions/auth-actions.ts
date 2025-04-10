@@ -8,14 +8,16 @@ import {
   updateEmail as firebaseUpdateEmail,
   updateProfile,
   updatePassword as firebaseUpdatePassword,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { db, getFirebaseAuth } from "../firebaseClient";
 import { deleteDoc, doc, setDoc } from "firebase/firestore";
-import { MelofiUser, PromiseResolveType } from "@/types/general";
+import { MelofiUser, PromiseResolveType, UserStats } from "@/types/general";
 import { addUserToNewsletter, changeUserEmailVerificationStatus } from "./newsletter-actions";
 import { getUserFromUserDb } from "../getters/auth-getters";
 import { getUserFromNewsletterDb } from "../getters/newsletter-getters";
 import { addUserToStats } from "./stats-actions";
+import { ERROR_MESSAGES } from "@/enums/general";
 
 const auth = getFirebaseAuth();
 
@@ -65,7 +67,16 @@ export const login = async (email: string, password: string, fromDashboard?: boo
   }
 
   try {
+    console.log("Logging in...");
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log("User credential: ", userCredential);
+    // Save the user's token locally for offline access
+    if (typeof window !== "undefined" && window.electronAPI) {
+      const token = await userCredential.user.getIdToken();
+      console.log("Token: ", token);
+      storeAuthToken(email, token);
+    }
+
     const uid = userCredential.user.uid;
     const isEmailVerified = userCredential.user.emailVerified;
     const userFoundInUserDb = await getUserFromUserDb(uid);
@@ -92,12 +103,40 @@ export const login = async (email: string, password: string, fromDashboard?: boo
 
     // Set user in local storage
     localStorage.setItem("user", JSON.stringify(user));
+    saveUserData(email, user);
 
     return user;
-  } catch (error) {
+  } catch (error: any) {
+    if (error.code === "auth/network-request-failed") {
+      const user = await tryLoginWithOfflineToken(email, fromDashboard);
+      if (user) {
+        console.log("User logged in with offline token: ", user);
+        return user;
+      } else {
+        console.log("No offline token found");
+        throw new Error(ERROR_MESSAGES.NO_INTERNET_CONNECTION);
+      }
+    }
     throw error;
   }
 };
+
+const tryLoginWithOfflineToken = async (email: string, fromDashboard?: boolean) => {
+  const offlineToken = await retrieveAuthToken(email);
+  if (offlineToken) {
+    console.log("Offline token found: ", offlineToken);
+    storeAuthToken(email, offlineToken);
+    const user = await getUserData(email);
+    fromDashboard && user && (user.skippedOnboarding = true);
+
+    // Set user in local storage
+    localStorage.setItem("user", JSON.stringify(user));
+    return user;
+  }
+  return null;
+};
+
+// Login with offline token
 
 // logout
 export const logout = async () => {
@@ -299,3 +338,75 @@ export const signOut = async () => {
     throw error;
   }
 };
+
+export async function storeAuthToken(email: string, token: string) {
+  if (typeof window !== "undefined" && window.electronAPI) {
+    window.electronAPI.saveAuthToken(email, token);
+    console.log("Token stored successfully");
+  }
+}
+
+export async function retrieveAuthToken(email: string): Promise<string | null> {
+  if (typeof window !== "undefined" && window.electronAPI) {
+    console.log("Retrieving token...");
+    return window.electronAPI.getAuthToken(email);
+  }
+  return null;
+}
+
+export async function clearAuthToken(email: string) {
+  if (typeof window !== "undefined" && window.electronAPI) {
+    window.electronAPI.clearAuthToken(email);
+  }
+}
+
+export function refreshAuthToken(email: string) {
+  if (!navigator.onLine) return;
+
+  if (auth) {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const newToken = await user.getIdToken(true);
+        storeAuthToken(email, newToken);
+      } else {
+        window.electronAPI.clearAuthToken(email);
+      }
+    });
+  } else {
+    console.error("Firebase Auth is not initialized");
+  }
+}
+
+export async function saveUserData(email: string, user: MelofiUser) {
+  if (typeof window !== "undefined" && window.electronAPI) {
+    window.electronAPI.saveUser(email, user);
+    console.log("User data stored successfully");
+  }
+}
+
+export async function getUserData(email: string): Promise<MelofiUser | null> {
+  if (typeof window !== "undefined" && window.electronAPI) {
+    return window.electronAPI.getUser(email);
+  }
+  return null;
+}
+
+export async function clearAllAuthTokens() {
+  if (typeof window !== "undefined" && window.electronAPI) {
+    window.electronAPI.clearAllAuthTokens();
+    console.log("All tokens cleared successfully");
+  }
+}
+
+export async function saveUserStats(email: string, userStats: UserStats) {
+  if (typeof window !== "undefined" && window.electronAPI) {
+    window.electronAPI.saveUserStats(email, userStats);
+    console.log("User stats stored successfully");
+  }
+}
+export async function getUserStats(email: string): Promise<UserStats | null> {
+  if (typeof window !== "undefined" && window.electronAPI) {
+    return window.electronAPI.getUserStats(email);
+  }
+  return null;
+}

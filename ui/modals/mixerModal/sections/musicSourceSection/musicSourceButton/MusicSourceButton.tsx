@@ -26,6 +26,8 @@ const MusicSourceButton = ({
   onClick,
   showInfo = false,
 }: MusicSourceButtonProps) => {
+  const isOnline = typeof window !== "undefined" ? navigator.onLine : true;
+
   return (
     <div
       id={id}
@@ -35,7 +37,7 @@ const MusicSourceButton = ({
       onClick={onClick}
     >
       {imgSrc ? (
-        <Image src={imgSrc} alt="melofi" width={40} height={40} />
+        <Image src={imgSrc} alt="melofi" width={40} height={40} unoptimized={!isOnline} />
       ) : (
         React.createElement(icon, {
           color: "var(--color-white)",

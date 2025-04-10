@@ -1,4 +1,4 @@
-import React, { ChangeEvent, CSSProperties, useState } from "react";
+import React, { ChangeEvent, CSSProperties, useEffect, useState } from "react";
 import styles from "./signup.module.css";
 import Button from "@/ui/components/shared/button/Button";
 import { AuthViewProps } from "@/types/general";

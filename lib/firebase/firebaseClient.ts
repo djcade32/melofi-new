@@ -5,6 +5,7 @@ import { getFirestore, Firestore, connectFirestoreEmulator } from "firebase/fire
 import { Auth, connectAuthEmulator, getAuth } from "firebase/auth";
 import firebase from "firebase/compat/app";
 import { Logger } from "@/classes/Logger";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
