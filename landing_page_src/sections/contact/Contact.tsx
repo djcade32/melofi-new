@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import styles from "./contact.module.css";
 import { motion } from "framer-motion";
-import { subscribeUser } from "@/lib/brevo";
+import { subscribeToNewsletter } from "@/lib/brevo/actions";
 import { isValidEmail } from "@/utils/general";
 
 const Contact = () => {
@@ -14,7 +14,7 @@ const Contact = () => {
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isValidEmail(email)) return setError("Please enter a valid email");
-    const isSuccess = await subscribeUser(email, "landing_page");
+    const isSuccess = await subscribeToNewsletter(email, "landing_page");
     if (isSuccess) {
       setEmail("");
       setError("");
