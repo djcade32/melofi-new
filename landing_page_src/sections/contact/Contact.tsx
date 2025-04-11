@@ -15,7 +15,7 @@ const Contact = () => {
     e.preventDefault();
     if (!isValidEmail(email)) return setError("Please enter a valid email");
     const isSuccess = await subscribeToNewsletter(email, "landing_page");
-    if (isSuccess) {
+    if (isSuccess.success) {
       setEmail("");
       setError("");
       setShowSuccess(true);
@@ -23,6 +23,7 @@ const Contact = () => {
         setShowSuccess(false);
       }, 5000);
     } else {
+      console.log("Error subscribing to newsletter: ", isSuccess.error);
       setError("Something went wrong. Please try again later");
     }
   };
@@ -69,7 +70,7 @@ const Contact = () => {
                 value={email}
                 onChange={handleChange}
                 style={{
-                  border: error ? "1px solid red" : "",
+                  border: error ? "1px solid var(--color-error)" : "",
                 }}
               />
               <div
