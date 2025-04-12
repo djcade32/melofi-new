@@ -16,10 +16,12 @@ import useToolsStore from "./tools-store";
 
 export interface AppState {
   isFullscreen: boolean;
+  isOnline: boolean;
   appSettings: AppSettings;
   showPremiumModal: PremiumModalTypes | null;
 
   toggleFullscreen: (boolean: boolean) => void;
+  setIsOnline: (boolean: boolean) => void;
   isElectron: () => boolean;
   setInactivityThreshold: (threshold: number) => void;
   setPomodoroTimerSoundEnabled: (boolean: boolean) => void;
@@ -35,6 +37,7 @@ export interface AppState {
 
 const useAppStore = create<AppState>((set, get) => ({
   isFullscreen: false,
+  isOnline: true,
   appSettings: {
     userUid: null,
     inActivityThreshold: 15000,
@@ -49,6 +52,10 @@ const useAppStore = create<AppState>((set, get) => ({
   toggleFullscreen: (boolean) => {
     screenfull.toggle();
     set(() => ({ isFullscreen: boolean }));
+  },
+
+  setIsOnline: (boolean) => {
+    set(() => ({ isOnline: boolean }));
   },
 
   isElectron: () => {

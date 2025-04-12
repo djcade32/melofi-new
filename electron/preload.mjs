@@ -5,8 +5,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
   sendMessage: (message) => ipcRenderer.send("message", message),
   onReceiveMessage: (callback) => ipcRenderer.on("message-reply", callback),
   isElectron: true,
-  saveAuthToken: (email, token) => ipcRenderer.invoke("saveAuthToken", email, token),
-  getAuthToken: (email) => ipcRenderer.invoke("getAuthToken", email),
+  saveUserAuth: (email, password, token) =>
+    ipcRenderer.invoke("saveUserAuth", email, password, token),
+  getUserAuth: (email) => ipcRenderer.invoke("getUserAuth", email),
   clearAuthToken: (email) => ipcRenderer.invoke("clearAuthToken", email),
   saveUser: (email, user) => ipcRenderer.invoke("saveUser", email, user),
   getUser: (email) => ipcRenderer.invoke("getUser", email),
