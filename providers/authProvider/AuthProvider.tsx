@@ -13,6 +13,7 @@ import SmallerScreenView from "@/ui/Views/SmallerScreenView";
 import NoInternetView from "@/ui/Views/NoInternetView";
 import { Logger } from "@/classes/Logger";
 import checkPremiumStatus from "@/lib/stripe/checkPremiumStatus";
+import useAppStore from "@/stores/app-store";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -24,6 +25,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(true);
   const [onMobileDevice, setOnMobileDevice] = useState(false);
 
+  const { setIsOnline, isOnline } = useAppStore();
   const {
     setCurrentUser,
     currentUser,
@@ -33,7 +35,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsPremiumUser,
   } = useUserStore();
   const { setUserStats, setStats } = useUserStatsStore();
-  const [isOnline, setIsOnline] = useState(true);
 
   // Check if user is logged in
   useEffect(() => {

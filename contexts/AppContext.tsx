@@ -23,6 +23,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const { appSettings, fetchAppSettings } = useAppStore();
   const { fetchOpenWidgets, toggleOpenWidgets } = useWidgetsStore();
   const { currentUser } = useUserStore();
+  const { isOnline } = useAppStore();
 
   const [isSleep, setIsSleep] = useState(false);
   const [userUid, setUserUid] = useState<string | null>(null);
