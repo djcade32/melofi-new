@@ -73,8 +73,7 @@ export const login = async (email: string, password: string, fromDashboard?: boo
     // Save the user's token locally for offline access
     if (typeof window !== "undefined" && window.electronAPI) {
       const token = await userCredential.user.getIdToken();
-      console.log("Token: ", token);
-      storeAuthToken(email, token);
+      storeUserAuth(email, password, token);
     }
 
     const uid = userCredential.user.uid;
@@ -108,12 +107,11 @@ export const login = async (email: string, password: string, fromDashboard?: boo
     return user;
   } catch (error: any) {
     if (error.code === "auth/network-request-failed") {
-      const user = await tryLoginWithOfflineToken(email, fromDashboard);
+      const user = await tryLoginWithOfflineToken(email, password, fromDashboard);
       if (user) {
-        console.log("User logged in with offline token: ", user);
         return user;
       } else {
-        console.log("No offline token found");
+        console.log("No offline auth found for user");
         throw new Error(ERROR_MESSAGES.NO_INTERNET_CONNECTION);
       }
     }
@@ -121,16 +119,21 @@ export const login = async (email: string, password: string, fromDashboard?: boo
   }
 };
 
-const tryLoginWithOfflineToken = async (email: string, fromDashboard?: boolean) => {
-  const offlineToken = await retrieveAuthToken(email);
-  if (offlineToken) {
-    console.log("Offline token found: ", offlineToken);
-    storeAuthToken(email, offlineToken);
+const tryLoginWithOfflineToken = async (
+  email: string,
+  password: string,
+  fromDashboard?: boolean
+) => {
+  const userCreds = await retrieveUserAuth(email);
+  if (userCreds?.password === password) {
+    const offlineToken = userCreds.token;
+    storeUserAuth(email, password, offlineToken);
     const user = await getUserData(email);
     fromDashboard && user && (user.skippedOnboarding = true);
 
     // Set user in local storage
     localStorage.setItem("user", JSON.stringify(user));
+    console.log("User logged in with offline credentials");
     return user;
   }
   return null;
@@ -339,17 +342,19 @@ export const signOut = async () => {
   }
 };
 
-export async function storeAuthToken(email: string, token: string) {
+export async function storeUserAuth(email: string, password: string, token: string) {
   if (typeof window !== "undefined" && window.electronAPI) {
-    window.electronAPI.saveAuthToken(email, token);
-    console.log("Token stored successfully");
+    window.electronAPI.saveUserAuth(email, password, token);
+    console.log("User creds stored successfully");
   }
 }
 
-export async function retrieveAuthToken(email: string): Promise<string | null> {
+export async function retrieveUserAuth(
+  email: string
+): Promise<{ token: string; password: string } | null> {
   if (typeof window !== "undefined" && window.electronAPI) {
-    console.log("Retrieving token...");
-    return window.electronAPI.getAuthToken(email);
+    console.log("Retrieving user creds...");
+    return window.electronAPI.getUserAuth(email);
   }
   return null;
 }
@@ -367,7 +372,7 @@ export function refreshAuthToken(email: string) {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const newToken = await user.getIdToken(true);
-        storeAuthToken(email, newToken);
+        // storeAuthToken(email, newToken);
       } else {
         window.electronAPI.clearAuthToken(email);
       }

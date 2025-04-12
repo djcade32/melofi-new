@@ -3,8 +3,8 @@ export {};
 declare global {
   interface Window {
     electronAPI: {
-      saveAuthToken: (email: string, token: string) => void;
-      getAuthToken: (email: string) => Promise<string | null>;
+      saveUserAuth: (email: string, password: string, token: string) => void;
+      getUserAuth: (email: string) => Promise<{ token: string; password: string } | null>;
       clearAuthToken: (email: string) => void;
       saveUser: (email, user: MelofiUser) => void;
       getUser: (email) => Promise<MelofiUser | null>;

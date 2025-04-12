@@ -1,24 +1,29 @@
 import Store from "electron-store";
+import "dotenv/config";
 
-const store = new Store();
+const store = new Store({ encryptionKey: process.env.STORE_ENCRYPTION_KEY });
 
 /**
  * Save the authentication token for a specific user.
  * @param {string} email - The Firebase user email.
+ * @param {string} password - The Firebase user password.
  * @param {string} token - The Firebase email token.
  */
-export function saveAuthToken(email, token) {
-  console.log("Saving auth token for email:", email);
-  store.set(`authTokens.${email}`, token);
+export function saveUserAuth(email, password, token) {
+  console.log("Saving auth creds for email:", email);
+  store.set(`userAuths.${email}`, {
+    password,
+    token,
+  });
 }
 
 /**
  * Retrieve the authentication token for a specific user.
  * @param {string} email - The Firebase user email.
- * @returns {string | null} - The stored token or null.
+ * @returns {object | null} - The stored token or null.
  */
-export function getAuthToken(email) {
-  return store.get(`authTokens.${email}`) || null;
+export function getUserAuth(email) {
+  return store.get(`userAuths.${email}`) || null;
 }
 
 /**
@@ -26,7 +31,7 @@ export function getAuthToken(email) {
  * @param {string} email - The Firebase user email.
  */
 export function clearAuthToken(email) {
-  store.delete(`authTokens.${email}`);
+  store.delete(`userAuths.${email}`);
 }
 
 /**

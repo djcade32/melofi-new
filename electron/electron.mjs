@@ -100,8 +100,10 @@ app.on("activate", function () {
 });
 
 // Handle authentication requests from preload
-ipcMain.handle("saveAuthToken", (_, email, token) => authStore?.saveAuthToken(email, token));
-ipcMain.handle("getAuthToken", (_, email) => authStore?.getAuthToken(email));
+ipcMain.handle("saveUserAuth", (_, email, password, token) =>
+  authStore?.saveUserAuth(email, password, token)
+);
+ipcMain.handle("getUserAuth", (_, email) => authStore?.getUserAuth(email));
 ipcMain.handle("clearAuthToken", (_, email) => authStore?.clearAuthToken(email));
 ipcMain.handle("saveUser", (_, email, user) => authStore?.saveUser(email, user));
 ipcMain.handle("getUser", (_, email) => authStore?.getUser(email));
