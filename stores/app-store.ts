@@ -13,6 +13,8 @@ import useUserStore from "./user-store";
 import { getUserFromUserDb } from "@/lib/firebase/getters/auth-getters";
 import { Logger } from "@/classes/Logger";
 import useToolsStore from "./tools-store";
+import useNotificationProviderStore from "./notification-provider-store";
+import { BiWifi, BiWifiOff } from "@/imports/icons";
 
 export interface AppState {
   isFullscreen: boolean;
@@ -55,6 +57,22 @@ const useAppStore = create<AppState>((set, get) => ({
   },
 
   setIsOnline: (boolean) => {
+    const { addNotification } = useNotificationProviderStore.getState();
+    if (boolean) {
+      Logger.getInstance().info("Melofi is online.");
+      addNotification({
+        message: "Melofi is online.",
+        type: "success",
+        icon: BiWifi,
+      });
+    } else {
+      Logger.getInstance().error("Melofi is offline.");
+      addNotification({
+        message: "Melofi is offline.",
+        type: "normal",
+        icon: BiWifiOff,
+      });
+    }
     set(() => ({ isOnline: boolean }));
   },
 
