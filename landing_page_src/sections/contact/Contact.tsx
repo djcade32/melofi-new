@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import styles from "./contact.module.css";
 import { motion } from "framer-motion";
-import { subscribeUser } from "@/lib/brevo";
+import { subscribeToNewsletter } from "@/lib/brevo/actions";
 import { isValidEmail } from "@/utils/general";
 
 const Contact = () => {
@@ -14,8 +14,8 @@ const Contact = () => {
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isValidEmail(email)) return setError("Please enter a valid email");
-    const isSuccess = await subscribeUser(email, "landing_page");
-    if (isSuccess) {
+    const isSuccess = await subscribeToNewsletter(email, "landing_page");
+    if (isSuccess.success) {
       setEmail("");
       setError("");
       setShowSuccess(true);
@@ -23,6 +23,7 @@ const Contact = () => {
         setShowSuccess(false);
       }, 5000);
     } else {
+      console.log("Error subscribing to newsletter: ", isSuccess.error);
       setError("Something went wrong. Please try again later");
     }
   };
@@ -69,7 +70,7 @@ const Contact = () => {
                 value={email}
                 onChange={handleChange}
                 style={{
-                  border: error ? "1px solid red" : "",
+                  border: error ? "1px solid var(--color-error)" : "",
                 }}
               />
               <div
