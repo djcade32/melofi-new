@@ -40,12 +40,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     // Check if user is online
     window.addEventListener("online", () => {
-      Logger.getInstance().info("Melofi is online.");
       setIsOnline(true);
     });
 
     window.addEventListener("offline", () => {
-      Logger.getInstance().error("Melofi is offline.");
       setIsOnline(false);
     });
 
