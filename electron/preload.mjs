@@ -12,8 +12,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
   saveUser: (email, user) => ipcRenderer.invoke("saveUser", email, user),
   getUser: (email) => ipcRenderer.invoke("getUser", email),
   clearAllAuthTokens: () => ipcRenderer.invoke("clearAllAuthTokens"),
-  saveSettings: (settings) => ipcRenderer.invoke("saveSettings", settings),
-  getSettings: () => ipcRenderer.invoke("getSettings"),
   saveUserStats: (email, stats) => ipcRenderer.invoke("saveUserStats", email, stats),
   getUserStats: (email) => ipcRenderer.invoke("getUserStats", email),
 });

@@ -1,5 +1,6 @@
 "use client";
 import { Logger } from "@/classes/Logger";
+import { initializeLocalDb } from "@/lib/localDb";
 import useAppStore from "@/stores/app-store";
 import useUserStore from "@/stores/user-store";
 import useWidgetsStore from "@/stores/widgets-store";
@@ -23,12 +24,15 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const { appSettings, fetchAppSettings } = useAppStore();
   const { fetchOpenWidgets, toggleOpenWidgets } = useWidgetsStore();
   const { currentUser } = useUserStore();
-  const { isOnline } = useAppStore();
 
   const [isSleep, setIsSleep] = useState(false);
   const [userUid, setUserUid] = useState<string | null>(null);
 
   useEffect(() => {
+    const initLocalDB = async () => {
+      await initializeLocalDb();
+    };
+    initLocalDB();
     // Get the open widgets from local storage and open them
     const widgets = fetchOpenWidgets();
     toggleOpenWidgets(widgets);

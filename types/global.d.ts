@@ -10,8 +10,8 @@ declare global {
       getUser: (email) => Promise<MelofiUser | null>;
       deleteUser: (email) => void;
       clearAllAuthTokens: () => void;
-      saveSettings: (email: string, settings: AppSettings) => void;
-      getSettings: (email: string) => Promise<AppSettings>;
+      saveAppSettings: (email: string, settings: AppSettings) => void;
+      getAppSettings: (email: string) => Promise<AppSettings>;
       saveUserStats: (email: string, userStats: UserStats) => void;
       getUserStats: (email: string) => Promise<UserStats>;
       isElectron: boolean;

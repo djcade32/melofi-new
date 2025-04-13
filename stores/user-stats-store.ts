@@ -12,7 +12,7 @@ import useUserStore from "./user-store";
 import { PomodoroTimerStats } from "@/types/interfaces/pomodoro_timer";
 import { SceneCounts, UserStats } from "@/types/general";
 import { Logger } from "@/classes/Logger";
-import { saveUserStats } from "@/lib/firebase/actions/auth-actions";
+import { saveUserStats } from "@/lib/electron-store";
 
 export interface userStatsState {
   pomodoroTimerStats: PomodoroTimerStats;

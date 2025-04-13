@@ -17,15 +17,8 @@ const WelcomeModal = () => {
 
   useEffect(() => {
     const checkModalStatus = async () => {
-      const db = await openDB("melofiDB", 1, {
-        upgrade(db) {
-          if (!db.objectStoreNames.contains("settings")) {
-            db.createObjectStore("settings");
-          }
-        },
-      });
-
-      const hasSeen = await db.get("settings", "hasSeenWelcomeModal");
+      const db = await openDB("melofiDB", 1);
+      const hasSeen = await db?.get("settings", "hasSeenWelcomeModal");
       if (!hasSeen) {
         setIsOpen(true);
       }
@@ -37,7 +30,7 @@ const WelcomeModal = () => {
   const handleClose = async () => {
     setIsOpen(false);
     const db = await openDB("melofiDB", 1);
-    await db.put("settings", true, "hasSeenWelcomeModal");
+    await db?.put("settings", true, "hasSeenWelcomeModal");
   };
 
   return (

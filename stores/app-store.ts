@@ -15,6 +15,8 @@ import { Logger } from "@/classes/Logger";
 import useToolsStore from "./tools-store";
 import useNotificationProviderStore from "./notification-provider-store";
 import { BiWifi, BiWifiOff } from "@/imports/icons";
+import { openDB } from "idb";
+import { getLocalDb } from "@/lib/localDb";
 
 export interface AppState {
   isFullscreen: boolean;
@@ -177,9 +179,22 @@ const useAppStore = create<AppState>((set, get) => ({
       } else {
         Logger.getInstance().info("No app settings in local storage fetch from db");
         try {
-          const user = await getUserFromUserDb(currentUserUid);
-          if (user?.appSettings) {
-            useAppStore.getState().setAppSettings(user.appSettings, currentUserUid);
+          const { isOnline } = useAppStore.getState();
+          if (isOnline) {
+            const user = await getUserFromUserDb(currentUserUid);
+            if (user?.appSettings) {
+              useAppStore.getState().setAppSettings(user.appSettings, currentUserUid);
+            }
+          } else {
+            Logger.getInstance().info("Melofi is offline. Fetching app settings from indexedDB");
+            const db = await openDB("melofiDB", 1);
+            const appSettings = await db.get("appSettings", currentUserUid);
+
+            if (appSettings) {
+              useAppStore.getState().setAppSettings(appSettings, currentUserUid);
+            } else {
+              console.log("No app settings found in indexedDB");
+            }
           }
         } catch (error) {
           Logger.getInstance().error(`Error fetching app settings: ${error}`);

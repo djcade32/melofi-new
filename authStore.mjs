@@ -60,21 +60,6 @@ export function clearAllAuthTokens() {
 }
 
 /**
- * Save application settings.
- * @param {object} settings - The settings object to save.
- */
-export function saveSettings(settings) {
-  store.set("settings", settings);
-}
-/**
- * Retrieve application settings.
- * @returns {object} - The stored settings object.
- */
-export function getSettings() {
-  return store.get("settings") || {};
-}
-
-/**
  * Save user statistics for a specific email.
  * @param {string} email - The Firebase user email.
  * @param {object} stats - The statistics object to save.
