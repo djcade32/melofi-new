@@ -125,3 +125,18 @@ export const resetUserStats = async (uid: string) => {
     throw error;
   }
 };
+
+// Update user stats in stats db
+export const updateUserStats = async (uid: string, stats: Partial<UserStats>) => {
+  if (!db) {
+    return { result: false, message: "Firebase DB is not initialized" };
+  }
+  try {
+    const usersDoc = doc(db, `stats/${uid}`);
+    await setDoc(usersDoc, stats, { merge: true });
+    return { result: true, message: "User stats updated successfully" };
+  } catch (error) {
+    console.log("Error updating user stats in stats db: ", error);
+    return { result: false, message: error };
+  }
+};

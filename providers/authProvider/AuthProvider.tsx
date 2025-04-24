@@ -11,7 +11,6 @@ import useUserStatsStore from "@/stores/user-stats-store";
 import { MelofiUser, UserStats } from "@/types/general";
 import SmallerScreenView from "@/ui/Views/SmallerScreenView";
 import NoInternetView from "@/ui/Views/NoInternetView";
-import { Logger } from "@/classes/Logger";
 import checkPremiumStatus from "@/lib/stripe/checkPremiumStatus";
 import useAppStore from "@/stores/app-store";
 
@@ -38,27 +37,29 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // Check if user is logged in
   useEffect(() => {
-    // Check if user is online
-    window.addEventListener("online", () => {
+    const handleOnline = () => {
+      console.log("Event listener: online");
       setIsOnline(true);
-    });
+    };
 
-    window.addEventListener("offline", () => {
+    const handleOffline = () => {
+      console.log("Event listener: offline");
       setIsOnline(false);
-    });
+    };
 
-    // Check if localStorage has user key
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
     const user = localStorage.getItem("user");
     if (user) {
       const MelofiUser = JSON.parse(user) as MelofiUser;
       setCurrentUser(MelofiUser);
-      setIsUserLoggedIn(MelofiUser.authUser ? true : false);
+      setIsUserLoggedIn(!!MelofiUser.authUser);
     }
 
     return () => {
-      window.removeEventListener("online", () => {});
-
-      window.removeEventListener("offline", () => {});
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
     };
   }, []);
 

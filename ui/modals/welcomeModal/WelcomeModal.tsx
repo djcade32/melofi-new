@@ -3,6 +3,7 @@ import { openDB } from "idb";
 import styles from "./welcomeModal.module.css";
 import Modal from "@/ui/components/shared/modal/Modal";
 import Button from "@/ui/components/shared/button/Button";
+import useIndexedDBStore from "@/stores/idexedDB-store";
 
 const newFeatures = [
   ["More Playlists & Ambient Sounds", "Curate your perfect work vibe."],
@@ -14,23 +15,23 @@ const newFeatures = [
 
 const WelcomeModal = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { indexedDB } = useIndexedDBStore();
 
   useEffect(() => {
+    if (indexedDB === null) return;
     const checkModalStatus = async () => {
-      const db = await openDB("melofiDB", 1);
-      const hasSeen = await db?.get("settings", "hasSeenWelcomeModal");
+      const hasSeen = await indexedDB?.get("settings", "hasSeenWelcomeModal");
       if (!hasSeen) {
         setIsOpen(true);
       }
     };
 
     checkModalStatus();
-  }, []);
+  }, [indexedDB]);
 
   const handleClose = async () => {
     setIsOpen(false);
-    const db = await openDB("melofiDB", 1);
-    await db?.put("settings", true, "hasSeenWelcomeModal");
+    await indexedDB?.put("settings", true, "hasSeenWelcomeModal");
   };
 
   return (
