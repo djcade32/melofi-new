@@ -51,10 +51,9 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
     if (get().indexedDB) {
       return;
     }
-    const db = await openDB("melofiDB", 1, {
+    const db = await openDB("melofiDB", 2, {
       upgrade(db, oldVersion) {
-        if (oldVersion < 2) {
-          log.info("Creating object stores...");
+        if (oldVersion < 3) {
           db.createObjectStore("appSettings");
           db.createObjectStore("settings");
           db.createObjectStore("widgetData");

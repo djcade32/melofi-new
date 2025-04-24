@@ -114,6 +114,9 @@ Cypress.Commands.add("seedIndexedDB", (dbName, storeName, data) => {
       upgrade(db) {
         if (!db.objectStoreNames.contains(storeName)) {
           db.createObjectStore(storeName, { keyPath: "id" });
+          db.createObjectStore("appSettings");
+          db.createObjectStore("widgetData");
+          db.createObjectStore("stats");
         }
       },
     });
