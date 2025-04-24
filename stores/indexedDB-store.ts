@@ -99,10 +99,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
     };
 
     const settings = (await indexedDB.get("appSettings", uid)) || defaultAppSettings;
-    if (!settings) {
-      console.error("No settings found in IndexedDB");
-      return;
-    }
+
     const updated = updaterFn({ ...settings }); // clone for safety
     await indexedDB.put("appSettings", updated, uid);
   },
@@ -123,12 +120,9 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
       _lastSynced: new Date().toISOString(),
     };
 
-    const settings = (await indexedDB.get("stats", uid)) || defaultUserStats;
-    if (!settings) {
-      console.error("No settings found in IndexedDB");
-      return;
-    }
-    const updated = updaterFn({ ...settings }); // clone for safety
+    const stats = (await indexedDB.get("stats", uid)) || defaultUserStats;
+
+    const updated = updaterFn({ ...stats }); // clone for safety
     await indexedDB.put("stats", updated, uid);
   },
 
