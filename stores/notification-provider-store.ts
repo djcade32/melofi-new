@@ -24,7 +24,6 @@ const useNotificationProviderStore = create<NotificationProviderState>((set, get
     set({ currentNotification });
   },
   addNotification: (notification: NotificationType) => {
-    console.log("noti queue", [...get().notificationQueue, notification]);
     set((state) => ({ notificationQueue: [...state.notificationQueue, notification] }));
   },
   removeNotification: () => {

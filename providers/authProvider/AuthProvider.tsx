@@ -38,12 +38,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   // Check if user is logged in
   useEffect(() => {
     const handleOnline = () => {
-      console.log("Event listener: online");
       setIsOnline(true);
     };
 
     const handleOffline = () => {
-      console.log("Event listener: offline");
       setIsOnline(false);
     };
 

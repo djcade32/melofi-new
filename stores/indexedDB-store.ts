@@ -170,7 +170,8 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
 
     if (uid) {
       const data = await indexedDB?.get("widgetData", uid);
-      if (data && data._lastSynced < new Date().toISOString()) {
+      const now = new Date();
+      if (data && new Date(data._lastSynced) < now) {
         console.log("Pushing widget data to Firebase...");
         // Push data to Firebase
         const widgetData = {
@@ -208,7 +209,8 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
 
     if (uid) {
       const data = await indexedDB?.get("appSettings", uid);
-      if (data && data._lastSynced < new Date().toISOString()) {
+      const now = new Date();
+      if (data && new Date(data._lastSynced) < now) {
         console.log("Pushing app settings to Firebase...");
         // Push data to Firebase
         const appSettings: AppSettings = {
@@ -248,7 +250,8 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
 
     if (uid) {
       const data = await indexedDB?.get("stats", uid);
-      if (data && data._lastSynced < new Date().toISOString()) {
+      const now = new Date();
+      if (data && new Date(data._lastSynced) < now) {
         console.log("Pushing user stats to Firebase...");
         // Push data to Firebase
         const userStats: UserStats = {
@@ -289,14 +292,14 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
       console.log("All data pushed to Firebase successfully");
       addNotification({
         type: "success",
-        message: "All data synced with Firebase",
+        message: "All data synced",
         icon: BsDatabaseFillCheck,
       });
     } else {
       console.error("Error syncing data with Firebase");
       addNotification({
         type: "error",
-        message: "Error syncing data with Firebase",
+        message: "Error syncing data",
         icon: BsDatabaseFillX,
       });
     }

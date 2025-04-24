@@ -58,7 +58,6 @@ const useAppStore = create<AppState>((set, get) => ({
   },
 
   setIsOnline: (boolean) => {
-    console.log("Changing online status to: ", boolean);
     const { addNotification } = useNotificationProviderStore.getState();
     if (boolean) {
       Logger.getInstance().info("Melofi is online.");
