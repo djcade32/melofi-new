@@ -72,7 +72,8 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
 
   // Update widget data in IndexedDB
   updateWidgetData: async (uid: string, updaterFn) => {
-    const { indexedDB } = get();
+    const indexedDBStore = get();
+    const indexedDB = indexedDBStore.indexedDB;
     if (!indexedDB) {
       log.error("IndexedDB is not initialized");
       return;
@@ -88,7 +89,8 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
 
   // Update app settings in IndexedDB
   updateAppSettings: async (uid: string, updaterFn) => {
-    const { indexedDB } = get();
+    const indexedDBStore = get();
+    const indexedDB = indexedDBStore.indexedDB;
     if (!indexedDB) {
       log.error("IndexedDB is not initialized");
       return;
@@ -112,7 +114,9 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
 
   // Update user stats in IndexedDB
   updateUserStats: async (uid: string, updaterFn) => {
-    const { indexedDB } = get();
+    const indexedDBStore = get();
+    const indexedDB = indexedDBStore.indexedDB;
+
     if (!indexedDB) {
       log.error("IndexedDB is not initialized");
       return;
@@ -135,8 +139,9 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
   // Sync widget data from Firebase to IndexedDB
   syncWidgetData: async () => {
     log.info("Syncing IndexedDB widget data with Firebase...");
+    const indexedDBStore = get();
+    const indexedDB = indexedDBStore.indexedDB;
 
-    const { indexedDB } = get();
     const { getCurrentUserUid } = useUserStore.getState();
     const uid = getCurrentUserUid();
     if (uid) {
@@ -163,9 +168,11 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
 
   pushWidgetDataToFirebase: async () => {
     log.info("Pushing IndexedDB widget data to Firebase...");
-    const { indexedDB } = get();
+    const indexedDBStore = get();
+    const indexedDB = indexedDBStore.indexedDB;
+    const { updateWidgetData } = indexedDBStore;
+
     const { getCurrentUserUid } = useUserStore.getState();
-    const { updateWidgetData } = get();
     const uid = getCurrentUserUid();
 
     if (uid) {
@@ -202,9 +209,11 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
 
   pushAppSettingsToFirebase: async () => {
     log.info("Pushing IndexedDB app settings to Firebase...");
-    const { indexedDB } = get();
+    const indexedDBStore = get();
+    const indexedDB = indexedDBStore.indexedDB;
+    const { updateAppSettings } = indexedDBStore;
+
     const { getCurrentUserUid } = useUserStore.getState();
-    const { updateAppSettings } = get();
     const uid = getCurrentUserUid();
 
     if (uid) {
@@ -243,9 +252,11 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
 
   pushUserStatsToFirebase: async () => {
     log.info("Pushing IndexedDB user stats to Firebase...");
-    const { indexedDB } = get();
+    const indexedDBStore = get();
+    const indexedDB = indexedDBStore.indexedDB;
+    const { updateUserStats } = indexedDBStore;
+
     const { getCurrentUserUid } = useUserStore.getState();
-    const { updateUserStats } = get();
     const uid = getCurrentUserUid();
 
     if (uid) {
@@ -280,7 +291,9 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
   },
 
   pushAllDataToFirebase: async () => {
-    const { pushWidgetDataToFirebase, pushAppSettingsToFirebase, pushUserStatsToFirebase } = get();
+    const indexedDBStore = get();
+    const { pushWidgetDataToFirebase, pushAppSettingsToFirebase, pushUserStatsToFirebase } =
+      indexedDBStore;
     const { addNotification } = useNotificationProviderStore.getState();
     const result = await Promise.all([
       pushWidgetDataToFirebase(),
