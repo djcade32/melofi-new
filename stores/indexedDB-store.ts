@@ -53,7 +53,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
     }
     const db = await openDB("melofiDB", 2, {
       upgrade(db, oldVersion) {
-        if (oldVersion < 1) {
+        if (oldVersion < 3) {
           if (!db.objectStoreNames.contains("appSettings")) {
             db.deleteObjectStore("appSettings");
           }
