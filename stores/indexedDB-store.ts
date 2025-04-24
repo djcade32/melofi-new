@@ -137,9 +137,10 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
     console.log("Syncing IndexedDB widget data with Firebase...");
 
     const { indexedDB } = get();
-    const { currentUser } = useUserStore.getState();
-    if (currentUser?.authUser?.uid) {
-      const data = await fetchFirebaseWidgetData(currentUser.authUser.uid);
+    const { getCurrentUserUid } = useUserStore.getState();
+    const uid = getCurrentUserUid();
+    if (uid) {
+      const data = await fetchFirebaseWidgetData(uid);
       // Create object to store in IndexedDB
       const widgetData: IndexedDBWidgetData = {
         alarm: { alarmList: data?.alarmList || [] },
@@ -152,7 +153,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
       };
 
       if (indexedDB) {
-        await indexedDB.put("widgetData", widgetData, currentUser.authUser.uid);
+        await indexedDB.put("widgetData", widgetData, uid);
         console.log("IndexedDB widget data synced with Firebase");
       } else {
         console.error("IndexedDB is not initialized");
@@ -163,11 +164,12 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
   pushWidgetDataToFirebase: async () => {
     console.log("Pushing IndexedDB widget data to Firebase...");
     const { indexedDB } = get();
-    const { currentUser } = useUserStore.getState();
+    const { getCurrentUserUid } = useUserStore.getState();
     const { updateWidgetData } = get();
+    const uid = getCurrentUserUid();
 
-    if (currentUser?.authUser?.uid) {
-      const data = await indexedDB?.get("widgetData", currentUser.authUser.uid);
+    if (uid) {
+      const data = await indexedDB?.get("widgetData", uid);
       if (data && data._lastSynced < new Date().toISOString()) {
         console.log("Pushing widget data to Firebase...");
         // Push data to Firebase
@@ -179,13 +181,13 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
           templatesList: data.templates.templatesList,
           todoList: data.todos.todosList,
         };
-        const success = await saveFirebaseWidgetData(currentUser.authUser.uid, widgetData);
+        const success = await saveFirebaseWidgetData(uid, widgetData);
         if (!success.result) {
           console.error(success.message);
           return false;
         }
 
-        updateWidgetData(currentUser.authUser.uid, (settings) => {
+        updateWidgetData(uid, (settings) => {
           settings._lastSynced = new Date().toISOString();
           return settings;
         });
@@ -200,11 +202,12 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
   pushAppSettingsToFirebase: async () => {
     console.log("Pushing IndexedDB app settings to Firebase...");
     const { indexedDB } = get();
-    const { currentUser } = useUserStore.getState();
+    const { getCurrentUserUid } = useUserStore.getState();
     const { updateAppSettings } = get();
+    const uid = getCurrentUserUid();
 
-    if (currentUser?.authUser?.uid) {
-      const data = await indexedDB?.get("appSettings", currentUser.authUser.uid);
+    if (uid) {
+      const data = await indexedDB?.get("appSettings", uid);
       if (data && data._lastSynced < new Date().toISOString()) {
         console.log("Pushing app settings to Firebase...");
         // Push data to Firebase
@@ -215,16 +218,16 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
           pomodoroTimerSoundEnabled: data.pomodoro.pomodoroTimerSoundEnabled,
           showDailyQuote: data.quote.showDailyQuote,
           todoListHoverEffectEnabled: data.todo.todoListHoverEffectEnabled,
-          userUid: currentUser.authUser.uid,
+          userUid: uid,
         };
-        const success = await updateAppSettingsFirebase(currentUser.authUser.uid, appSettings);
+        const success = await updateAppSettingsFirebase(uid, appSettings);
 
         if (!success.result) {
           console.error(success.message);
           return false;
         }
 
-        updateAppSettings(currentUser.authUser.uid, (settings) => {
+        updateAppSettings(uid, (settings) => {
           settings._lastSynced = new Date().toISOString();
           return settings;
         });
@@ -239,11 +242,12 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
   pushUserStatsToFirebase: async () => {
     console.log("Pushing IndexedDB user stats to Firebase...");
     const { indexedDB } = get();
-    const { currentUser } = useUserStore.getState();
+    const { getCurrentUserUid } = useUserStore.getState();
     const { updateUserStats } = get();
+    const uid = getCurrentUserUid();
 
-    if (currentUser?.authUser?.uid) {
-      const data = await indexedDB?.get("stats", currentUser.authUser.uid);
+    if (uid) {
+      const data = await indexedDB?.get("stats", uid);
       if (data && data._lastSynced < new Date().toISOString()) {
         console.log("Pushing user stats to Firebase...");
         // Push data to Firebase
@@ -253,14 +257,14 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
           totalNotesCreated: data.notes.totalNotesCreated,
           sceneCounts: data.sceneCounts,
         };
-        const success = await updateUserStatsFirebase(currentUser.authUser.uid, userStats);
+        const success = await updateUserStatsFirebase(uid, userStats);
 
         if (!success.result) {
           console.error(success.message);
           return false;
         }
 
-        updateUserStats(currentUser.authUser.uid, (settings) => {
+        updateUserStats(uid, (settings) => {
           settings._lastSynced = new Date().toISOString();
           return settings;
         });

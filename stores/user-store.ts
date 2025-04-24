@@ -29,6 +29,7 @@ export interface UserState {
   userStats?: UserStats;
   isPremiumUser?: boolean;
 
+  getCurrentUserUid: () => string | undefined;
   setIsUserLoggedIn: (value: boolean) => void;
   setCurrentUser: (user: MelofiUser) => void;
   checkIfUserIsInDb: (uid: string) => Promise<boolean>;
@@ -48,6 +49,11 @@ const useUserStore = create<UserState>((set, get) => ({
   currentUser: undefined,
   userStats: undefined,
   isPremiumUser: false,
+
+  getCurrentUserUid: () => {
+    const { currentUser } = get();
+    return currentUser?.authUser?.uid;
+  },
 
   setIsUserLoggedIn: (value) => {
     set({ isUserLoggedIn: value });
