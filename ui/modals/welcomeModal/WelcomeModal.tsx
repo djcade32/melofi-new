@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { openDB } from "idb";
 import styles from "./welcomeModal.module.css";
 import Modal from "@/ui/components/shared/modal/Modal";
 import Button from "@/ui/components/shared/button/Button";
-import useIndexedDBStore from "@/stores/idexedDB-store";
+import useIndexedDBStore from "@/stores/indexedDB-store";
 
 const newFeatures = [
   ["More Playlists & Ambient Sounds", "Curate your perfect work vibe."],

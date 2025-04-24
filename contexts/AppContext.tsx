@@ -1,7 +1,7 @@
 "use client";
 import { Logger } from "@/classes/Logger";
 import useAppStore from "@/stores/app-store";
-import useIndexedDBStore from "@/stores/idexedDB-store";
+import useIndexedDBStore from "@/stores/indexedDB-store";
 import useUserStore from "@/stores/user-store";
 import useWidgetsStore from "@/stores/widgets-store";
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";

@@ -13,7 +13,7 @@ import { PomodoroTimerStats } from "@/types/interfaces/pomodoro_timer";
 import { SceneCounts, UserStats } from "@/types/general";
 import { Logger } from "@/classes/Logger";
 import { saveUserStats } from "@/lib/electron-store";
-import useIndexedDBStore from "./idexedDB-store";
+import useIndexedDBStore from "./indexedDB-store";
 import useAppStore from "./app-store";
 
 export interface userStatsState {

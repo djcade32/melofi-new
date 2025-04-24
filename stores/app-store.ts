@@ -15,7 +15,7 @@ import { Logger } from "@/classes/Logger";
 import useToolsStore from "./tools-store";
 import useNotificationProviderStore from "./notification-provider-store";
 import { BiWifi, BiWifiOff } from "@/imports/icons";
-import useIndexedDBStore from "./idexedDB-store";
+import useIndexedDBStore from "./indexedDB-store";
 
 export interface AppState {
   isFullscreen: boolean;

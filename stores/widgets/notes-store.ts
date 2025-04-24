@@ -5,7 +5,7 @@ import { Descendant } from "slate";
 import { updateNotes } from "@/lib/firebase/actions/notes-actions";
 import useUserStore from "../user-store";
 import { getNotesFromDB } from "@/lib/firebase/getters/notes-getters";
-import useIndexedDBStore from "../idexedDB-store";
+import useIndexedDBStore from "../indexedDB-store";
 import useAppStore from "../app-store";
 
 export interface NotesState {
