@@ -13,6 +13,7 @@ import useNotificationProviderStore from "./notification-provider-store";
 import { AppSettings, UserStats } from "@/types/general";
 import { updateUserStats as updateUserStatsFirebase } from "@/lib/firebase/actions/stats-actions";
 import { BsDatabaseFillCheck, BsDatabaseFillX } from "@/imports/icons";
+import { dark } from "@mui/material/styles/createPalette";
 
 const log = {
   info: (...args: any) => console.log("[IndexedDB]", ...args),
@@ -51,20 +52,36 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
     if (get().indexedDB) {
       return;
     }
+
+    indexedDB.databases().then((databases) => {
+      const dbExists = databases.some((db) => db.name === "melofiDB");
+      if (!dbExists) {
+        log.warn("melofiDB does not exist");
+        return;
+      }
+      log.info("melofiDB exists");
+      const dbVersion = databases.find((db) => db.name === "melofiDB")?.version;
+      if (dbVersion && dbVersion < 2) {
+        log.warn("melofiDB version is less than 2");
+        return;
+      }
+      log.info("melofiDB version is 2 or greater");
+    });
+
     const db = await openDB("melofiDB", 2, {
       upgrade(db, oldVersion) {
         if (oldVersion < 3) {
           if (!db.objectStoreNames.contains("appSettings")) {
-            db.deleteObjectStore("appSettings");
+            db.createObjectStore("appSettings");
           }
           if (!db.objectStoreNames.contains("settings")) {
-            db.deleteObjectStore("settings");
+            db.createObjectStore("settings");
           }
           if (!db.objectStoreNames.contains("widgetData")) {
-            db.deleteObjectStore("widgetData");
+            db.createObjectStore("widgetData");
           }
           if (!db.objectStoreNames.contains("stats")) {
-            db.deleteObjectStore("stats");
+            db.createObjectStore("stats");
           }
         }
       },

@@ -166,12 +166,13 @@ describe("Premium Features", () => {
     });
   });
 
-  describe("Skipped User", () => {
+  describe.only("Skipped User", () => {
     before(() => {
       navigateToMelofi({
         seedWithUser: true,
         skipOnboarding: true,
         loggedIn: true,
+        createIndexedDB: false,
       });
 
       pressMixerButton();

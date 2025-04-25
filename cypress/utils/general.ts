@@ -5,6 +5,7 @@ interface navigateToMelofiOptions {
   skipOnboarding?: boolean;
   clearLocalStorage?: boolean;
   seedWithUser?: boolean;
+  createIndexedDB?: boolean;
 }
 
 export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
@@ -13,8 +14,10 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
     skipOnboarding: true,
     clearLocalStorage: true,
     seedWithUser: false,
+    createIndexedDB: true,
   };
-  cy.seedIndexedDB("melofiDB", "settings", [{ key: "hasSeenWelcomeModal", value: "true" }]);
+  options.createIndexedDB &&
+    cy.seedIndexedDB("melofiDB", "settings", [{ key: "hasSeenWelcomeModal", value: "true" }]);
   if (options.clearLocalStorage) {
     cy.clearLocalStorage();
   }
