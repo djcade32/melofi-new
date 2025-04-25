@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useMemo, useState } from "react";
 import styles from "./authProvider.module.css";
 import useUserStore from "@/stores/user-store";
 import LoggedOutView from "@/ui/Views/AuthViews.tsx/LoggedOutView";
@@ -23,8 +23,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const [grantAccess, setGrantAccess] = useState(false);
   const [loading, setLoading] = useState(true);
   const [onMobileDevice, setOnMobileDevice] = useState(false);
+  const [showNotInternetMessage, setShowNotInternetMessage] = useState(false);
 
-  const { setIsOnline, isOnline } = useAppStore();
+  const { setIsOnline, isOnline, isElectron } = useAppStore();
   const {
     setCurrentUser,
     currentUser,
@@ -60,6 +61,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       window.removeEventListener("offline", handleOffline);
     };
   }, []);
+
+  useMemo(() => {
+    setShowNotInternetMessage(!isOnline && !isElectron());
+  }, [isOnline]);
 
   // Check if user's email is verified and if user is in db
   useEffect(() => {
@@ -137,26 +142,26 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   return (
     <div className={styles.authProvider__container}>
-      {/* {!isOnline ? (
+      {showNotInternetMessage ? (
         <NoInternetView />
-      ) : ( */}
-      <>
-        {grantAccess ? (
-          <>{onMobileDevice ? <SmallerScreenView /> : children}</>
-        ) : (
-          <>
-            {onMobileDevice ? (
-              <SmallerScreenView />
-            ) : (
-              <LoggedOutView
-                showEmailVerification={showEmailVerification}
-                setShowEmailVerification={setShowEmailVerification}
-              />
-            )}
-          </>
-        )}
-      </>
-      {/* )} */}
+      ) : (
+        <>
+          {grantAccess ? (
+            <>{onMobileDevice ? <SmallerScreenView /> : children}</>
+          ) : (
+            <>
+              {onMobileDevice ? (
+                <SmallerScreenView />
+              ) : (
+                <LoggedOutView
+                  showEmailVerification={showEmailVerification}
+                  setShowEmailVerification={setShowEmailVerification}
+                />
+              )}
+            </>
+          )}
+        </>
+      )}
       <SceneBackground />
       <LoadingScreen loading={loading} />
     </div>

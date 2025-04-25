@@ -14,6 +14,7 @@ import { AppSettings, UserStats } from "@/types/general";
 import { updateUserStats as updateUserStatsFirebase } from "@/lib/firebase/actions/stats-actions";
 import { BsDatabaseFillCheck, BsDatabaseFillX } from "@/imports/icons";
 import { dark } from "@mui/material/styles/createPalette";
+import useAppStore from "./app-store";
 
 const log = {
   info: (...args: any) => console.log("[IndexedDB]", ...args),
@@ -48,6 +49,9 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
   indexedDB: null,
 
   initializeIndexedDB: async () => {
+    const { isElectron } = useAppStore.getState();
+    if (!isElectron()) return;
+
     log.info("Initializing IndexedDB...");
     if (get().indexedDB) {
       return;
@@ -96,6 +100,9 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
 
   // Update widget data in IndexedDB
   updateWidgetData: async (uid: string, updaterFn) => {
+    const { isElectron } = useAppStore.getState();
+    if (!isElectron()) return;
+
     const indexedDBStore = get();
     const indexedDB = indexedDBStore.indexedDB;
     if (!indexedDB) {
@@ -113,6 +120,9 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
 
   // Update app settings in IndexedDB
   updateAppSettings: async (uid: string, updaterFn) => {
+    const { isElectron } = useAppStore.getState();
+    if (!isElectron()) return;
+
     const indexedDBStore = get();
     const indexedDB = indexedDBStore.indexedDB;
     if (!indexedDB) {
@@ -138,6 +148,9 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
 
   // Update user stats in IndexedDB
   updateUserStats: async (uid: string, updaterFn) => {
+    const { isElectron } = useAppStore.getState();
+    if (!isElectron()) return;
+
     const indexedDBStore = get();
     const indexedDB = indexedDBStore.indexedDB;
 
@@ -162,6 +175,9 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
 
   // Sync widget data from Firebase to IndexedDB
   syncWidgetData: async () => {
+    const { isElectron } = useAppStore.getState();
+    if (!isElectron()) return;
+
     log.info("Syncing IndexedDB widget data with Firebase...");
     const indexedDBStore = get();
     const indexedDB = indexedDBStore.indexedDB;
