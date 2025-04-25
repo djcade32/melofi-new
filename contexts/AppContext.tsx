@@ -1,6 +1,7 @@
 "use client";
 import { Logger } from "@/classes/Logger";
 import useAppStore from "@/stores/app-store";
+import useIndexedDBStore from "@/stores/indexedDB-store";
 import useUserStore from "@/stores/user-store";
 import useWidgetsStore from "@/stores/widgets-store";
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
@@ -20,19 +21,41 @@ interface AppContextProviderProps {
 }
 
 const AppContextProvider = ({ children }: AppContextProviderProps) => {
-  const { appSettings, fetchAppSettings } = useAppStore();
+  const { appSettings, fetchAppSettings, isOnline } = useAppStore();
   const { fetchOpenWidgets, toggleOpenWidgets } = useWidgetsStore();
   const { currentUser } = useUserStore();
-  const { isOnline } = useAppStore();
+  const { indexedDB, initializeIndexedDB, syncWidgetData, pushAllDataToFirebase } =
+    useIndexedDBStore();
 
   const [isSleep, setIsSleep] = useState(false);
   const [userUid, setUserUid] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (!isLoading) return;
+    const initLocalDB = async () => {
+      await initializeIndexedDB();
+    };
+
+    initLocalDB();
     // Get the open widgets from local storage and open them
     const widgets = fetchOpenWidgets();
     toggleOpenWidgets(widgets);
+    setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (indexedDB === null || !currentUser?.authUser?.uid) return;
+    syncWidgetData();
+  }, [indexedDB, currentUser]);
+
+  useEffect(() => {
+    if (isOnline && !isLoading && currentUser?.authUser?.uid) {
+      console.log("Syncing data with Firebase...");
+      // Sync data with Firebase if back online
+      pushAllDataToFirebase();
+    }
+  }, [isOnline]);
 
   useMemo(() => {
     const fetchUserAppSettings = async () => {

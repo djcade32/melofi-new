@@ -34,6 +34,8 @@ import {
   BsBackspace,
   BsFillGiftFill,
   BsGlobe,
+  BsDatabaseFillCheck,
+  BsDatabaseFillX,
 } from "react-icons/bs";
 import {
   IoVolumeMedium,
@@ -257,4 +259,6 @@ export {
   LuConstruction,
   BsGlobe,
   FaProductHunt,
+  BsDatabaseFillCheck,
+  BsDatabaseFillX,
 };

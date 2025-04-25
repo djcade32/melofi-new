@@ -16,12 +16,10 @@ const Notes = () => {
     isNotesOpen,
     setIsNotesOpen,
     notes,
-    setNotes,
     updateNote,
     selectedNote,
     createNewNote,
     deleteNote,
-    setSelectedNote,
     fetchNotes,
   } = useNotesStore();
   const { incrementTotalNotesCreated } = useUserStatsStore();
