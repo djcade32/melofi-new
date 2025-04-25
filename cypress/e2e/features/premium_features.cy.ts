@@ -166,7 +166,7 @@ describe("Premium Features", () => {
     });
   });
 
-  describe.only("Skipped User", () => {
+  describe("Skipped User", () => {
     before(() => {
       navigateToMelofi({
         seedWithUser: true,

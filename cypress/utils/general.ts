@@ -9,18 +9,23 @@ interface navigateToMelofiOptions {
 }
 
 export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
-  options = options || {
+  options = {
     loggedIn: true,
     skipOnboarding: true,
     clearLocalStorage: true,
     seedWithUser: false,
     createIndexedDB: true,
+    ...options,
   };
-  options.createIndexedDB &&
-    cy.seedIndexedDB("melofiDB", "settings", [{ key: "hasSeenWelcomeModal", value: "true" }]);
+
+  // 1. Visit about:blank first to get a clean window context
+  cy.visit("/blank.html");
+
+  // 2. Set up LocalStorage and IndexedDB before visiting the actual app
   if (options.clearLocalStorage) {
     cy.clearLocalStorage();
   }
+
   if (options.loggedIn) {
     const userObj = options.skipOnboarding
       ? {
@@ -35,20 +40,25 @@ export const navigateToMelofi = (options?: navigateToMelofiOptions) => {
             emailVerified: true,
           },
         };
-    // Add user key to local storage
+
     cy.window().then((win) => {
       win.localStorage.setItem("user", JSON.stringify(userObj));
     });
   }
-  console.log("Seeding the database");
-  // Seed the database
+
   if (options.seedWithUser) {
     cy.clearAuthEmulator();
     cy.clearFirestoreEmulator();
     cy.signUpUser("test@example.com", "Password123");
   }
+
+  if (options.createIndexedDB) {
+    cy.seedIndexedDB("melofiDB", "settings", [{ key: "hasSeenWelcomeModal", value: "true" }]);
+  }
+
+  // 3. THEN visit the actual app
   cy.visit("/", { timeout: 30000 });
-  cy.wait(3000);
+
   (options.loggedIn || options.skipOnboarding) && cy.get("#melofi-app").trigger("mouseover");
 };
 

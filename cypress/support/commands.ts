@@ -108,10 +108,8 @@ Cypress.Commands.add("deleteCalendarDB", () => {
 
 Cypress.Commands.add("seedIndexedDB", (dbName, storeName, data) => {
   cy.window().then(async (win) => {
-    // console.log("Seeding IndexedDB with data: ", data);
-    // indexedDB.deleteDatabase(dbName);
-    // console.log("Deleting IndexedDB: ", dbName);
-    // Check db version
+    indexedDB.deleteDatabase(dbName);
+
     let version = 1;
 
     const incrementDBVersion = async () => {
@@ -148,7 +146,7 @@ Cypress.Commands.add("seedIndexedDB", (dbName, storeName, data) => {
         }
       },
     });
-    console.log("indexedDB opened: ", db);
+
     const tx = db.transaction(storeName, "readwrite");
     const store = tx.objectStore(storeName);
     await store.clear();
