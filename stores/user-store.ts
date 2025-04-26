@@ -22,12 +22,14 @@ import useAlarmsStore from "./widgets/alarms-store";
 import useUserStatsStore from "./user-stats-store";
 import { Logger } from "@/classes/Logger";
 import useAppStore from "./app-store";
+import { UserMembership } from "@/enums/general";
 
 export interface UserState {
   isUserLoggedIn: boolean;
   currentUser?: MelofiUser;
   userStats?: UserStats;
-  isPremiumUser?: boolean;
+  isPremiumUser?: boolean | undefined;
+  membershipType?: UserMembership;
 
   getCurrentUserUid: () => string | undefined;
   setIsUserLoggedIn: (value: boolean) => void;
@@ -41,14 +43,15 @@ export interface UserState {
   clearUserData: () => Promise<void>;
   deleteUserAccount: () => Promise<void>;
   signUserOut: () => void;
-  setIsPremiumUser: (value: boolean) => void;
+  setIsPremiumUser: (value: UserMembership) => void;
 }
 
 const useUserStore = create<UserState>((set, get) => ({
   isUserLoggedIn: false,
   currentUser: undefined,
   userStats: undefined,
-  isPremiumUser: false,
+  isPremiumUser: undefined,
+  membershipType: "free",
 
   getCurrentUserUid: () => {
     const { currentUser } = get();
@@ -214,7 +217,13 @@ const useUserStore = create<UserState>((set, get) => ({
 
     localStorage.setItem("user", JSON.stringify(user));
     signOut();
-    set({ currentUser: user, isUserLoggedIn: false, userStats: undefined, isPremiumUser: false });
+    set({
+      currentUser: user,
+      isUserLoggedIn: false,
+      userStats: undefined,
+      isPremiumUser: false,
+      membershipType: "free",
+    });
     useAppStore.getState().removePremiumFeatures();
     useNotificationProviderStore
       .getState()
@@ -222,7 +231,7 @@ const useUserStore = create<UserState>((set, get) => ({
   },
 
   setIsPremiumUser: (value) => {
-    set({ isPremiumUser: value });
+    set({ isPremiumUser: value === "premium" || value === "lifetime", membershipType: value });
   },
 }));
 

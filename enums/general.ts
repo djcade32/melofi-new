@@ -39,3 +39,5 @@ export type PremiumModalTypes =
   | "focus_stats"
   | "youtube"
   | "spotify";
+
+export type UserMembership = "free" | "premium" | "lifetime";

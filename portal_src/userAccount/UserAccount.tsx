@@ -8,6 +8,7 @@ import useNotificationProviderStore from "@/stores/notification-provider-store";
 import Switch from "@/ui/components/shared/switch/Switch";
 import { createCheckoutSession } from "@/lib/stripe/createCheckoutSession";
 import { Logger } from "@/classes/Logger";
+import { wait } from "@/utils/general";
 
 const UserAccount = () => {
   const { signUserOut, currentUser, isPremiumUser } = useUserStore();
@@ -30,19 +31,25 @@ const UserAccount = () => {
     }
   };
 
-  const handleGoPremiumClick = async () => {
+  const handleGoPremiumClick = async (lifetime?: boolean) => {
+    document.body.style.cursor = "wait";
+    let model = "monthly";
+    if (lifetime) {
+      model = "lifetime";
+    } else {
+      model = isYearly ? "yearly" : "monthly";
+    }
     try {
-      await createCheckoutSession(
-        currentUser?.authUser?.uid,
-        isYearly ? "yearly" : "monthly",
-        "portal"
-      );
+      await createCheckoutSession(currentUser?.authUser?.uid, model, "portal");
     } catch (error) {
       Logger.getInstance().error(`Error creating checkout session: ${error}`);
       useNotificationProviderStore.getState().addNotification({
         type: "error",
         message: "Error creating checkout session",
       });
+    } finally {
+      await wait(3000);
+      document.body.style.cursor = "default";
     }
   };
 
@@ -102,7 +109,15 @@ const UserAccount = () => {
             <Button
               id="portal-go-premium-button"
               text="Upgrade to Premium"
-              onClick={handleGoPremiumClick}
+              onClick={() => handleGoPremiumClick()}
+              containerClassName={styles.userAccount__button}
+              textClassName={styles.userAccount__button_text}
+              showLoadingState={true}
+            />
+            <Button
+              id="portal-go-premium-button"
+              text="Get Lifetime Access"
+              onClick={() => handleGoPremiumClick(true)}
               containerClassName={styles.userAccount__button}
               textClassName={styles.userAccount__button_text}
               showLoadingState={true}

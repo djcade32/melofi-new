@@ -24,9 +24,17 @@ const premiumFeatures = [
   "Pomodoro Timer",
   "Alarms",
   "More Sounds",
-  "Priority Support",
   "Motivational Quotes",
   "More to come",
+];
+
+const lifetimeFeatures = [
+  "All Premium Features",
+  "Lifetime Access",
+  "No Recurring Payments",
+  "Priority Support",
+  "More to come",
+  "Download Melofi Desktop",
 ];
 
 const Pricing = () => {
@@ -134,6 +142,47 @@ const Pricing = () => {
             </div>
             <div className={styles.pricing__plan_features}>
               {premiumFeatures.map((feature, index) => (
+                <div className={styles.pricing__plan_feature} key={index}>
+                  <BsCheck2 size={30} />
+                  <p>{feature}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Lifetime Plan */}
+        <div className={styles.pricing__plans_plan_border_lifetime}>
+          <div className={styles.pricing__plans_plan}>
+            <h1>Lifetime</h1>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                textAlign: "center",
+              }}
+            >
+              <p className={styles.pricing__plan_price}>{"$79"}</p>
+              <p
+                style={{
+                  fontSize: 16,
+                  color: "var(--color-secondary)",
+                }}
+              >
+                One-time payment
+              </p>
+            </div>
+            <div
+              className={`lp-button ${styles.pricing__plan_button}`}
+              style={{
+                backgroundColor: "var(--color-effect-opacity)",
+              }}
+              onClick={() => window.open("/portal")}
+            >
+              <p style={{ color: "white" }}>Get Lifetime Access</p>
+            </div>
+            <div className={styles.pricing__plan_features}>
+              {lifetimeFeatures.map((feature, index) => (
                 <div className={styles.pricing__plan_feature} key={index}>
                   <BsCheck2 size={30} />
                   <p>{feature}</p>
