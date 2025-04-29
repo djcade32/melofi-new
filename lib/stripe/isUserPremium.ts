@@ -6,7 +6,6 @@ import { collection, getDocs, getFirestore, orderBy, query, where } from "fireba
 const auth = getFirebaseAuth();
 
 export default function isUserPremium(): Promise<UserMembership> {
-  console.log("Checking user premium status...");
   return new Promise((resolve) => {
     if (process.env.NEXT_PUBLIC_IS_CYPRESS) {
       return resolve("premium");
@@ -37,7 +36,7 @@ export default function isUserPremium(): Promise<UserMembership> {
 
         if (!snapshot.empty) {
           // If a "one-time" paymentType exists, this user has lifetime access
-          return resolve("premium"); // Lifetime access detected
+          return resolve("lifetime"); // Lifetime access detected
         }
 
         resolve(decodedToken.claims?.stripeRole as UserMembership | "free");

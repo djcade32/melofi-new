@@ -1,8 +1,45 @@
 {
   "name": "melofi-new",
   "version": "2.0.0",
-  "main": "electron.js",
+  "main": "electron/electron.mjs",
   "private": true,
+  "build": {
+    "appId": "com.melofi",
+    "productName": "Melofi",
+    "icon": "build/icons/icons/icon",
+    "files": [
+      ".next/**/*",
+      "electron/electron.mjs",
+      "electron/preload.mjs",
+      "authStore.mjs",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/",
+        "to": "resources",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "publish": [
+    {
+      "provider": "github",
+      "owner": "djcade32",
+      "repo": "melofi-new"
+    }
+  ],
   "scripts": {
     "dev": "next dev",
     "test:unit": "jest",
@@ -17,7 +54,11 @@
     "start:electron": "concurrently \"npm run start\" \"wait-on http://localhost:3000 && npm run electron\"",
     "start": "next start",
     "lint": "next lint",
-    "build": "next build"
+    "build": "next build",
+    "build:desktop": "electron-builder",
+    "build-electron-builder": "electron-builder",
+    "upload": "node scripts/upload.js",
+    "build-and-upload": "npm run build-electron-builder && npm run upload"
   },
   "dependencies": {
     "@emotion/css": "^11.13.5",
@@ -28,7 +69,6 @@
     "@stripe/stripe-js": "^5.7.0",
     "@types/is-hotkey": "^0.1.10",
     "date-fns": "^4.1.0",
-    "electron": "^35.1.2",
     "electron-store": "^10.0.1",
     "firebase": "^11.4.0",
     "firebase-admin": "^12.7.0",
@@ -75,6 +115,9 @@
     "critters": "^0.0.23",
     "cypress": "^13.17.0",
     "cypress-real-events": "^1.14.0",
+    "electron": "^35.1.2",
+    "electron-builder": "^26.0.12",
+    "electron-icon-builder": "^2.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.13",
     "file-loader": "^6.2.0",

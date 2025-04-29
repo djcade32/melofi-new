@@ -30,6 +30,7 @@ const premiumFeatures = [
 
 const lifetimeFeatures = [
   "All Premium Features",
+  "Offline Mode",
   "Lifetime Access",
   "No Recurring Payments",
   "Priority Support",

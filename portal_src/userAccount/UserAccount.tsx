@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./userAccount.module.css";
-import { PiSignOutBold, MdOutlineOpenInNew } from "@/imports/icons";
+import { PiSignOutBold, MdOutlineOpenInNew, FaDownload } from "@/imports/icons";
 import useUserStore from "@/stores/user-store";
 import Button from "@/ui/components/shared/button/Button";
 import { manageSubscription } from "@/lib/stripe/manageSubscription";
@@ -11,7 +11,7 @@ import { Logger } from "@/classes/Logger";
 import { wait } from "@/utils/general";
 
 const UserAccount = () => {
-  const { signUserOut, currentUser, isPremiumUser } = useUserStore();
+  const { signUserOut, currentUser, isPremiumUser, membershipType } = useUserStore();
   const [isYearly, setIsYearly] = useState(true);
 
   const getInitials = (name: string | undefined) => {
@@ -29,6 +29,18 @@ const UserAccount = () => {
         message: "Error retrieving billing subscription information",
       });
     }
+  };
+
+  const handleDownloadClick = async () => {
+    const osType = getOsType();
+    if (osType === "unknown") {
+      console.error("Unknown OS type");
+      return;
+    }
+    const fileExtension = osType === "mac" ? "dmg" : "exe";
+    window.open(
+      `https://pub-883c6ee85c4c477c966ca224ca5d4b13.r2.dev/${osType}/Melofi-2.0.0.${fileExtension}`
+    );
   };
 
   const handleGoPremiumClick = async (lifetime?: boolean) => {
@@ -51,6 +63,18 @@ const UserAccount = () => {
       await wait(3000);
       document.body.style.cursor = "default";
     }
+  };
+
+  const getOsType = () => {
+    const userAgent = window.navigator.userAgent;
+    if (userAgent.includes("Mac OS X")) {
+      return "mac";
+    } else if (userAgent.includes("Windows NT")) {
+      return "windows";
+    } else if (userAgent.includes("Linux")) {
+      return "linux";
+    }
+    return "unknown";
   };
 
   return (
@@ -78,6 +102,17 @@ const UserAccount = () => {
             showLoadingState={true}
             postpendIcon={MdOutlineOpenInNew}
           />
+          {membershipType === "lifetime" && (
+            <Button
+              id="portal-manage-download-button"
+              text="Melofi Desktop"
+              onClick={handleDownloadClick}
+              containerClassName={styles.userAccount__button}
+              textClassName={styles.userAccount__button_text}
+              showLoadingState={true}
+              postpendIcon={FaDownload}
+            />
+          )}
         </div>
       ) : (
         <div>
