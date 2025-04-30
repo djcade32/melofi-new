@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useMemo, useState } from "react";
 import styles from "./authProvider.module.css";
 import useUserStore from "@/stores/user-store";
 import LoggedOutView from "@/ui/Views/AuthViews.tsx/LoggedOutView";
@@ -23,8 +23,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const [grantAccess, setGrantAccess] = useState(false);
   const [loading, setLoading] = useState(true);
   const [onMobileDevice, setOnMobileDevice] = useState(false);
+  const [showNotInternetMessage, setShowNotInternetMessage] = useState(false);
 
-  const { setIsOnline, isOnline } = useAppStore();
+  const { setIsOnline, isOnline, isElectron } = useAppStore();
   const {
     setCurrentUser,
     currentUser,
@@ -61,6 +62,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     };
   }, []);
 
+  useMemo(() => {
+    setShowNotInternetMessage(!isOnline && !isElectron());
+  }, [isOnline]);
+
   // Check if user's email is verified and if user is in db
   useEffect(() => {
     // Get current user
@@ -76,7 +81,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         setShowEmailVerification(true);
       } else if (currentUser?.authUser?.email) {
         // Check if user is in db if Melofi is online
-        if (isOnline) {
+        if (navigator.onLine) {
           checkIfUserIsInDb(currentUser.authUser?.uid).then((isInDb) => {
             if (isInDb) {
               setUserStats();
@@ -89,6 +94,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
             }
           });
         } else {
+          setUserPremium();
           setUserStatsOffline();
           setGrantAccess(true);
         }
@@ -122,7 +128,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const setUserPremium = async () => {
-    const isPremiumUser = await checkPremiumStatus();
+    const isPremiumUser = isElectron() ? "lifetime" : await checkPremiumStatus();
     setIsPremiumUser(isPremiumUser);
   };
 
@@ -137,26 +143,26 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   return (
     <div className={styles.authProvider__container}>
-      {/* {!isOnline ? (
+      {showNotInternetMessage ? (
         <NoInternetView />
-      ) : ( */}
-      <>
-        {grantAccess ? (
-          <>{onMobileDevice ? <SmallerScreenView /> : children}</>
-        ) : (
-          <>
-            {onMobileDevice ? (
-              <SmallerScreenView />
-            ) : (
-              <LoggedOutView
-                showEmailVerification={showEmailVerification}
-                setShowEmailVerification={setShowEmailVerification}
-              />
-            )}
-          </>
-        )}
-      </>
-      {/* )} */}
+      ) : (
+        <>
+          {grantAccess ? (
+            <>{onMobileDevice ? <SmallerScreenView /> : children}</>
+          ) : (
+            <>
+              {onMobileDevice ? (
+                <SmallerScreenView />
+              ) : (
+                <LoggedOutView
+                  showEmailVerification={showEmailVerification}
+                  setShowEmailVerification={setShowEmailVerification}
+                />
+              )}
+            </>
+          )}
+        </>
+      )}
       <SceneBackground />
       <LoadingScreen loading={loading} />
     </div>

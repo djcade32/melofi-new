@@ -11,6 +11,7 @@ import {
   FaCommentDots,
   FaHandsHelping,
   FaProductHunt,
+  FaDownload,
 } from "react-icons/fa";
 import {
   BsFillSkipBackwardFill,
@@ -261,4 +262,5 @@ export {
   FaProductHunt,
   BsDatabaseFillCheck,
   BsDatabaseFillX,
+  FaDownload,
 };

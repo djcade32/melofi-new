@@ -130,6 +130,11 @@ const Login = ({ handleViewChange }: LoginProps) => {
             value={password}
             transparentBackground
             variant="secondary"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                document.getElementById("portal-login-in-button")?.click();
+              }
+            }}
           />
         </div>
         {errorState && errorState.find((error) => error.name === "form-input") && (

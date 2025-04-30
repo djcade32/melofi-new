@@ -23,6 +23,7 @@ export type MenuOptionNames =
   | "Leave Feedback"
   | "Support"
   | "Share With Friends"
+  | "Melofi Desktop"
   | "About Melofi"
   | "Logout";
 
@@ -39,3 +40,5 @@ export type PremiumModalTypes =
   | "focus_stats"
   | "youtube"
   | "spotify";
+
+export type UserMembership = "free" | "premium" | "lifetime";
