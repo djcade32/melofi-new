@@ -62,6 +62,7 @@
     "@stripe/stripe-js": "^5.7.0",
     "@types/is-hotkey": "^0.1.10",
     "date-fns": "^4.1.0",
+    "electron-log": "^5.3.4",
     "electron-store": "^10.0.1",
     "electron-updater": "^6.6.2",
     "firebase": "^11.4.0",
