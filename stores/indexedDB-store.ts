@@ -192,7 +192,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
         notesList: { notesList: data?.notesList },
         selectedNote: { selectedNote: data?.selectedNote },
         pomodoroTimer: { pomodoroTasks: data?.pomodoroTasks || [] },
-        templates: { templatesList: data?.templatesList },
+        templates: { templatesList: data?.templatesList || [] },
         todos: { todosList: data?.todosList || [] },
         _lastSynced: new Date().toISOString(),
       };
@@ -219,7 +219,6 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
       const data = await indexedDB?.get("widgetData", uid);
       const now = new Date();
       if (data && new Date(data._lastSynced) < now) {
-        log.info("Pushing widget data to Firebase...");
         // Push data to Firebase
         const widgetData = {
           alarmsList: data.alarm.alarmList,
@@ -243,6 +242,8 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
         log.info("Widget data pushed to Firebase");
         return true;
       }
+      log.info("No widget data changes to push to Firebase");
+      return true;
     }
     return false;
   },
@@ -286,6 +287,8 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
         log.info("App settings pushed to Firebase");
         return true;
       }
+      log.info("No app settings changes to push to Firebase");
+      return true;
     }
     return false;
   },
@@ -303,7 +306,6 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
       const data = await indexedDB?.get("stats", uid);
       const now = new Date();
       if (data && new Date(data._lastSynced) < now) {
-        log.info("Pushing user stats to Firebase...");
         // Push data to Firebase
         const userStats: UserStats = {
           alarmsExpiredCount: data.alarm.alarmsExpiredCount,
@@ -326,6 +328,8 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
         log.info("User stats pushed to Firebase");
         return true;
       }
+      log.info("No user stats changes to push to Firebase");
+      return true;
     }
     return false;
   },

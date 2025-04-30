@@ -160,6 +160,11 @@ const AccountModalSkippedUserLogin = ({ setCurrentView }: AccountModalSkippedUse
               errorState={errorState}
               value={password}
               transparentBackground
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  document.getElementById("account-modal-sign-in-button")?.click();
+                }
+              }}
             />
             {errorState && errorState.find((error) => error.name === "form-input") && (
               <p className={styles.signin__form_error_text}>

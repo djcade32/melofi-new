@@ -23,6 +23,7 @@ import useUserStatsStore from "./user-stats-store";
 import { Logger } from "@/classes/Logger";
 import useAppStore from "./app-store";
 import { UserMembership } from "@/enums/general";
+import useMenuStore from "./menu-store";
 
 export interface UserState {
   isUserLoggedIn: boolean;
@@ -207,6 +208,9 @@ const useUserStore = create<UserState>((set, get) => ({
   },
 
   signUserOut: () => {
+    const { isElectron, removePremiumFeatures } = useAppStore.getState();
+    const { setIsMenuOpen } = useMenuStore.getState();
+
     const user = {
       authUser: undefined,
       name: get().currentUser?.name || "",
@@ -215,16 +219,21 @@ const useUserStore = create<UserState>((set, get) => ({
     const userUid = get().currentUser?.authUser?.uid;
     if (!userUid) return console.log("User not logged in");
 
-    localStorage.setItem("user", JSON.stringify(user));
+    if (isElectron()) {
+      localStorage.removeItem("user");
+      setIsMenuOpen(false);
+    } else {
+      localStorage.setItem("user", JSON.stringify(user));
+    }
     signOut();
     set({
-      currentUser: user,
+      currentUser: isElectron() ? undefined : user,
       isUserLoggedIn: false,
       userStats: undefined,
       isPremiumUser: false,
       membershipType: "free",
     });
-    useAppStore.getState().removePremiumFeatures();
+    removePremiumFeatures();
     useNotificationProviderStore
       .getState()
       .addNotification({ type: "success", message: "Logged out" });

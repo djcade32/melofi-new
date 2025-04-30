@@ -81,7 +81,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         setShowEmailVerification(true);
       } else if (currentUser?.authUser?.email) {
         // Check if user is in db if Melofi is online
-        if (isOnline) {
+        if (navigator.onLine) {
           checkIfUserIsInDb(currentUser.authUser?.uid).then((isInDb) => {
             if (isInDb) {
               setUserStats();
@@ -94,6 +94,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
             }
           });
         } else {
+          setUserPremium();
           setUserStatsOffline();
           setGrantAccess(true);
         }
@@ -127,7 +128,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const setUserPremium = async () => {
-    const isPremiumUser = await checkPremiumStatus();
+    const isPremiumUser = isElectron() ? "lifetime" : await checkPremiumStatus();
     setIsPremiumUser(isPremiumUser);
   };
 

@@ -18,6 +18,7 @@ import { getUserFromNewsletterDb } from "../getters/newsletter-getters";
 import { addUserToStats } from "./stats-actions";
 import { ERROR_MESSAGES } from "@/enums/general";
 import { getUserData, retrieveUserAuth, saveUserData, storeUserAuth } from "@/lib/electron-store";
+import checkPremiumStatus from "@/lib/stripe/checkPremiumStatus";
 
 const auth = getFirebaseAuth();
 
@@ -72,8 +73,17 @@ export const login = async (email: string, password: string, fromDashboard?: boo
     console.log("User credential: ", userCredential);
     // Save the user's token locally for offline access
     if (typeof window !== "undefined" && window.electronAPI) {
-      const token = await userCredential.user.getIdToken();
-      storeUserAuth(email, password, token);
+      // Check if online
+      const isOnline = navigator.onLine;
+      if (isOnline) {
+        const membershipType = await checkPremiumStatus();
+        if (membershipType === "lifetime") {
+          const token = await userCredential.user.getIdToken();
+          storeUserAuth(email, password, token);
+        } else {
+          return;
+        }
+      }
     }
 
     const uid = userCredential.user.uid;
