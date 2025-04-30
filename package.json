@@ -33,13 +33,6 @@
       "target": "AppImage"
     }
   },
-  "publish": [
-    {
-      "provider": "github",
-      "owner": "djcade32",
-      "repo": "melofi-new"
-    }
-  ],
   "scripts": {
     "dev": "next dev",
     "test:unit": "jest",
@@ -70,6 +63,7 @@
     "@types/is-hotkey": "^0.1.10",
     "date-fns": "^4.1.0",
     "electron-store": "^10.0.1",
+    "electron-updater": "^6.6.2",
     "firebase": "^11.4.0",
     "firebase-admin": "^12.7.0",
     "firebase-functions": "^6.1.0",

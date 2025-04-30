@@ -1,6 +1,8 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
 import { fileURLToPath } from "url";
+import electronUpdater from "electron-updater";
+const { autoUpdater } = electronUpdater;
 
 // Fix __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -66,4 +68,11 @@ ipcMain.handle("clearAllAuthTokens", () => authStore?.clearAllAuthTokens());
 ipcMain.handle("saveUserStats", (_, email, stats) => authStore?.saveUserStats(email, stats));
 ipcMain.handle("getUserStats", (_, email) => authStore?.getUserStats(email));
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  createWindow();
+  autoUpdater.setFeedURL({
+    provider: "generic",
+    url: "https://pub-883c6ee85c4c477c966ca224ca5d4b13.r2.dev",
+  });
+  autoUpdater.checkForUpdatesAndNotify();
+});
