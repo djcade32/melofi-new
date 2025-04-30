@@ -143,7 +143,7 @@ describe("Premium Features", () => {
     it("should show premium modal for undocking toolbar", () => {
       pressToolsButton();
       cy.get("#toolbar-more-button").realClick();
-      cy.get("#menu-option-account").realClick();
+      cy.get("#menu-option-1").realClick();
       cy.get("#premium-modal").should("be.visible");
       getElementWithClassName("premiumModal__title").should(
         "contain.text",
@@ -155,7 +155,7 @@ describe("Premium Features", () => {
 
     it("should show premium modal for changing toolbar orientation", () => {
       cy.get("#toolbar-more-button").realClick();
-      cy.get("#menu-option-insights").realClick();
+      cy.get("#menu-option-2").realClick();
       cy.get("#premium-modal").should("be.visible");
       getElementWithClassName("premiumModal__title").should(
         "contain.text",
