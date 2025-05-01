@@ -1,0 +1,33 @@
+.banner__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background-color: var(--color-effect);
+  height: 30px;
+  z-index: 101;
+  width: 100%;
+  position: fixed;
+  animation: scroll-down 0.3s forwards;
+}
+
+.banner__cta {
+  margin-left: 0.25rem;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.banner__cta:hover {
+  color: var(--color-white) !important;
+  text-decoration: none;
+}
+
+@keyframes scroll-down {
+  0% {
+    top: -30px;
+  }
+  100% {
+    top: 0px;
+  }
+}
