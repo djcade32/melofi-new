@@ -38,10 +38,20 @@ jobs:
         run: |
           brew install rclone
 
-      - name: Configure rclone
+      - name: Setup rclone config
         run: |
           mkdir -p ~/.config/rclone
-          echo "${{ secrets.RCLONE_CONF }}" > ~/.config/rclone/rclone.conf
+          echo "[melofi-r2]
+          type = s3
+          provider = Cloudflare
+          access_key_id = ${{ secrets.R2_ACCESS_KEY_ID }}
+          secret_access_key = ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          endpoint = https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com" > ~/.config/rclone/rclone.conf
+
+      #   - name: Configure rclone
+      #     run: |
+      #       mkdir -p ~/.config/rclone
+      #       echo "${{ secrets.RCLONE_CONF }}" > ~/.config/rclone/rclone.conf
 
       - name: Upload .dmg to R2 (macOS)
         run: |
