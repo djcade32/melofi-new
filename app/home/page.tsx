@@ -26,7 +26,7 @@ export default function LandingPage() {
     }
   }, [pathname]);
 
-  useMemo(() => {
+  useEffect(() => {
     const fetchAnnouncements = async () => {
       const announcement = await getAnnouncements();
       setAnnouncement(announcement);
