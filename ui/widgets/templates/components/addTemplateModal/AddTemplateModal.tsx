@@ -3,7 +3,7 @@ import styles from "./addTemplateModal.module.css";
 import Input from "@/ui/components/shared/input/Input";
 import Button from "@/ui/components/shared/button/Button";
 import useTemplatesStore from "@/stores/widgets/templates-store";
-import { Template } from "@/types/interfaces/templates";
+
 interface AddTemplateModalProps {
   isOpen: boolean;
   close: () => void;
