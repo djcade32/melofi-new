@@ -1,0 +1,71 @@
+name: Build and Upload Desktop Installers
+
+on:
+  push:
+    # branches:
+    #   - main
+    # tags:
+    #   - 'v*.*.*'  # Matches version tags like v2.0.0
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: macos-latest # macOS required to build .dmg
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js frontend
+        run: npm run build
+
+      - name: Build Electron app
+        run: npm run build:desktop
+
+      - name: Install rclone
+        run: |
+          brew install rclone
+
+      - name: Configure rclone
+        run: |
+          mkdir -p ~/.config/rclone
+          echo "${{ secrets.RCLONE_CONF }}" > ~/.config/rclone/rclone.conf
+
+      - name: Upload .dmg to R2 (macOS)
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          FILEPATH="./dist/Melofi-$VERSION.dmg"
+          echo "Uploading $FILEPATH to R2..."
+          rclone copy "$FILEPATH" melofi-r2:melofi-installs/mac --progress
+
+      - name: Upload .exe to R2 (Windows)
+        if: always()
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          FILE=$(find dist -name "Melofi Setup $VERSION.exe" || true)
+          if [ -f "$FILE" ]; then
+            echo "Uploading $FILE to R2..."
+            rclone copy "$FILE" melofi-r2:melofi-installs/windows --progress
+          else
+            echo "No .exe found. Skipping Windows upload."
+          fi
+
+      - name: Upload .AppImage to R2 (Linux)
+        if: always()
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          FILE=$(find dist -name "*.AppImage" || true)
+          if [ -f "$FILE" ]; then
+            echo "Uploading $FILE to R2..."
+            rclone copy "$FILE" melofi-r2:melofi-installs/linux --progress
+          else
+            echo "No .AppImage found. Skipping Linux upload."
+          fi
