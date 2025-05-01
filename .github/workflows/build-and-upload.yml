@@ -1,13 +1,17 @@
 name: Build and Upload Desktop Installers
 
 on:
-  push:
-    # branches:
-    #   - main
-    # tags:
-    #   - 'v*.*.*'  # Matches version tags like v2.0.0
+  #push:
+  # branches:
+  #   - main
+  # tags:
+  #   - 'v*.*.*'  # Matches version tags like v2.0.0
+  pull_request:
     branches:
       - develop
+    types:
+      - opened
+      - synchronize
 
 jobs:
   build:
