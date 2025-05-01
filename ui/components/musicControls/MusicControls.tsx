@@ -36,6 +36,8 @@ const MusicControls = () => {
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (document.activeElement?.tagName === "INPUT") return;
+      if (document.activeElement?.id === "slate-editor") return;
+
       const keysPressed = new Set<string>();
       keysPressed.add(e.key);
       const commonBindingKey = e.shiftKey;
