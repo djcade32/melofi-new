@@ -46,9 +46,10 @@ jobs:
       - name: Upload .dmg to R2 (macOS)
         run: |
           VERSION=$(node -p "require('./package.json').version")
-          FILEPATH="./dist/Melofi-$VERSION.dmg"
-          echo "Uploading $FILEPATH to R2..."
-          rclone copy "$FILEPATH" melofi-r2:melofi-installs/mac --progress
+          FILENAME=Melofi-$VERSION-arm64.dmg
+          echo "Uploading ./dist/$FILENAME to R2..."
+          echo "$RCLONE_CONF" > rclone.conf
+          rclone --config=rclone.conf copy ./dist/$FILENAME melofi-r2:melofi-installs/mac
 
       - name: Upload .exe to R2 (Windows)
         if: always()
