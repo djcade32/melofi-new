@@ -15,7 +15,7 @@ on:
 
 jobs:
   build-mac:
-    runs-on: macos # macOS required to build .dmg
+    runs-on: macos-latest # macOS required to build .dmg
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
