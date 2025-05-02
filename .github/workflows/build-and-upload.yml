@@ -14,8 +14,48 @@ on:
       - synchronize
 
 jobs:
-  build:
-    runs-on: macos-latest # macOS required to build .dmg
+  #   build-mac:
+  #     runs-on: macos-latest # macOS required to build .dmg
+  #     steps:
+  #       - name: Checkout repository
+  #         uses: actions/checkout@v3
+
+  #       - name: Set up Node.js
+  #         uses: actions/setup-node@v4
+  #         with:
+  #           node-version: 20
+
+  #       - name: Install dependencies
+  #         run: npm ci
+
+  #       - name: Build Next.js frontend
+  #         run: npm run build
+
+  #       - name: Build Electron app
+  #         run: npm run build:desktop
+
+  #       - name: Install rclone
+  #         run: |
+  #           brew install rclone
+
+  #       - name: Write rclone config from secret
+  #         run: |
+  #           mkdir -p "$HOME/.config/rclone"
+  #           echo "${{ secrets.RCLONE_CONF }}" > "$HOME/.config/rclone/rclone.conf"
+
+  #       - name: List rclone remotes
+  #         run: rclone --config=$HOME/.config/rclone/rclone.conf listremotes
+
+  #       - name: Upload .dmg to R2 (macOS)
+  #         run: |
+  #           VERSION=$(node -p "require('./package.json').version")
+  #           FILE="./dist/Melofi-$VERSION-arm64.dmg"
+  #           echo "Uploading $FILE to melofi-r2..."
+  #           rclone --config="$HOME/.config/rclone/rclone.conf" copy "$FILE" "melofi-r2:melofi-installs/mac" --s3-acl public-read
+  #           echo "Uploaded $FILE to melofi-r2"
+
+  build-windows:
+    runs-on: windows-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -34,55 +74,26 @@ jobs:
       - name: Build Electron app
         run: npm run build:desktop
 
-      - name: Install rclone
-        run: |
-          brew install rclone
+      #   - name: Rename .exe to remove arch
+      #     shell: bash
+      #     run: |
+      #       VERSION=$(node -p "require('./package.json').version")
+      #       mv "dist/Melofi-${VERSION}-x64.exe" "dist/Melofi-${VERSION}.exe"
 
-      - name: Setup rclone config
-        run: |
-          mkdir -p ~/.config/rclone
-          echo "[melofi-r2]
-          type = s3
-          provider = Cloudflare
-          access_key_id = ${{ secrets.R2_ACCESS_KEY_ID }}
-          secret_access_key = ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          endpoint = https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com" > ~/.config/rclone/rclone.conf
+      - name: Install rclone
+        run: choco install rclone -y
 
       - name: Write rclone config from secret
+        shell: bash
         run: |
           mkdir -p "$HOME/.config/rclone"
           echo "${{ secrets.RCLONE_CONF }}" > "$HOME/.config/rclone/rclone.conf"
 
-      - name: List rclone remotes
-        run: rclone --config=$HOME/.config/rclone/rclone.conf listremotes
-
-      - name: Upload .dmg to R2 (macOS)
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          FILE="./dist/Melofi-$VERSION-arm64.dmg"
-          echo "Uploading $FILE to melofi-r2..."
-          rclone --config="$HOME/.config/rclone/rclone.conf" copy "$FILE" "melofi-r2:melofi-installs/mac" --s3-acl public-read
-
       - name: Upload .exe to R2 (Windows)
-        if: always()
+        shell: bash
         run: |
           VERSION=$(node -p "require('./package.json').version")
-          FILE=$(find dist -name "Melofi Setup $VERSION.exe" || true)
-          if [ -f "$FILE" ]; then
-            echo "Uploading $FILE to R2..."
-            rclone copy "$FILE" melofi-r2:melofi-installs/windows --progress
-          else
-            echo "No .exe found. Skipping Windows upload."
-          fi
-
-      - name: Upload .AppImage to R2 (Linux)
-        if: always()
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          FILE=$(find dist -name "*.AppImage" || true)
-          if [ -f "$FILE" ]; then
-            echo "Uploading $FILE to R2..."
-            rclone copy "$FILE" melofi-r2:melofi-installs/linux --progress
-          else
-            echo "No .AppImage found. Skipping Linux upload."
-          fi
+          FILE="dist/Melofi-${VERSION}.exe"
+          echo "Uploading $FILE to melofi-r2..."
+          rclone --config="$HOME/.config/rclone/rclone.conf" copy "$FILE" "melofi-r2:melofi-installs/windows" --s3-acl public-read
+          echo "Uploaded $FILE to melofi-r2"
