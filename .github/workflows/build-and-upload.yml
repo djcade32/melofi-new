@@ -54,7 +54,7 @@ jobs:
           echo "${{ secrets.RCLONE_CONF }}" > "$HOME/.config/rclone/rclone.conf"
 
       - name: List rclone remotes
-        run: rclone --config=/home/runner/.config/rclone/rclone.conf listremotes
+        run: rclone --config=$HOME/.config/rclone/rclone.conf listremotes
 
       #   - name: Configure rclone
       #     run: |
