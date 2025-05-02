@@ -74,11 +74,22 @@ jobs:
       - name: Build Electron app
         run: npm run build:desktop
 
-      #   - name: Rename .exe to remove arch
-      #     shell: bash
-      #     run: |
-      #       VERSION=$(node -p "require('./package.json').version")
-      #       mv "dist/Melofi-${VERSION}-x64.exe" "dist/Melofi-${VERSION}.exe"
+      - name: Rename installer and uninstaller, zip them
+        shell: bash
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+
+          INSTALLER="dist/Melofi Setup ${VERSION}.exe"
+          UNINSTALLER="dist/__uninstaller-nsis-melofi-new.exe"
+
+          RENAMED_INSTALLER="Melofi-${VERSION}.exe"
+          RENAMED_UNINSTALLER="Melofi-Uninstaller-${VERSION}.exe"
+
+          mv "$INSTALLER" "dist/$RENAMED_INSTALLER"
+          mv "$UNINSTALLER" "dist/$RENAMED_UNINSTALLER"
+
+          cd dist
+          zip "Melofi-Windows-${VERSION}.zip" "$RENAMED_INSTALLER" "$RENAMED_UNINSTALLER"
 
       - name: Install rclone
         run: choco install rclone -y
@@ -89,11 +100,12 @@ jobs:
           mkdir -p "$HOME/.config/rclone"
           echo "${{ secrets.RCLONE_CONF }}" > "$HOME/.config/rclone/rclone.conf"
 
-      - name: Upload .exe to R2 (Windows)
+      - name: Upload zipped installer to R2 (Windows)
         shell: bash
         run: |
           VERSION=$(node -p "require('./package.json').version")
-          FILE="dist/Melofi-${VERSION}.exe"
-          echo "Uploading $FILE to melofi-r2..."
-          rclone --config="$HOME/.config/rclone/rclone.conf" copy "$FILE" "melofi-r2:melofi-installs/windows" --s3-acl public-read
-          echo "Uploaded $FILE to melofi-r2"
+          ZIP_FILE="dist/Melofi-Windows-${VERSION}.zip"
+
+          echo "Uploading $ZIP_FILE to melofi-r2..."
+          rclone --config="$HOME/.config/rclone/rclone.conf" copy "$ZIP_FILE" "melofi-r2:melofi-installs/windows" --s3-acl public-read
+          echo "Uploaded $ZIP_FILE to melofi-r2"
