@@ -1,0 +1,169 @@
+name: Build and Upload Desktop Installers
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*.*.*" # Matches version tags like v2.0.0
+
+jobs:
+  build-mac:
+    runs-on: macos-latest # macOS required to build .dmg
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js frontend
+        run: npm run build
+
+      - name: Build Electron app
+        run: npx electron-builder --mac --universal
+
+      - name: Rename .dmg to remove arch
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          mv "dist/Melofi-$VERSION-universal.dmg" "dist/Melofi-$VERSION.dmg"
+
+      - name: Install rclone
+        run: |
+          brew install rclone
+
+      - name: Write rclone config from secret
+        run: |
+          mkdir -p "$HOME/.config/rclone"
+          echo "${{ secrets.RCLONE_CONF }}" > "$HOME/.config/rclone/rclone.conf"
+
+      - name: Upload .dmg to R2 (macOS)
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          FILE="./dist/Melofi-$VERSION.dmg"
+          echo "Uploading $FILE to melofi-r2..."
+          rclone --config="$HOME/.config/rclone/rclone.conf" copy "$FILE" "melofi-r2:melofi-installs/mac" --s3-acl public-read
+          echo "Uploaded $FILE to melofi-r2"
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js frontend
+        run: npm run build
+
+      - name: Build Electron app
+        run: npm run build:desktop
+
+      - name: Rename installer
+        shell: bash
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          INSTALLER="dist/Melofi Setup ${VERSION}.exe"
+          RENAMED_INSTALLER="Melofi-${VERSION}.exe"
+          mv "$INSTALLER" "dist/$RENAMED_INSTALLER"
+
+      - name: Install rclone
+        run: choco install rclone -y
+
+      - name: Write rclone config from secret
+        shell: bash
+        run: |
+          mkdir -p "$HOME/.config/rclone"
+          echo "${{ secrets.RCLONE_CONF }}" > "$HOME/.config/rclone/rclone.conf"
+
+      - name: Upload installer to R2 (Windows)
+        shell: bash
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          FILE="dist/Melofi-${VERSION}.exe"
+
+          echo "Uploading $FILE to melofi-r2..."
+          rclone --config="$HOME/.config/rclone/rclone.conf" copy "$FILE" "melofi-r2:melofi-installs/windows" --s3-acl public-read
+          echo "Uploaded $FILE to melofi-r2"
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js frontend
+        run: npm run build
+
+      - name: Build Electron app
+        run: npm run build:desktop
+
+      - name: Install rclone
+        run: sudo apt-get install rclone -y
+
+      - name: Write rclone config from secret
+        run: |
+          mkdir -p "$HOME/.config/rclone"
+          echo "${{ secrets.RCLONE_CONF }}" > "$HOME/.config/rclone/rclone.conf"
+
+      - name: Upload .AppImage to R2 (Linux)
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          FILE="dist/Melofi-${VERSION}.AppImage"
+          echo "Uploading $FILE to melofi-r2..."
+          rclone --config="$HOME/.config/rclone/rclone.conf" copy "$FILE" "melofi-r2:melofi-installs/linux" --s3-acl public-read
+          echo "Uploaded $FILE to melofi-r2"
+
+  #Uncomment this when building version after version 3.0.0
+
+#   create-release-notes:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0 # Ensures git history and tags are available
+
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 20
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Get current branch name
+#         run: 'echo "Current branch is: ${{ github.head_ref || github.ref_name }}"'
+
+#       - name: Generate Release Notes from Branch Names
+#         id: release_notes
+#         run: |
+#           LAST_TAG=$(git describe --tags --abbrev=0)
+#           echo "Last tag: $LAST_TAG"
+
+#           # Get merge commits since last tag and extract branch names
+#           git log $LAST_TAG..HEAD --merges --pretty=format:"%s" | \
+#             grep -oE "(feature|bugfix|chore|refactor|hotfix)/[^') ]+" | \
+#             sort -u > release_notes.md
+
+#           echo "Generated release notes:"
+#           cat release_notes.md
