@@ -1,11 +1,9 @@
 name: Build and Upload Desktop Installers
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-    tags:
-      - "v*.*.*" # Matches version tags like v2.0.0
 
 jobs:
   build-mac:
