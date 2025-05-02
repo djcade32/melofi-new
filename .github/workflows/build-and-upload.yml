@@ -14,48 +14,8 @@ on:
       - synchronize
 
 jobs:
-  #   build-mac:
-  #     runs-on: macos # macOS required to build .dmg
-  #     steps:
-  #       - name: Checkout repository
-  #         uses: actions/checkout@v3
-
-  #       - name: Set up Node.js
-  #         uses: actions/setup-node@v4
-  #         with:
-  #           node-version: 20
-
-  #       - name: Install dependencies
-  #         run: npm ci
-
-  #       - name: Build Next.js frontend
-  #         run: npm run build
-
-  #       - name: Build Electron app
-  #         run: npm run build:desktop
-
-  #       - name: Install rclone
-  #         run: |
-  #           brew install rclone
-
-  #       - name: Write rclone config from secret
-  #         run: |
-  #           mkdir -p "$HOME/.config/rclone"
-  #           echo "${{ secrets.RCLONE_CONF }}" > "$HOME/.config/rclone/rclone.conf"
-
-  #       - name: List rclone remotes
-  #         run: rclone --config=$HOME/.config/rclone/rclone.conf listremotes
-
-  #       - name: Upload .dmg to R2 (macOS)
-  #         run: |
-  #           VERSION=$(node -p "require('./package.json').version")
-  #           FILE="./dist/Melofi-$VERSION-arm64.dmg"
-  #           echo "Uploading $FILE to melofi-r2..."
-  #           rclone --config="$HOME/.config/rclone/rclone.conf" copy "$FILE" "melofi-r2:melofi-installs/mac" --s3-acl public-read
-  #           echo "Uploaded $FILE to melofi-r2"
-
-  build-windows:
-    runs-on: windows-latest
+  build-mac:
+    runs-on: macos # macOS required to build .dmg
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -74,29 +34,71 @@ jobs:
       - name: Build Electron app
         run: npm run build:desktop
 
-      - name: Rename installer
-        shell: bash
+      - name: Rename .dmg to remove arch
         run: |
           VERSION=$(node -p "require('./package.json').version")
-          INSTALLER="dist/Melofi Setup ${VERSION}.exe"
-          RENAMED_INSTALLER="Melofi-${VERSION}.exe"
-          mv "$INSTALLER" "dist/$RENAMED_INSTALLER"
+          mv "dist/Melofi-$VERSION-universal.dmg" "dist/Melofi-$VERSION.dmg"
 
       - name: Install rclone
-        run: choco install rclone -y
+        run: |
+          brew install rclone
 
       - name: Write rclone config from secret
-        shell: bash
         run: |
           mkdir -p "$HOME/.config/rclone"
           echo "${{ secrets.RCLONE_CONF }}" > "$HOME/.config/rclone/rclone.conf"
 
-      - name: Upload installer to R2 (Windows)
-        shell: bash
+      - name: Upload .dmg to R2 (macOS)
         run: |
           VERSION=$(node -p "require('./package.json').version")
-          FILE="dist/Melofi-${VERSION}.exe"
-
+          FILE="./dist/Melofi-$VERSION.dmg"
           echo "Uploading $FILE to melofi-r2..."
-          rclone --config="$HOME/.config/rclone/rclone.conf" copy "$FILE" "melofi-r2:melofi-installs/windows" --s3-acl public-read
+          rclone --config="$HOME/.config/rclone/rclone.conf" copy "$FILE" "melofi-r2:melofi-installs/mac" --s3-acl public-read
           echo "Uploaded $FILE to melofi-r2"
+
+#   build-windows:
+#     runs-on: windows-latest
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v3
+
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 20
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Build Next.js frontend
+#         run: npm run build
+
+#       - name: Build Electron app
+#         run: npm run build:desktop
+
+#       - name: Rename installer
+#         shell: bash
+#         run: |
+#           VERSION=$(node -p "require('./package.json').version")
+#           INSTALLER="dist/Melofi Setup ${VERSION}.exe"
+#           RENAMED_INSTALLER="Melofi-${VERSION}.exe"
+#           mv "$INSTALLER" "dist/$RENAMED_INSTALLER"
+
+#       - name: Install rclone
+#         run: choco install rclone -y
+
+#       - name: Write rclone config from secret
+#         shell: bash
+#         run: |
+#           mkdir -p "$HOME/.config/rclone"
+#           echo "${{ secrets.RCLONE_CONF }}" > "$HOME/.config/rclone/rclone.conf"
+
+#       - name: Upload installer to R2 (Windows)
+#         shell: bash
+#         run: |
+#           VERSION=$(node -p "require('./package.json').version")
+#           FILE="dist/Melofi-${VERSION}.exe"
+
+#           echo "Uploading $FILE to melofi-r2..."
+#           rclone --config="$HOME/.config/rclone/rclone.conf" copy "$FILE" "melofi-r2:melofi-installs/windows" --s3-acl public-read
+#           echo "Uploaded $FILE to melofi-r2"
