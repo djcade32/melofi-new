@@ -1,106 +1,71 @@
-# name: Cypress E2E Tests
+name: Cypress E2E Tests
 
-# on:
-#   pull_request:
-#     branches:
-#       - develop
-#     types:
-#       - opened
-#       - synchronize
-
-# jobs:
-#   cypress-run:
-#     runs-on: ubuntu-latest
-
-#     strategy:
-#       matrix:
-#         node-version: [18.x]
-
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Set up Node.js
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: ${{ matrix.node-version }}
-
-#       - name: Install dependencies
-#         run: npm install
-
-#       - name: Install Firebase CLI
-#         run: npm install -g firebase-tools
-
-#       - name: Set up Firebase Authentication
-#         env:
-#           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-#         run: |
-#           echo "${FIREBASE_SERVICE_ACCOUNT}" > firebase-service-account.json
-#           export GOOGLE_APPLICATION_CREDENTIALS=firebase-service-account.json
-
-#       # Start Firebase emulators with no persistence
-#       - name: Start Firebase Emulators
-#         env:
-#           GOOGLE_APPLICATION_CREDENTIALS: firebase-service-account.json
-#         run: |
-#           firebase emulators:start --only auth,firestore | tee emulator-log.txt &
-#           sleep 10 # Allow time for emulators to start
-
-#       - name: Run Cypress tests
-#         run: npm run test:e2e:headless:github
-#         env:
-#           CI: true
-#           NEXT_PUBLIC_IS_CYPRESS: "true"
-#           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
-#           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-#           FIRESTORE_EMULATOR_HOST: localhost:8080
-#           FIREBASE_AUTH_EMULATOR_HOST: localhost:9099
-
-#       - name: Upload Cypress Screenshots
-#         if: failure()
-#         uses: actions/upload-artifact@v4
-#         with:
-#           name: cypress-screenshots
-#           path: cypress/screenshots
-
-#       - name: Upload Emulator Logs
-#         if: failure()
-#         uses: actions/upload-artifact@v4
-#         with:
-#           name: emulator-logs
-#           path: emulator-log.txt
-
-name: Run Unit Tests on Pull Request to Develop Branch
-
-# Trigger the workflow when a pull request is detected for 'develop'
 on:
   pull_request:
     branches:
       - develop
     types:
-      - opened # Trigger when a pull request is opened
-      - synchronize # Trigger when a pull request is updated
+      - opened
+      - synchronize
 
-# Define jobs to run in this workflow
 jobs:
-  test:
+  cypress-run:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [18.x]
+
     steps:
-      # Step 1: Check out the code from the repository
       - name: Checkout code
         uses: actions/checkout@v2
 
-    #   # Step 2: Set up Node.js environment (assuming you are using Node.js)
-    #   - name: Set up Node.js
-    #     uses: actions/setup-node@v3
-    #     with:
-    #       node-version: "16"
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    #   # Step 3: Install project dependencies
-    #   - name: Install dependencies
-    #     run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    #   # Step 4: Run your tests
-    #   - name: Run unit tests
-    #     run: npm run test:unit
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Set up Firebase Authentication
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          echo "${FIREBASE_SERVICE_ACCOUNT}" > firebase-service-account.json
+          export GOOGLE_APPLICATION_CREDENTIALS=firebase-service-account.json
+
+      # Start Firebase emulators with no persistence
+      - name: Start Firebase Emulators
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: firebase-service-account.json
+        run: |
+          firebase emulators:start --only auth,firestore | tee emulator-log.txt &
+          sleep 10 # Allow time for emulators to start
+
+      - name: Run Cypress tests
+        run: npm run test:e2e:headless:github
+        env:
+          CI: true
+          NEXT_PUBLIC_IS_CYPRESS: "true"
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIRESTORE_EMULATOR_HOST: localhost:8080
+          FIREBASE_AUTH_EMULATOR_HOST: localhost:9099
+
+      - name: Upload Cypress Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+      - name: Upload Emulator Logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: emulator-logs
+          path: emulator-log.txt
