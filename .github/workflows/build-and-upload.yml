@@ -123,11 +123,6 @@ jobs:
       - name: Build Electron app
         run: npm run build:desktop
 
-      - name: Rename .AppImage to remove arch
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          mv "dist/Melofi-${VERSION}-x86_64.AppImage" "dist/Melofi-${VERSION}.AppImage"
-
       - name: Install rclone
         run: sudo apt-get install rclone -y
 
