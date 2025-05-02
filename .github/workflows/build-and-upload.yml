@@ -156,7 +156,7 @@ jobs:
         run: npm ci
 
       - name: Get current branch name
-        run: 'echo "Current branch is: ${GITHUB_REF##*/}"'
+        run: 'echo "Current branch is: ${{ github.head_ref || github.ref_name }}"'
 
       - name: Generate Release Notes from Branch Names
         id: release_notes
