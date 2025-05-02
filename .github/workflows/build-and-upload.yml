@@ -103,38 +103,66 @@ jobs:
   #           rclone --config="$HOME/.config/rclone/rclone.conf" copy "$FILE" "melofi-r2:melofi-installs/windows" --s3-acl public-read
   #           echo "Uploaded $FILE to melofi-r2"
 
-  build-linux:
+  #   build-linux:
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #       - name: Checkout repository
+  #         uses: actions/checkout@v3
+
+  #       - name: Set up Node.js
+  #         uses: actions/setup-node@v4
+  #         with:
+  #           node-version: 20
+
+  #       - name: Install dependencies
+  #         run: npm ci
+
+  #       - name: Build Next.js frontend
+  #         run: npm run build
+
+  #       - name: Build Electron app
+  #         run: npm run build:desktop
+
+  #       - name: Install rclone
+  #         run: sudo apt-get install rclone -y
+
+  #       - name: Write rclone config from secret
+  #         run: |
+  #           mkdir -p "$HOME/.config/rclone"
+  #           echo "${{ secrets.RCLONE_CONF }}" > "$HOME/.config/rclone/rclone.conf"
+
+  #       - name: Upload .AppImage to R2 (Linux)
+  #         run: |
+  #           VERSION=$(node -p "require('./package.json').version")
+  #           FILE="dist/Melofi-${VERSION}.AppImage"
+  #           echo "Uploading $FILE to melofi-r2..."
+  #           rclone --config="$HOME/.config/rclone/rclone.conf" copy "$FILE" "melofi-r2:melofi-installs/linux" --s3-acl public-read
+  #           echo "Uploaded $FILE to melofi-r2"
+
+  create-release-notes:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      #   - name: Checkout repository
+      #     uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      #   - name: Set up Node.js
+      #     uses: actions/setup-node@v4
+      #     with:
+      #       node-version: 20
 
-      - name: Install dependencies
-        run: npm ci
+      #   - name: Install dependencies
+      #     run: npm ci
 
-      - name: Build Next.js frontend
-        run: npm run build
-
-      - name: Build Electron app
-        run: npm run build:desktop
-
-      - name: Install rclone
-        run: sudo apt-get install rclone -y
-
-      - name: Write rclone config from secret
+      - name: Generate Release Notes from Branch Names
+        id: release_notes
         run: |
-          mkdir -p "$HOME/.config/rclone"
-          echo "${{ secrets.RCLONE_CONF }}" > "$HOME/.config/rclone/rclone.conf"
+          LAST_TAG=$(git describe --tags --abbrev=0)
+          echo "Last tag: $LAST_TAG"
 
-      - name: Upload .AppImage to R2 (Linux)
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          FILE="dist/Melofi-${VERSION}.AppImage"
-          echo "Uploading $FILE to melofi-r2..."
-          rclone --config="$HOME/.config/rclone/rclone.conf" copy "$FILE" "melofi-r2:melofi-installs/linux" --s3-acl public-read
-          echo "Uploaded $FILE to melofi-r2"
+          # Get merge commits since last tag and extract branch names
+          git log $LAST_TAG..HEAD --merges --pretty=format:"%s" | \
+            grep -oE "(feature|bugfix|chore|refactor|hotfix)/[^') ]+" | \
+            sort -u > release_notes.md
+
+          echo "Generated release notes:"
+          cat release_notes.md
