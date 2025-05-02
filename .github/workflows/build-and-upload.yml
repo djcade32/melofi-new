@@ -74,13 +74,17 @@ jobs:
       - name: Build Electron app
         run: npm run build:desktop
 
+      - name: Debug - list files in dist
+        run: ls -lah dist
+        shell: bash
+
       - name: Rename installer and uninstaller, zip them
         shell: bash
         run: |
           VERSION=$(node -p "require('./package.json').version")
 
           INSTALLER="dist/Melofi Setup ${VERSION}.exe"
-          UNINSTALLER="dist/__uninstaller-nsis-melofi-new.exe"
+          UNINSTALLER="dist/__uninstaller-nsis-melofi.exe"
 
           RENAMED_INSTALLER="Melofi-${VERSION}.exe"
           RENAMED_UNINSTALLER="Melofi-Uninstaller-${VERSION}.exe"
