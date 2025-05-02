@@ -48,6 +48,11 @@ jobs:
           secret_access_key = ${{ secrets.R2_SECRET_ACCESS_KEY }}
           endpoint = https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com" > ~/.config/rclone/rclone.conf
 
+      - name: Debug rclone config
+        run: |
+          echo "Rclone config:"
+          cat ~/.config/rclone/rclone.conf
+
       #   - name: Configure rclone
       #     run: |
       #       mkdir -p ~/.config/rclone
