@@ -56,20 +56,12 @@ jobs:
       - name: List rclone remotes
         run: rclone --config=$HOME/.config/rclone/rclone.conf listremotes
 
-      #   - name: Configure rclone
-      #     run: |
-      #       mkdir -p ~/.config/rclone
-      #       echo "${{ secrets.RCLONE_CONF }}" > ~/.config/rclone/rclone.conf
-
       - name: Upload .dmg to R2 (macOS)
         run: |
           VERSION=$(node -p "require('./package.json').version")
-          FILENAME=Melofi-$VERSION-arm64.dmg
-          echo "Uploading ./dist/$FILENAME to R2..."
-          echo "$RCLONE_CONF" > rclone.conf
-          rclone --config=rclone.conf copy ./dist/$FILENAME melofi-r2:melofi-installs/mac
-        env:
-          RCLONE_CONFIG: /home/runner/.config/rclone/rclone.conf
+          FILE="./dist/Melofi-$VERSION-arm64.dmg"
+          echo "Uploading $FILE to melofi-r2..."
+          rclone --config="$HOME/.config/rclone/rclone.conf" copy "$FILE" "melofi-r2:melofi-installs/mac" --s3-acl public-read
 
       - name: Upload .exe to R2 (Windows)
         if: always()
