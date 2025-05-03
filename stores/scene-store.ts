@@ -4,6 +4,7 @@ import { Scene } from "@/types/general";
 import useTemplatesStore from "./widgets/templates-store";
 import useUserStatsStore from "./user-stats-store";
 import useUserStore from "./user-store";
+import useAppStore from "./app-store";
 
 export interface SceneState {
   currentScene: Scene;
@@ -22,6 +23,13 @@ const useSceneStore = create<SceneState>((set) => ({
 
   getCurrentScene: () => {
     const { isPremiumUser } = useUserStore.getState();
+    const { sceneRouletteEnabled } = useAppStore.getState().appSettings;
+    if (sceneRouletteEnabled) {
+      const randomScene = scenes[Math.floor(Math.random() * scenes.length)];
+      set({ currentScene: randomScene });
+      localStorage.setItem("currentScene", JSON.stringify(randomScene));
+      return;
+    }
 
     const currentScene = localStorage.getItem("currentScene");
     if (currentScene) {

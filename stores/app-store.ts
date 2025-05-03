@@ -32,6 +32,7 @@ export interface AppState {
   setCalendarHoverEffectEnabled: (boolean: boolean) => void;
   setTodoListHoverEffectEnabled: (boolean: boolean) => void;
   setDailyQuoteEnabled: (boolean: boolean) => void;
+  setSceneRouletteEnabled: (boolean: boolean) => void;
   fetchAppSettings: () => Promise<void>;
   setAppSettings: (appSettings: AppSettings, userId: string | null) => void;
   setShowPremiumModal: (modal: PremiumModalTypes | null) => void;
@@ -155,6 +156,21 @@ const useAppStore = create<AppState>((set, get) => ({
     const newAppSettings = {
       ...get().appSettings,
       showDailyQuote: boolean,
+      userUid: currentUser?.authUser?.uid || "",
+    };
+    localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
+    isUserLoggedIn &&
+      currentUser?.authUser?.uid &&
+      updateAppSettings(currentUser?.authUser?.uid, newAppSettings, indexedDB);
+    set(() => ({ appSettings: newAppSettings }));
+  },
+
+  setSceneRouletteEnabled: (boolean: boolean) => {
+    const { currentUser, isUserLoggedIn } = useUserStore.getState();
+    const { indexedDB } = useIndexedDBStore.getState();
+    const newAppSettings = {
+      ...get().appSettings,
+      sceneRouletteEnabled: boolean,
       userUid: currentUser?.authUser?.uid || "",
     };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));

@@ -38,6 +38,7 @@ const GeneralSettingsModal = () => {
     setTodoListHoverEffectEnabled,
     setDailyQuoteEnabled,
     setShowPremiumModal,
+    setSceneRouletteEnabled,
   } = useAppStore();
   const { isPremiumUser } = useUserStore();
   const isOpen = selectedOption === "General Settings";
@@ -211,7 +212,7 @@ const GeneralSettingsModal = () => {
             <Switch
               disabled={!isPremiumUser}
               checked={isPremiumUser && appSettings.sceneRouletteEnabled}
-              onChange={() => setDailyQuoteEnabled(!appSettings.sceneRouletteEnabled)}
+              onChange={() => setSceneRouletteEnabled(!appSettings.sceneRouletteEnabled)}
             />
           </div>
           <p className={styles.generalSettingsModal__setting_description}>
