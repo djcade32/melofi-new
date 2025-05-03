@@ -21,6 +21,7 @@ export const updateAppSettings = async (
       pomodoro: { pomodoroTimerSoundEnabled: appSettings.pomodoroTimerSoundEnabled },
       quote: { showDailyQuote: appSettings.showDailyQuote },
       todo: { todoListHoverEffectEnabled: appSettings.todoListHoverEffectEnabled },
+      sceneRoulette: { sceneRouletteEnabled: appSettings.sceneRouletteEnabled },
       userUid: uid,
       _lastSynced: new Date().toISOString(),
     };

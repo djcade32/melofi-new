@@ -136,6 +136,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
       pomodoro: { pomodoroTimerSoundEnabled: true },
       quote: { showDailyQuote: true },
       todo: { todoListHoverEffectEnabled: true },
+      sceneRoulette: { sceneRouletteEnabled: false },
       userUid: uid,
       _lastSynced: new Date().toISOString(),
     };
@@ -270,6 +271,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
           pomodoroTimerSoundEnabled: data.pomodoro.pomodoroTimerSoundEnabled,
           showDailyQuote: data.quote.showDailyQuote,
           todoListHoverEffectEnabled: data.todo.todoListHoverEffectEnabled,
+          sceneRouletteEnabled: data.sceneRoulette.sceneRouletteEnabled,
           userUid: uid,
         };
         const success = await updateAppSettingsFirebase(uid, appSettings);

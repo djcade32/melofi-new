@@ -10,6 +10,7 @@ export interface IndexedDBAppSettings {
   pomodoro: { pomodoroTimerSoundEnabled: boolean };
   quote: { showDailyQuote: boolean };
   todo: { todoListHoverEffectEnabled: boolean };
+  sceneRoulette: { sceneRouletteEnabled: boolean };
   userUid: string | null;
   _lastSynced: string;
 }

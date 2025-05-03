@@ -152,6 +152,7 @@ export interface AppSettings {
   calendarHoverEffectEnabled: boolean;
   todoListHoverEffectEnabled: boolean;
   showDailyQuote: boolean;
+  sceneRouletteEnabled: boolean;
 }
 
 export interface AnnouncementBanner {

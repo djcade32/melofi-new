@@ -49,6 +49,7 @@ const useAppStore = create<AppState>((set, get) => ({
     calendarHoverEffectEnabled: true,
     todoListHoverEffectEnabled: true,
     showDailyQuote: true,
+    sceneRouletteEnabled: false,
   },
   showPremiumModal: null,
 
