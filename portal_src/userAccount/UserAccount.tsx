@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./userAccount.module.css";
-import { PiSignOutBold, MdOutlineOpenInNew } from "@/imports/icons";
+import { PiSignOutBold, MdOutlineOpenInNew, FaDownload } from "@/imports/icons";
 import useUserStore from "@/stores/user-store";
 import Button from "@/ui/components/shared/button/Button";
 import { manageSubscription } from "@/lib/stripe/manageSubscription";
@@ -8,9 +8,10 @@ import useNotificationProviderStore from "@/stores/notification-provider-store";
 import Switch from "@/ui/components/shared/switch/Switch";
 import { createCheckoutSession } from "@/lib/stripe/createCheckoutSession";
 import { Logger } from "@/classes/Logger";
+import { wait } from "@/utils/general";
 
 const UserAccount = () => {
-  const { signUserOut, currentUser, isPremiumUser } = useUserStore();
+  const { signUserOut, currentUser, isPremiumUser, membershipType } = useUserStore();
   const [isYearly, setIsYearly] = useState(true);
 
   const getInitials = (name: string | undefined) => {
@@ -30,20 +31,52 @@ const UserAccount = () => {
     }
   };
 
-  const handleGoPremiumClick = async () => {
+  const handleDownloadClick = async () => {
+    const osType = getOsType();
+    if (osType === "unknown") {
+      console.error("Unknown OS type");
+      return;
+    }
+    let fileExtension = "AppImage";
+    fileExtension = osType === "mac" ? "dmg" : "exe";
+
+    window.open(
+      `https://pub-883c6ee85c4c477c966ca224ca5d4b13.r2.dev/${osType}/Melofi-${process.env.NEXT_PUBLIC_MELOFI_VERSION}.${fileExtension}`
+    );
+  };
+
+  const handleGoPremiumClick = async (lifetime?: boolean) => {
+    document.body.style.cursor = "wait";
+    let model = "monthly";
+    if (lifetime) {
+      model = "lifetime";
+    } else {
+      model = isYearly ? "yearly" : "monthly";
+    }
     try {
-      await createCheckoutSession(
-        currentUser?.authUser?.uid,
-        isYearly ? "yearly" : "monthly",
-        "portal"
-      );
+      await createCheckoutSession(currentUser?.authUser?.uid, model, "portal");
     } catch (error) {
       Logger.getInstance().error(`Error creating checkout session: ${error}`);
       useNotificationProviderStore.getState().addNotification({
         type: "error",
         message: "Error creating checkout session",
       });
+    } finally {
+      await wait(3000);
+      document.body.style.cursor = "default";
     }
+  };
+
+  const getOsType = () => {
+    const userAgent = window.navigator.userAgent;
+    if (userAgent.includes("Mac OS X")) {
+      return "mac";
+    } else if (userAgent.includes("Windows NT")) {
+      return "windows";
+    } else if (userAgent.includes("Linux")) {
+      return "linux";
+    }
+    return "unknown";
   };
 
   return (
@@ -71,6 +104,17 @@ const UserAccount = () => {
             showLoadingState={true}
             postpendIcon={MdOutlineOpenInNew}
           />
+          {membershipType === "lifetime" && (
+            <Button
+              id="portal-manage-download-button"
+              text="Melofi Desktop"
+              onClick={handleDownloadClick}
+              containerClassName={styles.userAccount__button}
+              textClassName={styles.userAccount__button_text}
+              showLoadingState={true}
+              postpendIcon={FaDownload}
+            />
+          )}
         </div>
       ) : (
         <div>
@@ -102,7 +146,15 @@ const UserAccount = () => {
             <Button
               id="portal-go-premium-button"
               text="Upgrade to Premium"
-              onClick={handleGoPremiumClick}
+              onClick={() => handleGoPremiumClick()}
+              containerClassName={styles.userAccount__button}
+              textClassName={styles.userAccount__button_text}
+              showLoadingState={true}
+            />
+            <Button
+              id="portal-go-premium-button"
+              text="Get Lifetime Access"
+              onClick={() => handleGoPremiumClick(true)}
               containerClassName={styles.userAccount__button}
               textClassName={styles.userAccount__button_text}
               showLoadingState={true}

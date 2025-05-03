@@ -11,6 +11,7 @@ import {
   FaCommentDots,
   FaHandsHelping,
   FaProductHunt,
+  FaDownload,
 } from "react-icons/fa";
 import {
   BsFillSkipBackwardFill,
@@ -34,6 +35,8 @@ import {
   BsBackspace,
   BsFillGiftFill,
   BsGlobe,
+  BsDatabaseFillCheck,
+  BsDatabaseFillX,
 } from "react-icons/bs";
 import {
   IoVolumeMedium,
@@ -124,7 +127,7 @@ import {
 } from "react-icons/pi";
 import { VscDebugRestart } from "react-icons/vsc";
 import { LuGalleryVertical, LuGalleryHorizontal, LuConstruction } from "react-icons/lu";
-import { BiSolidHide, BiSolidShow, BiWifiOff } from "react-icons/bi";
+import { BiSolidHide, BiSolidShow, BiWifiOff, BiWifi } from "react-icons/bi";
 import { LiaTimesSolid } from "react-icons/lia";
 import { SiBuymeacoffee } from "react-icons/si";
 
@@ -248,6 +251,7 @@ export {
   PiSignOutBold,
   IoCopy,
   BiWifiOff,
+  BiWifi,
   PiCrownSimpleFill,
   SiBuymeacoffee,
   MdOutlineOpenInNew,
@@ -256,4 +260,7 @@ export {
   LuConstruction,
   BsGlobe,
   FaProductHunt,
+  BsDatabaseFillCheck,
+  BsDatabaseFillX,
+  FaDownload,
 };

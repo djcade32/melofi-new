@@ -205,6 +205,7 @@ const SlateEditor = ({ note }: SlateEditorProps) => {
       />
       <EditorTimeDisplay note={note} />
       <Editable
+        id="slate-editor"
         className={styles.slateEditor__editable}
         renderElement={renderElement}
         renderLeaf={renderLeaf}

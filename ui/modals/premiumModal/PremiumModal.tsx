@@ -10,6 +10,7 @@ import Switch from "@/ui/components/shared/switch/Switch";
 import { Logger } from "@/classes/Logger";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
 import useMenuStore from "@/stores/menu-store";
+import { wait } from "@/utils/general";
 
 const featuresList = [
   "📊 Focus stats",
@@ -28,6 +29,7 @@ const PremiumModal = () => {
   const { currentUser } = useUserStore();
   const [content, setContent] = useState<React.ReactNode>(null);
   const [isYearly, setIsYearly] = useState(true);
+  const isOnline = typeof window !== "undefined" ? navigator.onLine : true;
 
   useEffect(() => {
     setContent(getContent());
@@ -48,6 +50,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={350}
               height={196.88}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -64,6 +67,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={261.33}
               height={196}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -80,6 +84,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={215}
               height={215}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -96,6 +101,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={355.56}
               height={200}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -112,6 +118,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={266.67}
               height={200}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -128,6 +135,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={333.33}
               height={200}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -143,6 +151,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={400}
               height={200}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -159,6 +168,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={355.56}
               height={200}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -175,6 +185,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={320}
               height={200}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -190,6 +201,7 @@ const PremiumModal = () => {
               alt="Premium Modal"
               width={215}
               height={215}
+              unoptimized={!isOnline}
             />
           </>
         );
@@ -198,7 +210,8 @@ const PremiumModal = () => {
     }
   };
 
-  const handleGoPremiumClick = async () => {
+  const handleGoPremiumClick = async (lifetime?: boolean) => {
+    document.body.style.cursor = "wait";
     const { isUserLoggedIn } = useUserStore.getState();
     const { setSelectedOption } = useMenuStore.getState();
     // If user is not logged in, show account modal
@@ -208,14 +221,24 @@ const PremiumModal = () => {
       return;
     }
 
+    let model = "yearly";
+    if (lifetime) {
+      model = "lifetime";
+    } else if (!isYearly) {
+      model = "monthly";
+    }
+
     try {
-      await createCheckoutSession(currentUser?.authUser?.uid, isYearly ? "yearly" : "monthly");
+      await createCheckoutSession(currentUser?.authUser?.uid, model);
     } catch (error) {
       Logger.getInstance().error(`Error creating checkout session: ${error}`);
       useNotificationProviderStore.getState().addNotification({
         type: "error",
         message: "Error creating checkout session",
       });
+    } finally {
+      await wait(2000);
+      document.body.style.cursor = "default";
     }
   };
   return (
@@ -255,9 +278,13 @@ const PremiumModal = () => {
                 containerClassName={styles.premiumModal__premium_button}
                 hoverClassName={styles.premiumModal__premium_button_hover}
                 textClassName={styles.premiumModal__premium_button_text}
-                onClick={handleGoPremiumClick}
+                onClick={() => handleGoPremiumClick()}
                 showLoadingState={true}
               />
+            </div>
+            <div className={styles.premiumModal__features_lifetime_container}>
+              <p onClick={() => handleGoPremiumClick(true)}>$79 for lifetime access</p>
+              <p>Download Melofi Desktop</p>
             </div>
             <div className={styles.premiumModal__features_container}>
               <p className={styles.premiumModal__subtitle}>Everything with Premium</p>

@@ -31,8 +31,8 @@ export default function Home() {
       <GoogleAnalytics trackPageViews gaMeasurementId="G-J2YND7L37W" />
 
       <GoogleOAuthProvider clientId="922776747697-hbq7p19u2jmjjb1ksf4s0h95mmiu4pht.apps.googleusercontent.com">
-        <AuthProvider>
-          <NotificationProvider>
+        <NotificationProvider>
+          <AuthProvider>
             <AppContextProvider>
               <div
                 id="melofi-app"
@@ -47,8 +47,8 @@ export default function Home() {
                 <LoggedInView />
               </div>
             </AppContextProvider>
-          </NotificationProvider>
-        </AuthProvider>
+          </AuthProvider>
+        </NotificationProvider>
       </GoogleOAuthProvider>
     </>
   );

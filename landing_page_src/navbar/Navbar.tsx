@@ -7,7 +7,11 @@ import { capitalizeFirstLetter } from "@/utils/strings";
 
 const links = ["Home", "About", "Features", "Pricing", "Contact"];
 
-const Navbar = () => {
+interface NavbarProps {
+  bumpDown?: boolean;
+}
+
+const Navbar = ({ bumpDown = false }: NavbarProps) => {
   const [selectedLink, setSelectedLink] = useState<string | null>("Home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -51,7 +55,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`${styles.navbar__container}`}>
+    <nav className={`${styles.navbar__container}`} style={{ top: bumpDown ? 20 : 0 }}>
       <div className={styles.navbar}>
         <h1 className={styles.navbar__melofi_txt}>Melofi</h1>
         <ul className={`${styles.navbar__links} ${styles.navbar__links_desktop}`}>

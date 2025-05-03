@@ -13,13 +13,18 @@ import useUserStore from "./user-store";
 import { getUserFromUserDb } from "@/lib/firebase/getters/auth-getters";
 import { Logger } from "@/classes/Logger";
 import useToolsStore from "./tools-store";
+import useNotificationProviderStore from "./notification-provider-store";
+import { BiWifi, BiWifiOff } from "@/imports/icons";
+import useIndexedDBStore from "./indexedDB-store";
 
 export interface AppState {
   isFullscreen: boolean;
+  isOnline: boolean;
   appSettings: AppSettings;
   showPremiumModal: PremiumModalTypes | null;
 
   toggleFullscreen: (boolean: boolean) => void;
+  setIsOnline: (boolean: boolean) => void;
   isElectron: () => boolean;
   setInactivityThreshold: (threshold: number) => void;
   setPomodoroTimerSoundEnabled: (boolean: boolean) => void;
@@ -35,6 +40,7 @@ export interface AppState {
 
 const useAppStore = create<AppState>((set, get) => ({
   isFullscreen: false,
+  isOnline: true,
   appSettings: {
     userUid: null,
     inActivityThreshold: 15000,
@@ -51,12 +57,33 @@ const useAppStore = create<AppState>((set, get) => ({
     set(() => ({ isFullscreen: boolean }));
   },
 
+  setIsOnline: (boolean) => {
+    const { addNotification } = useNotificationProviderStore.getState();
+    if (boolean) {
+      Logger.getInstance().info("Melofi is online.");
+      addNotification({
+        message: "Melofi is online.",
+        type: "success",
+        icon: BiWifi,
+      });
+    } else {
+      Logger.getInstance().error("Melofi is offline.");
+      addNotification({
+        message: "Melofi is offline.",
+        type: "normal",
+        icon: BiWifiOff,
+      });
+    }
+    set(() => ({ isOnline: boolean }));
+  },
+
   isElectron: () => {
     return navigator.userAgent.toLowerCase().includes("electron");
   },
 
   setInactivityThreshold: (threshold) => {
     const { currentUser, isUserLoggedIn } = useUserStore.getState();
+    const { indexedDB } = useIndexedDBStore.getState();
     // Set in local storage
     const newAppSettings = {
       ...get().appSettings,
@@ -64,56 +91,66 @@ const useAppStore = create<AppState>((set, get) => ({
       userUid: currentUser?.authUser?.uid || "",
     };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
-    isUserLoggedIn && updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings);
+    isUserLoggedIn &&
+      updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings, indexedDB);
     set(() => ({ appSettings: newAppSettings }));
   },
 
   setPomodoroTimerSoundEnabled: (boolean) => {
     const { currentUser, isUserLoggedIn } = useUserStore.getState();
+    const { indexedDB } = useIndexedDBStore.getState();
     const newAppSettings = { ...get().appSettings, pomodoroTimerSoundEnabled: boolean };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
-    isUserLoggedIn && updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings);
+    isUserLoggedIn &&
+      updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings, indexedDB);
     set(() => ({ appSettings: newAppSettings }));
   },
 
   setAlarmSoundEnabled: (boolean) => {
     const { currentUser, isUserLoggedIn } = useUserStore.getState();
+    const { indexedDB } = useIndexedDBStore.getState();
     const newAppSettings = {
       ...get().appSettings,
       alarmSoundEnabled: boolean,
       userUid: currentUser?.authUser?.uid || "",
     };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
-    isUserLoggedIn && updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings);
+    isUserLoggedIn &&
+      updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings, indexedDB);
     set(() => ({ appSettings: newAppSettings }));
   },
 
   setCalendarHoverEffectEnabled: (boolean) => {
     const { currentUser, isUserLoggedIn } = useUserStore.getState();
+    const { indexedDB } = useIndexedDBStore.getState();
     const newAppSettings = {
       ...get().appSettings,
       calendarHoverEffectEnabled: boolean,
       userUid: currentUser?.authUser?.uid || "",
     };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
-    isUserLoggedIn && updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings);
+    isUserLoggedIn &&
+      updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings, indexedDB);
     set(() => ({ appSettings: newAppSettings }));
   },
 
   setTodoListHoverEffectEnabled: (boolean) => {
     const { currentUser, isUserLoggedIn } = useUserStore.getState();
+    const { indexedDB } = useIndexedDBStore.getState();
     const newAppSettings = {
       ...get().appSettings,
       todoListHoverEffectEnabled: boolean,
       userUid: currentUser?.authUser?.uid || "",
     };
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
-    isUserLoggedIn && updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings);
+    isUserLoggedIn &&
+      updateAppSettings(currentUser?.authUser?.uid || "", newAppSettings, indexedDB);
     set(() => ({ appSettings: newAppSettings }));
   },
 
   setDailyQuoteEnabled: (boolean) => {
     const { currentUser, isUserLoggedIn } = useUserStore.getState();
+    const { indexedDB } = useIndexedDBStore.getState();
     const newAppSettings = {
       ...get().appSettings,
       showDailyQuote: boolean,
@@ -122,7 +159,7 @@ const useAppStore = create<AppState>((set, get) => ({
     localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
     isUserLoggedIn &&
       currentUser?.authUser?.uid &&
-      updateAppSettings(currentUser?.authUser?.uid, newAppSettings);
+      updateAppSettings(currentUser?.authUser?.uid, newAppSettings, indexedDB);
     set(() => ({ appSettings: newAppSettings }));
   },
 
@@ -152,9 +189,22 @@ const useAppStore = create<AppState>((set, get) => ({
       } else {
         Logger.getInstance().info("No app settings in local storage fetch from db");
         try {
-          const user = await getUserFromUserDb(currentUserUid);
-          if (user?.appSettings) {
-            useAppStore.getState().setAppSettings(user.appSettings, currentUserUid);
+          const { isOnline } = useAppStore.getState();
+          if (isOnline) {
+            const user = await getUserFromUserDb(currentUserUid);
+            if (user?.appSettings) {
+              useAppStore.getState().setAppSettings(user.appSettings, currentUserUid);
+            }
+          } else {
+            const { indexedDB } = useIndexedDBStore.getState();
+            Logger.getInstance().info("Melofi is offline. Fetching app settings from indexedDB");
+            const appSettings = await indexedDB?.get("appSettings", currentUserUid);
+
+            if (appSettings) {
+              useAppStore.getState().setAppSettings(appSettings, currentUserUid);
+            } else {
+              console.log("No app settings found in indexedDB");
+            }
           }
         } catch (error) {
           Logger.getInstance().error(`Error fetching app settings: ${error}`);
@@ -172,9 +222,24 @@ const useAppStore = create<AppState>((set, get) => ({
   },
 
   setAppSettings: (appSettings, userUid) => {
+    const { updateAppSettings } = useIndexedDBStore.getState();
+    const { currentUser } = useUserStore.getState();
     appSettings.userUid = userUid;
     localStorage.setItem("app_settings", JSON.stringify(appSettings));
     set(() => ({ appSettings }));
+    if (currentUser?.authUser?.uid) {
+      updateAppSettings(currentUser.authUser.uid, (oldAppSettings) => {
+        oldAppSettings.userUid = userUid;
+        oldAppSettings.inActivityThreshold.inActivityThreshold = appSettings.inActivityThreshold;
+        oldAppSettings.pomodoro.pomodoroTimerSoundEnabled = appSettings.pomodoroTimerSoundEnabled;
+        oldAppSettings.alarm.alarmSoundEnabled = appSettings.alarmSoundEnabled;
+        oldAppSettings.calendar.calendarHoverEffectEnabled = appSettings.calendarHoverEffectEnabled;
+        oldAppSettings.todo.todoListHoverEffectEnabled = appSettings.todoListHoverEffectEnabled;
+        oldAppSettings.quote.showDailyQuote = appSettings.showDailyQuote;
+        oldAppSettings._lastSynced = new Date().toISOString();
+        return oldAppSettings;
+      });
+    }
   },
 
   setShowPremiumModal: (modal) => {

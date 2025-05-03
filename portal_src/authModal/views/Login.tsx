@@ -24,7 +24,7 @@ const Login = ({ handleViewChange }: LoginProps) => {
 
     try {
       const user = await login(email, password);
-      const emailVerified = user.authUser?.emailVerified;
+      const emailVerified = user?.authUser?.emailVerified;
       if (!emailVerified) {
         handleViewChange("emailVerification");
         await sendEmailVerification();
@@ -35,6 +35,10 @@ const Login = ({ handleViewChange }: LoginProps) => {
       setIsUserLoggedIn(true);
     } catch (error: any) {
       console.log("Error logging in: ", error);
+      const formErrorMessage =
+        error.message === ERROR_MESSAGES.NO_INTERNET_CONNECTION
+          ? ERROR_MESSAGES.NO_INTERNET_CONNECTION
+          : ERROR_MESSAGES.INVALID_CREDENTIALS;
       setErrorState([
         {
           name: "email-input",
@@ -46,7 +50,7 @@ const Login = ({ handleViewChange }: LoginProps) => {
         },
         {
           name: "form-input",
-          message: "",
+          message: formErrorMessage,
         },
       ]);
     }
@@ -126,10 +130,17 @@ const Login = ({ handleViewChange }: LoginProps) => {
             value={password}
             transparentBackground
             variant="secondary"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                document.getElementById("portal-login-in-button")?.click();
+              }
+            }}
           />
         </div>
         {errorState && errorState.find((error) => error.name === "form-input") && (
-          <p className={styles.authModal__form_error_text}>{ERROR_MESSAGES.INVALID_CREDENTIALS}</p>
+          <p className={styles.signin__form_error_text}>
+            {errorState.find((error) => error.name === "form-input")?.message}
+          </p>
         )}
       </form>
       <div>

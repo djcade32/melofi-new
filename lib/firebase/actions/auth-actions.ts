@@ -16,6 +16,9 @@ import { addUserToNewsletter, changeUserEmailVerificationStatus } from "./newsle
 import { getUserFromUserDb } from "../getters/auth-getters";
 import { getUserFromNewsletterDb } from "../getters/newsletter-getters";
 import { addUserToStats } from "./stats-actions";
+import { ERROR_MESSAGES } from "@/enums/general";
+import { getUserData, retrieveUserAuth, saveUserData, storeUserAuth } from "@/lib/electron-store";
+import checkPremiumStatus from "@/lib/stripe/checkPremiumStatus";
 
 const auth = getFirebaseAuth();
 
@@ -65,7 +68,24 @@ export const login = async (email: string, password: string, fromDashboard?: boo
   }
 
   try {
+    console.log("Logging in...");
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log("User credential: ", userCredential);
+    // Save the user's token locally for offline access
+    if (typeof window !== "undefined" && window.electronAPI) {
+      // Check if online
+      const isOnline = navigator.onLine;
+      if (isOnline) {
+        const membershipType = await checkPremiumStatus();
+        if (membershipType === "lifetime") {
+          const token = await userCredential.user.getIdToken();
+          storeUserAuth(email, password, token);
+        } else {
+          return;
+        }
+      }
+    }
+
     const uid = userCredential.user.uid;
     const isEmailVerified = userCredential.user.emailVerified;
     const userFoundInUserDb = await getUserFromUserDb(uid);
@@ -92,12 +112,44 @@ export const login = async (email: string, password: string, fromDashboard?: boo
 
     // Set user in local storage
     localStorage.setItem("user", JSON.stringify(user));
+    saveUserData(email, user);
 
     return user;
-  } catch (error) {
+  } catch (error: any) {
+    if (error.code === "auth/network-request-failed") {
+      const user = await tryLoginWithOfflineToken(email, password, fromDashboard);
+      if (user) {
+        return user;
+      } else {
+        console.log("No offline auth found for user");
+        throw new Error(ERROR_MESSAGES.NO_INTERNET_CONNECTION);
+      }
+    }
     throw error;
   }
 };
+
+const tryLoginWithOfflineToken = async (
+  email: string,
+  password: string,
+  fromDashboard?: boolean
+) => {
+  const userCreds = await retrieveUserAuth(email);
+  if (userCreds?.password === password) {
+    const offlineToken = userCreds.token;
+    storeUserAuth(email, password, offlineToken);
+    const user = await getUserData(email);
+    fromDashboard && user && (user.skippedOnboarding = true);
+
+    // Set user in local storage
+    localStorage.setItem("user", JSON.stringify(user));
+    console.log("User logged in with offline credentials");
+    return user;
+  }
+  return null;
+};
+
+// Login with offline token
 
 // logout
 export const logout = async () => {

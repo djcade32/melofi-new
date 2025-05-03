@@ -110,10 +110,39 @@ Cypress.Commands.add("seedIndexedDB", (dbName, storeName, data) => {
   cy.window().then(async (win) => {
     indexedDB.deleteDatabase(dbName);
 
-    const db = await openDB(dbName, 1, {
+    let version = 1;
+
+    const incrementDBVersion = async () => {
+      const databases = await indexedDB.databases();
+      const dbExists = databases.some((db) => db.name === dbName);
+      if (dbExists) {
+        // Get the database version
+        const dbVersion = databases.find((db) => db.name === dbName)?.version;
+        if (dbVersion) {
+          console.log("Database version: ", dbVersion);
+          version = dbVersion + 1;
+        }
+      }
+    };
+
+    await incrementDBVersion();
+    console.log("version created: ", version);
+    const db = await openDB(dbName, version, {
       upgrade(db) {
         if (!db.objectStoreNames.contains(storeName)) {
           db.createObjectStore(storeName, { keyPath: "id" });
+        }
+        if (!db.objectStoreNames.contains("settings")) {
+          db.createObjectStore("settings");
+        }
+        if (!db.objectStoreNames.contains("appSettings")) {
+          db.createObjectStore("appSettings");
+        }
+        if (!db.objectStoreNames.contains("widgetData")) {
+          db.createObjectStore("widgetData");
+        }
+        if (!db.objectStoreNames.contains("stats")) {
+          db.createObjectStore("stats");
         }
       },
     });
@@ -121,13 +150,12 @@ Cypress.Commands.add("seedIndexedDB", (dbName, storeName, data) => {
     const tx = db.transaction(storeName, "readwrite");
     const store = tx.objectStore(storeName);
     await store.clear();
-
     // Insert new data
     for (const item of data) {
       await store.put({ id: item.key, value: item.value });
     }
-
     await tx.done;
+    return;
   });
 });
 

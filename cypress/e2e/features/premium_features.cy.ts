@@ -172,6 +172,7 @@ describe("Premium Features", () => {
         seedWithUser: true,
         skipOnboarding: true,
         loggedIn: true,
+        createIndexedDB: false,
       });
 
       pressMixerButton();

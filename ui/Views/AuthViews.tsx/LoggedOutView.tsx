@@ -4,6 +4,7 @@ import Signup from "./signup/Signup";
 import Signin from "./Signin";
 import ForgotPassword from "./forgotPassword/ForgotPassword";
 import VerifyEmailView from "./signup/VerifyEmailView";
+import useAppStore from "@/stores/app-store";
 
 interface LoggedOutViewProps {
   showEmailVerification: boolean;
@@ -12,6 +13,13 @@ interface LoggedOutViewProps {
 
 const LoggedOutView = ({ showEmailVerification, setShowEmailVerification }: LoggedOutViewProps) => {
   const [onboardingStep, setOnboardingStep] = useState<number>(0);
+  const { isElectron } = useAppStore();
+
+  useEffect(() => {
+    if (isElectron()) {
+      setOnboardingStep(1);
+    }
+  }, [isElectron]);
 
   const content = () => {
     if (showEmailVerification) {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useMemo, useState } from "react";
 import styles from "./authProvider.module.css";
 import useUserStore from "@/stores/user-store";
 import LoggedOutView from "@/ui/Views/AuthViews.tsx/LoggedOutView";
@@ -8,11 +8,11 @@ import { logout } from "@/lib/firebase/actions/auth-actions";
 import SceneBackground from "@/ui/components/sceneBackground/SceneBackground";
 import LoadingScreen from "@/ui/Views/loadingScreen/LoadingScreen";
 import useUserStatsStore from "@/stores/user-stats-store";
-import { MelofiUser } from "@/types/general";
+import { MelofiUser, UserStats } from "@/types/general";
 import SmallerScreenView from "@/ui/Views/SmallerScreenView";
 import NoInternetView from "@/ui/Views/NoInternetView";
-import { Logger } from "@/classes/Logger";
 import checkPremiumStatus from "@/lib/stripe/checkPremiumStatus";
+import useAppStore from "@/stores/app-store";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -23,7 +23,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const [grantAccess, setGrantAccess] = useState(false);
   const [loading, setLoading] = useState(true);
   const [onMobileDevice, setOnMobileDevice] = useState(false);
+  const [showNotInternetMessage, setShowNotInternetMessage] = useState(false);
 
+  const { setIsOnline, isOnline, isElectron } = useAppStore();
   const {
     setCurrentUser,
     currentUser,
@@ -32,36 +34,37 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsUserLoggedIn,
     setIsPremiumUser,
   } = useUserStore();
-  const { setUserStats } = useUserStatsStore();
-  const [isOnline, setIsOnline] = useState(true);
+  const { setUserStats, setStats } = useUserStatsStore();
 
   // Check if user is logged in
   useEffect(() => {
-    // Check if user is online
-    window.addEventListener("online", () => {
-      Logger.getInstance().info("Melofi is online.");
+    const handleOnline = () => {
       setIsOnline(true);
-    });
+    };
 
-    window.addEventListener("offline", () => {
-      Logger.getInstance().error("Melofi is offline.");
+    const handleOffline = () => {
       setIsOnline(false);
-    });
+    };
 
-    // Check if localStorage has user key
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
     const user = localStorage.getItem("user");
     if (user) {
       const MelofiUser = JSON.parse(user) as MelofiUser;
       setCurrentUser(MelofiUser);
-      setIsUserLoggedIn(MelofiUser.authUser ? true : false);
+      setIsUserLoggedIn(!!MelofiUser.authUser);
     }
 
     return () => {
-      window.removeEventListener("online", () => {});
-
-      window.removeEventListener("offline", () => {});
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
     };
   }, []);
+
+  useMemo(() => {
+    setShowNotInternetMessage(!isOnline && !isElectron());
+  }, [isOnline]);
 
   // Check if user's email is verified and if user is in db
   useEffect(() => {
@@ -77,18 +80,24 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       if (!currentUser.authUser.emailVerified) {
         setShowEmailVerification(true);
       } else if (currentUser?.authUser?.email) {
-        // Check if user is in db
-        checkIfUserIsInDb(currentUser.authUser?.uid).then((isInDb) => {
-          if (isInDb) {
-            setUserStats();
-            setGrantAccess(true);
-            setUserPremium();
-          } else {
-            logout();
-            // Remove user from localStorage
-            localStorage.removeItem("user");
-          }
-        });
+        // Check if user is in db if Melofi is online
+        if (navigator.onLine) {
+          checkIfUserIsInDb(currentUser.authUser?.uid).then((isInDb) => {
+            if (isInDb) {
+              setUserStats();
+              setGrantAccess(true);
+              setUserPremium();
+            } else {
+              logout();
+              // Remove user from localStorage
+              localStorage.removeItem("user");
+            }
+          });
+        } else {
+          setUserPremium();
+          setUserStatsOffline();
+          setGrantAccess(true);
+        }
       }
     } else if (!currentUser) {
       setGrantAccess(false);
@@ -119,13 +128,22 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const setUserPremium = async () => {
-    const isPremiumUser = await checkPremiumStatus();
+    const isPremiumUser = isElectron() ? "lifetime" : await checkPremiumStatus();
     setIsPremiumUser(isPremiumUser);
+  };
+
+  const setUserStatsOffline = async () => {
+    const email = currentUser?.authUser?.email;
+    if (email) {
+      const userStats: UserStats = await window.electronAPI.getUserStats(email);
+      console.log("User stats offline: ", userStats);
+      userStats && setStats(userStats);
+    }
   };
 
   return (
     <div className={styles.authProvider__container}>
-      {!isOnline ? (
+      {showNotInternetMessage ? (
         <NoInternetView />
       ) : (
         <>

@@ -4,6 +4,7 @@ import { IconType } from "react-icons";
 import { Descendant } from "slate";
 import { PomodoroTimerStats } from "./interfaces/pomodoro_timer";
 import { NotificationTypes } from "@/enums/general";
+import { Timestamp } from "firebase/firestore";
 
 export interface Scene {
   id: number;
@@ -151,4 +152,12 @@ export interface AppSettings {
   calendarHoverEffectEnabled: boolean;
   todoListHoverEffectEnabled: boolean;
   showDailyQuote: boolean;
+}
+
+export interface AnnouncementBanner {
+  text: string;
+  cta: string;
+  ctaLink: string;
+  start: Timestamp;
+  end: Timestamp;
 }

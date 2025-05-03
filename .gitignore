@@ -14,7 +14,7 @@
 /out/
 
 # production
-/build
+/dist
 
 # misc
 .DS_Store
@@ -37,3 +37,7 @@ next-env.d.ts
 
 .env
 .env.local
+
+# next-pwa
+sw.js
+workbox-*.js

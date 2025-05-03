@@ -4,6 +4,8 @@
   align-items: center;
   flex-direction: column;
   padding-top: 100px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .pricing__switch {
@@ -56,7 +58,7 @@
   flex-direction: column;
   padding: 20px;
   border-radius: 5px;
-  width: 400px;
+  width: 350px;
   height: 800px;
 }
 .pricing__plans_plan_border_free {
@@ -66,6 +68,12 @@
 }
 
 .pricing__plans_plan_border_premium {
+  border: 3px solid rgb(254, 165, 57, 30%);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.pricing__plans_plan_border_lifetime {
   border: 3px solid rgb(254, 165, 57, 30%);
   border-radius: 10px;
   padding: 10px;
@@ -82,6 +90,16 @@
 }
 
 .pricing__plans_plan_border_premium > .pricing__plans_plan {
+  background: rgb(254, 165, 57);
+  background: linear-gradient(
+    180deg,
+    rgba(254, 165, 57, 50%) 0%,
+    rgba(255, 211, 158, 1) 25%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+
+.pricing__plans_plan_border_lifetime > .pricing__plans_plan {
   background: rgb(254, 165, 57);
   background: linear-gradient(
     180deg,
@@ -127,9 +145,15 @@
   font-size: 20px;
 }
 
-@media (max-width: 915px) {
+@media (max-width: 1170px) {
   .pricing__plans_plan {
-    width: 350px;
+    width: 325px;
+  }
+}
+
+@media (max-width: 1040px) {
+  .pricing__plans {
+    flex-wrap: wrap;
   }
 }
 

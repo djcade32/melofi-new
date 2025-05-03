@@ -86,7 +86,7 @@ const AboutMelofiModal = () => {
             </div>
           </div>
           <div className={styles.aboutMelofiModal__version}>
-            <p>Version 2.0.0</p>
+            <p>Version {process.env.NEXT_PUBLIC_MELOFI_VERSION}</p>
           </div>
         </div>
       </div>

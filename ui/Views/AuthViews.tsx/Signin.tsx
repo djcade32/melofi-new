@@ -6,9 +6,11 @@ import { AuthViewProps } from "@/types/general";
 import { login } from "@/lib/firebase/actions/auth-actions";
 import useUserStore from "@/stores/user-store";
 import { ERROR_MESSAGES } from "@/enums/general";
+import useAppStore from "@/stores/app-store";
 
 const Signin = ({ setOnboardingStep }: AuthViewProps) => {
   const { setCurrentUser, setIsUserLoggedIn } = useUserStore();
+  const { isElectron, isOnline } = useAppStore();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,10 +24,19 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
     try {
       const user = await login(email, password);
       console.log("User logged in: ", user);
+      if (!user && isElectron()) {
+        return alert("You need to be a lifetime member to use the Melofi Desktop");
+      }
+      if (!user) return console.log("User is null");
+
       setCurrentUser(user);
       setIsUserLoggedIn(true);
     } catch (error: any) {
       console.log("Error logging in: ", error);
+      const formErrorMessage =
+        error.message === ERROR_MESSAGES.NO_INTERNET_CONNECTION
+          ? ERROR_MESSAGES.NO_INTERNET_CONNECTION
+          : ERROR_MESSAGES.INVALID_CREDENTIALS;
       setErrorState([
         {
           name: "email-input",
@@ -37,7 +48,7 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
         },
         {
           name: "form-input",
-          message: "",
+          message: formErrorMessage,
         },
       ]);
     }
@@ -117,9 +128,16 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
             errorState={errorState}
             value={password}
             transparentBackground
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                document.getElementById("sign-in-button")?.click();
+              }
+            }}
           />
           {errorState && errorState.find((error) => error.name === "form-input") && (
-            <p className={styles.signin__form_error_text}>{ERROR_MESSAGES.INVALID_CREDENTIALS}</p>
+            <p className={styles.signin__form_error_text}>
+              {errorState.find((error) => error.name === "form-input")?.message}
+            </p>
           )}
         </form>
         <div>
@@ -130,10 +148,31 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
             containerClassName={styles.signin__continue_button}
             showLoadingState={true}
           />
+          {isOnline && (
+            <p
+              className={styles.signin__have_account_text}
+              style={{
+                marginTop: 30,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.textDecoration = "none";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.textDecoration = "underline";
+              }}
+              onClick={() => setOnboardingStep(2)}
+            >
+              Forgot your password?
+            </p>
+          )}
+        </div>
+
+        {!isElectron() && (
           <p
             className={styles.signin__have_account_text}
             style={{
-              marginTop: 30,
+              position: "absolute",
+              bottom: 0,
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.textDecoration = "none";
@@ -141,28 +180,11 @@ const Signin = ({ setOnboardingStep }: AuthViewProps) => {
             onMouseLeave={(e) => {
               e.currentTarget.style.textDecoration = "underline";
             }}
-            onClick={() => setOnboardingStep(2)}
+            onClick={() => setOnboardingStep((prev) => prev - 1)}
           >
-            Forgot your password?
+            Don't have an Account? Sign up for Free!
           </p>
-        </div>
-
-        <p
-          className={styles.signin__have_account_text}
-          style={{
-            position: "absolute",
-            bottom: 0,
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.textDecoration = "none";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.textDecoration = "underline";
-          }}
-          onClick={() => setOnboardingStep((prev) => prev - 1)}
-        >
-          Don't have an Account? Sign up for Free!
-        </p>
+        )}
       </div>
     </div>
   );

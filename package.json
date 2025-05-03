@@ -1,8 +1,38 @@
 {
   "name": "melofi-new",
-  "version": "0.1.0",
-  "main": "electron.js",
+  "version": "3.0.0",
+  "main": "electron/electron.mjs",
   "private": true,
+  "build": {
+    "appId": "com.melofi",
+    "productName": "Melofi",
+    "icon": "build/icons/icons/icon",
+    "files": [
+      ".next/**/*",
+      "electron/electron.mjs",
+      "electron/preload.mjs",
+      "authStore.mjs",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/",
+        "to": "resources",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
   "scripts": {
     "dev": "next dev",
     "test:unit": "jest",
@@ -12,11 +42,16 @@
     "test:e2e": "concurrently \"firebase emulators:start\" \"NODE_ENV=test start-server-and-test dev http://localhost:3000 cy:open\"",
     "test:e2e:headless": "concurrently \"firebase emulators:start\" \"NODE_ENV=test start-server-and-test dev http://localhost:3000 cy:run\"",
     "test:e2e:headless:github": "start-server-and-test dev http://localhost:3000 cy:run",
-    "electron": "electron .",
+    "electron": "electron electron/electron.mjs",
     "dev:electron": "concurrently \"npm run dev\" \"wait-on http://localhost:3000 && npm run electron\"",
+    "start:electron": "concurrently \"npm run start\" \"wait-on http://localhost:3000 && npm run electron\"",
     "start": "next start",
     "lint": "next lint",
-    "build": "next build"
+    "build": "next build",
+    "build:desktop": "electron-builder",
+    "build-electron-builder": "electron-builder",
+    "upload": "node scripts/upload.js",
+    "build-and-upload": "npm run build-electron-builder && npm run upload"
   },
   "dependencies": {
     "@emotion/css": "^11.13.5",
@@ -27,15 +62,18 @@
     "@stripe/stripe-js": "^5.7.0",
     "@types/is-hotkey": "^0.1.10",
     "date-fns": "^4.1.0",
-    "electron": "^35.1.2",
+    "electron-log": "^5.3.4",
+    "electron-store": "^10.0.1",
+    "electron-updater": "^6.6.2",
     "firebase": "^11.4.0",
     "firebase-admin": "^12.7.0",
     "firebase-functions": "^6.1.0",
     "framer-motion": "^12.5.0",
-    "fs": "^0.0.1-security",
+    "glob": "^10.4.5",
     "idb": "^8.0.0",
     "is-hotkey": "^0.2.0",
     "next": "14.2.13",
+    "next-pwa": "^5.6.0",
     "nextjs-google-analytics": "^2.3.7",
     "react": "^18",
     "react-dom": "^18",
@@ -49,6 +87,7 @@
     "slate": "^0.110.2",
     "slate-history": "^0.110.3",
     "slate-react": "^0.111.0",
+    "stripe": "^18.0.0",
     "uuid": "^11.0.3",
     "youtube-player": "^5.6.0",
     "zustand": "^5.0.0-rc.2"
@@ -71,6 +110,9 @@
     "critters": "^0.0.23",
     "cypress": "^13.17.0",
     "cypress-real-events": "^1.14.0",
+    "electron": "^35.1.2",
+    "electron-builder": "^26.0.12",
+    "electron-icon-builder": "^2.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.13",
     "file-loader": "^6.2.0",
@@ -79,7 +121,8 @@
     "ts-loader": "^9.5.1",
     "typescript": "5.8.2",
     "wait-on": "^8.0.1",
-    "webpack": "^5.97.1"
+    "webpack": "^5.97.1",
+    "workbox-build": "^7.3.0"
   },
   "type": "module"
 }
