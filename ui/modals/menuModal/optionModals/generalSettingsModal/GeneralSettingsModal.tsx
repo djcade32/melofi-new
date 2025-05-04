@@ -38,6 +38,7 @@ const GeneralSettingsModal = () => {
     setTodoListHoverEffectEnabled,
     setDailyQuoteEnabled,
     setShowPremiumModal,
+    setSceneRouletteEnabled,
   } = useAppStore();
   const { isPremiumUser } = useUserStore();
   const isOpen = selectedOption === "General Settings";
@@ -195,6 +196,27 @@ const GeneralSettingsModal = () => {
           </div>
           <p className={styles.generalSettingsModal__setting_description}>
             Display a daily motivational quote in your workspace.
+          </p>
+        </div>
+
+        {/* Scene Settings */}
+        <div className={styles.generalSettingsModal__settings_section}>
+          <div>
+            <p className={styles.generalSettingsModal__setting_section_title}>Scene</p>
+          </div>
+          <div className={styles.generalSettingsModal__setting_container}>
+            <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
+              <p>Scene Roulette</p>
+              {!isPremiumUser && <PremiumBadge onClick={() => setShowPremiumModal("scenes")} />}
+            </div>
+            <Switch
+              disabled={!isPremiumUser}
+              checked={isPremiumUser && appSettings.sceneRouletteEnabled}
+              onChange={() => setSceneRouletteEnabled(!appSettings.sceneRouletteEnabled)}
+            />
+          </div>
+          <p className={styles.generalSettingsModal__setting_description}>
+            Loads a random scene every visit to keep your focus fresh.
           </p>
         </div>
 
