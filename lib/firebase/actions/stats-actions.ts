@@ -21,11 +21,11 @@ export const addUserToStats = async (user: User) => {
         totalBreakTime: 0,
         totalSessionsCompleted: 0,
         totalTasksCompleted: 0,
-      },
+      } as PomodoroTimerStats,
       totalNotesCreated: 0,
       alarmsExpiredCount: 0,
-
       sceneCounts: null,
+      achievements: [],
     } as UserStats);
   } catch (error) {
     console.log("Error adding user to stats db: ", error);
@@ -116,9 +116,11 @@ export const resetUserStats = async (uid: string) => {
         totalBreakTime: 0,
         totalSessionsCompleted: 0,
         totalTasksCompleted: 0,
-      },
+      } as PomodoroTimerStats,
       totalNotesCreated: 0,
       sceneCounts: null,
+      alarmsExpiredCount: 0,
+      achievements: [],
     } as UserStats);
   } catch (error) {
     console.log("Error resetting user stats data in stats db: ", error);

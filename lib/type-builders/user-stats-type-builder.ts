@@ -13,5 +13,6 @@ export const buildUserStatsType = (userStats: any): UserStats => {
     totalNotesCreated: userStats?.totalNotesCreated || 0,
     sceneCounts: userStats?.sceneCounts || null,
     alarmsExpiredCount: userStats?.alarmsExpiredCount || 0,
+    achievements: userStats?.achievements || [],
   };
 };

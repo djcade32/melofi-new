@@ -165,6 +165,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
       pomodoroTimer: undefined,
       notes: { totalNotesCreated: 0 },
       sceneCounts: null,
+      achievements: { achievements: [] },
       _lastSynced: new Date().toISOString(),
     };
 
@@ -314,6 +315,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
           pomodoroTimer: data.pomodoroTimer,
           totalNotesCreated: data.notes.totalNotesCreated,
           sceneCounts: data.sceneCounts,
+          achievements: data.achievements.achievements,
         };
         const success = await updateUserStatsFirebase(uid, userStats);
 

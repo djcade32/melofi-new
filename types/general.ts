@@ -1,4 +1,3 @@
-import { User } from "firebase/auth";
 import { ReactElement, ReactNode } from "react";
 import { IconType } from "react-icons";
 import { Descendant } from "slate";
@@ -101,6 +100,7 @@ export interface UserStats {
   totalNotesCreated: number;
   sceneCounts: SceneCounts | null;
   alarmsExpiredCount: number;
+  achievements: Achievement[];
 }
 
 export interface DialogModalActions {

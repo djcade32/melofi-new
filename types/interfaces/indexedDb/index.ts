@@ -1,4 +1,4 @@
-import { SceneCounts, Task } from "@/types/general";
+import { Achievement, SceneCounts, Task } from "@/types/general";
 import { PomodoroTimerStats, PomodoroTimerTask } from "../pomodoro_timer";
 import { Alarm } from "../alarms";
 import { Template } from "../templates";
@@ -20,6 +20,7 @@ export interface IndexedDBUserStats {
   pomodoroTimer: PomodoroTimerStats | undefined;
   notes: { totalNotesCreated: number | undefined };
   sceneCounts: SceneCounts | null | undefined;
+  achievements: { achievements: Achievement[] | undefined };
   _lastSynced: string;
 }
 

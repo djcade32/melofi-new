@@ -10,7 +10,7 @@ import { buildUserStatsType } from "@/lib/type-builders/user-stats-type-builder"
 import { create } from "zustand";
 import useUserStore from "./user-store";
 import { PomodoroTimerStats } from "@/types/interfaces/pomodoro_timer";
-import { SceneCounts, UserStats } from "@/types/general";
+import { Achievement, SceneCounts, UserStats } from "@/types/general";
 import { Logger } from "@/classes/Logger";
 import { saveUserStats } from "@/lib/electron-store";
 import useIndexedDBStore from "./indexedDB-store";
@@ -21,6 +21,7 @@ export interface userStatsState {
   totalNotesCreated: number;
   sceneCounts: SceneCounts | null;
   alarmsExpiredCount: number;
+  achievements: Achievement[];
 
   setUserStats: () => Promise<void>;
   incrementTotalNotesCreated: () => Promise<void>;
@@ -44,6 +45,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
   totalNotesCreated: 0,
   sceneCounts: null,
   alarmsExpiredCount: 0,
+  achievements: [],
 
   async setUserStats() {
     const { updateUserStats } = useIndexedDBStore.getState();
@@ -208,6 +210,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       totalNotesCreated: 0,
       sceneCounts: null,
       alarmsExpiredCount: 0,
+      achievements: [],
     });
 
     updateUserStats(uid, (stats) => {
@@ -222,6 +225,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       stats.notes.totalNotesCreated = 0;
       stats.sceneCounts = null;
       stats.alarm.alarmsExpiredCount = 0;
+      stats.achievements.achievements = [];
       return stats;
     });
   },
@@ -232,12 +236,13 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       totalNotesCreated: stats.totalNotesCreated,
       sceneCounts: stats.sceneCounts,
       alarmsExpiredCount: stats.alarmsExpiredCount,
+      achievements: stats.achievements,
     });
   },
 
   getUserStats: () => {
     const { currentUser } = useUserStore.getState();
-    const { pomodoroTimerStats, totalNotesCreated, sceneCounts, alarmsExpiredCount } =
+    const { pomodoroTimerStats, totalNotesCreated, sceneCounts, alarmsExpiredCount, achievements } =
       useUserStatsStore.getState();
 
     if (currentUser?.authUser?.uid) {
@@ -246,6 +251,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
         totalNotesCreated: totalNotesCreated,
         sceneCounts: sceneCounts,
         alarmsExpiredCount: alarmsExpiredCount,
+        achievements: achievements,
       };
       return userStats;
     }
