@@ -162,3 +162,10 @@ export interface AnnouncementBanner {
   start: Timestamp;
   end: Timestamp;
 }
+
+export interface Achievement {
+  id: number;
+  title: string;
+  description: string;
+  completed: boolean;
+}
