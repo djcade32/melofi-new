@@ -19,6 +19,7 @@ let localStorage = {
       calendarHoverEffectEnabled: true,
       todoListHoverEffectEnabled: true,
       showDailyQuote: true,
+      sceneRouletteEnabled: false,
     },
   },
 };
@@ -32,6 +33,9 @@ describe("Testing General Settings", () => {
     });
   });
   after(() => {
+    Menu.menuButton().click();
+    Menu.options.generalSettings().click();
+
     // Reset the settings
     Menu.generalSettingsModal.delayOptions.container().click();
     Menu.generalSettingsModal.delayOptions.option(1).click();
@@ -40,6 +44,7 @@ describe("Testing General Settings", () => {
     Menu.generalSettingsModal.settings("Calendar").toggle();
     Menu.generalSettingsModal.settings("To-Do List").toggle();
     Menu.generalSettingsModal.settings("Show Daily Quotes").toggle();
+    Menu.generalSettingsModal.settings("Scene Roulette").toggle();
 
     cy.clearLocalStorage();
   });
@@ -158,5 +163,27 @@ describe("Testing General Settings", () => {
 
     // Check if the daily quote is hidden
     getElementWithClassName("quoteDisplay__container").should("not.exist");
+  });
+
+  it("Should change the scene roulette setting to enabled", () => {
+    Menu.menuButton().click();
+    Menu.options.generalSettings().click();
+    Menu.generalSettingsModal.settings("Scene Roulette").toggle();
+
+    // See if the setting is saved in the local storage
+    localStorage[url].app_settings.sceneRouletteEnabled = true;
+    cy.getAllLocalStorage().then((localStorageData) => {
+      const json = JSON.parse(localStorageData[url].app_settings);
+      const stringified = JSON.stringify(localStorage[url].app_settings);
+      const json2 = JSON.parse(stringified);
+      expect(json2).to.deep.equal(json);
+    });
+
+    // Get the current scene attribute
+    const currentScene = cy.get("#background-video").invoke("attr", "src");
+
+    // Check if the scene changes on reload
+    cy.reload();
+    cy.get("#background-video").should("have.attr", "src").and("not.equal", currentScene);
   });
 });
