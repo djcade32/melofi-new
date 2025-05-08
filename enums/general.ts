@@ -14,7 +14,13 @@ export const ERROR_MESSAGES = {
   NO_INTERNET_CONNECTION: "No internet connection",
 };
 
-export type NotificationTypes = "success" | "error" | "normal" | "alarm" | "copy_to_clipboard";
+export type NotificationTypes =
+  | "success"
+  | "error"
+  | "normal"
+  | "alarm"
+  | "copy_to_clipboard"
+  | "achievement";
 
 export type MenuOptionNames =
   | "Account"
@@ -42,3 +48,19 @@ export type PremiumModalTypes =
   | "spotify";
 
 export type UserMembership = "free" | "premium" | "lifetime";
+
+export type AchievementTypes =
+  | "Focus Master 🧘‍♂️"
+  | "Pomodoro Pro 🍅"
+  | "Marathon Focus 🏃‍♂️"
+  | "Productivity Week 📅"
+  | "Night Owl 🌙"
+  | "Early Bird 🌅"
+  | "Scene Explorer 🎨"
+  | "Habit Builder 🔄"
+  | "Focus Legend ⭐"
+  | "Note Taker Master 📝"
+  | "Note Taker Extraordinaire 📝"
+  | "Timekeeper ⏰"
+  | "Pomodoro Champion 🏆"
+  | "Deep Focus Streak 🔥";

@@ -37,6 +37,9 @@ import {
   BsGlobe,
   BsDatabaseFillCheck,
   BsDatabaseFillX,
+  BsCircle,
+  BsCheckCircleFill,
+  BsFillTrophyFill,
 } from "react-icons/bs";
 import {
   IoVolumeMedium,
@@ -263,4 +266,7 @@ export {
   BsDatabaseFillCheck,
   BsDatabaseFillX,
   FaDownload,
+  BsCircle,
+  BsCheckCircleFill,
+  BsFillTrophyFill,
 };

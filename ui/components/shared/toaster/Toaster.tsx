@@ -3,7 +3,13 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import styles from "./toaster.module.css";
 import { Slide, Snackbar, SnackbarCloseReason, SnackbarContent } from "@mui/material";
-import { IoCloseOutline, MdError, IoCheckmarkCircle, IoCopy } from "@/imports/icons";
+import {
+  IoCloseOutline,
+  MdError,
+  IoCheckmarkCircle,
+  IoCopy,
+  BsFillTrophyFill,
+} from "@/imports/icons";
 import { IconType } from "react-icons";
 import { NotificationTypes } from "@/enums/general";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
@@ -14,13 +20,14 @@ interface ToasterProps {
   type?: NotificationTypes;
   icon?: IconType;
   actions?: { element: ReactNode; onClick: () => void }[];
+  title?: string;
 }
 
 function SlideTransition(props: any) {
   return <Slide {...props} direction="up" />;
 }
 
-const Toaster = ({ message, type = "normal", icon, show, actions }: ToasterProps) => {
+const Toaster = ({ message, type = "normal", icon, show, actions, title }: ToasterProps) => {
   const [open, setOpen] = useState(show);
   const [isAlarm, setIsAlarm] = useState(false);
   const { setShowNotification, removeNotification } = useNotificationProviderStore();
@@ -54,6 +61,8 @@ const Toaster = ({ message, type = "normal", icon, show, actions }: ToasterProps
       return <MdError size={25} color="var(--color-white)" />;
     } else if (type === "copy_to_clipboard") {
       return <IoCopy size={25} color="var(--color-white)" />;
+    } else if (type === "achievement") {
+      return <BsFillTrophyFill size={25} color="var(--color-effect-opacity)" />;
     }
     return;
   };
@@ -64,9 +73,22 @@ const Toaster = ({ message, type = "normal", icon, show, actions }: ToasterProps
         className={styles.toaster__message_content}
         style={{ flexDirection: actions && actions?.length > 1 ? "column" : "row" }}
       >
-        <div style={{ display: "flex", columnGap: 5, alignItems: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            columnGap: 5,
+            alignItems: "center",
+          }}
+        >
           {chooseIcon()}
-          <p style={{ color: "var(--color-white)" }}>{message}</p>
+          <div>
+            {type === "achievement" ? (
+              <p style={{ color: "var(--color-white)", fontWeight: 600 }}>Achievement Unlocked!</p>
+            ) : (
+              title && <p style={{ color: "var(--color-white)", fontWeight: 600 }}>{title}</p>
+            )}
+            <p style={{ color: "var(--color-white)" }}>{message}</p>
+          </div>
         </div>
 
         {actions?.length ? (
@@ -103,7 +125,7 @@ const Toaster = ({ message, type = "normal", icon, show, actions }: ToasterProps
       return "var(--color-success)";
     } else if (type === "error") {
       return "var(--color-error)";
-    } else if (type === "normal" || isAlarm) {
+    } else {
       return "var(--color-primary-opacity)";
     }
   };

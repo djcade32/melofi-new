@@ -139,7 +139,11 @@ const FocusStatsSection = () => {
           />
           <StatDisplay
             label="Tasks"
-            stat={isPremiumUser ? focusStats?.tasksCompleted || 0 : dummyFocusStats.tasksCompleted}
+            stat={
+              isPremiumUser
+                ? focusStats?.tasksCompleted?.length || 0
+                : dummyFocusStats.tasksCompleted
+            }
           />
         </div>
         <div className={styles.focusStatsSection_stats_container}>
