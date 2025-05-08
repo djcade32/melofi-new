@@ -46,7 +46,7 @@ const useInsightsStore = create<InsightsState>((set, get) => ({
       focusTime: isNewDay(convertedDate) ? 0 : focusTime,
       breakTime: isNewDay(convertedDate) ? 0 : breakTime,
       sessionsCompleted: isNewDay(convertedDate) ? 0 : sessionsCompleted,
-      tasksCompleted: isNewDay(convertedDate) ? 0 : tasksCompleted,
+      tasksCompleted: isNewDay(convertedDate) ? [] : tasksCompleted,
     };
     return obj;
   },
@@ -58,7 +58,7 @@ const useInsightsStore = create<InsightsState>((set, get) => ({
       totalFocusTime: focusTime,
       totalBreakTime: breakTime,
       totalSessionsCompleted: sessionsCompleted,
-      totalTasksCompleted: tasksCompleted,
+      tasksCompleted: tasksCompleted,
     } = pomodoroTimerStats;
     return {
       focusTime,
@@ -100,7 +100,7 @@ const useInsightsStore = create<InsightsState>((set, get) => ({
           focusTime: 0,
           breakTime: 0,
           sessionsCompleted: 0,
-          tasksCompleted: 0,
+          tasksCompleted: [],
         } as WeeklyFocusStatsType);
       } else {
         const { focusTime, breakTime, sessionsCompleted, tasksCompleted } =

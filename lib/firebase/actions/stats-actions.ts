@@ -20,7 +20,7 @@ export const addUserToStats = async (user: User) => {
         totalFocusTime: 0,
         totalBreakTime: 0,
         totalSessionsCompleted: 0,
-        totalTasksCompleted: 0,
+        tasksCompleted: [] as PomodoroTimerStats["tasksCompleted"],
       } as PomodoroTimerStats,
       totalNotesCreated: 0,
       alarmsExpiredCount: 0,
@@ -48,13 +48,13 @@ export const updateTotalNotesCreated = async (uid: string, totalNotesCreated: nu
 };
 
 // Update completed tasks Count in stats db
-export const updateTotalTasksCompleted = async (uid: string, totalTasksCompleted: number) => {
+export const updateTasksCompleted = async (uid: string, tasksCompleted: number) => {
   if (!db) {
     throw new Error("Firebase DB is not initialized");
   }
   try {
     const usersDoc = doc(db, `stats/${uid}`);
-    await setDoc(usersDoc, { totalTasksCompleted }, { merge: true });
+    await setDoc(usersDoc, { tasksCompleted }, { merge: true });
   } catch (error) {
     console.log("Error updating completed tasks count in stats db: ", error);
     throw error;
@@ -115,7 +115,7 @@ export const resetUserStats = async (uid: string) => {
         totalFocusTime: 0,
         totalBreakTime: 0,
         totalSessionsCompleted: 0,
-        totalTasksCompleted: 0,
+        tasksCompleted: [] as PomodoroTimerStats["tasksCompleted"],
       } as PomodoroTimerStats,
       totalNotesCreated: 0,
       sceneCounts: null,
@@ -129,6 +129,13 @@ export const resetUserStats = async (uid: string) => {
 };
 
 // Update user stats in stats db
+/**
+ *
+ * @param uid
+ * @param stats
+ * @returns { result: boolean; message: string }
+ * @description Updates user stats in the stats database. If the database is not initialized, it returns an error message.
+ */
 export const updateUserStats = async (uid: string, stats: Partial<UserStats>) => {
   if (!db) {
     return { result: false, message: "Firebase DB is not initialized" };

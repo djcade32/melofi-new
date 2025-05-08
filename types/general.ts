@@ -2,7 +2,7 @@ import { ReactElement, ReactNode } from "react";
 import { IconType } from "react-icons";
 import { Descendant } from "slate";
 import { PomodoroTimerStats } from "./interfaces/pomodoro_timer";
-import { NotificationTypes } from "@/enums/general";
+import { AchievementTypes, NotificationTypes } from "@/enums/general";
 import { Timestamp } from "firebase/firestore";
 
 export interface Scene {
@@ -34,6 +34,8 @@ export interface NotificationType {
   type: NotificationTypes;
   icon?: IconType;
   actions?: { element: ReactNode; onClick: () => void }[];
+  title?: string;
+  audible?: boolean;
 }
 
 export interface MenuOption {
@@ -100,7 +102,7 @@ export interface UserStats {
   totalNotesCreated: number;
   sceneCounts: SceneCounts | null;
   alarmsExpiredCount: number;
-  achievements: Achievement[];
+  achievements: AchievementTypes[];
 }
 
 export interface DialogModalActions {
@@ -164,8 +166,6 @@ export interface AnnouncementBanner {
 }
 
 export interface Achievement {
-  id: number;
   title: string;
   description: string;
-  completed: boolean;
 }

@@ -6,7 +6,7 @@ export const buildUserStatsType = (userStats: any): UserStats => {
       totalFocusTime: userStats?.pomodoroTimer?.totalFocusTime || 0,
       totalBreakTime: userStats?.pomodoroTimer?.totalBreakTime || 0,
       totalSessionsCompleted: userStats?.pomodoroTimer?.totalSessionsCompleted || 0,
-      totalTasksCompleted: userStats?.pomodoroTimer?.totalTasksCompleted || 0,
+      tasksCompleted: userStats?.pomodoroTimer?.tasksCompleted || [],
       weeklyStats: userStats?.pomodoroTimer?.weeklyStats || null,
       focusDay: userStats?.pomodoroTimer?.focusDay || null,
     },

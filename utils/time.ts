@@ -23,7 +23,11 @@ export const convertMinsToSecs = (mins: number) => {
   return mins * 60;
 };
 
-// Convert seconds to hr, mins and sec
+/**
+ *
+ * @param secs
+ * @description Converts seconds to hours, minutes, and seconds.
+ */
 export const convertSecsToHrMinsSec = (secs: number) => {
   const hr = Math.floor(secs / 3600); // Calculate hours
   const min = Math.floor((secs % 3600) / 60); // Remaining minutes
@@ -31,7 +35,11 @@ export const convertSecsToHrMinsSec = (secs: number) => {
   return { hr, min, sec };
 };
 
-// Convert seconds to mins
+/**
+ *
+ * @param secs
+ * @description Converts seconds to minutes.
+ */
 export const convertSecsToMins = (secs: number) => {
   return secs / 60;
 };

@@ -2,13 +2,15 @@
 
 import Toaster from "@/ui/components/shared/toaster/Toaster";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { notification_sound } from "@/imports/effects";
 
 interface NotificationProviderProps {
   children: React.ReactNode;
 }
 
 const NotificationProvider = ({ children }: NotificationProviderProps) => {
+  const audioRef = useRef<HTMLAudioElement>(null);
   const {
     notificationQueue,
     removeNotification,
@@ -40,6 +42,11 @@ const NotificationProvider = ({ children }: NotificationProviderProps) => {
   useEffect(() => {
     if (showNotification) {
       if (currentNotification?.type === "alarm") return;
+      if (currentNotification?.audible || currentNotification?.type === "achievement") {
+        audioRef.current?.play().catch((error) => {
+          console.error("Error playing audio:", error);
+        });
+      }
       if (timeoutState) clearTimeout(timeoutState);
       setTimeoutState(
         setTimeout(() => {
@@ -60,6 +67,13 @@ const NotificationProvider = ({ children }: NotificationProviderProps) => {
         height: "100%",
       }}
     >
+      <audio
+        ref={audioRef}
+        id="notification-sound"
+        src={notification_sound}
+        preload="auto"
+        typeof="audio/mpeg"
+      />
       {children}
       <Toaster
         message={currentNotification?.message || ""}
@@ -67,6 +81,7 @@ const NotificationProvider = ({ children }: NotificationProviderProps) => {
         show={showNotification}
         icon={currentNotification?.icon}
         actions={currentNotification?.actions}
+        title={currentNotification?.title}
       />
     </div>
   );

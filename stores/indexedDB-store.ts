@@ -13,7 +13,6 @@ import useNotificationProviderStore from "./notification-provider-store";
 import { AppSettings, UserStats } from "@/types/general";
 import { updateUserStats as updateUserStatsFirebase } from "@/lib/firebase/actions/stats-actions";
 import { BsDatabaseFillCheck, BsDatabaseFillX } from "@/imports/icons";
-import { dark } from "@mui/material/styles/createPalette";
 import useAppStore from "./app-store";
 
 const log = {
@@ -27,14 +26,32 @@ export interface IndexedDBState {
   initializeIndexedDB: () => Promise<void>;
   setIndexedDB: (db: IDBPDatabase<unknown> | null) => void;
   syncWidgetData: () => Promise<void>;
+  /**
+    @param uid - User ID
+    @param updaterFn - Function to update widget data
+    @returns {Promise<void>}
+    @description Updates widget data in IndexedDB. If IndexedDB is not initialized, it will log an error.
+   */
   updateWidgetData: (
     uid: string,
     updaterFn: (settings: IndexedDBWidgetData) => IndexedDBWidgetData
   ) => Promise<void>;
+  /**
+    @param uid - User ID
+    @param updaterFn - Function to update app settings
+    @returns {Promise<void>}
+    @description Updates app settings in IndexedDB. If IndexedDB is not initialized, it will log an error.
+   */
   updateAppSettings: (
     uid: string,
     updaterFn: (settings: IndexedDBAppSettings) => IndexedDBAppSettings
   ) => Promise<void>;
+  /**
+    @param uid - User ID
+    @param updaterFn - Function to update user stats
+    @returns {Promise<void>}
+    @description Updates user stats in IndexedDB. If IndexedDB is not initialized, it will log an error.
+   */
   updateUserStats: (
     uid: string,
     updaterFn: (settings: IndexedDBUserStats) => IndexedDBUserStats
@@ -168,9 +185,16 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
       achievements: { achievements: [] },
       _lastSynced: new Date().toISOString(),
     };
+    const fetchedStats = await indexedDB.get("stats", uid);
 
-    const stats = (await indexedDB.get("stats", uid)) || defaultUserStats;
-
+    const stats = {
+      alarm: fetchedStats?.alarm || defaultUserStats.alarm,
+      pomodoroTimer: fetchedStats?.pomodoroTimer || defaultUserStats.pomodoroTimer,
+      notes: fetchedStats?.notes || defaultUserStats.notes,
+      sceneCounts: fetchedStats?.sceneCounts || defaultUserStats.sceneCounts,
+      achievements: fetchedStats?.achievements || defaultUserStats.achievements,
+      _lastSynced: new Date().toISOString(),
+    };
     const updated = updaterFn({ ...stats }); // clone for safety
     await indexedDB.put("stats", updated, uid);
   },

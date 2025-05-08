@@ -4,7 +4,7 @@ export interface PomodoroTimerStats {
   totalFocusTime: number;
   totalBreakTime: number;
   totalSessionsCompleted: number;
-  totalTasksCompleted: number;
+  tasksCompleted: TasksCompleted[];
   weeklyStats: WeeklyStats | null;
   focusDay: {
     current: FocusDay | null;
@@ -17,7 +17,7 @@ export type WeeklyStats = {
     focusTime: number;
     breakTime: number;
     sessionsCompleted: number;
-    tasksCompleted: number;
+    tasksCompleted: TasksCompleted[];
   };
 };
 
@@ -26,7 +26,7 @@ export interface FocusDay {
   focusTime: number;
   breakTime: number;
   sessionsCompleted: number;
-  tasksCompleted: number;
+  tasksCompleted: TasksCompleted[];
 }
 
 export interface PomodoroTimerTaskPayload {
@@ -43,4 +43,10 @@ export interface PomodoroTimerTask extends PomodoroTimerTaskPayload {
   sessionsCompleted: number;
   percentCompleted: number;
   currentMode: "Focus" | "Break";
+}
+
+export interface TasksCompleted {
+  title: string;
+  completedAt: string;
+  startedAt: string;
 }
