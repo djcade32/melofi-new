@@ -110,9 +110,9 @@ const PomodoroTimer = () => {
 
     if (wasLastSession()) {
       appSettings.pomodoroTimerSoundEnabled && tripleBellAudioRef.current?.play();
-    } else if (activePomodoroTimerTask.currentMode === "Focus") {
+    } else if (activePomodoroTimerTask.currentMode === "Focus" && timerTime <= 0) {
       doubleBellAudioRef.current?.play();
-    } else {
+    } else if (timerTime <= 0) {
       singleBellAudioRef.current?.play();
     }
   };
