@@ -95,6 +95,7 @@ const useNotesStore = create<NotesState>((set, get) => ({
   },
 
   setNotes: async (notes) => {
+    console.log("Setting notes...");
     const { updateWidgetData } = useIndexedDBStore.getState();
     const { currentUser } = useUserStore.getState();
     set({ notes });
@@ -107,6 +108,7 @@ const useNotesStore = create<NotesState>((set, get) => ({
   },
 
   setSelectedNote: async (note) => {
+    console.log("Setting selected note...");
     const { updateWidgetData } = useIndexedDBStore.getState();
     const { currentUser } = useUserStore.getState();
     set({ selectedNote: note });
@@ -146,13 +148,16 @@ const useNotesStore = create<NotesState>((set, get) => ({
       }
       return;
     }
-
+    let notesList = localStorage.getItem("notes") || "[]";
+    let selectedNote = localStorage.getItem("selected_note") || null;
     const notesObj = currentUser?.authUser?.uid
       ? await getNotesFromDB(currentUser.authUser.uid)
-      : { notesList: [], selectedNote: null };
-    const { notesList, selectedNote } = notesObj;
-    get().setNotes(notesList);
-    get().setSelectedNote(selectedNote);
+      : {
+          notesList: JSON.parse(notesList),
+          selectedNote: selectedNote ? JSON.parse(selectedNote) : null,
+        };
+    get().setNotes(notesObj.notesList);
+    get().setSelectedNote(notesObj.selectedNote);
   },
 }));
 
