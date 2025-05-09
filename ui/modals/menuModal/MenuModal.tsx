@@ -80,15 +80,6 @@ const MenuModal = memo(() => {
       },
     },
     {
-      id: "menu-option-support",
-      label: "Support",
-      icon: <FaHandsHelping size={20} color="var(--color-white)" />,
-      onClick: () => {
-        handleMenuClick("Support");
-        window.open("https://buymeacoffee.com/normancade");
-      },
-    },
-    {
       id: "menu-option-share",
       label: "Share With Friends",
       icon: <BsFillGiftFill size={20} color="var(--color-white)" />,

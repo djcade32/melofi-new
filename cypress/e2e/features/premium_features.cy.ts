@@ -21,10 +21,6 @@ describe("Premium Features", () => {
     cy.clearLocalStorage();
   });
 
-  it("should show support creator banner", () => {
-    getElementWithClassName("supportCreatorBanner__container").should("be.visible");
-  });
-
   it("should show premium modal for focus section in insights modal", () => {
     Menu.menuButton().click();
     Menu.options.insights().click();
