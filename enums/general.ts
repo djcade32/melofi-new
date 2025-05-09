@@ -27,7 +27,6 @@ export type MenuOptionNames =
   | "Insights"
   | "General Settings"
   | "Leave Feedback"
-  | "Support"
   | "Share With Friends"
   | "Melofi Desktop"
   | "About Melofi"

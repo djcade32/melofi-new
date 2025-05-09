@@ -14,7 +14,6 @@ export class Menu {
     insights: () => cy.get(menuModalSelector).contains("Insights"),
     generalSettings: () => cy.get(menuModalSelector).contains("General Settings"),
     leaveFeedback: () => cy.get(menuModalSelector).contains("Leave Feedback"),
-    support: () => cy.get(menuModalSelector).contains("Support"),
     about: () => cy.get(menuModalSelector).contains("About Melofi"),
     share: () => cy.get(menuModalSelector).contains("Share With Friends"),
     logout: () => cy.get(menuModalSelector).contains("Logout"),

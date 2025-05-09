@@ -33,7 +33,6 @@ import useYoutubeStore from "@/stores/widgets/youtube-store";
 import Toolbar from "../components/toolbar/Toolbar";
 import useSceneStore from "@/stores/scene-store";
 import MenuModal from "../modals/menuModal/MenuModal";
-import SupportCreatorBanner from "../components/supportCreatorBanner/SupportCreatorBanner";
 import PremiumModal from "../modals/premiumModal/PremiumModal";
 import Timer from "../widgets/timer/Timer";
 import useTimerStore from "@/stores/widgets/timer-store";
@@ -61,7 +60,6 @@ const LoggedInView = () => {
       <MixerModal />
       {musicSource === MusicSource.MELOFI && <NowPlaying />}
       <QuoteDisplay />
-      <SupportCreatorBanner />
       <PremiumModal />
       <WelcomeModal />
 
