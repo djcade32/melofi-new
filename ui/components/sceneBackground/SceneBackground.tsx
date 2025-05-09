@@ -4,10 +4,12 @@ import React, { useEffect, useMemo, useState } from "react";
 import styles from "./sceneBackground.module.css";
 import useSceneStore from "../../../stores/scene-store";
 import useAppStore from "@/stores/app-store";
+import useUserStore from "@/stores/user-store";
 
 const SceneBackground = () => {
   const { currentScene, getCurrentScene } = useSceneStore();
   const { appSettings } = useAppStore();
+  const { isPremiumUser } = useUserStore();
   const [videoSrc, setVideoSrc] = useState<string>("");
   const [isFadingIn, setIsFadingIn] = useState(false);
 
@@ -24,7 +26,7 @@ const SceneBackground = () => {
 
   useEffect(() => {
     getCurrentScene();
-  }, [appSettings.sceneRouletteEnabled]);
+  }, [appSettings.sceneRouletteEnabled, isPremiumUser]);
 
   return (
     <div>
