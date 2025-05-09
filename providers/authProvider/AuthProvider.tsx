@@ -13,6 +13,7 @@ import SmallerScreenView from "@/ui/Views/SmallerScreenView";
 import NoInternetView from "@/ui/Views/NoInternetView";
 import checkPremiumStatus from "@/lib/stripe/checkPremiumStatus";
 import useAppStore from "@/stores/app-store";
+import useMusicPlayerStore from "@/stores/music-player-store";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -24,6 +25,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(true);
   const [onMobileDevice, setOnMobileDevice] = useState(false);
   const [showNotInternetMessage, setShowNotInternetMessage] = useState(false);
+  const [localStorageLogin, setLocalStorageLogin] = useState(false);
+  const { setIsPlaying } = useMusicPlayerStore();
 
   const { setIsOnline, isOnline, isElectron } = useAppStore();
   const {
@@ -54,6 +57,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       const MelofiUser = JSON.parse(user) as MelofiUser;
       setCurrentUser(MelofiUser);
       setIsUserLoggedIn(!!MelofiUser.authUser);
+      setLocalStorageLogin(true);
     }
 
     return () => {
@@ -75,6 +79,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         setUserPremium();
       }
       setGrantAccess(true);
+      !localStorageLogin && setIsPlaying(true);
     } else if (currentUser?.authUser && isUserLoggedIn) {
       // Check if user's email is verified
       if (!currentUser.authUser.emailVerified) {
@@ -87,6 +92,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
               setUserStats();
               setGrantAccess(true);
               setUserPremium();
+              !localStorageLogin && setIsPlaying(true);
             } else {
               logout();
               // Remove user from localStorage

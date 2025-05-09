@@ -144,7 +144,7 @@ const MenuModal = memo(() => {
   const getMenuOptions = () => {
     let optionsToShow = options;
     if (!showLogoutOption) {
-      optionsToShow = optionsToShow.slice(0, 8);
+      optionsToShow = optionsToShow.filter((option) => option.id !== "menu-option-logout");
     }
     if (isElectron() || membershipType !== "lifetime") {
       optionsToShow = optionsToShow.filter((option) => option.id !== "menu-option-download");

@@ -367,7 +367,11 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
     const unlockedAchievements: AchievementTypes[] = [];
 
     // Check for 5 different scenes used
-    if (sceneCounts && Object.keys(sceneCounts.counts).length >= 5) {
+    if (
+      sceneCounts &&
+      Object.keys(sceneCounts.counts).length >= 5 &&
+      !achievements.includes("Scene Explorer 🎨")
+    ) {
       unlockedAchievements.push("Scene Explorer 🎨");
     }
     unlockedAchievements.forEach((achievement) => {
