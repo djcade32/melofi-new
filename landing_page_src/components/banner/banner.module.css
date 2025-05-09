@@ -23,6 +23,19 @@
   text-decoration: none;
 }
 
+@media screen and (max-width: 550px) {
+  .banner__container {
+    font-size: 12px;
+    height: 35px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .banner__container {
+    text-align: center;
+  }
+}
+
 @keyframes scroll-down {
   0% {
     top: -30px;
