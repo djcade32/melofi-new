@@ -105,9 +105,9 @@ const useInsightsStore = create<InsightsState>((set, get) => ({
       } else {
         const { focusTime, breakTime, sessionsCompleted, tasksCompleted } =
           weeklyStats[day as keyof WeeklyStats];
-        let focusTimeConverted = convertSecsToHrMinsSec(focusTime);
-        let focusTimeCalc =
-          focusTimeConverted.hr > 0 ? focusTimeConverted.hr : focusTimeConverted.min / 100;
+        // let focusTimeConverted = convertSecsToHrMinsSec(focusTime);
+        let focusTimeCalc = focusTime;
+        // focusTimeConverted.hr > 0 ? focusTimeConverted.hr : focusTimeConverted.min / 100;
         let breakTimeConverted = convertSecsToHrMinsSec(breakTime);
         let breakTimeCalc =
           breakTimeConverted.hr > 0 ? breakTimeConverted.hr : breakTimeConverted.min / 100;

@@ -43,8 +43,9 @@
 
 .changeLogCard__list {
   padding-left: 20px;
+  margin-bottom: 15px;
 }
 
-.changeLogCard__list {
-  margin-bottom: 15px;
+.changeLogCard__list li {
+  margin-bottom: 10px;
 }

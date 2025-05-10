@@ -5,6 +5,7 @@ import { BarChart, Bar, XAxis, ResponsiveContainer, CartesianGrid } from "rechar
 import styles from "./mostProductiveDayChart.module.css";
 import useInsightsStore from "@/stores/insights-store";
 import useUserStore from "@/stores/user-store";
+import { convertSecsToHrMinsSec } from "@/utils/time";
 
 const dummyWeeklyFocusStats = [
   { day: "Sun", focusTime: 8 },
@@ -22,7 +23,10 @@ const MostProductiveDayChart = () => {
 
   const labelFormatter = (value: number) => {
     if (value === 0) return "";
-    return value > 1 ? `${value}h` : `${(value * 100).toFixed(0)}m`;
+    const { hr, min } = convertSecsToHrMinsSec(value);
+    // return value >= 1 ? `${value}h59m` : `${(value * 100).toFixed(0)}m`;
+    const formattedValue = `${hr > 0 ? hr + "h" : ""}${min > 0 ? min + "m" : ""}`;
+    return formattedValue;
   };
   return (
     <div className={styles.mostProductiveDayChart__container}>
