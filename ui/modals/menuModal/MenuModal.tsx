@@ -11,6 +11,7 @@ import {
   IoStatsChartSharp,
   PiSignOutBold,
   FaDownload,
+  BsFillFileEarmarkCodeFill,
 } from "@/imports/icons";
 import useMenuStore from "@/stores/menu-store";
 import { MenuOptionNames } from "@/enums/general";
@@ -106,6 +107,14 @@ const MenuModal = memo(() => {
       },
     },
     {
+      id: "menu-option-change-log",
+      label: "Change Log",
+      icon: <BsFillFileEarmarkCodeFill size={20} color="var(--color-white)" />,
+      onClick: () => {
+        handleMenuClick("About Melofi");
+      },
+    },
+    {
       id: "menu-option-about",
       label: "About Melofi",
       icon: <BsFillInfoCircleFill size={20} color="var(--color-white)" />,
@@ -134,7 +143,8 @@ const MenuModal = memo(() => {
       selectedOption === "Account" ||
       selectedOption === "About Melofi" ||
       selectedOption === "Share With Friends" ||
-      selectedOption === "Insights"
+      selectedOption === "Insights" ||
+      selectedOption === "BsFillFileEarmarkCodeFill"
     ) {
       return true;
     }
