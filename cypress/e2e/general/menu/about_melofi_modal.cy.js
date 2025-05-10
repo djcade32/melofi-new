@@ -25,7 +25,7 @@ describe("Testing About Melofi Modal", () => {
     Menu.backdrop().should("be.visible");
 
     // Check if the modal has the correct content
-    Menu.aboutMelofiModal.title().should("have.text", "About Melofi");
+    Menu.aboutMelofiModal.title().should("have.text", "ABOUT MELOFI");
     Menu.aboutMelofiModal.privacyPolicyLink().should("have.text", "Privacy Policy");
     Menu.aboutMelofiModal.termsAndConditionsLink().should("have.text", "Terms & Conditions");
     Menu.aboutMelofiModal.emailContact().should("be.visible");

@@ -40,6 +40,7 @@ import {
   BsCircle,
   BsCheckCircleFill,
   BsFillTrophyFill,
+  BsFillFileEarmarkCodeFill,
 } from "react-icons/bs";
 import {
   IoVolumeMedium,
@@ -269,4 +270,5 @@ export {
   BsCircle,
   BsCheckCircleFill,
   BsFillTrophyFill,
+  BsFillFileEarmarkCodeFill,
 };

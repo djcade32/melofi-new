@@ -1,0 +1,50 @@
+.changeLogCard__card {
+  width: 100%;
+  border-left: 1px solid var(--color-secondary-opacity);
+  padding: 0px 10px 30px 25px;
+  position: relative;
+}
+
+.changeLogCard__card_circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: absolute;
+  background-color: var(--color-primary);
+  left: -10px;
+  top: 15px;
+}
+
+.changeLogCard__card_circle::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-secondary-opacity);
+  border-radius: 50%;
+  transform: translate(50%, 50%);
+}
+
+.changeLogCard__version {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.changeLogCard__version h1,
+.changeLogCard__version h3 {
+  font-weight: 500;
+}
+
+.changeLogCard__version p {
+  color: var(--color-secondary);
+}
+
+.changeLogCard__list {
+  padding-left: 20px;
+}
+
+.changeLogCard__list {
+  margin-bottom: 15px;
+}

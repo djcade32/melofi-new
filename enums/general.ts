@@ -29,6 +29,7 @@ export type MenuOptionNames =
   | "Leave Feedback"
   | "Share With Friends"
   | "Melofi Desktop"
+  | "Change Log"
   | "About Melofi"
   | "Logout";
 
