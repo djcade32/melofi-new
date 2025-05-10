@@ -20,6 +20,7 @@ export const updateAppSettings = async (
       inActivityThreshold: { inActivityThreshold: appSettings.inActivityThreshold },
       pomodoro: { pomodoroTimerSoundEnabled: appSettings.pomodoroTimerSoundEnabled },
       quote: { showDailyQuote: appSettings.showDailyQuote },
+      clock: { showMiddleClock: appSettings.showMiddleClock },
       todo: { todoListHoverEffectEnabled: appSettings.todoListHoverEffectEnabled },
       sceneRoulette: { sceneRouletteEnabled: appSettings.sceneRouletteEnabled },
       userUid: uid,

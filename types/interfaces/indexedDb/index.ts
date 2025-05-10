@@ -10,6 +10,7 @@ export interface IndexedDBAppSettings {
   inActivityThreshold: { inActivityThreshold: number };
   pomodoro: { pomodoroTimerSoundEnabled: boolean };
   quote: { showDailyQuote: boolean };
+  clock: { showMiddleClock: boolean };
   todo: { todoListHoverEffectEnabled: boolean };
   sceneRoulette: { sceneRouletteEnabled: boolean };
   userUid: string | null;

@@ -39,6 +39,7 @@ const GeneralSettingsModal = () => {
     setDailyQuoteEnabled,
     setShowPremiumModal,
     setSceneRouletteEnabled,
+    setShowMiddleClock,
   } = useAppStore();
   const { isPremiumUser } = useUserStore();
   const isOpen = selectedOption === "General Settings";
@@ -196,6 +197,22 @@ const GeneralSettingsModal = () => {
           </div>
           <p className={styles.generalSettingsModal__setting_description}>
             Display a daily motivational quote in your workspace.
+          </p>
+        </div>
+
+        {/* Clock Position */}
+        <div className={styles.generalSettingsModal__settings_section}>
+          <div className={styles.generalSettingsModal__setting_container}>
+            <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
+              <p>Show Middle Clock</p>
+            </div>
+            <Switch
+              checked={appSettings.showMiddleClock}
+              onChange={() => setShowMiddleClock(!appSettings.showMiddleClock)}
+            />
+          </div>
+          <p className={styles.generalSettingsModal__setting_description}>
+            Display clock in the middle of the screen for better visibility.
           </p>
         </div>
 
