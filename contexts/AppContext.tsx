@@ -30,10 +30,10 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   const [isSleep, setIsSleep] = useState(false);
   const [userUid, setUserUid] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isLoading) return;
+    if (!loading) return;
     const initLocalDB = async () => {
       await initializeIndexedDB();
     };
@@ -42,7 +42,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
     // Get the open widgets from local storage and open them
     const widgets = fetchOpenWidgets();
     toggleOpenWidgets(widgets);
-    setIsLoading(false);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -51,14 +51,14 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, [indexedDB, currentUser]);
 
   useEffect(() => {
-    if (isOnline && !isLoading && currentUser?.authUser?.uid) {
+    if (isOnline && !loading && currentUser?.authUser?.uid) {
       console.log("Syncing data with Firebase...");
       // Sync data with Firebase if back online
       pushAllDataToFirebase();
     }
   }, [isOnline]);
 
-  useMemo(() => {
+  useEffect(() => {
     const fetchUserAppSettings = async () => {
       await fetchAppSettings();
     };

@@ -14,6 +14,7 @@ import NoInternetView from "@/ui/Views/NoInternetView";
 import checkPremiumStatus from "@/lib/stripe/checkPremiumStatus";
 import useAppStore from "@/stores/app-store";
 import useMusicPlayerStore from "@/stores/music-player-store";
+import StartModal from "@/ui/modals/startModal/StartModal";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -22,13 +23,20 @@ const MOBILE_SCREEN_WIDTH = 900;
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [grantAccess, setGrantAccess] = useState(false);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [onMobileDevice, setOnMobileDevice] = useState(false);
   const [showNotInternetMessage, setShowNotInternetMessage] = useState(false);
   const [localStorageLogin, setLocalStorageLogin] = useState(false);
-  const { setIsPlaying } = useMusicPlayerStore();
 
-  const { setIsOnline, isOnline, isElectron } = useAppStore();
+  const {
+    setIsOnline,
+    isOnline,
+    isElectron,
+    loading,
+    setLoading,
+    showStartModal,
+    setShowStartModal,
+  } = useAppStore();
   const {
     setCurrentUser,
     currentUser,
@@ -79,7 +87,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         setUserPremium();
       }
       setGrantAccess(true);
-      !localStorageLogin && setIsPlaying(true);
+      setShowStartModal(false);
     } else if (currentUser?.authUser && isUserLoggedIn) {
       // Check if user's email is verified
       if (!currentUser.authUser.emailVerified) {
@@ -91,8 +99,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
             if (isInDb) {
               setUserStats();
               setGrantAccess(true);
+              setShowStartModal(false);
               setUserPremium();
-              !localStorageLogin && setIsPlaying(true);
             } else {
               logout();
               // Remove user from localStorage
@@ -103,6 +111,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
           setUserPremium();
           setUserStatsOffline();
           setGrantAccess(true);
+          setShowStartModal(false);
         }
       }
     } else if (!currentUser) {
@@ -153,19 +162,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         <NoInternetView />
       ) : (
         <>
-          {grantAccess ? (
+          {!showStartModal ? (
             <>{onMobileDevice ? <SmallerScreenView /> : children}</>
           ) : (
-            <>
-              {onMobileDevice ? (
-                <SmallerScreenView />
-              ) : (
-                <LoggedOutView
-                  showEmailVerification={showEmailVerification}
-                  setShowEmailVerification={setShowEmailVerification}
-                />
-              )}
-            </>
+            <>{onMobileDevice ? <SmallerScreenView /> : <StartModal />}</>
           )}
         </>
       )}

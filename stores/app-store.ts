@@ -22,6 +22,8 @@ export interface AppState {
   isOnline: boolean;
   appSettings: AppSettings;
   showPremiumModal: PremiumModalTypes | null;
+  showStartModal: boolean;
+  loading: boolean;
 
   toggleFullscreen: (boolean: boolean) => void;
   setIsOnline: (boolean: boolean) => void;
@@ -37,6 +39,8 @@ export interface AppState {
   setAppSettings: (appSettings: AppSettings, userId: string | null) => void;
   setShowPremiumModal: (modal: PremiumModalTypes | null) => void;
   removePremiumFeatures: () => void;
+  setShowStartModal: (boolean: boolean) => void;
+  setLoading: (loading: boolean) => void;
 }
 
 const useAppStore = create<AppState>((set, get) => ({
@@ -53,6 +57,16 @@ const useAppStore = create<AppState>((set, get) => ({
     sceneRouletteEnabled: false,
   },
   showPremiumModal: null,
+  showStartModal: true,
+  loading: true,
+
+  setLoading: (loading) => {
+    set(() => ({ loading }));
+  },
+
+  setShowStartModal: (boolean) => {
+    set(() => ({ showStartModal: boolean }));
+  },
 
   toggleFullscreen: (boolean) => {
     screenfull.toggle();
