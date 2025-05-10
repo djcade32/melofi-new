@@ -29,7 +29,7 @@ export type MenuOptionNames =
   | "Leave Feedback"
   | "Share With Friends"
   | "Melofi Desktop"
-  | "BsFillFileEarmarkCodeFill"
+  | "Change Log"
   | "About Melofi"
   | "Logout";
 

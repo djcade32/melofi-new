@@ -169,3 +169,11 @@ export interface Achievement {
   title: string;
   description: string;
 }
+
+export interface ChangeLog {
+  version: string;
+  date: string;
+  newFeatures?: string[];
+  improvements?: string[];
+  bugFixes?: string[];
+}

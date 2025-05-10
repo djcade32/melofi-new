@@ -21,6 +21,7 @@ import { useAppContext } from "@/contexts/AppContext";
 import ComponentLoader from "@/ui/components/shared/componentLoader/ComponentLoader";
 import InsightsModal from "./optionModals/insightsModal/InsightsModal";
 import useAppStore from "@/stores/app-store";
+import ChangeLog from "./optionModals/changeLog/ChangeLog";
 
 const GeneralSettingsModal = lazy(
   () => import("@/ui/modals/menuModal/optionModals/generalSettingsModal/GeneralSettingsModal")
@@ -111,7 +112,7 @@ const MenuModal = memo(() => {
       label: "Change Log",
       icon: <BsFillFileEarmarkCodeFill size={20} color="var(--color-white)" />,
       onClick: () => {
-        handleMenuClick("About Melofi");
+        handleMenuClick("Change Log");
       },
     },
     {
@@ -144,7 +145,7 @@ const MenuModal = memo(() => {
       selectedOption === "About Melofi" ||
       selectedOption === "Share With Friends" ||
       selectedOption === "Insights" ||
-      selectedOption === "BsFillFileEarmarkCodeFill"
+      selectedOption === "Change Log"
     ) {
       return true;
     }
@@ -201,6 +202,10 @@ const MenuModal = memo(() => {
         <ComponentLoader
           isComponentOpen={selectedOption === "Share With Friends"}
           component={<ShareModal />}
+        />
+        <ComponentLoader
+          isComponentOpen={selectedOption === "Change Log"}
+          component={<ChangeLog />}
         />
         <ComponentLoader
           isComponentOpen={selectedOption === "About Melofi"}
