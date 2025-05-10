@@ -17,9 +17,11 @@ const WelcomeModal = () => {
   const { indexedDB } = useIndexedDBStore();
 
   useEffect(() => {
+    console.log("WelcomeModal mounted: ", indexedDB);
     if (indexedDB === null) return;
     const checkModalStatus = async () => {
       const hasSeen = await indexedDB?.get("settings", "hasSeenWelcomeModal");
+      console.log("hasSeenWelcomeModal", hasSeen);
       if (!hasSeen) {
         setIsOpen(true);
       }

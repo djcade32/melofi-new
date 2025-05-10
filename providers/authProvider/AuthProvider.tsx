@@ -3,7 +3,6 @@
 import React, { ReactNode, useEffect, useMemo, useState } from "react";
 import styles from "./authProvider.module.css";
 import useUserStore from "@/stores/user-store";
-import LoggedOutView from "@/ui/Views/AuthViews.tsx/LoggedOutView";
 import { logout } from "@/lib/firebase/actions/auth-actions";
 import SceneBackground from "@/ui/components/sceneBackground/SceneBackground";
 import LoadingScreen from "@/ui/Views/loadingScreen/LoadingScreen";
@@ -13,22 +12,25 @@ import SmallerScreenView from "@/ui/Views/SmallerScreenView";
 import NoInternetView from "@/ui/Views/NoInternetView";
 import checkPremiumStatus from "@/lib/stripe/checkPremiumStatus";
 import useAppStore from "@/stores/app-store";
-import useMusicPlayerStore from "@/stores/music-player-store";
+import StartModal from "@/ui/modals/startModal/StartModal";
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 const MOBILE_SCREEN_WIDTH = 900;
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [showEmailVerification, setShowEmailVerification] = useState(false);
-  const [grantAccess, setGrantAccess] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [onMobileDevice, setOnMobileDevice] = useState(false);
   const [showNotInternetMessage, setShowNotInternetMessage] = useState(false);
-  const [localStorageLogin, setLocalStorageLogin] = useState(false);
-  const { setIsPlaying } = useMusicPlayerStore();
 
-  const { setIsOnline, isOnline, isElectron } = useAppStore();
+  const {
+    setIsOnline,
+    isOnline,
+    isElectron,
+    loading,
+    setLoading,
+    showStartModal,
+    setShowStartModal,
+  } = useAppStore();
   const {
     setCurrentUser,
     currentUser,
@@ -57,7 +59,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       const MelofiUser = JSON.parse(user) as MelofiUser;
       setCurrentUser(MelofiUser);
       setIsUserLoggedIn(!!MelofiUser.authUser);
-      setLocalStorageLogin(true);
     }
 
     return () => {
@@ -78,35 +79,26 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         setUserStats();
         setUserPremium();
       }
-      setGrantAccess(true);
-      !localStorageLogin && setIsPlaying(true);
+      setShowStartModal(false);
     } else if (currentUser?.authUser && isUserLoggedIn) {
-      // Check if user's email is verified
-      if (!currentUser.authUser.emailVerified) {
-        setShowEmailVerification(true);
-      } else if (currentUser?.authUser?.email) {
-        // Check if user is in db if Melofi is online
-        if (navigator.onLine) {
-          checkIfUserIsInDb(currentUser.authUser?.uid).then((isInDb) => {
-            if (isInDb) {
-              setUserStats();
-              setGrantAccess(true);
-              setUserPremium();
-              !localStorageLogin && setIsPlaying(true);
-            } else {
-              logout();
-              // Remove user from localStorage
-              localStorage.removeItem("user");
-            }
-          });
-        } else {
-          setUserPremium();
-          setUserStatsOffline();
-          setGrantAccess(true);
-        }
+      // Check if user is in db if Melofi is online
+      if (navigator.onLine) {
+        checkIfUserIsInDb(currentUser.authUser?.uid).then((isInDb) => {
+          if (isInDb) {
+            setUserStats();
+            setShowStartModal(false);
+            setUserPremium();
+          } else {
+            logout();
+            // Remove user from localStorage
+            localStorage.removeItem("user");
+          }
+        });
+      } else {
+        setUserPremium();
+        setUserStatsOffline();
+        setShowStartModal(false);
       }
-    } else if (!currentUser) {
-      setGrantAccess(false);
     }
     // Give time for data to load
     setTimeout(() => {
@@ -153,19 +145,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         <NoInternetView />
       ) : (
         <>
-          {grantAccess ? (
+          {!showStartModal ? (
             <>{onMobileDevice ? <SmallerScreenView /> : children}</>
           ) : (
-            <>
-              {onMobileDevice ? (
-                <SmallerScreenView />
-              ) : (
-                <LoggedOutView
-                  showEmailVerification={showEmailVerification}
-                  setShowEmailVerification={setShowEmailVerification}
-                />
-              )}
-            </>
+            <>{onMobileDevice ? <SmallerScreenView /> : <StartModal />}</>
           )}
         </>
       )}
