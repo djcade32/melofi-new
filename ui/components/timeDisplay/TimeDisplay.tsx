@@ -59,27 +59,8 @@ const TimeDisplay = () => {
   return (
     <>
       {displayInMiddle ? (
-        <div
-          style={{
-            display: "flex",
-            width: "fit-content",
-            alignSelf: "center",
-            justifySelf: "center",
-            position: "absolute",
-            top: "50%",
-            left: " 50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <p
-            style={{
-              fontSize: "12rem",
-              fontWeight: "bold",
-              textAlign: "center",
-            }}
-          >
-            {time.split(/([AP]M)/)[0]}
-          </p>
+        <div className={styles.timeDisplay__middle_container}>
+          <p>{time.split(/([AP]M)/)[0]}</p>
         </div>
       ) : (
         <div
