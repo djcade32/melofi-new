@@ -4,6 +4,8 @@ import Toaster from "@/ui/components/shared/toaster/Toaster";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
 import React, { useEffect, useRef, useState } from "react";
 import { notification_sound } from "@/imports/effects";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("NotificationProvider");
 
 interface NotificationProviderProps {
   children: React.ReactNode;
