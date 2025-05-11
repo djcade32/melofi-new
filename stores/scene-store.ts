@@ -5,6 +5,8 @@ import useTemplatesStore from "./widgets/templates-store";
 import useUserStatsStore from "./user-stats-store";
 import useUserStore from "./user-store";
 import useAppStore from "./app-store";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Scene Store");
 
 export interface SceneState {
   currentScene: Scene;
@@ -53,7 +55,7 @@ const useSceneStore = create<SceneState>((set) => ({
     try {
       useUserStatsStore.getState().updateSceneCounts(newScene.name);
     } catch (error) {
-      console.log("Error updating scene counts: ", error);
+      Logger.error("Error updating scene counts: ", error);
     }
   },
 

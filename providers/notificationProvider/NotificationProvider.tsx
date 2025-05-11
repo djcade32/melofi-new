@@ -44,7 +44,7 @@ const NotificationProvider = ({ children }: NotificationProviderProps) => {
       if (currentNotification?.type === "alarm") return;
       if (currentNotification?.audible || currentNotification?.type === "achievement") {
         audioRef.current?.play().catch((error) => {
-          console.error("Error playing audio:", error);
+          Logger.error("Error playing audio:", error);
         });
       }
       if (timeoutState) clearTimeout(timeoutState);

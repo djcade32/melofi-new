@@ -13,6 +13,9 @@ import NoInternetView from "@/ui/Views/NoInternetView";
 import checkPremiumStatus from "@/lib/stripe/checkPremiumStatus";
 import useAppStore from "@/stores/app-store";
 import StartModal from "@/ui/modals/startModal/StartModal";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Auth Provider");
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -134,7 +137,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     const email = currentUser?.authUser?.email;
     if (email) {
       const userStats: UserStats = await window.electronAPI.getUserStats(email);
-      console.log("User stats offline: ", userStats);
+      Logger.debug.info("User stats offline: ", userStats);
       userStats && setStats(userStats);
     }
   };

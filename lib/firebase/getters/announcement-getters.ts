@@ -1,6 +1,8 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { getFirebaseDB } from "../firebaseClient";
 import { AnnouncementBanner } from "@/types/general";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Announcement Getters");
 
 const db = getFirebaseDB();
 
@@ -37,7 +39,7 @@ export const getAnnouncements = async (): Promise<AnnouncementBanner | null> => 
     }
     return null;
   } catch (error) {
-    console.log("Error getting announcements from db: ", error);
+    Logger.error("Error getting announcements from db: ", error);
     throw error;
   }
 };

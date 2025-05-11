@@ -253,7 +253,7 @@ const useAppStore = create<AppState>((set, get) => ({
             if (appSettings) {
               useAppStore.getState().setAppSettings(appSettings, currentUserUid);
             } else {
-              console.log("No app settings found in indexedDB");
+              Logger.debug.info("No app settings found in indexedDB");
             }
           }
         } catch (error) {

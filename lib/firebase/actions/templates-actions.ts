@@ -2,7 +2,9 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { Template, TemplatesPayload } from "@/types/interfaces/templates";
 import { getFirebaseDB } from "../firebaseClient";
 import { MixerSoundConfig } from "@/types/interfaces/mixer";
+import { createLogger } from "@/utils/logger";
 
+const Logger = createLogger("Templates Actions");
 const db = getFirebaseDB();
 
 export const addTemplateToDb = async (uid: string | null | undefined, template: Template) => {
@@ -39,7 +41,7 @@ export const addTemplateToDb = async (uid: string | null | undefined, template: 
     // Update the database with the merged templatesList
     await setDoc(userDoc, { templatesList: updatedTemplatesList }, { merge: true });
   } catch (error) {
-    console.error("Error updating templates in db:", error);
+    Logger.error("Error adding template to db:", error);
     throw error;
   }
 };
@@ -72,7 +74,7 @@ export const deleteTemplateFromDb = async (uid: string | null | undefined, templ
     // Update the database with the updated templatesList
     await setDoc(userDoc, { templatesList: updatedTemplatesList }, { merge: true });
   } catch (error) {
-    console.error("Error deleting template in db:", error);
+    Logger.error("Error deleting template in db:", error);
     throw error;
   }
 };
@@ -91,7 +93,7 @@ export const deleteAllTemplatesFromDb = async (uid: string | null | undefined) =
     // Update the database with an empty templatesList
     await setDoc(userDoc, { templatesList: [] }, { merge: true });
   } catch (error) {
-    console.error("Error deleting all templates in db:", error);
+    Logger.error("Error deleting all templates in db:", error);
     throw error;
   }
 };

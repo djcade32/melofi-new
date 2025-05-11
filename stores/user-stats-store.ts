@@ -9,13 +9,14 @@ import { create } from "zustand";
 import useUserStore from "./user-store";
 import { PomodoroTimerStats } from "@/types/interfaces/pomodoro_timer";
 import { SceneCounts, UserStats } from "@/types/general";
-import { Logger } from "@/classes/Logger";
 import { saveUserStats } from "@/lib/electron-store";
 import useIndexedDBStore from "./indexedDB-store";
 import useAppStore from "./app-store";
 import { AchievementTypes } from "@/enums/general";
 import useNotificationProviderStore from "./notification-provider-store";
 import { convertSecsToHrMinsSec } from "@/utils/time";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("User Stats Store");
 
 export interface userStatsState {
   pomodoroTimerStats: PomodoroTimerStats;
@@ -59,12 +60,12 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
     const email = useUserStore.getState().currentUser?.authUser?.email;
     try {
       if (!uid) {
-        Logger.getInstance().error("No user uid provided");
+        Logger.debug.error("No user uid provided");
         return;
       }
       const userStats = await getUserStats(uid);
       if (!userStats) {
-        Logger.getInstance().warn("No user stats found");
+        Logger.debug.warn("No user stats found");
         return;
       }
       const userStatsBuilt = buildUserStatsType(userStats);
@@ -81,7 +82,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
         return stats;
       });
     } catch (error) {
-      Logger.getInstance().error(`Error setting user stats: ${error}`);
+      Logger.error(`Error setting user stats: ${error}`);
     }
   },
 
@@ -113,7 +114,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       });
       set(() => ({ totalNotesCreated: totalNotesCreated }));
     } catch (error) {
-      console.log("Error incrementing total notes created: ", error);
+      Logger.error("Error incrementing total notes created: ", error);
     }
   },
 
@@ -143,7 +144,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
         return stats;
       });
     } catch (error) {
-      console.log("Error updating pomodoro timer stats: ", error);
+      Logger.error("Error updating pomodoro timer stats: ", error);
     }
   },
 
@@ -164,7 +165,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
         return stats;
       });
     } catch (error) {
-      console.log("Error incrementing expired alarms count: ", error);
+      Logger.error("Error incrementing expired alarms count: ", error);
     }
   },
 
@@ -175,7 +176,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
 
     const uid = useUserStore.getState().currentUser?.authUser?.uid;
     if (!uid) {
-      console.log("No user uid provided");
+      Logger.debug.info("No user uid provided");
       return;
     }
     try {
@@ -186,7 +187,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       };
 
       if (!sceneCounts) {
-        console.log("No scene counts found");
+        Logger.debug.info("No scene counts found");
       } else {
         updatedSceneCounts = sceneCounts;
       }
@@ -220,7 +221,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
         return stats;
       });
     } catch (error) {
-      console.log("Error updating scene counts: ", error);
+      Logger.error("Error updating scene counts: ", error);
     }
   },
 
@@ -355,7 +356,6 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       });
     });
     const newAchievements = [...achievements, ...unlockedAchievements];
-    console.log("New Achievements: ", newAchievements);
     set({ achievements: newAchievements });
 
     return newAchievements;

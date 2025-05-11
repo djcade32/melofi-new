@@ -5,8 +5,9 @@ import { RxCaretLeft } from "@/imports/icons";
 import Input from "@/ui/components/shared/input/Input";
 import useUserStore from "@/stores/user-store";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
-import { Logger } from "@/classes/Logger";
+import { createLogger } from "@/utils/logger";
 
+const Logger = createLogger("Forgot Password");
 interface ForgotPasswordProps {
   handleViewChange: (view: "login" | "signup" | "forgotPassword" | "emailVerification") => void;
 }
@@ -26,9 +27,9 @@ const ForgotPassword = ({ handleViewChange }: ForgotPasswordProps) => {
       });
       handleViewChange("login");
       setEmail("");
-      Logger.getInstance().info("Password reset email sent");
+      Logger.info("Password reset email sent");
     } catch (error: any) {
-      Logger.getInstance().error(`Error sending password reset email: ${error}`);
+      Logger.error(`Error sending password reset email: ${error}`);
       addNotification({
         type: "error",
         message: "Error sending password reset email",

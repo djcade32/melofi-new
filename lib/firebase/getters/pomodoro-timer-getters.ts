@@ -1,5 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { getFirebaseDB } from "../firebaseClient";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Pomodoro Timer Getters");
 
 const db = getFirebaseDB();
 
@@ -13,7 +15,7 @@ export const getPomodoroTimerTasks = async (uid: string) => {
     const tasks = await getDoc(tasksDoc);
     return tasks.data()?.pomodoroTasks;
   } catch (error) {
-    console.log("Error getting pomodoro timer tasks from db: ", error);
+    Logger.error("Error getting pomodoro timer tasks from db: ", error);
     throw error;
   }
 };

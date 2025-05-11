@@ -51,7 +51,6 @@ describe("Testing General Settings", () => {
   });
 
   it("Should open the general settings modal", () => {
-    console.log("Testing general settings modal");
     Menu.menuButton().click();
     Menu.menuModal().should("be.visible");
     Menu.options.generalSettings().click();

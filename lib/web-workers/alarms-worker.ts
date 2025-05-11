@@ -1,4 +1,7 @@
 import { Alarm } from "@/types/interfaces/alarms";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Alarms Worker");
 
 const alarmsWorker = () => {
   let alarms: Alarm[] = []; // Array of alarms
@@ -14,7 +17,7 @@ const alarmsWorker = () => {
           const alarmTime = new Date(alarm.time).toLocaleString();
 
           if (alarmTime === now) {
-            console.log(`Alarm triggered for: ${alarm.time}`);
+            Logger.debug.info(`Alarm triggered for: ${alarm.time}`);
             // Notify the main thread about the triggered alarm
             self.postMessage({ type: "ALARM_TRIGGERED", alarm: alarm });
             // Remove the triggered alarm to avoid repetitive notifications
@@ -53,15 +56,15 @@ const alarmsWorker = () => {
 
     if (type === "ADD_ALARM") {
       alarms.push(data); // Add a new alarm
-      console.log(`Alarm added for: ${data.time}`);
+      Logger.debug.info(`Alarm added for: ${data.time}`);
       manageInterval(); // Start or maintain interval
     } else if (type === "REMOVE_ALARM") {
       alarms = alarms.filter((alarm) => alarm.id !== data.id); // Remove the alarm
-      console.log(`Alarm removed for: ${data.time}`);
+      Logger.debug.info(`Alarm removed for: ${data.time}`);
       manageInterval(); // Stop or maintain interval
     } else if (type === "CLEAR_ALARMS") {
       alarms = []; // Clear all alarms
-      console.log("All alarms cleared.");
+      Logger.debug.info("All alarms cleared.");
       manageInterval(); // Stop the interval
     }
   };

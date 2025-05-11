@@ -4,7 +4,8 @@ import styles from "./reauthenticateModal.module.css";
 import Input from "@/ui/components/shared/input/Input";
 import Button from "@/ui/components/shared/button/Button";
 import useUserStore from "@/stores/user-store";
-import { DialogModalActions } from "@/types/general";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Reauthenticate Modal");
 
 interface ReauthenticateModalProps {
   isOpen: boolean;
@@ -45,7 +46,7 @@ const ReauthenticateModal = ({
         await reAuthenticateUser(passwordInput, async () => changeUserEmail(email));
         setShowVerificationEmailSent(true);
       } catch (error) {
-        console.log("Error reauthenticating user: ", error);
+        Logger.error("Error reauthenticating user: ", error);
       }
     } else if (password) {
       try {
@@ -53,7 +54,7 @@ const ReauthenticateModal = ({
         closeModal();
         setPasswordInput("");
       } catch (error) {
-        console.log("Error reauthenticating user: ", error);
+        Logger.error("Error reauthenticating user: ", error);
       }
     } else if (deleteAccount) {
       try {
@@ -63,7 +64,7 @@ const ReauthenticateModal = ({
         closeModal();
         setPasswordInput("");
       } catch (error) {
-        console.log("Error reauthenticating user: ", error);
+        Logger.error("Error reauthenticating user: ", error);
       }
     }
   };

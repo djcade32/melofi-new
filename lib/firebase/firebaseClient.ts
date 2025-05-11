@@ -59,8 +59,7 @@ export const getFirebaseDB = (): Firestore | undefined => {
     }
     return db;
   } catch (error) {
-    logger.error("Firebase DB Connection Failed");
-    console.log(error);
+    logger.error(`Firebase DB Connection Failed: ${error}`);
     return;
   }
 };
@@ -82,8 +81,7 @@ export const getFirebaseAuth = () => {
     logger.debug.info("Firebase Auth Connected");
     return auth;
   } catch (error) {
-    logger.error("ERROR: Firebase Auth Connection Failed");
-    console.log(error);
+    logger.error(`Firebase Auth Connection Failed: ${error}`);
     return;
   }
 };

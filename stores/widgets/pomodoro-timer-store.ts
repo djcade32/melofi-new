@@ -16,6 +16,8 @@ import {
 } from "@/types/interfaces/pomodoro_timer";
 import { firestoreTimestampToDate, getDayOfWeek, isNewDay } from "@/utils/date";
 import React from "react";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Pomodoro Timer Store");
 
 export interface PomodoroTimerState {
   isPomodoroTimerOpen: boolean;
@@ -63,7 +65,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
         builtTasks.length > 0 && get().setActivePomodoroTimerTask(builtTasks[0]);
       }
     } catch (error) {
-      console.log("Error fetching pomodoro timer tasks: ", error);
+      Logger.error("Error fetching pomodoro timer tasks: ", error);
     }
   },
 
@@ -95,7 +97,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
         get().setActivePomodoroTimerTask(newTask);
       }
     } catch (error) {
-      console.log("Error adding pomodoro timer task: ", error);
+      Logger.error("Error adding pomodoro timer task: ", error);
       return;
     }
   },
@@ -114,7 +116,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
         activePomodoroTimerTask: newActivePomodoroTimerTask,
       });
     } catch (error) {
-      console.log("Error deleting pomodoro timer task: ", error);
+      Logger.error("Error deleting pomodoro timer task: ", error);
     }
   },
 
@@ -130,7 +132,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
         activePomodoroTimerTask: null,
       });
     } catch (error) {
-      console.log("Error resetting pomodoro timer data: ", error);
+      Logger.error("Error resetting pomodoro timer data: ", error);
     }
   },
 
@@ -217,7 +219,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
               focusDay: calculateFocusDay(updatedStats, incrementObj),
             });
           } catch (error) {
-            console.log("Error updating pomodoro timer task in db: ", error);
+            Logger.error("Error updating pomodoro timer task in db: ", error);
           }
           return;
         }
@@ -248,7 +250,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
             focusDay: calculateFocusDay(updatedStats, incrementObj),
           });
         } catch (error) {
-          console.log("Error updating pomodoro timer task in db: ", error);
+          Logger.error("Error updating pomodoro timer task in db: ", error);
         }
 
         await wait(250);
@@ -282,7 +284,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
             focusDay: calculateFocusDay(updatedStats, incrementObj),
           });
         } catch (error) {
-          console.log("Error updating pomodoro timer task in db: ", error);
+          Logger.error("Error updating pomodoro timer task in db: ", error);
         }
 
         await wait(250);
@@ -334,7 +336,7 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
       wait(500);
       await updatePomodoroTimerTaskInDb(uid, newTasksList);
     } catch (error) {
-      console.log("Error updating pomodoro timer task in db: ", error);
+      Logger.error("Error updating pomodoro timer task in db: ", error);
     }
   },
 

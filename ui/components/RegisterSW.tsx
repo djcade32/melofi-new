@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Register SW");
 
 export default function RegisterSW() {
   const isProduction = process.env.NODE_ENV === "production";
@@ -10,10 +13,10 @@ export default function RegisterSW() {
         navigator.serviceWorker
           .register("/sw.js")
           .then((reg) => {
-            console.log("[PWA] Service worker registered:", reg);
+            Logger.debug.info("[PWA] Service worker registered:", reg);
           })
           .catch((err) => {
-            console.error("[PWA] Service worker registration failed:", err);
+            Logger.error("[PWA] Service worker registration failed:", err);
           });
       });
     }

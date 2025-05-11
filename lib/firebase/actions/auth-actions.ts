@@ -19,7 +19,9 @@ import { addUserToStats } from "./stats-actions";
 import { ERROR_MESSAGES } from "@/enums/general";
 import { getUserData, retrieveUserAuth, saveUserData, storeUserAuth } from "@/lib/electron-store";
 import checkPremiumStatus from "@/lib/stripe/checkPremiumStatus";
+import { createLogger } from "@/utils/logger";
 
+const Logger = createLogger("Auth Actions");
 const auth = getFirebaseAuth();
 
 export const signup = async (
@@ -68,9 +70,9 @@ export const login = async (email: string, password: string, fromDashboard?: boo
   }
 
   try {
-    console.log("Logging in...");
+    Logger.info("Logging in...");
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log("User credential: ", userCredential);
+    Logger.debug.info("User credential: ", userCredential);
     // Save the user's token locally for offline access
     if (typeof window !== "undefined" && window.electronAPI) {
       // Check if online
@@ -94,7 +96,7 @@ export const login = async (email: string, password: string, fromDashboard?: boo
       await addUserToUserDb(uid, email, userCredential.user.displayName || "");
     }
     if (userFoundInNewsletterDb && isEmailVerified) {
-      console.log("User found in newsletter db");
+      Logger.debug.info("User found in newsletter db");
       await changeUserEmailVerificationStatus(uid, email, true);
     }
 
@@ -121,7 +123,7 @@ export const login = async (email: string, password: string, fromDashboard?: boo
       if (user) {
         return user;
       } else {
-        console.log("No offline auth found for user");
+        Logger.debug.warn("No offline auth found for user");
         throw new Error(ERROR_MESSAGES.NO_INTERNET_CONNECTION);
       }
     }
@@ -143,7 +145,7 @@ const tryLoginWithOfflineToken = async (
 
     // Set user in local storage
     localStorage.setItem("user", JSON.stringify(user));
-    console.log("User logged in with offline credentials");
+    Logger.debug.info("User logged in with offline credentials");
     return user;
   }
   return null;
@@ -188,7 +190,7 @@ export const updateUserProfile = async (displayName: string) => {
       displayName,
     });
   } catch (error) {
-    console.log("Error updating user profile: ", error);
+    Logger.error(`Error updating user profile: ${error}`);
     throw error;
   }
 };
@@ -207,7 +209,7 @@ export const addUserToUserDb = async (uid: string, email: string, firstName: str
     };
     await setDoc(usersDoc, userData);
   } catch (error) {
-    console.log("Error adding user to user db: ", error);
+    Logger.error(`Error adding user to User db: ${error}`);
     throw error;
   }
 };
@@ -226,7 +228,7 @@ export const changeUserEmailOrFullNameInDb = async (uid: string, userInfo: UserI
     const usersDoc = doc(db, `users/${uid}`);
     await setDoc(usersDoc, userInfo, { merge: true });
   } catch (error) {
-    console.log("Error changing user email or full name: ", error);
+    Logger.error(`Error changing user email or full name in User db: ${error}`);
     throw error;
   }
 };
@@ -255,7 +257,7 @@ export const updateEmail = async (email: string) => {
     if (error.message.includes("auth/operation-not-allowed")) {
       sendEmailVerification();
     }
-    console.log("Error updating email: ", error);
+    Logger.error(`Error updating email: ${error}`);
     throw error;
   }
 };
@@ -278,7 +280,7 @@ export const reauthenticateUser = async (
       return { success: true };
     }
   } catch (error: any) {
-    console.log("Error reauthenticating user: ", error);
+    Logger.error(`Error reauthenticating user: ${error}`);
     if (error.message.includes("auth/invalid-credential")) {
       return { success: false, message: "Invalid password" };
     }
@@ -298,7 +300,7 @@ export const updatePassword = async (password: string) => {
   try {
     await firebaseUpdatePassword(auth.currentUser, password);
   } catch (error) {
-    console.log("Error updating password: ", error);
+    Logger.error(`Error updating password: ${error}`);
     throw error;
   }
 };
@@ -315,9 +317,9 @@ export const removeUserFromDb = async (uid: string) => {
     await deleteDoc(newsletterDocRef);
     const statsDocRef = doc(db, "stats", uid);
     await deleteDoc(statsDocRef);
-    console.info(`User document with UID ${uid} removed successfully.`);
+    Logger.debug.info(`User document with UID ${uid} removed successfully.`);
   } catch (error) {
-    console.log("Error removing user from db: ", error);
+    Logger.error(`Error removing user document: ${error}`);
     throw error;
   }
 };
@@ -334,7 +336,7 @@ export const deleteAccount = async (uid: string) => {
     await removeUserFromDb(uid);
     await auth.currentUser.delete();
   } catch (error) {
-    console.log("Error deleting account: ", error);
+    Logger.error(`Error deleting user account: ${error}`);
     throw error;
   }
 };
@@ -347,7 +349,7 @@ export const signOut = async () => {
   try {
     await auth.signOut();
   } catch (error) {
-    console.log("Error signing out: ", error);
+    Logger.error(`Error signing out: ${error}`);
     throw error;
   }
 };

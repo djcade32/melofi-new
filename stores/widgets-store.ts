@@ -9,8 +9,10 @@ import useAlarmsStore from "./widgets/alarms-store";
 import useTemplatesStore from "./widgets/templates-store";
 import useYoutubeStore from "./widgets/youtube-store";
 import useMixerStore from "./mixer-store";
-import { Logger } from "@/classes/Logger";
 import useTimerStore from "./widgets/timer-store";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Widgets Store");
 
 export interface WidgetsState {
   openWidgets: Widget[];
@@ -81,7 +83,7 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
   },
 
   toggleOpenWidgets: (widgets: Widget[]) => {
-    widgets.length > 0 && Logger.getInstance().info("Opening Widgets: ", widgets);
+    widgets.length > 0 && Logger.debug.info("Opening Widgets: ", widgets);
     widgets.forEach((widget) => {
       switch (widget.name) {
         case "calendar":
@@ -115,7 +117,7 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
           useTimerStore.getState().setIsTimerOpen(true);
           break;
         default:
-          Logger.getInstance().warn("Widget not found to open");
+          Logger.debug.warn("Widget not found to open");
           break;
       }
     });

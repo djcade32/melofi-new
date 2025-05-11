@@ -20,10 +20,12 @@ import usePomodoroTimerStore from "./widgets/pomodoro-timer-store";
 import useTemplatesStore from "./widgets/templates-store";
 import useAlarmsStore from "./widgets/alarms-store";
 import useUserStatsStore from "./user-stats-store";
-import { Logger } from "@/classes/Logger";
 import useAppStore from "./app-store";
 import { UserMembership } from "@/enums/general";
 import useMenuStore from "./menu-store";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("User Store");
 
 export interface UserState {
   isUserLoggedIn: boolean;
@@ -71,7 +73,7 @@ const useUserStore = create<UserState>((set, get) => ({
 
   async checkIfUserIsInDb(uid) {
     if (process.env.NEXT_PUBLIC_IS_CYPRESS) {
-      Logger.getInstance().warn("Mocked checkIfUserIsInDb");
+      Logger.debug.warn("Mocked checkIfUserIsInDb");
       return true;
     }
     const userInDb = await getUserFromUserDb(uid);
@@ -109,7 +111,7 @@ const useUserStore = create<UserState>((set, get) => ({
         addNotification({ type: "success", message: "Full name changed successfully" });
       }
     } catch (error) {
-      console.error("Error changing full name: ", error);
+      Logger.error("Error changing full name: ", error);
     }
   },
 
@@ -136,7 +138,7 @@ const useUserStore = create<UserState>((set, get) => ({
         addNotification({ type: "success", message: "Email changed successfully" });
       }
     } catch (error) {
-      console.error("Error changing email: ", error);
+      Logger.error("Error changing email: ", error);
       addNotification({ type: "error", message: "Error changing email" });
     }
   },
@@ -148,7 +150,7 @@ const useUserStore = create<UserState>((set, get) => ({
       await updatePassword(password);
       addNotification({ type: "success", message: "Password changed successfully" });
     } catch (error) {
-      console.error("Error changing password: ", error);
+      Logger.error("Error changing password: ", error);
       addNotification({ type: "error", message: "Error changing password" });
     }
   },
@@ -202,7 +204,7 @@ const useUserStore = create<UserState>((set, get) => ({
         addNotification({ type: "success", message: "Account deleted successfully" });
       }
     } catch (error) {
-      console.error("Error deleting account: ", error);
+      Logger.error("Error deleting account: ", error);
       addNotification({ type: "error", message: "Error deleting account" });
     }
   },
@@ -217,7 +219,7 @@ const useUserStore = create<UserState>((set, get) => ({
       skippedOnboarding: true,
     } as MelofiUser;
     const userUid = get().currentUser?.authUser?.uid;
-    if (!userUid) return console.log("User not logged in");
+    if (!userUid) return Logger.debug.info("User not logged in");
 
     if (isElectron()) {
       localStorage.removeItem("user");

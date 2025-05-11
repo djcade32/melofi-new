@@ -161,7 +161,6 @@ const SlateEditor = ({ note }: SlateEditorProps) => {
     clearTimeout(debounceTimeout as NodeJS.Timeout);
     setDebounceTimeout(
       setTimeout(() => {
-        console.log("Saved note");
         updateNote({
           ...note,
           text: newValue,

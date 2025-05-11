@@ -5,6 +5,9 @@ import styles from "./contact.module.css";
 import { motion } from "framer-motion";
 import { subscribeToNewsletter } from "@/lib/brevo/actions";
 import { isValidEmail } from "@/utils/general";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Contact Section");
 
 const Contact = () => {
   const [email, setEmail] = useState("");
@@ -23,7 +26,7 @@ const Contact = () => {
         setShowSuccess(false);
       }, 5000);
     } else {
-      console.log("Error subscribing to newsletter: ", isSuccess.error);
+      Logger.debug.error(`Error subscribing to newsletter: ${isSuccess.error}`);
       setError("Something went wrong. Please try again later");
     }
   };
