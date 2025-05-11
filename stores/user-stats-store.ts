@@ -30,7 +30,7 @@ export interface userStatsState {
   updatePomodoroTimerStats: (updatedStats: PomodoroTimerStats) => Promise<void>;
   incrementExpiredAlarmsCount: () => Promise<void>;
   updateSceneCounts: (scene: string) => Promise<void>;
-  resetUserStatsData: () => Promise<void>;
+  resetUserStatsData: (resetDb?: boolean) => Promise<void>;
   setStats: (stats: UserStats) => void;
   getUserStats: () => UserStats | undefined;
 
@@ -225,7 +225,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
     }
   },
 
-  async resetUserStatsData() {
+  async resetUserStatsData(resetDb: boolean = true) {
     const { updateUserStats } = useIndexedDBStore.getState();
     const { isOnline } = useAppStore.getState();
 
@@ -233,7 +233,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
     if (!uid) {
       return;
     }
-    isOnline && (await resetUserStats(uid));
+    isOnline && resetDb && (await resetUserStats(uid));
     set({
       pomodoroTimerStats: {
         totalFocusTime: 0,
@@ -249,21 +249,22 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       achievements: [],
     });
 
-    updateUserStats(uid, (stats) => {
-      stats.pomodoroTimer = {
-        totalFocusTime: 0,
-        totalBreakTime: 0,
-        totalSessionsCompleted: 0,
-        tasksCompleted: [],
-        weeklyStats: null,
-        focusDay: null,
-      };
-      stats.notes.totalNotesCreated = 0;
-      stats.sceneCounts = null;
-      stats.alarm.alarmsExpiredCount = 0;
-      stats.achievements.achievements = [];
-      return stats;
-    });
+    resetDb &&
+      updateUserStats(uid, (stats) => {
+        stats.pomodoroTimer = {
+          totalFocusTime: 0,
+          totalBreakTime: 0,
+          totalSessionsCompleted: 0,
+          tasksCompleted: [],
+          weeklyStats: null,
+          focusDay: null,
+        };
+        stats.notes.totalNotesCreated = 0;
+        stats.sceneCounts = null;
+        stats.alarm.alarmsExpiredCount = 0;
+        stats.achievements.achievements = [];
+        return stats;
+      });
   },
 
   setStats(stats: UserStats) {
