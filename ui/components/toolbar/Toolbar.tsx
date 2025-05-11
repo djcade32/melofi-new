@@ -35,7 +35,7 @@ const Toolbar = () => {
   } = useToolsStore();
   const { isSleep } = useAppContext();
   const { isPremiumUser } = useUserStore();
-  const { setShowPremiumModal } = useAppStore();
+  const { setShowPremiumModal, appSettings } = useAppStore();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -171,10 +171,10 @@ const Toolbar = () => {
     const toolbar = nodeRef.current;
     if (toolbar) {
       const toolbarRect = toolbar.getBoundingClientRect();
-
+      const offset = appSettings.showMiddleClock ? 35 : 0;
       if (toolbarRect.right > windowDimensions.width) {
         setToolbarPosition({
-          x: windowDimensions.width - dimensionsRef.width,
+          x: windowDimensions.width - dimensionsRef.width - offset,
           y: toolbarPosition.y,
         });
       }
