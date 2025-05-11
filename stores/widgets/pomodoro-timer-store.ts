@@ -30,7 +30,7 @@ export interface PomodoroTimerState {
   addPomodoroTimerTask: (task: PomodoroTimerTaskPayload) => Promise<void>;
   deletePomodoroTimerTask: (taskId: string) => void;
   findAndUpdateTask: (taskId: string, updatedTask: PomodoroTimerTask) => PomodoroTimerTask[];
-  resetPomodoroTimerData: () => Promise<void>;
+  resetPomodoroTimerData: (resetDb?: boolean) => Promise<void>;
 
   // Timer state
   isTimerRunning: boolean;
@@ -120,13 +120,13 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
     }
   },
 
-  resetPomodoroTimerData: async () => {
+  resetPomodoroTimerData: async (resetDb: boolean = true) => {
     const uid = useUserStore.getState().currentUser?.authUser?.uid;
     if (!uid) {
       return;
     }
     try {
-      await updatePomodoroTimerTaskInDb(uid, []);
+      resetDb && (await updatePomodoroTimerTaskInDb(uid, []));
       set({
         pomodoroTimerTasks: [],
         activePomodoroTimerTask: null,

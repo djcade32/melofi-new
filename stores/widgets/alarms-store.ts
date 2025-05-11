@@ -21,7 +21,7 @@ export interface AlarmsState {
   setAlarmsWorker: (worker: Worker) => void;
   snoozeAlarm: (alarm: Alarm) => void;
   fetchAlarms: () => Promise<void>;
-  resetAlarmsData: () => Promise<void>;
+  resetAlarmsData: (resetDb?: boolean) => Promise<void>;
 }
 
 const useAlarmsStore = create<AlarmsState>((set, get) => ({
@@ -130,14 +130,14 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
     }
   },
 
-  resetAlarmsData: async () => {
+  resetAlarmsData: async (resetDb: boolean = true) => {
     const { alarmsWorker } = get();
     const uid = useUserStore.getState().currentUser?.authUser?.uid;
     if (!uid) {
       return;
     }
     try {
-      await updateAlarmsInDB(uid, []);
+      resetDb && (await updateAlarmsInDB(uid, []));
       alarmsWorker?.postMessage({ type: "CLEAR_ALARMS" });
       set({ alarmList: [] });
     } catch (error) {

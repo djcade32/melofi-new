@@ -209,7 +209,7 @@ const useUserStore = create<UserState>((set, get) => ({
     }
   },
 
-  signUserOut: () => {
+  signUserOut: async () => {
     const { isElectron, removePremiumFeatures } = useAppStore.getState();
     const { setIsMenuOpen } = useMenuStore.getState();
 
@@ -235,6 +235,15 @@ const useUserStore = create<UserState>((set, get) => ({
       isPremiumUser: false,
       membershipType: "free",
     });
+
+    // Reset all stores
+    useNotesStore.getState().resetNotesData(userUid, false);
+    await useTodoListStore.getState().resetTodoListData(userUid, false);
+    await usePomodoroTimerStore.getState().resetPomodoroTimerData(false);
+    await useTemplatesStore.getState().resetTemplatesData(false);
+    await useAlarmsStore.getState().resetAlarmsData(false);
+    await useUserStatsStore.getState().resetUserStatsData(false);
+
     removePremiumFeatures();
     useNotificationProviderStore
       .getState()

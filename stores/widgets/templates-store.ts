@@ -34,7 +34,7 @@ export interface TemplatesState {
   setSelectedTemplate: (template: Template | null) => void;
   settingsChanged: () => void;
   fetchTemplates: () => Promise<void>;
-  resetTemplatesData: () => Promise<void>;
+  resetTemplatesData: (resetDb?: boolean) => Promise<void>;
 }
 
 const useTemplatesStore = create<TemplatesState>((set, get) => ({
@@ -128,13 +128,13 @@ const useTemplatesStore = create<TemplatesState>((set, get) => ({
     }
   },
 
-  resetTemplatesData: async () => {
+  resetTemplatesData: async (resetDb: boolean = true) => {
     const uid = useUserStore.getState().currentUser?.authUser?.uid;
     if (!uid) {
       return;
     }
     try {
-      await deleteAllTemplatesFromDb(uid);
+      resetDb && (await deleteAllTemplatesFromDb(uid));
       set({ templateList: [], selectedTemplate: null, wasTemplateSelected: false });
     } catch (error) {
       Logger.error("Error resetting templates data: ", error);
