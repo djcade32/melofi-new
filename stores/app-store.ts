@@ -284,6 +284,7 @@ const useAppStore = create<AppState>((set, get) => ({
         oldAppSettings.calendar.calendarHoverEffectEnabled = appSettings.calendarHoverEffectEnabled;
         oldAppSettings.todo.todoListHoverEffectEnabled = appSettings.todoListHoverEffectEnabled;
         oldAppSettings.quote.showDailyQuote = appSettings.showDailyQuote;
+        oldAppSettings.clock.showMiddleClock = appSettings.showMiddleClock;
         oldAppSettings._lastSynced = new Date().toISOString();
         return oldAppSettings;
       });
