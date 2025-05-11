@@ -1,5 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { getFirebaseDB } from "../firebaseClient";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("General Firebase Getters");
 const db = getFirebaseDB();
 
 export const fetchFirebaseWidgetData = async (uid: string) => {
@@ -12,7 +14,7 @@ export const fetchFirebaseWidgetData = async (uid: string) => {
     const data = fetchedDoc.data();
     return data;
   } catch (error) {
-    console.log("Error getting widget data from db: ", error);
+    Logger.error("Error getting widget data from db: ", error);
     throw error;
   }
 };

@@ -2,10 +2,12 @@ import { ERROR_MESSAGES } from "@/enums/general";
 import { signup } from "@/lib/firebase/actions/auth-actions";
 import Input from "@/ui/components/shared/input/Input";
 import { isValidEmail } from "@/utils/general";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "../authModal.module.css";
 import Checkbox from "@/ui/components/shared/checkbox/Checkbox";
 import Button from "@/ui/components/shared/button/Button";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Signup");
 
 interface SignupProps {
   handleViewChange: (view: "login" | "signup" | "forgotPassword" | "emailVerification") => void;
@@ -25,7 +27,7 @@ const Signup = ({ handleViewChange }: SignupProps) => {
     }
     try {
       const user = await signup(email, password, firstName, newsletterChecked);
-      console.log("User created: ", user);
+      Logger.debug.info("User created: ", user);
       user && handleViewChange("emailVerification");
       return true;
     } catch (error: any) {
@@ -37,7 +39,7 @@ const Signup = ({ handleViewChange }: SignupProps) => {
           },
         ]);
       }
-      console.log("Error creating account: ", error);
+      Logger.error("Error creating account: ", error);
       return false;
     }
   };

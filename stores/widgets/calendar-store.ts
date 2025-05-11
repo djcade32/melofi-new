@@ -9,6 +9,9 @@ import {
 } from "@/lib/type-builders/calendar-type-builder";
 import { CalendarEvent, CalendarListItem } from "@/types/interfaces/calendar";
 import { create } from "zustand";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Calendar Store");
 
 export interface CalendarState {
   googleCalendarUser: any;
@@ -50,7 +53,7 @@ const useCalendarStore = create<CalendarState>((set, get) => ({
         set({ calendarsList: calendarListItems });
       }
     } catch (error: any) {
-      console.error("Error getting calendars list:", error.response?.data || error.message);
+      Logger.error("Error getting calendars list:", error.response?.data || error.message);
     }
   },
   setSelectedCalendar: (calendar) => set({ selectedCalendar: calendar }),
@@ -63,7 +66,7 @@ const useCalendarStore = create<CalendarState>((set, get) => ({
         set({ calendarEvents });
       }
     } catch (error: any) {
-      console.error("Error getting calendar events:", error.response?.data || error);
+      Logger.error("Error getting calendar events:", error.response?.data || error);
     }
   },
 

@@ -22,6 +22,9 @@ import ComponentLoader from "@/ui/components/shared/componentLoader/ComponentLoa
 import InsightsModal from "./optionModals/insightsModal/InsightsModal";
 import useAppStore from "@/stores/app-store";
 import ChangeLog from "./optionModals/changeLog/ChangeLog";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Menu Modal");
 
 const GeneralSettingsModal = lazy(
   () => import("@/ui/modals/menuModal/optionModals/generalSettingsModal/GeneralSettingsModal")
@@ -98,7 +101,7 @@ const MenuModal = memo(() => {
         // Get os type
         const osType = getOsType();
         if (osType === "unknown") {
-          console.error("Unknown OS type");
+          Logger.error("Unknown OS type");
           return;
         }
         const fileExtension = osType === "mac" ? "dmg" : "exe";

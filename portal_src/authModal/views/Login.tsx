@@ -5,6 +5,8 @@ import { ERROR_MESSAGES } from "@/enums/general";
 import { login, sendEmailVerification } from "@/lib/firebase/actions/auth-actions";
 import useUserStore from "@/stores/user-store";
 import Button from "@/ui/components/shared/button/Button";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Login");
 
 interface LoginProps {
   handleViewChange: (view: "login" | "signup" | "forgotPassword" | "emailVerification") => void;
@@ -30,11 +32,11 @@ const Login = ({ handleViewChange }: LoginProps) => {
         await sendEmailVerification();
         return;
       }
-      console.log("User logged in: ", user);
+      Logger.debug.info("User logged in: ", user);
       setCurrentUser(user);
       setIsUserLoggedIn(true);
     } catch (error: any) {
-      console.log("Error logging in: ", error);
+      Logger.error("Error logging in: ", error);
       const formErrorMessage =
         error.message === ERROR_MESSAGES.NO_INTERNET_CONNECTION
           ? ERROR_MESSAGES.NO_INTERNET_CONNECTION

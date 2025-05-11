@@ -1,5 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { getFirebaseDB } from "../firebaseClient";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Alarms Getters");
 
 const db = getFirebaseDB();
 
@@ -13,7 +15,7 @@ export const getAlarmsFromDB = async (uid: string) => {
     const fetchedDoc = await getDoc(userDoc);
     return fetchedDoc.data()?.alarmsList ?? [];
   } catch (error) {
-    console.log("Error getting alarms from db: ", error);
+    Logger.error("Error getting alarms from db: ", error);
     throw error;
   }
 };

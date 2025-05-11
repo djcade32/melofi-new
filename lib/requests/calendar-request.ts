@@ -1,5 +1,7 @@
 import axios from "axios";
 import { openDB } from "idb";
+import { createLogger } from "../../utils/logger";
+const Logger = createLogger("Calendar Requests");
 
 let dbPromise = null;
 
@@ -11,7 +13,7 @@ if (typeof indexedDB !== "undefined") {
     },
   });
 } else {
-  console.warn(
+  Logger.debug.warn(
     "IndexedDB is not supported in this environment. Database functions will be unavailable."
   );
 }
@@ -19,7 +21,7 @@ if (typeof indexedDB !== "undefined") {
 // This is only for testing purposes
 export const getDb = async () => {
   if (!dbPromise) {
-    console.warn(
+    Logger.debug.warn(
       "IndexedDB is not supported in this environment. Database functions will be unavailable."
     );
     return null;
@@ -30,7 +32,7 @@ export const getDb = async () => {
 
 export const fetchCalendarsList = async (token: string) => {
   if (!dbPromise) {
-    console.warn(
+    Logger.debug.warn(
       "IndexedDB is not supported in this environment. Database functions will be unavailable."
     );
     return null;
@@ -43,10 +45,10 @@ export const fetchCalendarsList = async (token: string) => {
     // Check if data more than 5 minutes old
     if (calendarsList && Date.now() - calendarsList.lastFetched < 5 * 60 * 1000) {
       // Load from IndexedDB if data is fresh
-      console.log("Loading calendars list from IndexedDB");
+      Logger.info("Loading calendars list from IndexedDB");
       return calendarsList.data;
     }
-    console.log("Fetching calendars list from API");
+    Logger.debug.info("Fetching calendars list from API");
     // Fetch from API if data is stale
     const response = await axios.get(
       "https://www.googleapis.com/calendar/v3/users/me/calendarList",
@@ -67,14 +69,14 @@ export const fetchCalendarsList = async (token: string) => {
 
     return response.data;
   } catch (error: any) {
-    console.error("Error fetching calendars list:", error.response?.data || error.message);
+    Logger.error("Error fetching calendars list:", error.response?.data || error.message);
     return null;
   }
 };
 
 export const fetchCalendarEvents = async (token: string, calendarId: string) => {
   if (!dbPromise) {
-    console.warn(
+    Logger.debug.warn(
       "IndexedDB is not supported in this environment. Database functions will be unavailable."
     );
     return null;
@@ -97,10 +99,10 @@ export const fetchCalendarEvents = async (token: string, calendarId: string) => 
     // Check if data more than 5 minutes old
     if (calendarEvents && Date.now() - calendarEvents.lastFetched < 5 * 60 * 1000) {
       // Load from IndexedDB if data is fresh
-      console.log("Loading calendar events from IndexedDB");
+      Logger.debug.info("Loading calendar events from IndexedDB");
       return calendarEvents.data;
     }
-    console.log("Fetching calendar events from API");
+    Logger.debug.info("Fetching calendar events from API");
     const response = await axios.get(
       `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`,
       {
@@ -127,7 +129,7 @@ export const fetchCalendarEvents = async (token: string, calendarId: string) => 
 
     return response.data;
   } catch (error: any) {
-    console.error("Error fetching calendar events:", error.response?.data || error.message);
+    Logger.error("Error fetching calendar events:", error.response?.data || error.message);
     return null;
   }
 };
@@ -135,12 +137,12 @@ export const fetchCalendarEvents = async (token: string, calendarId: string) => 
 // Delete all calendar data from IndexedDB
 export const clearCalendarData = async () => {
   if (!dbPromise) {
-    console.warn(
+    Logger.debug.warn(
       "IndexedDB is not supported in this environment. Database functions will be unavailable."
     );
     return;
   }
-  console.log("Clearing calendar data from IndexedDB");
+  Logger.debug.info("Clearing calendar data from IndexedDB");
   ``;
   const db = await dbPromise;
   await db.clear("calendar");

@@ -5,6 +5,9 @@ import useNotificationProviderStore from "@/stores/notification-provider-store";
 import SearchInput from "@/ui/components/shared/searchInput/SearchInput";
 import useUserStore from "@/stores/user-store";
 import useAppStore from "@/stores/app-store";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Spotify Widget Section");
 
 const SpotifyWidgetSection = () => {
   const { currentPlaylist } = useMusicPlayerStore();
@@ -55,7 +58,7 @@ const SpotifyWidgetSection = () => {
       const extractedValue = result[1];
       return extractedValue;
     } else {
-      console.log("Invalid Spotify Playlist Link");
+      Logger.debug.info("Invalid Spotify Playlist Link");
       return "";
     }
   };

@@ -7,8 +7,10 @@ import { manageSubscription } from "@/lib/stripe/manageSubscription";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
 import Switch from "@/ui/components/shared/switch/Switch";
 import { createCheckoutSession } from "@/lib/stripe/createCheckoutSession";
-import { Logger } from "@/classes/Logger";
 import { wait } from "@/utils/general";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("User Account");
 
 const UserAccount = () => {
   const { signUserOut, currentUser, isPremiumUser, membershipType } = useUserStore();
@@ -34,7 +36,7 @@ const UserAccount = () => {
   const handleDownloadClick = async () => {
     const osType = getOsType();
     if (osType === "unknown") {
-      console.error("Unknown OS type");
+      Logger.error("Unknown OS type");
       return;
     }
     const fileExtension = osType === "mac" ? "dmg" : "exe";
@@ -54,7 +56,7 @@ const UserAccount = () => {
     try {
       await createCheckoutSession(currentUser?.authUser?.uid, model, "portal");
     } catch (error) {
-      Logger.getInstance().error(`Error creating checkout session: ${error}`);
+      Logger.error(`Error creating checkout session: ${error}`);
       useNotificationProviderStore.getState().addNotification({
         type: "error",
         message: "Error creating checkout session",

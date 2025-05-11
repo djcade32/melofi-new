@@ -3,6 +3,8 @@ import styles from "../authModal.module.css";
 import Button from "@/ui/components/shared/button/Button";
 import { sendEmailVerification } from "@/lib/firebase/actions/auth-actions";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Email Verification");
 
 interface EmailVerificationProps {
   handleViewChange: (view: "login" | "signup" | "forgotPassword" | "emailVerification") => void;
@@ -18,9 +20,9 @@ const EmailVerification = ({ handleViewChange }: EmailVerificationProps) => {
         type: "success",
         message: "Verification email sent",
       });
-      console.log("Verification email sent");
+      Logger.info("Verification email sent");
     } catch (error: any) {
-      console.log("Error sending verification email: ", error);
+      Logger.error("Error sending verification email: ", error);
     }
   };
   return (

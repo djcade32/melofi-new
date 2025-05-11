@@ -5,6 +5,8 @@ import { updateAlarmsInDB } from "@/lib/firebase/actions/alarms-actions";
 import useUserStore from "../user-store";
 import { getAlarmsFromDB } from "@/lib/firebase/getters/alarms-getters";
 import { buildAlarmList } from "@/lib/type-builders/alarm-type-builder";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Alarms Store");
 
 export interface AlarmsState {
   alarmsWorker: Worker | null;
@@ -47,14 +49,14 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
       set({ alarmList: newAlarmList });
       alarmsWorker?.postMessage({ type: "REMOVE_ALARM", data: alarm });
     } catch (error) {
-      console.error("Error deleting alarm", error);
+      Logger.error("Error deleting alarm", error);
     }
   },
 
   addAlarm: async (label, time) => {
     const { currentUser } = useUserStore.getState();
     if (!currentUser?.authUser?.uid) {
-      console.log("No uid found");
+      Logger.debug.info("No uid found");
       return;
     }
 
@@ -71,7 +73,7 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
       set({ alarmList: newAlarmList });
       alarmsWorker?.postMessage({ type: "ADD_ALARM", data: alarm });
     } catch (error) {
-      console.error("Error adding alarm", error);
+      Logger.error("Error adding alarm", error);
     }
   },
 
@@ -84,7 +86,7 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
       const newAlarmList = alarmList.map((a) => {
         if (a.id === id) {
           const updatedAlarm = { ...a, ...newAlarm };
-          console.log("Updated alarm: ", updatedAlarm);
+          Logger.debug.info("Updated alarm: ", updatedAlarm);
           alarmsWorker?.postMessage({ type: "REMOVE_ALARM", data: a });
           updatedAlarm.isActive &&
             alarmsWorker?.postMessage({ type: "ADD_ALARM", data: updatedAlarm });
@@ -95,7 +97,7 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
       await updateAlarmsInDB(currentUser.authUser.uid, newAlarmList);
       set({ alarmList: newAlarmList });
     } catch (error) {
-      console.error("Error updating alarm", error);
+      Logger.error("Error updating alarm", error);
     }
   },
 
@@ -124,7 +126,7 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
       const { alarmsWorker } = get();
       alarmsWorker && (await addAlarmsToWorker(alarmsWorker, builtAlarmList));
     } catch (error) {
-      console.log("Error fetching templates: ", error);
+      Logger.error("Error fetching templates: ", error);
     }
   },
 
@@ -139,7 +141,7 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
       alarmsWorker?.postMessage({ type: "CLEAR_ALARMS" });
       set({ alarmList: [] });
     } catch (error) {
-      console.log("Error resetting templates data: ", error);
+      Logger.error("Error resetting templates data: ", error);
     }
   },
 }));
@@ -152,7 +154,7 @@ const addAlarmsToWorker = async (worker: Worker, alarms: Alarm[]) => {
       alarm.isActive && worker.postMessage({ type: "ADD_ALARM", data: alarm });
     });
   } catch (error) {
-    console.error("Error adding alarms to worker", error);
+    Logger.error("Error adding alarms to worker", error);
   }
 };
 

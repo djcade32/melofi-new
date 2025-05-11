@@ -4,6 +4,9 @@ import Button from "@/ui/components/shared/button/Button";
 import Link from "next/link";
 import useAppStore from "@/stores/app-store";
 import useMusicPlayerStore from "@/stores/music-player-store";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Start Modal");
 
 const StartModal = () => {
   const { showStartModal, setShowStartModal } = useAppStore();
@@ -19,7 +22,7 @@ const StartModal = () => {
     if ("Notification" in window && Notification.permission !== "granted") {
       Notification.requestPermission().then((permission) => {
         if (permission !== "granted") {
-          console.warn("Notification permission not granted");
+          Logger.warn("Notification permission not granted");
         }
       });
     }

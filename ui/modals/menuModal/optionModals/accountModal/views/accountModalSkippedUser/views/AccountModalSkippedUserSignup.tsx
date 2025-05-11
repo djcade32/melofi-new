@@ -9,6 +9,8 @@ import { isValidEmail } from "@/utils/general";
 import Checkbox from "@/ui/components/shared/checkbox/Checkbox";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
 import useUserStore from "@/stores/user-store";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Account Modal Skipped User Signup");
 
 interface AccountModalSkippedUserSignupProps {
   currentView: string[];
@@ -54,7 +56,7 @@ const AccountModalSkippedUserSignup = ({
     }
     try {
       const user = await signup(email, password, firstName, newsletterChecked);
-      console.log("User created: ", user);
+      Logger.debug.info("User created: ", user);
       user && setShowVerifyEmail(true);
       return true;
     } catch (error: any) {
@@ -66,7 +68,7 @@ const AccountModalSkippedUserSignup = ({
           },
         ]);
       }
-      console.log("Error creating account: ", error);
+      Logger.error("Error creating account: ", error);
       return false;
     }
   };
@@ -135,9 +137,9 @@ const AccountModalSkippedUserSignup = ({
         type: "success",
         message: "Verification email sent",
       });
-      console.log("Verification email sent");
+      Logger.debug.info("Verification email sent");
     } catch (error: any) {
-      console.log("Error sending verification email: ", error);
+      Logger.error("Error sending verification email: ", error);
     }
   };
 

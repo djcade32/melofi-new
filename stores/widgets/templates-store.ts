@@ -19,6 +19,8 @@ import {
 import useUserStore from "../user-store";
 import { getTemplatesFromDb } from "@/lib/firebase/getters/templates-getter";
 import { buildTemplatesList } from "@/lib/type-builders/templates-type-builder";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Templates Store");
 
 export interface TemplatesState {
   isTemplatesOpen: boolean;
@@ -53,7 +55,7 @@ const useTemplatesStore = create<TemplatesState>((set, get) => ({
       }
       set({ templateList: updatedTemplates });
     } catch (error) {
-      console.log("Error deleting template: ", error);
+      Logger.error("Error deleting template: ", error);
     }
   },
 
@@ -77,7 +79,7 @@ const useTemplatesStore = create<TemplatesState>((set, get) => ({
       await addTemplateToDb(uid, newTemplate);
       set({ templateList: templates, selectedTemplate: Object.freeze(newTemplate) });
     } catch (error) {
-      console.log("Error creating template: ", error);
+      Logger.error("Error creating template: ", error);
     }
   },
 
@@ -122,7 +124,7 @@ const useTemplatesStore = create<TemplatesState>((set, get) => ({
       const templates = await getTemplatesFromDb(uid);
       set({ templateList: buildTemplatesList(templates) });
     } catch (error) {
-      console.log("Error fetching templates: ", error);
+      Logger.error("Error fetching templates: ", error);
     }
   },
 
@@ -135,7 +137,7 @@ const useTemplatesStore = create<TemplatesState>((set, get) => ({
       await deleteAllTemplatesFromDb(uid);
       set({ templateList: [], selectedTemplate: null, wasTemplateSelected: false });
     } catch (error) {
-      console.log("Error resetting templates data: ", error);
+      Logger.error("Error resetting templates data: ", error);
     }
   },
 }));

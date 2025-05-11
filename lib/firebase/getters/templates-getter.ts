@@ -1,5 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { getFirebaseDB } from "../firebaseClient";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Templates Getters");
 
 const db = getFirebaseDB();
 
@@ -12,7 +14,7 @@ export const getTemplatesFromDb = async (uid: string) => {
     const fetchedDoc = await getDoc(userDoc);
     return fetchedDoc.data()?.templatesList;
   } catch (error) {
-    console.log("Error getting templates from db: ", error);
+    Logger.error("Error getting templates from db: ", error);
     throw error;
   }
 };

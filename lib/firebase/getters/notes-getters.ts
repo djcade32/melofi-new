@@ -1,5 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { getFirebaseDB } from "../firebaseClient";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Notes Getters");
 
 const db = getFirebaseDB();
 
@@ -19,7 +21,7 @@ export const getNotesFromDB = async (uid: string) => {
       selectedNote: JSON.parse(stringifiedSelectedNote),
     };
   } catch (error) {
-    console.log("Error getting notes from db: ", error);
+    Logger.error("Error getting notes from db: ", error);
     throw error;
   }
 };

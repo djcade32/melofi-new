@@ -8,7 +8,9 @@ import useUserStore from "@/stores/user-store";
 import useMenuStore from "@/stores/menu-store";
 import { RxCaretLeft } from "@/imports/icons";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
-import { Logger } from "@/classes/Logger";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Account Modal Skipped User Login");
 
 interface AccountModalSkippedUserLoginProps {
   setCurrentView: React.Dispatch<React.SetStateAction<string[]>>;
@@ -38,7 +40,7 @@ const AccountModalSkippedUserLogin = ({ setCurrentView }: AccountModalSkippedUse
           await sendEmailVerification();
           return;
         }
-        Logger.getInstance().info(`User logged in: ${user}`);
+        Logger.debug.info(`User logged in: ${user}`);
         setCurrentUser(user);
         setIsUserLoggedIn(true);
         addNotification({
@@ -48,7 +50,7 @@ const AccountModalSkippedUserLogin = ({ setCurrentView }: AccountModalSkippedUse
         setSelectedOption(null);
       }
     } catch (error: any) {
-      Logger.getInstance().error(`Error logging in: ${error}`);
+      Logger.debug.error(`Error logging in: ${error}`);
       const formErrorMessage =
         error.message === ERROR_MESSAGES.NO_INTERNET_CONNECTION
           ? ERROR_MESSAGES.NO_INTERNET_CONNECTION
@@ -110,9 +112,9 @@ const AccountModalSkippedUserLogin = ({ setCurrentView }: AccountModalSkippedUse
       });
       setShowForgotPassword(false);
       setEmail("");
-      Logger.getInstance().info("Password reset email sent");
+      Logger.info("Password reset email sent");
     } catch (error: any) {
-      Logger.getInstance().error(`Error sending password reset email: ${error}`);
+      Logger.error(`Error sending password reset email: ${error}`);
       addNotification({
         type: "error",
         message: "Error sending password reset email",

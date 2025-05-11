@@ -4,6 +4,8 @@ import Toaster from "@/ui/components/shared/toaster/Toaster";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
 import React, { useEffect, useRef, useState } from "react";
 import { notification_sound } from "@/imports/effects";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("NotificationProvider");
 
 interface NotificationProviderProps {
   children: React.ReactNode;
@@ -44,7 +46,7 @@ const NotificationProvider = ({ children }: NotificationProviderProps) => {
       if (currentNotification?.type === "alarm") return;
       if (currentNotification?.audible || currentNotification?.type === "achievement") {
         audioRef.current?.play().catch((error) => {
-          console.error("Error playing audio:", error);
+          Logger.error("Error playing audio:", error);
         });
       }
       if (timeoutState) clearTimeout(timeoutState);

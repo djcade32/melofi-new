@@ -1,10 +1,12 @@
 "use client";
-import { Logger } from "@/classes/Logger";
 import useAppStore from "@/stores/app-store";
 import useIndexedDBStore from "@/stores/indexedDB-store";
 import useUserStore from "@/stores/user-store";
 import useWidgetsStore from "@/stores/widgets-store";
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("App Context");
 
 export interface AppContextInterface {
   isSleep: boolean;
@@ -51,7 +53,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   useEffect(() => {
     if (isOnline && !loading && currentUser?.authUser?.uid) {
-      console.log("Syncing data with Firebase...");
+      Logger.info("Syncing data with backend...");
       // Sync data with Firebase if back online
       pushAllDataToFirebase();
     }
@@ -62,7 +64,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       await fetchAppSettings();
     };
     if (currentUser?.authUser?.uid !== userUid) {
-      Logger.getInstance().info("fetching user app settings");
+      Logger.debug.info("Fetching user app settings");
       setUserUid(currentUser?.authUser?.uid || null);
       fetchUserAppSettings();
     }

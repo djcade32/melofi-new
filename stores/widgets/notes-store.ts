@@ -7,6 +7,9 @@ import useUserStore from "../user-store";
 import { getNotesFromDB } from "@/lib/firebase/getters/notes-getters";
 import useIndexedDBStore from "../indexedDB-store";
 import useAppStore from "../app-store";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Notes Store");
 
 export interface NotesState {
   isNotesOpen: boolean;
@@ -59,7 +62,7 @@ const useNotesStore = create<NotesState>((set, get) => ({
   },
 
   createNewNote: async () => {
-    console.log("Creating new note...");
+    Logger.debug.info("Creating new note...");
     // const { currentUser } = useUserStore.getState();
     const newNote: Note = {
       id: uuidv4(),
@@ -77,7 +80,7 @@ const useNotesStore = create<NotesState>((set, get) => ({
   },
 
   deleteNote: async (noteId) => {
-    console.log("Deleting note...");
+    Logger.debug.info("Deleting note...");
     const { currentUser } = useUserStore.getState();
     const { isOnline } = useAppStore.getState();
 
@@ -95,7 +98,7 @@ const useNotesStore = create<NotesState>((set, get) => ({
   },
 
   setNotes: async (notes) => {
-    console.log("Setting notes...");
+    Logger.debug.info("Setting notes...");
     const { updateWidgetData } = useIndexedDBStore.getState();
     const { currentUser } = useUserStore.getState();
     set({ notes });
@@ -108,7 +111,7 @@ const useNotesStore = create<NotesState>((set, get) => ({
   },
 
   setSelectedNote: async (note) => {
-    console.log("Setting selected note...");
+    Logger.debug.info("Setting selected note...");
     const { updateWidgetData } = useIndexedDBStore.getState();
     const { currentUser } = useUserStore.getState();
     set({ selectedNote: note });
@@ -130,21 +133,21 @@ const useNotesStore = create<NotesState>((set, get) => ({
   },
 
   fetchNotes: async () => {
-    console.log("Fetching notes...");
+    Logger.debug.info("Fetching notes...");
     const { currentUser } = useUserStore.getState();
     const { isOnline } = useAppStore.getState();
     const { indexedDB } = useIndexedDBStore.getState();
 
     // If not online grab notes from indexedDB
     if (!isOnline && indexedDB && currentUser?.authUser?.uid) {
-      console.log("Fetching notes from IndexedDB...");
+      Logger.debug.info("Fetching notes from IndexedDB...");
       const data = await indexedDB?.get("widgetData", currentUser.authUser.uid);
       if (data) {
         await get().setNotes(JSON.parse(data.notesList.notesList));
         await get().setSelectedNote(JSON.parse(data.selectedNote.selectedNote));
-        console.log("Notes fetched from IndexedDB");
+        Logger.debug.info("Notes fetched from IndexedDB");
       } else {
-        console.log("No notes found in IndexedDB");
+        Logger.debug.info("No notes found in IndexedDB");
       }
       return;
     }

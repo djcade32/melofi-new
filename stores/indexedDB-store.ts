@@ -14,12 +14,9 @@ import { AppSettings, UserStats } from "@/types/general";
 import { updateUserStats as updateUserStatsFirebase } from "@/lib/firebase/actions/stats-actions";
 import { BsDatabaseFillCheck, BsDatabaseFillX } from "@/imports/icons";
 import useAppStore from "./app-store";
+import { createLogger } from "@/utils/logger";
 
-const log = {
-  info: (...args: any) => console.log("[IndexedDB]", ...args),
-  error: (...args: any) => console.error("[IndexedDB]", ...args),
-  warn: (...args: any) => console.warn("[IndexedDB]", ...args),
-};
+const Logger = createLogger("IndexedDB Store");
 
 export interface IndexedDBState {
   indexedDB: IDBPDatabase<unknown> | null;
@@ -69,7 +66,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
     const { isElectron } = useAppStore.getState();
     if (!isElectron()) return;
 
-    log.info("Initializing IndexedDB...");
+    Logger.debug.info("Initializing IndexedDB...");
     if (get().indexedDB) {
       return;
     }
@@ -77,16 +74,16 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
     indexedDB.databases().then((databases) => {
       const dbExists = databases.some((db) => db.name === "melofiDB");
       if (!dbExists) {
-        log.warn("melofiDB does not exist");
+        Logger.debug.warn("melofiDB does not exist");
         return;
       }
-      log.info("melofiDB exists");
+      Logger.debug.info("melofiDB exists");
       const dbVersion = databases.find((db) => db.name === "melofiDB")?.version;
       if (dbVersion && dbVersion < 2) {
-        log.warn("melofiDB version is less than 2");
+        Logger.debug.warn("melofiDB version is less than 2");
         return;
       }
-      log.info("melofiDB version is 2 or greater");
+      Logger.debug.info("melofiDB version is 2 or greater");
     });
 
     const db = await openDB("melofiDB", 2, {
@@ -108,7 +105,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
       },
     });
     set({ indexedDB: db });
-    log.info("IndexedDB initialized");
+    Logger.debug.info("IndexedDB initialized");
   },
 
   setIndexedDB: (db) => {
@@ -123,12 +120,12 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
     const indexedDBStore = get();
     const indexedDB = indexedDBStore.indexedDB;
     if (!indexedDB) {
-      log.error("IndexedDB is not initialized");
+      Logger.error("IndexedDB is not initialized");
       return;
     }
     const settings = await indexedDB.get("widgetData", uid);
     if (!settings) {
-      log.error("No settings found in IndexedDB");
+      Logger.error("No settings found in IndexedDB");
       return;
     }
     const updated = updaterFn({ ...settings }); // clone for safety
@@ -143,7 +140,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
     const indexedDBStore = get();
     const indexedDB = indexedDBStore.indexedDB;
     if (!indexedDB) {
-      log.error("IndexedDB is not initialized");
+      Logger.error("IndexedDB is not initialized");
       return;
     }
     const defaultAppSettings: IndexedDBAppSettings = {
@@ -174,7 +171,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
     const indexedDB = indexedDBStore.indexedDB;
 
     if (!indexedDB) {
-      log.error("IndexedDB is not initialized");
+      Logger.error("IndexedDB is not initialized");
       return;
     }
 
@@ -205,7 +202,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
     const { isElectron } = useAppStore.getState();
     if (!isElectron()) return;
 
-    log.info("Syncing IndexedDB widget data with Firebase...");
+    Logger.debug.info("Syncing IndexedDB widget data with Firebase...");
     const indexedDBStore = get();
     const indexedDB = indexedDBStore.indexedDB;
 
@@ -226,15 +223,15 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
 
       if (indexedDB) {
         await indexedDB.put("widgetData", widgetData, uid);
-        log.info("IndexedDB widget data synced with Firebase");
+        Logger.debug.info("IndexedDB widget data synced with Firebase");
       } else {
-        log.error("IndexedDB is not initialized");
+        Logger.error("IndexedDB is not initialized");
       }
     }
   },
 
   pushWidgetDataToFirebase: async () => {
-    log.info("Pushing IndexedDB widget data to Firebase...");
+    Logger.debug.info("Pushing IndexedDB widget data to Firebase...");
     const indexedDBStore = get();
     const indexedDB = indexedDBStore.indexedDB;
     const { updateWidgetData } = indexedDBStore;
@@ -257,7 +254,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
         };
         const success = await saveFirebaseWidgetData(uid, widgetData);
         if (!success.result) {
-          log.error(success.message);
+          Logger.error(success.message);
           return false;
         }
 
@@ -266,17 +263,17 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
           return settings;
         });
 
-        log.info("Widget data pushed to Firebase");
+        Logger.debug.info("Widget data pushed to Firebase");
         return true;
       }
-      log.info("No widget data changes to push to Firebase");
+      Logger.debug.info("No widget data changes to push to Firebase");
       return true;
     }
     return false;
   },
 
   pushAppSettingsToFirebase: async () => {
-    log.info("Pushing IndexedDB app settings to Firebase...");
+    Logger.debug.info("Pushing IndexedDB app settings to Firebase...");
     const indexedDBStore = get();
     const indexedDB = indexedDBStore.indexedDB;
     const { updateAppSettings } = indexedDBStore;
@@ -288,7 +285,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
       const data = await indexedDB?.get("appSettings", uid);
       const now = new Date();
       if (data && new Date(data._lastSynced) < now) {
-        log.info("Pushing app settings to Firebase...");
+        Logger.debug.info("Pushing app settings to Firebase...");
         // Push data to Firebase
         const appSettings: AppSettings = {
           alarmSoundEnabled: data.alarm.alarmSoundEnabled,
@@ -304,7 +301,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
         const success = await updateAppSettingsFirebase(uid, appSettings);
 
         if (!success.result) {
-          log.error(success.message);
+          Logger.error(success.message);
           return false;
         }
 
@@ -313,17 +310,17 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
           return settings;
         });
 
-        log.info("App settings pushed to Firebase");
+        Logger.debug.info("App settings pushed to Firebase");
         return true;
       }
-      log.info("No app settings changes to push to Firebase");
+      Logger.debug.info("No app settings changes to push to Firebase");
       return true;
     }
     return false;
   },
 
   pushUserStatsToFirebase: async () => {
-    log.info("Pushing IndexedDB user stats to Firebase...");
+    Logger.debug.info("Pushing IndexedDB user stats to Firebase...");
     const indexedDBStore = get();
     const indexedDB = indexedDBStore.indexedDB;
     const { updateUserStats } = indexedDBStore;
@@ -346,7 +343,7 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
         const success = await updateUserStatsFirebase(uid, userStats);
 
         if (!success.result) {
-          log.error(success.message);
+          Logger.error(success.message);
           return false;
         }
 
@@ -355,10 +352,10 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
           return settings;
         });
 
-        log.info("User stats pushed to Firebase");
+        Logger.debug.info("User stats pushed to Firebase");
         return true;
       }
-      log.info("No user stats changes to push to Firebase");
+      Logger.debug.info("No user stats changes to push to Firebase");
       return true;
     }
     return false;
@@ -376,14 +373,14 @@ const useIndexedDBStore = create<IndexedDBState>((set, get) => ({
     ]);
     const allSuccess = result.every((res) => res === true);
     if (allSuccess) {
-      log.info("All data pushed to Firebase successfully");
+      Logger.debug.info("All data pushed to Firebase successfully");
       addNotification({
         type: "success",
         message: "All data synced",
         icon: BsDatabaseFillCheck,
       });
     } else {
-      log.error("Error syncing data with Firebase");
+      Logger.error("Error syncing data with Firebase");
       addNotification({
         type: "error",
         message: "Error syncing data",

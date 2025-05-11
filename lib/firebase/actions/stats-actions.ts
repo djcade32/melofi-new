@@ -3,7 +3,9 @@ import { getFirebaseDB } from "../firebaseClient";
 import { SceneCounts, UserStats } from "@/types/general";
 import { PomodoroTimerStats } from "@/types/interfaces/pomodoro_timer";
 import { User } from "firebase/auth";
+import { createLogger } from "@/utils/logger";
 
+const Logger = createLogger("Stats Actions");
 const db = getFirebaseDB();
 
 // Add user to stats db
@@ -28,7 +30,7 @@ export const addUserToStats = async (user: User) => {
       achievements: [],
     } as UserStats);
   } catch (error) {
-    console.log("Error adding user to stats db: ", error);
+    Logger.error(`Error adding user to stats db: ${error}`);
     throw error;
   }
 };
@@ -42,7 +44,7 @@ export const updateTotalNotesCreated = async (uid: string, totalNotesCreated: nu
     const usersDoc = doc(db, `stats/${uid}`);
     await setDoc(usersDoc, { totalNotesCreated }, { merge: true });
   } catch (error) {
-    console.log("Error updating notes count in stats db: ", error);
+    Logger.error(`Error updating notes count in stats db: ${error}`);
     throw error;
   }
 };
@@ -56,7 +58,7 @@ export const updateTasksCompleted = async (uid: string, tasksCompleted: number) 
     const usersDoc = doc(db, `stats/${uid}`);
     await setDoc(usersDoc, { tasksCompleted }, { merge: true });
   } catch (error) {
-    console.log("Error updating completed tasks count in stats db: ", error);
+    Logger.error(`Error updating completed tasks in stats db: ${error}`);
     throw error;
   }
 };
@@ -70,7 +72,7 @@ export const updatePomodoroTimerStats = async (uid: string, stats: PomodoroTimer
     const usersDoc = doc(db, `stats/${uid}`);
     await setDoc(usersDoc, { pomodoroTimer: stats }, { merge: true });
   } catch (error) {
-    console.log("Error updating Pomodoro Timer stats in stats db: ", error);
+    Logger.error(`Error updating pomodoro timer stats in stats db: ${error}`);
     throw error;
   }
 };
@@ -84,7 +86,7 @@ export const updateAlarmsExpiredCount = async (uid: string, alarmsExpiredCount: 
     const usersDoc = doc(db, `stats/${uid}`);
     await setDoc(usersDoc, { alarmsExpiredCount }, { merge: true });
   } catch (error) {
-    console.log("Error updating alarms expired count in stats db: ", error);
+    Logger.error(`Error updating alarms expired count in stats db: ${error}`);
     throw error;
   }
 };
@@ -98,7 +100,7 @@ export const updateSceneCounts = async (uid: string, sceneCounts: SceneCounts) =
     const usersDoc = doc(db, `stats/${uid}`);
     await setDoc(usersDoc, { sceneCounts }, { merge: true });
   } catch (error) {
-    console.log("Error updating scene counts in stats db: ", error);
+    Logger.error(`Error updating scene counts in stats db: ${error}`);
     throw error;
   }
 };
@@ -123,7 +125,7 @@ export const resetUserStats = async (uid: string) => {
       achievements: [],
     } as UserStats);
   } catch (error) {
-    console.log("Error resetting user stats data in stats db: ", error);
+    Logger.error(`Error resetting user stats in stats db: ${error}`);
     throw error;
   }
 };
@@ -145,7 +147,7 @@ export const updateUserStats = async (uid: string, stats: Partial<UserStats>) =>
     await setDoc(usersDoc, stats, { merge: true });
     return { result: true, message: "User stats updated successfully" };
   } catch (error) {
-    console.log("Error updating user stats in stats db: ", error);
+    Logger.error(`Error updating user stats in stats db: ${error}`);
     return { result: false, message: error };
   }
 };

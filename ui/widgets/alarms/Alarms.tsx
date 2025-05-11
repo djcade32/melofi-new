@@ -13,6 +13,9 @@ import { NotificationType } from "@/types/general";
 import { timer_alarm } from "@/imports/effects/index";
 import useUserStatsStore from "@/stores/user-stats-store";
 import useAppStore from "@/stores/app-store";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Alarms Widget");
 
 const AlarmButton = (text: string, bgColor: string) => {
   return (
@@ -73,7 +76,7 @@ const Alarms = () => {
     const { type, alarm } = e.data;
 
     if (type === "ALARM_TRIGGERED") {
-      console.log(`Alarm triggered for: ${alarm}`);
+      Logger.debug.info(`Alarm triggered for: ${alarm}`);
       appSettings.alarmSoundEnabled && timerAudioRef.current?.play();
       addNotification({
         message: `${alarm.title}`,
