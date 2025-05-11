@@ -31,6 +31,7 @@ const MusicControls = () => {
     setIsPlaying,
     isMuted,
     setIsMuted,
+    shufflePlaylist,
   } = useMusicPlayerStore();
 
   const handleKeyDown = useCallback(
@@ -112,6 +113,10 @@ const MusicControls = () => {
     if (!audioRef.current) return;
     audioRef.current.volume = musicVolume / 100;
   }, [musicVolume]);
+
+  useEffect(() => {
+    shufflePlaylist();
+  }, []);
 
   const handleTogglePlay = () => {
     if (isPlaying) {
