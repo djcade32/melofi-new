@@ -4,7 +4,9 @@ import { getFirestore, Firestore, connectFirestoreEmulator } from "firebase/fire
 // import { getAnalytics } from "firebase/analytics";
 import { Auth, connectAuthEmulator, getAuth } from "firebase/auth";
 import firebase from "firebase/compat/app";
-import { Logger } from "@/classes/Logger";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("Firebase Client");
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -39,7 +41,7 @@ export const analytics = () => {
 
 export const getFirebaseDB = (): Firestore | undefined => {
   if (!process.env.FIREBASE_API_KEY && !process.env.NEXT_PUBLIC_FIREBASE_API_KEY) {
-    console.log("FIREBASE_API_KEY and NEXT_PUBLIC_FIREBASE_API_KEY are not defined in .env");
+    logger.warn("FIREBASE_API_KEY and NEXT_PUBLIC_FIREBASE_API_KEY are not defined in .env");
     return;
   }
   try {
@@ -48,16 +50,16 @@ export const getFirebaseDB = (): Firestore | undefined => {
     }
     // Initialize Firebase
     db = getFirestore(app);
-    console.log("INFO: Firebase DB Connected");
+    logger.debug.info("Firebase DB Connected");
 
     if (isCypress) {
-      Logger.getInstance().warn("Firebase Emulator Enabled");
+      logger.debug.warn("Firebase Emulator Enabled");
       const [host, port] = "localhost:8080".split(":");
       connectFirestoreEmulator(db, host, Number(port));
     }
     return db;
   } catch (error) {
-    console.log("ERROR: Firebase DB Connection Failed");
+    logger.error("Firebase DB Connection Failed");
     console.log(error);
     return;
   }
@@ -65,7 +67,7 @@ export const getFirebaseDB = (): Firestore | undefined => {
 
 export const getFirebaseAuth = () => {
   if (!process.env.FIREBASE_API_KEY && !process.env.NEXT_PUBLIC_FIREBASE_API_KEY) {
-    console.log("FIREBASE_API_KEY and NEXT_PUBLIC_FIREBASE_API_KEY are not defined in .env");
+    logger.warn("FIREBASE_API_KEY and NEXT_PUBLIC_FIREBASE_API_KEY are not defined in .env");
     return;
   }
   if (auth) {
@@ -74,13 +76,13 @@ export const getFirebaseAuth = () => {
   try {
     const auth = getAuth(app);
     if (isCypress) {
-      Logger.getInstance().warn("Firebase Auth Emulator Enabled");
+      logger.debug.warn("Firebase Auth Emulator Enabled");
       connectAuthEmulator(auth, "http://localhost:9099");
     }
-    console.log("INFO: Firebase Auth Connected");
+    logger.debug.info("Firebase Auth Connected");
     return auth;
   } catch (error) {
-    console.log("ERROR: Firebase Auth Connection Failed");
+    logger.error("ERROR: Firebase Auth Connection Failed");
     console.log(error);
     return;
   }
