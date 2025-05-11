@@ -24,3 +24,18 @@ export const getPremiumModalType = (type: string): PremiumModalTypes => {
       return "pomodoro_timer";
   }
 };
+
+export function sendNotification(title: string, options?: NotificationOptions) {
+  if (
+    "Notification" in window &&
+    Notification.permission === "granted" &&
+    document.visibilityState !== "visible"
+  ) {
+    new Notification(title, {
+      body: options?.body,
+      icon: "/icons/melofi-icon-192x192.png", // Optional
+      silent: false, // Plays a sound if the OS allows it
+      ...options,
+    });
+  }
+}

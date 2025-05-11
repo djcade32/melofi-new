@@ -12,6 +12,17 @@ const StartModal = () => {
   const onStartClick = () => {
     setShowStartModal(false);
     setIsPlaying(true);
+    askingForPermission();
+  };
+
+  const askingForPermission = () => {
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission().then((permission) => {
+        if (permission !== "granted") {
+          console.warn("Notification permission not granted");
+        }
+      });
+    }
   };
   return (
     <>
