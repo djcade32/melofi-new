@@ -11,11 +11,13 @@ import useWidgetsStore from "./widgets-store";
 import { updateAppSettings } from "@/lib/firebase/actions/app-settings";
 import useUserStore from "./user-store";
 import { getUserFromUserDb } from "@/lib/firebase/getters/auth-getters";
-import { Logger } from "@/classes/Logger";
 import useToolsStore from "./tools-store";
 import useNotificationProviderStore from "./notification-provider-store";
 import { BiWifi, BiWifiOff } from "@/imports/icons";
 import useIndexedDBStore from "./indexedDB-store";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("App Store");
 
 export interface AppState {
   isFullscreen: boolean;
@@ -78,14 +80,14 @@ const useAppStore = create<AppState>((set, get) => ({
   setIsOnline: (boolean) => {
     const { addNotification } = useNotificationProviderStore.getState();
     if (boolean) {
-      Logger.getInstance().info("Melofi is online.");
+      Logger.info("Melofi is online.");
       addNotification({
         message: "Melofi is online.",
         type: "success",
         icon: BiWifi,
       });
     } else {
-      Logger.getInstance().error("Melofi is offline.");
+      Logger.error("Melofi is offline.");
       addNotification({
         message: "Melofi is offline.",
         type: "normal",
@@ -230,12 +232,12 @@ const useAppStore = create<AppState>((set, get) => ({
 
     if (currentUserUid) {
       if (appSettings && currentUserUid === localAppSettings.userUid) {
-        Logger.getInstance().info("App settings in local storage");
+        Logger.debug.info("App settings in local storage");
         set(() => ({
           appSettings: { userUid: currentUserUid, ...JSON.parse(appSettings) },
         }));
       } else {
-        Logger.getInstance().info("No app settings in local storage fetch from db");
+        Logger.debug.info("No app settings in local storage fetch from db");
         try {
           const { isOnline } = useAppStore.getState();
           if (isOnline) {
@@ -245,7 +247,7 @@ const useAppStore = create<AppState>((set, get) => ({
             }
           } else {
             const { indexedDB } = useIndexedDBStore.getState();
-            Logger.getInstance().info("Melofi is offline. Fetching app settings from indexedDB");
+            Logger.debug.info("Melofi is offline. Fetching app settings from indexedDB");
             const appSettings = await indexedDB?.get("appSettings", currentUserUid);
 
             if (appSettings) {
@@ -255,7 +257,7 @@ const useAppStore = create<AppState>((set, get) => ({
             }
           }
         } catch (error) {
-          Logger.getInstance().error(`Error fetching app settings: ${error}`);
+          Logger.error(`Error fetching app settings: ${error}`);
         }
       }
     } else {

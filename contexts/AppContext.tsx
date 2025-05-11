@@ -3,7 +3,7 @@ import useAppStore from "@/stores/app-store";
 import useIndexedDBStore from "@/stores/indexedDB-store";
 import useUserStore from "@/stores/user-store";
 import useWidgetsStore from "@/stores/widgets-store";
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { createLogger } from "@/utils/logger";
 
 const Logger = createLogger("App Context");
@@ -64,7 +64,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       await fetchAppSettings();
     };
     if (currentUser?.authUser?.uid !== userUid) {
-      Logger.debug.info("fetching user app settings");
+      Logger.debug.info("Fetching user app settings");
       setUserUid(currentUser?.authUser?.uid || null);
       fetchUserAppSettings();
     }
