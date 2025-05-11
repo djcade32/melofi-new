@@ -36,6 +36,8 @@ import MenuModal from "../modals/menuModal/MenuModal";
 import PremiumModal from "../modals/premiumModal/PremiumModal";
 import Timer from "../widgets/timer/Timer";
 import useTimerStore from "@/stores/widgets/timer-store";
+import TimeDisplay from "../components/timeDisplay/TimeDisplay";
+import useAppStore from "@/stores/app-store";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
@@ -49,6 +51,7 @@ const LoggedInView = () => {
   const { isYoutubeOpen } = useYoutubeStore();
   const { sceneModalOpen } = useSceneStore();
   const { isTimerOpen } = useTimerStore();
+  const { appSettings } = useAppStore();
 
   return (
     <div>
@@ -60,6 +63,7 @@ const LoggedInView = () => {
       {musicSource === MusicSource.MELOFI && <NowPlaying />}
       <QuoteDisplay />
       <PremiumModal />
+      {appSettings.showMiddleClock && <TimeDisplay />}
 
       {/* Widgets */}
       <ComponentLoader component={<Alarms />} isComponentOpen={isAlarmsOpen} />

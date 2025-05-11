@@ -34,6 +34,7 @@ export interface AppState {
   setCalendarHoverEffectEnabled: (boolean: boolean) => void;
   setTodoListHoverEffectEnabled: (boolean: boolean) => void;
   setDailyQuoteEnabled: (boolean: boolean) => void;
+  setShowMiddleClock: (boolean: boolean) => void;
   setSceneRouletteEnabled: (boolean: boolean) => void;
   fetchAppSettings: () => Promise<void>;
   setAppSettings: (appSettings: AppSettings, userId: string | null) => void;
@@ -55,6 +56,7 @@ const useAppStore = create<AppState>((set, get) => ({
     todoListHoverEffectEnabled: true,
     showDailyQuote: true,
     sceneRouletteEnabled: false,
+    showMiddleClock: false,
   },
   showPremiumModal: null,
   showStartModal: true,
@@ -179,6 +181,21 @@ const useAppStore = create<AppState>((set, get) => ({
     set(() => ({ appSettings: newAppSettings }));
   },
 
+  setShowMiddleClock: (boolean) => {
+    const { currentUser, isUserLoggedIn } = useUserStore.getState();
+    const { indexedDB } = useIndexedDBStore.getState();
+    const newAppSettings = {
+      ...get().appSettings,
+      showMiddleClock: boolean,
+      userUid: currentUser?.authUser?.uid || "",
+    };
+    localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
+    isUserLoggedIn &&
+      currentUser?.authUser?.uid &&
+      updateAppSettings(currentUser?.authUser?.uid, newAppSettings, indexedDB);
+    set(() => ({ appSettings: newAppSettings }));
+  },
+
   setSceneRouletteEnabled: (boolean: boolean) => {
     const { currentUser, isUserLoggedIn } = useUserStore.getState();
     const { indexedDB } = useIndexedDBStore.getState();
@@ -267,6 +284,7 @@ const useAppStore = create<AppState>((set, get) => ({
         oldAppSettings.calendar.calendarHoverEffectEnabled = appSettings.calendarHoverEffectEnabled;
         oldAppSettings.todo.todoListHoverEffectEnabled = appSettings.todoListHoverEffectEnabled;
         oldAppSettings.quote.showDailyQuote = appSettings.showDailyQuote;
+        oldAppSettings.clock.showMiddleClock = appSettings.showMiddleClock;
         oldAppSettings._lastSynced = new Date().toISOString();
         return oldAppSettings;
       });

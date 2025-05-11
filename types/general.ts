@@ -154,6 +154,7 @@ export interface AppSettings {
   calendarHoverEffectEnabled: boolean;
   todoListHoverEffectEnabled: boolean;
   showDailyQuote: boolean;
+  showMiddleClock: boolean;
   sceneRouletteEnabled: boolean;
 }
 

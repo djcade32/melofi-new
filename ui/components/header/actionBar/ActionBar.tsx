@@ -26,7 +26,7 @@ const iconProps = { size: 20, color: "var(--color-white)", style: { cursor: "poi
 const ActionBar = () => {
   const { toggleSceneModal, sceneModalOpen } = useSceneStore();
   const { toggleMixerModal, mixerModalOpen, musicSource } = useMixerStore();
-  const { toggleFullscreen, isFullscreen, isElectron } = useAppStore();
+  const { toggleFullscreen, isFullscreen, isElectron, appSettings } = useAppStore();
   const { isMenuOpen, handleClick } = useMenuStore();
   const { isToolsOpen, toggleTools } = useToolsStore();
 
@@ -84,7 +84,7 @@ const ActionBar = () => {
           isActive={isFullscreen}
         />
       )}
-      <TimeDisplay />
+      {!appSettings.showMiddleClock && <TimeDisplay />}
       <ActionBarButton
         id="menu-button"
         icon={<MdOutlineMenu {...iconProps} />}
