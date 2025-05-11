@@ -5,7 +5,7 @@ import {
   FaCommentDots,
   FaUserAlt,
   MdSettings,
-  FaHandsHelping,
+  BsFillFileEarmarkMusicFill,
   BsFillInfoCircleFill,
   BsFillGiftFill,
   IoStatsChartSharp,
@@ -78,7 +78,7 @@ const MenuModal = memo(() => {
       icon: <FaCommentDots size={20} color="var(--color-white)" />,
       onClick: () => {
         handleMenuClick("Leave Feedback");
-        window.open("https://tally.so/r/waax4Z");
+        window.open("https://tally.so/r/mKgy5A");
       },
     },
     {
@@ -105,6 +105,15 @@ const MenuModal = memo(() => {
         window.open(
           `https://pub-883c6ee85c4c477c966ca224ca5d4b13.r2.dev/${osType}/Melofi-${process.env.NEXT_PUBLIC_MELOFI_VERSION}.${fileExtension}`
         );
+      },
+    },
+    {
+      id: "menu-option-submit-song",
+      label: "Submit Song",
+      icon: <BsFillFileEarmarkMusicFill size={20} color="var(--color-white)" />,
+      onClick: () => {
+        handleMenuClick("Submit Song");
+        window.open("https://tally.so/r/waax4Z");
       },
     },
     {
