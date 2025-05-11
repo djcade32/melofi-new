@@ -21,12 +21,13 @@ export interface MusicPlayerState {
   setMusicVolume: (volume: number) => void;
 }
 
-const useMusicPlayerStore = create<MusicPlayerState>((set) => ({
+const useMusicPlayerStore = create<MusicPlayerState>((set, get) => ({
   currentPlaylist: Study,
   currentSong: Study.songs[0],
   isMuted: false,
   isPlaying: false,
   musicVolume: 50,
+  shuffledSongList: [],
 
   setCurrentSong: (newSong: Song) => {
     set({ currentSong: newSong });
