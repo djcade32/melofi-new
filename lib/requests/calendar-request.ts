@@ -1,6 +1,6 @@
 import axios from "axios";
 import { openDB } from "idb";
-import { createLogger } from "@/utils/logger";
+import { createLogger } from "../../utils/logger";
 const Logger = createLogger("Calendar Requests");
 
 let dbPromise = null;
