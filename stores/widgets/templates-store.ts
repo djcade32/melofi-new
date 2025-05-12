@@ -129,12 +129,14 @@ const useTemplatesStore = create<TemplatesState>((set, get) => ({
   },
 
   resetTemplatesData: async (resetDb: boolean = true) => {
-    const uid = useUserStore.getState().currentUser?.authUser?.uid;
-    if (!uid) {
-      return;
-    }
     try {
-      resetDb && (await deleteAllTemplatesFromDb(uid));
+      if (resetDb) {
+        const uid = useUserStore.getState().currentUser?.authUser?.uid;
+        if (!uid) {
+          return;
+        }
+        await deleteAllTemplatesFromDb(uid);
+      }
       set({ templateList: [], selectedTemplate: null, wasTemplateSelected: false });
     } catch (error) {
       Logger.error("Error resetting templates data: ", error);

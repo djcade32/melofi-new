@@ -139,8 +139,8 @@ const MenuModal = memo(() => {
       id: "menu-option-logout",
       label: "Logout",
       icon: <PiSignOutBold size={20} color="var(--color-white)" />,
-      onClick: () => {
-        signUserOut();
+      onClick: async () => {
+        await signUserOut();
       },
     },
   ];

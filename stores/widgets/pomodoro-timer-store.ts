@@ -121,12 +121,14 @@ const usePomodoroTimerStore = create<PomodoroTimerState>((set, get) => ({
   },
 
   resetPomodoroTimerData: async (resetDb: boolean = true) => {
-    const uid = useUserStore.getState().currentUser?.authUser?.uid;
-    if (!uid) {
-      return;
-    }
     try {
-      resetDb && (await updatePomodoroTimerTaskInDb(uid, []));
+      if (resetDb) {
+        const uid = useUserStore.getState().currentUser?.authUser?.uid;
+        if (!uid) {
+          return;
+        }
+        await updatePomodoroTimerTaskInDb(uid, []);
+      }
       set({
         pomodoroTimerTasks: [],
         activePomodoroTimerTask: null,

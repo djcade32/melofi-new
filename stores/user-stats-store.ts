@@ -3,7 +3,7 @@ import {
   updateAlarmsExpiredCount,
   updateUserStats as updateUserStatsFromDb,
 } from "@/lib/firebase/actions/stats-actions";
-import { getUserStats } from "@/lib/firebase/getters/stats-getters";
+import { getUserStats as getUserFromUserDb } from "@/lib/firebase/getters/stats-getters";
 import { buildUserStatsType } from "@/lib/type-builders/user-stats-type-builder";
 import { create } from "zustand";
 import useUserStore from "./user-store";
@@ -63,7 +63,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
         Logger.debug.error("No user uid provided");
         return;
       }
-      const userStats = await getUserStats(uid);
+      const userStats = await getUserFromUserDb(uid);
       if (!userStats) {
         Logger.debug.warn("No user stats found");
         return;
@@ -93,6 +93,9 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
 
     const uid = useUserStore.getState().currentUser?.authUser?.uid;
     if (!uid) {
+      const notes = localStorage.getItem("notes");
+      const totalNotesCreated = notes ? JSON.parse(notes).length : 0;
+      set(() => ({ totalNotesCreated: totalNotesCreated }));
       return;
     }
     try {
@@ -175,10 +178,6 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
     const { checkSceneAchievements } = get();
 
     const uid = useUserStore.getState().currentUser?.authUser?.uid;
-    if (!uid) {
-      Logger.debug.info("No user uid provided");
-      return;
-    }
     try {
       const sceneCounts = get().sceneCounts;
       let updatedSceneCounts: SceneCounts = {
@@ -207,6 +206,10 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       ) {
         updatedSceneCounts.favoriteSceneName = sceneName;
       }
+      if (!uid) {
+        set({ sceneCounts: updatedSceneCounts });
+        return;
+      }
       const unlockedAchievements = await checkSceneAchievements(updatedSceneCounts);
       if (isOnline) {
         await updateUserStatsFromDb(uid, {
@@ -228,12 +231,6 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
   async resetUserStatsData(resetDb: boolean = true) {
     const { updateUserStats } = useIndexedDBStore.getState();
     const { isOnline } = useAppStore.getState();
-
-    const uid = useUserStore.getState().currentUser?.authUser?.uid;
-    if (!uid) {
-      return;
-    }
-    isOnline && resetDb && (await resetUserStats(uid));
     set({
       pomodoroTimerStats: {
         totalFocusTime: 0,
@@ -248,8 +245,12 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       alarmsExpiredCount: 0,
       achievements: [],
     });
-
-    resetDb &&
+    if (resetDb) {
+      const uid = useUserStore.getState().currentUser?.authUser?.uid;
+      if (!uid) {
+        return;
+      }
+      isOnline && (await resetUserStats(uid));
       updateUserStats(uid, (stats) => {
         stats.pomodoroTimer = {
           totalFocusTime: 0,
@@ -265,6 +266,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
         stats.achievements.achievements = [];
         return stats;
       });
+    }
   },
 
   setStats(stats: UserStats) {
@@ -343,10 +345,12 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
     const { addNotification } = useNotificationProviderStore.getState();
     const unlockedAchievements: AchievementTypes[] = [];
 
-    // Check for 100 notes created
-    if (totalNotesCreated >= 1 && !achievements.includes("Note Taker Extraordinaire 📝")) {
+    // Check for 50 notes created
+    if (totalNotesCreated >= 50 && !achievements.includes("Note Taker Extraordinaire 📝")) {
       unlockedAchievements.push("Note Taker Extraordinaire 📝");
     }
+
+    // Check for 100 notes created
     if (totalNotesCreated >= 100 && !achievements.includes("Note Taker Master 📝")) {
       unlockedAchievements.push("Note Taker Master 📝");
     }

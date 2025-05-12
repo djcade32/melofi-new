@@ -132,12 +132,15 @@ const useAlarmsStore = create<AlarmsState>((set, get) => ({
 
   resetAlarmsData: async (resetDb: boolean = true) => {
     const { alarmsWorker } = get();
-    const uid = useUserStore.getState().currentUser?.authUser?.uid;
-    if (!uid) {
-      return;
-    }
+
     try {
-      resetDb && (await updateAlarmsInDB(uid, []));
+      if (resetDb) {
+        const uid = useUserStore.getState().currentUser?.authUser?.uid;
+        if (!uid) {
+          return;
+        }
+        await updateAlarmsInDB(uid, []);
+      }
       alarmsWorker?.postMessage({ type: "CLEAR_ALARMS" });
       set({ alarmList: [] });
     } catch (error) {

@@ -7,6 +7,11 @@ export const isValidEmail = (email: string) => {
 };
 
 // Wait for a specified time in milliseconds
+/**
+ *
+ * @param time - Time in milliseconds to wait
+ * @returns
+ */
 export const wait = (time: number) => new Promise((resolve) => setTimeout(resolve, time));
 
 // Get correct PremiumModalType based on string
