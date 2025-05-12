@@ -93,6 +93,9 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
 
     const uid = useUserStore.getState().currentUser?.authUser?.uid;
     if (!uid) {
+      const notes = localStorage.getItem("notes");
+      const totalNotesCreated = notes ? JSON.parse(notes).length : 0;
+      set(() => ({ totalNotesCreated: totalNotesCreated }));
       return;
     }
     try {
@@ -175,10 +178,6 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
     const { checkSceneAchievements } = get();
 
     const uid = useUserStore.getState().currentUser?.authUser?.uid;
-    if (!uid) {
-      Logger.debug.info("No user uid provided");
-      return;
-    }
     try {
       const sceneCounts = get().sceneCounts;
       let updatedSceneCounts: SceneCounts = {
@@ -206,6 +205,10 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
           updatedSceneCounts.counts[updatedSceneCounts.favoriteSceneName]
       ) {
         updatedSceneCounts.favoriteSceneName = sceneName;
+      }
+      if (!uid) {
+        set({ sceneCounts: updatedSceneCounts });
+        return;
       }
       const unlockedAchievements = await checkSceneAchievements(updatedSceneCounts);
       if (isOnline) {
@@ -342,10 +345,12 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
     const { addNotification } = useNotificationProviderStore.getState();
     const unlockedAchievements: AchievementTypes[] = [];
 
-    // Check for 100 notes created
-    if (totalNotesCreated >= 1 && !achievements.includes("Note Taker Extraordinaire 📝")) {
+    // Check for 50 notes created
+    if (totalNotesCreated >= 50 && !achievements.includes("Note Taker Extraordinaire 📝")) {
       unlockedAchievements.push("Note Taker Extraordinaire 📝");
     }
+
+    // Check for 100 notes created
     if (totalNotesCreated >= 100 && !achievements.includes("Note Taker Master 📝")) {
       unlockedAchievements.push("Note Taker Master 📝");
     }
