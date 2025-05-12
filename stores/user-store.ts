@@ -45,7 +45,7 @@ export interface UserState {
   reAuthenticateUser: (password: string, callBackFunction: () => Promise<void>) => Promise<void>;
   clearUserData: () => Promise<void>;
   deleteUserAccount: () => Promise<void>;
-  signUserOut: () => void;
+  signUserOut: () => Promise<void>;
   setIsPremiumUser: (value: UserMembership) => void;
 }
 
@@ -221,6 +221,19 @@ const useUserStore = create<UserState>((set, get) => ({
     const userUid = get().currentUser?.authUser?.uid;
     if (!userUid) return Logger.debug.info("User not logged in");
 
+    // Reset all stores
+    useNotesStore.getState().resetNotesData(userUid, false);
+    await useTodoListStore.getState().resetTodoListData(userUid, false);
+    await usePomodoroTimerStore.getState().resetPomodoroTimerData(false);
+    await useTemplatesStore.getState().resetTemplatesData(false);
+    await useAlarmsStore.getState().resetAlarmsData(false);
+    await useUserStatsStore.getState().resetUserStatsData(false);
+
+    removePremiumFeatures();
+    useNotificationProviderStore
+      .getState()
+      .addNotification({ type: "success", message: "Logged out" });
+
     if (isElectron()) {
       localStorage.removeItem("user");
       setIsMenuOpen(false);
@@ -235,19 +248,6 @@ const useUserStore = create<UserState>((set, get) => ({
       isPremiumUser: false,
       membershipType: "free",
     });
-
-    // Reset all stores
-    useNotesStore.getState().resetNotesData(userUid, false);
-    await useTodoListStore.getState().resetTodoListData(userUid, false);
-    await usePomodoroTimerStore.getState().resetPomodoroTimerData(false);
-    await useTemplatesStore.getState().resetTemplatesData(false);
-    await useAlarmsStore.getState().resetAlarmsData(false);
-    await useUserStatsStore.getState().resetUserStatsData(false);
-
-    removePremiumFeatures();
-    useNotificationProviderStore
-      .getState()
-      .addNotification({ type: "success", message: "Logged out" });
   },
 
   setIsPremiumUser: (value) => {

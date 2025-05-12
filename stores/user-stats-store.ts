@@ -3,7 +3,7 @@ import {
   updateAlarmsExpiredCount,
   updateUserStats as updateUserStatsFromDb,
 } from "@/lib/firebase/actions/stats-actions";
-import { getUserStats } from "@/lib/firebase/getters/stats-getters";
+import { getUserStats as getUserFromUserDb } from "@/lib/firebase/getters/stats-getters";
 import { buildUserStatsType } from "@/lib/type-builders/user-stats-type-builder";
 import { create } from "zustand";
 import useUserStore from "./user-store";
@@ -63,7 +63,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
         Logger.debug.error("No user uid provided");
         return;
       }
-      const userStats = await getUserStats(uid);
+      const userStats = await getUserFromUserDb(uid);
       if (!userStats) {
         Logger.debug.warn("No user stats found");
         return;
@@ -228,12 +228,6 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
   async resetUserStatsData(resetDb: boolean = true) {
     const { updateUserStats } = useIndexedDBStore.getState();
     const { isOnline } = useAppStore.getState();
-
-    const uid = useUserStore.getState().currentUser?.authUser?.uid;
-    if (!uid) {
-      return;
-    }
-    isOnline && resetDb && (await resetUserStats(uid));
     set({
       pomodoroTimerStats: {
         totalFocusTime: 0,
@@ -248,8 +242,12 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
       alarmsExpiredCount: 0,
       achievements: [],
     });
-
-    resetDb &&
+    if (resetDb) {
+      const uid = useUserStore.getState().currentUser?.authUser?.uid;
+      if (!uid) {
+        return;
+      }
+      isOnline && (await resetUserStats(uid));
       updateUserStats(uid, (stats) => {
         stats.pomodoroTimer = {
           totalFocusTime: 0,
@@ -265,6 +263,7 @@ const useUserStatsStore = create<userStatsState>((set, get) => ({
         stats.achievements.achievements = [];
         return stats;
       });
+    }
   },
 
   setStats(stats: UserStats) {
