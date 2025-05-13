@@ -39,7 +39,9 @@ const UserAccount = () => {
       Logger.error("Unknown OS type");
       return;
     }
-    const fileExtension = osType === "mac" ? "dmg" : "exe";
+    let fileExtension = "AppImage";
+    fileExtension = osType === "mac" ? "dmg" : "exe";
+
     window.open(
       `https://pub-883c6ee85c4c477c966ca224ca5d4b13.r2.dev/${osType}/Melofi-${process.env.NEXT_PUBLIC_MELOFI_VERSION}.${fileExtension}`
     );
