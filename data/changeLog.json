@@ -1,0 +1,58 @@
+[
+  {
+    "version": "4.0.0",
+    "date": "May 13, 2025",
+    "newFeatures": [
+      "Achievements and milestones have been added! You can now earn and view them in the Insights modal.",
+      "A new 'Scene Roulette' setting is available in General Settings. When enabled, Melofi will load a different scene each time you visit.",
+      "We've introduced a brand-new onboarding experience for first-time visitors.",
+      "Melofi can now send browser notifications to keep you updated and on track.",
+      "A new 'Show Middle Clock' option has been added to General Settings. Enable it to display the clock in the center of your screen."
+    ],
+    "improvements": [
+      "Changelogs are now accessible and viewable directly from the menu.",
+      "Artists can now submit their songs using the new 'Submit Song' form in the menu.",
+      "Songs are now shuffled with each visit to keep the experience fresh and varied."
+    ],
+    "bugFixes": [
+      "The Insights chart now correctly displays the number of tasks completed.",
+      "The Pomodoro timer's session bell now plays at the intended times.",
+      "Ambient sounds now continue playing even when switching between scenes."
+    ]
+  },
+  {
+    "version": "3.0.0",
+    "date": "April 5, 2025",
+    "newFeatures": [
+      "Lifetime subscription option added.",
+      "Lifetime users can download desktop version.",
+      "Desktop version allows offline use."
+    ],
+    "improvements": [
+      "Cache resources for offline use.",
+      "Enhanced security features to protect user data.",
+      "Updated third-party libraries to their latest versions."
+    ],
+    "bugFixes": [
+      "You can now type capital M and V in the Notes widget (finally!).",
+      "Spotify search bar is now readable with crisp white text."
+    ]
+  },
+  {
+    "version": "2.0.0",
+    "date": "April 1, 2025",
+    "newFeatures": [
+      "New Widgets: Youtube, Alarms, Timer, calculator, and Notes.",
+      "Can toggle between 12 and 24 hour time format by clicking on the time.",
+      "A number of new settings have been added.",
+      "Melofi now displays daily quotes.",
+      "Toolbar can be detached and moved around the screen.",
+      "Added hotkeys that can be viewed in the settings menu."
+    ],
+    "improvements": [
+      "Smoother transitions between scenes.",
+      "Improved the user onboarding process.",
+      "Caching scenes to improve performance."
+    ]
+  }
+]

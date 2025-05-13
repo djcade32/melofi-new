@@ -1,9 +1,8 @@
-import { User } from "firebase/auth";
 import { ReactElement, ReactNode } from "react";
 import { IconType } from "react-icons";
 import { Descendant } from "slate";
 import { PomodoroTimerStats } from "./interfaces/pomodoro_timer";
-import { NotificationTypes } from "@/enums/general";
+import { AchievementTypes, NotificationTypes } from "@/enums/general";
 import { Timestamp } from "firebase/firestore";
 
 export interface Scene {
@@ -35,6 +34,8 @@ export interface NotificationType {
   type: NotificationTypes;
   icon?: IconType;
   actions?: { element: ReactNode; onClick: () => void }[];
+  title?: string;
+  audible?: boolean;
 }
 
 export interface MenuOption {
@@ -101,6 +102,7 @@ export interface UserStats {
   totalNotesCreated: number;
   sceneCounts: SceneCounts | null;
   alarmsExpiredCount: number;
+  achievements: AchievementTypes[];
 }
 
 export interface DialogModalActions {
@@ -152,6 +154,8 @@ export interface AppSettings {
   calendarHoverEffectEnabled: boolean;
   todoListHoverEffectEnabled: boolean;
   showDailyQuote: boolean;
+  showMiddleClock: boolean;
+  sceneRouletteEnabled: boolean;
 }
 
 export interface AnnouncementBanner {
@@ -160,4 +164,17 @@ export interface AnnouncementBanner {
   ctaLink: string;
   start: Timestamp;
   end: Timestamp;
+}
+
+export interface Achievement {
+  title: string;
+  description: string;
+}
+
+export interface ChangeLog {
+  version: string;
+  date: string;
+  newFeatures?: string[];
+  improvements?: string[];
+  bugFixes?: string[];
 }

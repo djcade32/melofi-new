@@ -5,12 +5,13 @@ import {
   FaCommentDots,
   FaUserAlt,
   MdSettings,
-  FaHandsHelping,
+  BsFillFileEarmarkMusicFill,
   BsFillInfoCircleFill,
   BsFillGiftFill,
   IoStatsChartSharp,
   PiSignOutBold,
   FaDownload,
+  BsFillFileEarmarkCodeFill,
 } from "@/imports/icons";
 import useMenuStore from "@/stores/menu-store";
 import { MenuOptionNames } from "@/enums/general";
@@ -20,6 +21,10 @@ import { useAppContext } from "@/contexts/AppContext";
 import ComponentLoader from "@/ui/components/shared/componentLoader/ComponentLoader";
 import InsightsModal from "./optionModals/insightsModal/InsightsModal";
 import useAppStore from "@/stores/app-store";
+import ChangeLog from "./optionModals/changeLog/ChangeLog";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Menu Modal");
 
 const GeneralSettingsModal = lazy(
   () => import("@/ui/modals/menuModal/optionModals/generalSettingsModal/GeneralSettingsModal")
@@ -48,7 +53,7 @@ const MenuModal = memo(() => {
   const options: MenuOption[] = [
     {
       id: "menu-option-account",
-      label: "Account",
+      label: isUserLoggedIn ? "Account" : "Sign In",
       icon: <FaUserAlt size={20} color="var(--color-white)" />,
       onClick: () => {
         handleMenuClick("Account");
@@ -76,16 +81,7 @@ const MenuModal = memo(() => {
       icon: <FaCommentDots size={20} color="var(--color-white)" />,
       onClick: () => {
         handleMenuClick("Leave Feedback");
-        window.open("https://tally.so/r/waax4Z");
-      },
-    },
-    {
-      id: "menu-option-support",
-      label: "Support",
-      icon: <FaHandsHelping size={20} color="var(--color-white)" />,
-      onClick: () => {
-        handleMenuClick("Support");
-        window.open("https://buymeacoffee.com/normancade");
+        window.open("https://tally.so/r/mKgy5A");
       },
     },
     {
@@ -105,13 +101,30 @@ const MenuModal = memo(() => {
         // Get os type
         const osType = getOsType();
         if (osType === "unknown") {
-          console.error("Unknown OS type");
+          Logger.error("Unknown OS type");
           return;
         }
         const fileExtension = osType === "mac" ? "dmg" : "exe";
         window.open(
           `https://pub-883c6ee85c4c477c966ca224ca5d4b13.r2.dev/${osType}/Melofi-${process.env.NEXT_PUBLIC_MELOFI_VERSION}.${fileExtension}`
         );
+      },
+    },
+    {
+      id: "menu-option-submit-song",
+      label: "Submit Song",
+      icon: <BsFillFileEarmarkMusicFill size={20} color="var(--color-white)" />,
+      onClick: () => {
+        handleMenuClick("Submit Song");
+        window.open("https://tally.so/r/waax4Z");
+      },
+    },
+    {
+      id: "menu-option-change-log",
+      label: "Change Log",
+      icon: <BsFillFileEarmarkCodeFill size={20} color="var(--color-white)" />,
+      onClick: () => {
+        handleMenuClick("Change Log");
       },
     },
     {
@@ -124,10 +137,10 @@ const MenuModal = memo(() => {
     },
     {
       id: "menu-option-logout",
-      label: "Logout",
+      label: "Sign Out",
       icon: <PiSignOutBold size={20} color="var(--color-white)" />,
-      onClick: () => {
-        signUserOut();
+      onClick: async () => {
+        await signUserOut();
       },
     },
   ];
@@ -143,7 +156,8 @@ const MenuModal = memo(() => {
       selectedOption === "Account" ||
       selectedOption === "About Melofi" ||
       selectedOption === "Share With Friends" ||
-      selectedOption === "Insights"
+      selectedOption === "Insights" ||
+      selectedOption === "Change Log"
     ) {
       return true;
     }
@@ -153,7 +167,7 @@ const MenuModal = memo(() => {
   const getMenuOptions = () => {
     let optionsToShow = options;
     if (!showLogoutOption) {
-      optionsToShow = optionsToShow.slice(0, 8);
+      optionsToShow = optionsToShow.filter((option) => option.id !== "menu-option-logout");
     }
     if (isElectron() || membershipType !== "lifetime") {
       optionsToShow = optionsToShow.filter((option) => option.id !== "menu-option-download");
@@ -200,6 +214,10 @@ const MenuModal = memo(() => {
         <ComponentLoader
           isComponentOpen={selectedOption === "Share With Friends"}
           component={<ShareModal />}
+        />
+        <ComponentLoader
+          isComponentOpen={selectedOption === "Change Log"}
+          component={<ChangeLog />}
         />
         <ComponentLoader
           isComponentOpen={selectedOption === "About Melofi"}

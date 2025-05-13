@@ -19,6 +19,8 @@ import {
 import useUserStore from "../user-store";
 import { getTemplatesFromDb } from "@/lib/firebase/getters/templates-getter";
 import { buildTemplatesList } from "@/lib/type-builders/templates-type-builder";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Templates Store");
 
 export interface TemplatesState {
   isTemplatesOpen: boolean;
@@ -32,7 +34,7 @@ export interface TemplatesState {
   setSelectedTemplate: (template: Template | null) => void;
   settingsChanged: () => void;
   fetchTemplates: () => Promise<void>;
-  resetTemplatesData: () => Promise<void>;
+  resetTemplatesData: (resetDb?: boolean) => Promise<void>;
 }
 
 const useTemplatesStore = create<TemplatesState>((set, get) => ({
@@ -53,7 +55,7 @@ const useTemplatesStore = create<TemplatesState>((set, get) => ({
       }
       set({ templateList: updatedTemplates });
     } catch (error) {
-      console.log("Error deleting template: ", error);
+      Logger.error("Error deleting template: ", error);
     }
   },
 
@@ -77,7 +79,7 @@ const useTemplatesStore = create<TemplatesState>((set, get) => ({
       await addTemplateToDb(uid, newTemplate);
       set({ templateList: templates, selectedTemplate: Object.freeze(newTemplate) });
     } catch (error) {
-      console.log("Error creating template: ", error);
+      Logger.error("Error creating template: ", error);
     }
   },
 
@@ -122,20 +124,22 @@ const useTemplatesStore = create<TemplatesState>((set, get) => ({
       const templates = await getTemplatesFromDb(uid);
       set({ templateList: buildTemplatesList(templates) });
     } catch (error) {
-      console.log("Error fetching templates: ", error);
+      Logger.error("Error fetching templates: ", error);
     }
   },
 
-  resetTemplatesData: async () => {
-    const uid = useUserStore.getState().currentUser?.authUser?.uid;
-    if (!uid) {
-      return;
-    }
+  resetTemplatesData: async (resetDb: boolean = true) => {
     try {
-      await deleteAllTemplatesFromDb(uid);
+      if (resetDb) {
+        const uid = useUserStore.getState().currentUser?.authUser?.uid;
+        if (!uid) {
+          return;
+        }
+        await deleteAllTemplatesFromDb(uid);
+      }
       set({ templateList: [], selectedTemplate: null, wasTemplateSelected: false });
     } catch (error) {
-      console.log("Error resetting templates data: ", error);
+      Logger.error("Error resetting templates data: ", error);
     }
   },
 }));

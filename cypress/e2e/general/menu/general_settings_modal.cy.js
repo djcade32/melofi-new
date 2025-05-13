@@ -19,6 +19,8 @@ let localStorage = {
       calendarHoverEffectEnabled: true,
       todoListHoverEffectEnabled: true,
       showDailyQuote: true,
+      showMiddleClock: false,
+      sceneRouletteEnabled: false,
     },
   },
 };
@@ -32,6 +34,9 @@ describe("Testing General Settings", () => {
     });
   });
   after(() => {
+    Menu.menuButton().click();
+    Menu.options.generalSettings().click();
+
     // Reset the settings
     Menu.generalSettingsModal.delayOptions.container().click();
     Menu.generalSettingsModal.delayOptions.option(1).click();
@@ -40,12 +45,12 @@ describe("Testing General Settings", () => {
     Menu.generalSettingsModal.settings("Calendar").toggle();
     Menu.generalSettingsModal.settings("To-Do List").toggle();
     Menu.generalSettingsModal.settings("Show Daily Quotes").toggle();
+    Menu.generalSettingsModal.settings("Scene Roulette").toggle();
 
     cy.clearLocalStorage();
   });
 
   it("Should open the general settings modal", () => {
-    console.log("Testing general settings modal");
     Menu.menuButton().click();
     Menu.menuModal().should("be.visible");
     Menu.options.generalSettings().click();
@@ -158,5 +163,45 @@ describe("Testing General Settings", () => {
 
     // Check if the daily quote is hidden
     getElementWithClassName("quoteDisplay__container").should("not.exist");
+  });
+
+  it("Should change the show middle clock setting to enabled", () => {
+    getElementWithClassName("timeDisplay__middle_container").should("not.exist");
+    Menu.generalSettingsModal.settings("Show Middle Clock").toggle();
+
+    // See if the setting is saved in the local storage
+    localStorage[url].app_settings.showMiddleClock = true;
+    cy.getAllLocalStorage().then((localStorageData) => {
+      const json = JSON.parse(localStorageData[url].app_settings);
+      const stringified = JSON.stringify(localStorage[url].app_settings);
+      const json2 = JSON.parse(stringified);
+      expect(json2).to.deep.equal(json);
+    });
+
+    // Check if time is showing in the middle
+    getElementWithClassName("timeDisplay__middle_container").should("be.visible");
+    getElementWithClassName("timeDisplay__container").should("not.exist");
+  });
+
+  it("Should change the scene roulette setting to enabled", () => {
+    Menu.menuButton().click();
+    Menu.options.generalSettings().click();
+    Menu.generalSettingsModal.settings("Scene Roulette").toggle();
+
+    // See if the setting is saved in the local storage
+    localStorage[url].app_settings.sceneRouletteEnabled = true;
+    cy.getAllLocalStorage().then((localStorageData) => {
+      const json = JSON.parse(localStorageData[url].app_settings);
+      const stringified = JSON.stringify(localStorage[url].app_settings);
+      const json2 = JSON.parse(stringified);
+      expect(json2).to.deep.equal(json);
+    });
+
+    // Get the current scene attribute
+    const currentScene = cy.get("#background-video").invoke("attr", "src");
+
+    // Check if the scene changes on reload
+    cy.reload();
+    cy.get("#background-video").should("have.attr", "src").and("not.equal", currentScene);
   });
 });

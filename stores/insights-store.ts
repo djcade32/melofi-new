@@ -46,7 +46,7 @@ const useInsightsStore = create<InsightsState>((set, get) => ({
       focusTime: isNewDay(convertedDate) ? 0 : focusTime,
       breakTime: isNewDay(convertedDate) ? 0 : breakTime,
       sessionsCompleted: isNewDay(convertedDate) ? 0 : sessionsCompleted,
-      tasksCompleted: isNewDay(convertedDate) ? 0 : tasksCompleted,
+      tasksCompleted: isNewDay(convertedDate) ? [] : tasksCompleted,
     };
     return obj;
   },
@@ -58,7 +58,7 @@ const useInsightsStore = create<InsightsState>((set, get) => ({
       totalFocusTime: focusTime,
       totalBreakTime: breakTime,
       totalSessionsCompleted: sessionsCompleted,
-      totalTasksCompleted: tasksCompleted,
+      tasksCompleted: tasksCompleted,
     } = pomodoroTimerStats;
     return {
       focusTime,
@@ -100,14 +100,14 @@ const useInsightsStore = create<InsightsState>((set, get) => ({
           focusTime: 0,
           breakTime: 0,
           sessionsCompleted: 0,
-          tasksCompleted: 0,
+          tasksCompleted: [],
         } as WeeklyFocusStatsType);
       } else {
         const { focusTime, breakTime, sessionsCompleted, tasksCompleted } =
           weeklyStats[day as keyof WeeklyStats];
-        let focusTimeConverted = convertSecsToHrMinsSec(focusTime);
-        let focusTimeCalc =
-          focusTimeConverted.hr > 0 ? focusTimeConverted.hr : focusTimeConverted.min / 100;
+        // let focusTimeConverted = convertSecsToHrMinsSec(focusTime);
+        let focusTimeCalc = focusTime;
+        // focusTimeConverted.hr > 0 ? focusTimeConverted.hr : focusTimeConverted.min / 100;
         let breakTimeConverted = convertSecsToHrMinsSec(breakTime);
         let breakTimeCalc =
           breakTimeConverted.hr > 0 ? breakTimeConverted.hr : breakTimeConverted.min / 100;

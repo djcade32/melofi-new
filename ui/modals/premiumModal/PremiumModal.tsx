@@ -7,10 +7,12 @@ import useAppStore from "@/stores/app-store";
 import { createCheckoutSession } from "@/lib/stripe/createCheckoutSession";
 import useUserStore from "@/stores/user-store";
 import Switch from "@/ui/components/shared/switch/Switch";
-import { Logger } from "@/classes/Logger";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
 import useMenuStore from "@/stores/menu-store";
 import { wait } from "@/utils/general";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Premium Modal");
 
 const featuresList = [
   "📊 Focus stats",
@@ -205,6 +207,22 @@ const PremiumModal = () => {
             />
           </>
         );
+      case "achievements":
+        return (
+          <>
+            <p className={styles.premiumModal__title}>Celebrate Your Progress</p>
+            <p className={styles.premiumModal__description}>
+              See how far you've come and stay motivated on your focus journey.
+            </p>
+            <Image
+              src="/assets/premium-pics/achievements-premium-pic.png"
+              alt="Premium Modal"
+              width={215}
+              height={215}
+              unoptimized={!isOnline}
+            />
+          </>
+        );
       default:
         return null;
     }
@@ -231,7 +249,7 @@ const PremiumModal = () => {
     try {
       await createCheckoutSession(currentUser?.authUser?.uid, model);
     } catch (error) {
-      Logger.getInstance().error(`Error creating checkout session: ${error}`);
+      Logger.error(`Error creating checkout session: ${error}`);
       useNotificationProviderStore.getState().addNotification({
         type: "error",
         message: "Error creating checkout session",

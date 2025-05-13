@@ -1,4 +1,6 @@
 import { getFunctions, httpsCallableFromURL } from "firebase/functions";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Manage Subscription");
 
 export async function manageSubscription(page?: string): Promise<boolean> {
   const param = page ? page : "";
@@ -17,7 +19,7 @@ export async function manageSubscription(page?: string): Promise<boolean> {
     window.location.assign(data.url);
     return true;
   } catch (error) {
-    console.log("Error retrieving billing subscription information: ", error);
+    Logger.error("Error retrieving billing subscription information: ", error);
     return false;
   }
 }

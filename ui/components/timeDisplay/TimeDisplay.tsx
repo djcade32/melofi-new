@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./timeDisplay.module.css";
 import Tooltip from "../shared/tooltip/Tooltip";
+import useAppStore from "@/stores/app-store";
 
 enum TimeFormat {
   TWELVE = "12",
@@ -9,7 +10,9 @@ enum TimeFormat {
 
 const TimeDisplay = () => {
   const [timeFormat, setTimeFormat] = useState<TimeFormat>(TimeFormat.TWELVE);
+  const [displayInMiddle, setDisplayInMiddle] = useState<boolean>(false);
   const [time, setTime] = useState<string>("");
+  const { appSettings } = useAppStore();
 
   useEffect(() => {
     // get localStorage
@@ -36,6 +39,12 @@ const TimeDisplay = () => {
     return () => clearInterval(interval);
   }, [timeFormat]);
 
+  useEffect(() => {
+    if (appSettings) {
+      setDisplayInMiddle(appSettings.showMiddleClock);
+    }
+  }, [appSettings]);
+
   const toggleTimeFormat = () => {
     setTimeFormat((prev) =>
       prev === TimeFormat.TWELVE ? TimeFormat.TWENTY_FOUR : TimeFormat.TWELVE
@@ -48,20 +57,30 @@ const TimeDisplay = () => {
   };
 
   return (
-    <div
-      id="time-display"
-      className={styles.timeDisplay__container}
-      onClick={toggleTimeFormat}
-      aria-label={`Switch to ${timeFormat === TimeFormat.TWELVE ? "24-hour" : "12-hour"} format`}
-      role="button"
-      tabIndex={0}
-    >
-      <Tooltip
-        text={`Switch to ${timeFormat === TimeFormat.TWELVE ? "24-hour" : "12-hour"} format`}
-      >
-        <p>{time}</p>
-      </Tooltip>
-    </div>
+    <>
+      {displayInMiddle ? (
+        <div className={styles.timeDisplay__middle_container}>
+          <p>{time.split(/([AP]M)/)[0]}</p>
+        </div>
+      ) : (
+        <div
+          id="time-display"
+          className={styles.timeDisplay__container}
+          onClick={toggleTimeFormat}
+          aria-label={`Switch to ${
+            timeFormat === TimeFormat.TWELVE ? "24-hour" : "12-hour"
+          } format`}
+          role="button"
+          tabIndex={0}
+        >
+          <Tooltip
+            text={`Switch to ${timeFormat === TimeFormat.TWELVE ? "24-hour" : "12-hour"} format`}
+          >
+            <p>{time}</p>
+          </Tooltip>
+        </div>
+      )}
+    </>
   );
 };
 

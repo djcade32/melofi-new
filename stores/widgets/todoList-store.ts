@@ -4,7 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 import useUserStore from "../user-store";
 import { updateTodoList } from "@/lib/firebase/actions/to-do-list-actions";
 import { getTodoListFromDB } from "@/lib/firebase/getters/to-do-list-getters";
-import { Logger } from "@/classes/Logger";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("To-Do List Store");
 
 export interface TodoListState {
   isTodoListOpen: boolean;
@@ -24,14 +26,17 @@ const useTodoListStore = create<TodoListState>((set, get) => ({
   taskList: [],
 
   fetchTaskList: async () => {
-    Logger.getInstance().info("Fetching task list");
+    Logger.info("Fetching task list");
 
     const { currentUser } = useUserStore.getState();
-    if (!currentUser?.authUser?.uid) console.log("User not logged in");
+    let todoList = JSON.parse(localStorage.getItem("todo_list") || "[]");
+    if (currentUser?.authUser?.uid) {
+      const dbTodoList = await getTodoListFromDB(currentUser.authUser.uid);
+      if (dbTodoList) {
+        todoList = dbTodoList;
+      }
+    }
 
-    const todoList = currentUser?.authUser?.uid
-      ? await getTodoListFromDB(currentUser.authUser.uid)
-      : [];
     set({ taskList: todoList });
     localStorage.setItem("todo_list", JSON.stringify(todoList));
   },

@@ -54,7 +54,7 @@ const Notes = () => {
 
   const handleCreateNewNote = async () => {
     await createNewNote();
-    currentUser?.authUser?.email && incrementTotalNotesCreated();
+    incrementTotalNotesCreated();
     //Give time for note to render and then Focus on the title input of the new note
     setTimeout(() => {
       inputRef.current?.focus();

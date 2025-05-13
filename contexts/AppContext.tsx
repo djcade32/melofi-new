@@ -1,10 +1,13 @@
 "use client";
-import { Logger } from "@/classes/Logger";
 import useAppStore from "@/stores/app-store";
 import useIndexedDBStore from "@/stores/indexedDB-store";
 import useUserStore from "@/stores/user-store";
 import useWidgetsStore from "@/stores/widgets-store";
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { createLogger } from "@/utils/logger";
+import { useOnboardingTourContext } from "./OnboardingTourContext";
+
+const Logger = createLogger("App Context");
 
 export interface AppContextInterface {
   isSleep: boolean;
@@ -26,13 +29,14 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const { currentUser } = useUserStore();
   const { indexedDB, initializeIndexedDB, syncWidgetData, pushAllDataToFirebase } =
     useIndexedDBStore();
+  const { tourIsActive } = useOnboardingTourContext();
 
   const [isSleep, setIsSleep] = useState(false);
   const [userUid, setUserUid] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isLoading) return;
+    if (!loading) return;
     const initLocalDB = async () => {
       await initializeIndexedDB();
     };
@@ -40,8 +44,8 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
     initLocalDB();
     // Get the open widgets from local storage and open them
     const widgets = fetchOpenWidgets();
-    toggleOpenWidgets(widgets);
-    setIsLoading(false);
+    !tourIsActive && toggleOpenWidgets(widgets);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -50,19 +54,19 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, [indexedDB, currentUser]);
 
   useEffect(() => {
-    if (isOnline && !isLoading && currentUser?.authUser?.uid) {
-      console.log("Syncing data with Firebase...");
+    if (isOnline && !loading && currentUser?.authUser?.uid) {
+      Logger.info("Syncing data with backend...");
       // Sync data with Firebase if back online
       pushAllDataToFirebase();
     }
   }, [isOnline]);
 
-  useMemo(() => {
+  useEffect(() => {
     const fetchUserAppSettings = async () => {
       await fetchAppSettings();
     };
     if (currentUser?.authUser?.uid !== userUid) {
-      Logger.getInstance().info("fetching user app settings");
+      Logger.debug.info("Fetching user app settings");
       setUserUid(currentUser?.authUser?.uid || null);
       fetchUserAppSettings();
     }
@@ -70,6 +74,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   let timeout: NodeJS.Timeout;
   useEffect(() => {
+    if (tourIsActive) return;
     const { inActivityThreshold } = appSettings;
 
     timeout = setTimeout(() => {
@@ -106,7 +111,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       document.removeEventListener("mousedown", onMouseMove);
       clearTimeout(timeout);
     };
-  }, [appSettings.inActivityThreshold]);
+  }, [appSettings.inActivityThreshold, tourIsActive]);
 
   return (
     <AppContext.Provider

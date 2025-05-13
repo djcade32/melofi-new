@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./searchInput.module.css";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Search Input");
 
 interface SearchInputProps {
   id: string;
@@ -42,7 +45,7 @@ const SearchInput = ({
       const validLink = await onSubmit();
       setError(!validLink);
     } catch (error) {
-      console.log(error);
+      Logger.error(error);
     } finally {
       setLoading(false);
     }

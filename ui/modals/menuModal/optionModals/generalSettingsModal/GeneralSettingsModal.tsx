@@ -38,6 +38,8 @@ const GeneralSettingsModal = () => {
     setTodoListHoverEffectEnabled,
     setDailyQuoteEnabled,
     setShowPremiumModal,
+    setSceneRouletteEnabled,
+    setShowMiddleClock,
   } = useAppStore();
   const { isPremiumUser } = useUserStore();
   const isOpen = selectedOption === "General Settings";
@@ -184,7 +186,10 @@ const GeneralSettingsModal = () => {
             <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
               <p>Show Daily Quotes</p>
               {!isPremiumUser && (
-                <PremiumBadge onClick={() => setShowPremiumModal("show_quotes")} />
+                <PremiumBadge
+                  id="premium-badge-show-quotes"
+                  onClick={() => setShowPremiumModal("show_quotes")}
+                />
               )}
             </div>
             <Switch
@@ -195,6 +200,48 @@ const GeneralSettingsModal = () => {
           </div>
           <p className={styles.generalSettingsModal__setting_description}>
             Display a daily motivational quote in your workspace.
+          </p>
+        </div>
+
+        {/* Clock Position */}
+        <div className={styles.generalSettingsModal__settings_section}>
+          <div className={styles.generalSettingsModal__setting_container}>
+            <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
+              <p>Show Middle Clock</p>
+            </div>
+            <Switch
+              checked={appSettings.showMiddleClock}
+              onChange={() => setShowMiddleClock(!appSettings.showMiddleClock)}
+            />
+          </div>
+          <p className={styles.generalSettingsModal__setting_description}>
+            Display clock in the middle of the screen for better visibility.
+          </p>
+        </div>
+
+        {/* Scene Settings */}
+        <div className={styles.generalSettingsModal__settings_section}>
+          <div>
+            <p className={styles.generalSettingsModal__setting_section_title}>Scene</p>
+          </div>
+          <div className={styles.generalSettingsModal__setting_container}>
+            <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
+              <p>Scene Roulette</p>
+              {!isPremiumUser && (
+                <PremiumBadge
+                  id="premium-badge-scenes"
+                  onClick={() => setShowPremiumModal("scenes")}
+                />
+              )}
+            </div>
+            <Switch
+              disabled={!isPremiumUser}
+              checked={isPremiumUser && appSettings.sceneRouletteEnabled}
+              onChange={() => setSceneRouletteEnabled(!appSettings.sceneRouletteEnabled)}
+            />
+          </div>
+          <p className={styles.generalSettingsModal__setting_description}>
+            Loads a random scene every visit to keep your focus fresh.
           </p>
         </div>
 

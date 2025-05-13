@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import styles from "./actionBar.module.css";
 import ActionBarButton from "./actionBarButton/ActionBarButton";
 import {
-  AiFillTool,
   MdLandscape,
   RiFullscreenExitLine,
   RiFullscreenFill,
@@ -20,15 +19,17 @@ import useAppStore from "@/stores/app-store";
 import ToolsActionBarButton from "./toolsActionBarButton/ToolsActionBarButton";
 import useToolsStore from "@/stores/tools-store";
 import useMenuStore from "@/stores/menu-store";
+import { useOnboardingTourContext } from "@/contexts/OnboardingTourContext";
 
 const iconProps = { size: 20, color: "var(--color-white)", style: { cursor: "pointer" } };
 
 const ActionBar = () => {
   const { toggleSceneModal, sceneModalOpen } = useSceneStore();
   const { toggleMixerModal, mixerModalOpen, musicSource } = useMixerStore();
-  const { toggleFullscreen, isFullscreen, isElectron } = useAppStore();
+  const { toggleFullscreen, isFullscreen, isElectron, appSettings } = useAppStore();
   const { isMenuOpen, handleClick } = useMenuStore();
   const { isToolsOpen, toggleTools } = useToolsStore();
+  const { moveToNextStep } = useOnboardingTourContext();
 
   // Close scene modal when clicking outside of the modal
   useEffect(() => {
@@ -52,7 +53,10 @@ const ActionBar = () => {
         id="mixer-button"
         icon={<RiSoundModuleFill {...iconProps} />}
         label="Mixer"
-        onClick={() => toggleMixerModal(!mixerModalOpen)}
+        onClick={() => {
+          toggleMixerModal(!mixerModalOpen);
+          moveToNextStep(500);
+        }}
         isActive={mixerModalOpen}
       />
       {musicSource === MusicSource.MELOFI && <MusicControls />}
@@ -60,13 +64,19 @@ const ActionBar = () => {
         id="scenes-button"
         icon={<MdLandscape {...iconProps} />}
         label="Scenes"
-        onClick={() => toggleSceneModal(!sceneModalOpen)}
+        onClick={() => {
+          toggleSceneModal(!sceneModalOpen);
+          moveToNextStep(1000);
+        }}
         isActive={sceneModalOpen}
       />
       <ToolsActionBarButton
         id="tools-button"
         iconProps={iconProps}
-        onClick={() => toggleTools(!isToolsOpen)}
+        onClick={() => {
+          toggleTools(!isToolsOpen);
+          moveToNextStep(500);
+        }}
         isActive={isToolsOpen}
       />
       {!isElectron() && (
@@ -84,7 +94,7 @@ const ActionBar = () => {
           isActive={isFullscreen}
         />
       )}
-      <TimeDisplay />
+      {!appSettings.showMiddleClock && <TimeDisplay />}
       <ActionBarButton
         id="menu-button"
         icon={<MdOutlineMenu {...iconProps} />}

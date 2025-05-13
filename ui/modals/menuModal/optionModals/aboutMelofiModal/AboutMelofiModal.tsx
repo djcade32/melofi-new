@@ -18,7 +18,7 @@ const AboutMelofiModal = () => {
       className={styles.aboutMelofiModal__container}
       isOpen={isOpenState}
       close={() => setSelectedOption(null)}
-      title="About Melofi"
+      title="ABOUT MELOFI"
       titleClassName={styles.aboutMelofiModal__title}
     >
       <div className={styles.aboutMelofiModal__content}>

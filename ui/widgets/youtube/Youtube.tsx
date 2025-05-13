@@ -7,6 +7,10 @@ import YouTubePlayer from "youtube-player";
 import { YouTubePlayer as YouTubePlayerType } from "youtube-player/dist/types";
 import { IoCloseOutline } from "@/imports/icons";
 import useNotificationProviderStore from "@/stores/notification-provider-store";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Youtube Widget");
+
 const Youtube = () => {
   const { isYoutubeOpen, setIsYoutubeOpen } = useYoutubeStore();
   const { addNotification } = useNotificationProviderStore();
@@ -30,7 +34,7 @@ const Youtube = () => {
       });
 
       player.on("ready", () => {
-        console.log("YouTube player is ready.");
+        Logger.debug.info("YouTube player is ready.");
         setPlayerRef(player);
       });
 
@@ -56,7 +60,7 @@ const Youtube = () => {
       try {
         await playerRef.pauseVideo();
       } catch (error) {
-        console.error("Error pausing video:", error);
+        Logger.error("Error pausing video:", error);
       }
     }
     setIsYoutubeOpen(false); // Close the widget after the video is paused

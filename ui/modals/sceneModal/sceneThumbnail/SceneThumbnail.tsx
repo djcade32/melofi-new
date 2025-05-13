@@ -5,6 +5,7 @@ import useSceneStore from "@/stores/scene-store";
 import useUserStore from "@/stores/user-store";
 import { PiCrownSimpleFill } from "@/imports/icons";
 import useAppStore from "@/stores/app-store";
+import { useOnboardingTourContext } from "@/contexts/OnboardingTourContext";
 
 interface SceneThumbnailProps {
   scene: Scene;
@@ -17,9 +18,11 @@ const iconProps = {
 };
 
 const SceneThumbnail = ({ scene, setSelectedScene }: SceneThumbnailProps) => {
-  const { currentScene } = useSceneStore();
+  const { currentScene, toggleSceneModal } = useSceneStore();
   const { isPremiumUser } = useUserStore();
   const { setShowPremiumModal } = useAppStore();
+  const { tourIsActive, moveToNextStep } = useOnboardingTourContext();
+
   const showPremiumIcon = scene.premium && !isPremiumUser;
 
   const [isVisible, setIsVisible] = useState(false);
@@ -50,10 +53,16 @@ const SceneThumbnail = ({ scene, setSelectedScene }: SceneThumbnailProps) => {
       return;
     }
     setSelectedScene(scene);
+    // If tour is active, move to the next step and close the modal
+    if (tourIsActive) {
+      moveToNextStep();
+      toggleSceneModal(false);
+    }
   };
 
   return (
     <div
+      id={`scene-${scene.id}-thumbnail`}
       ref={ref}
       className={`${styles.sceneThumbnail__container} ${
         currentScene.id === scene.id && styles.selected

@@ -63,6 +63,9 @@ const MixerSlider = ({
     if (soundVolume <= 0 && isActive()) {
       audioRef.current.pause();
       setThumbClicked(false);
+    } else if (soundVolume > 0) {
+      audioRef.current.play();
+      audioRef.current.volume = soundVolume;
     }
   }, [soundVolume]);
 

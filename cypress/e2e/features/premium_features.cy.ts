@@ -21,10 +21,6 @@ describe("Premium Features", () => {
     cy.clearLocalStorage();
   });
 
-  it("should show support creator banner", () => {
-    getElementWithClassName("supportCreatorBanner__container").should("be.visible");
-  });
-
   it("should show premium modal for focus section in insights modal", () => {
     Menu.menuButton().click();
     Menu.options.insights().click();
@@ -37,9 +33,37 @@ describe("Premium Features", () => {
     cy.get("#premium-modal").should("not.be.visible");
 
     // Open premium modal through premium badge
-    getElementWithClassName("premiumBadge__container").click();
+    cy.get("#premium-badge-focus-stats").click();
     cy.get("#premium-modal").should("be.visible");
     getElementWithClassName("premiumModal__title").should("contain.text", "Track Your Focus");
+    cy.get("#premium-modal-close-icon").click();
+    cy.get("#premium-modal").should("not.be.visible");
+
+    // Close insights modal
+    Menu.insightsModal.closeBtn().click();
+  });
+
+  it("should show premium modal for achievements section in insights modal", () => {
+    Menu.menuButton().click();
+    Menu.options.insights().click();
+    Menu.insightsModal.container().should("be.visible");
+    Menu.insightsModal.achievementsSection.container().scrollIntoView();
+    getElementWithClassName("achievementsSection__premium_button").first().click();
+    cy.get("#premium-modal").should("be.visible");
+    getElementWithClassName("premiumModal__title").should(
+      "contain.text",
+      "Celebrate Your Progress"
+    );
+    cy.get("#premium-modal-close-icon").click();
+    cy.get("#premium-modal").should("not.be.visible");
+
+    // Open premium modal through premium badge
+    cy.get("#premium-badge-achievements").click();
+    cy.get("#premium-modal").should("be.visible");
+    getElementWithClassName("premiumModal__title").should(
+      "contain.text",
+      "Celebrate Your Progress"
+    );
     cy.get("#premium-modal-close-icon").click();
     cy.get("#premium-modal").should("not.be.visible");
 
@@ -50,13 +74,26 @@ describe("Premium Features", () => {
   it("should show premium modal for showing quotes", () => {
     Menu.menuButton().click();
     Menu.options.generalSettings().click();
-    getElementWithClassName("premiumBadge__container").click();
+    cy.get("#premium-badge-show-quotes").click();
     cy.get("#premium-modal").should("be.visible");
     getElementWithClassName("premiumModal__title").should("contain.text", "Focus with Inspiration");
     cy.get("#premium-modal-close-icon").click();
     cy.get("#premium-modal").should("not.be.visible");
 
-    // Close insights modal
+    // Close general settings modal
+    Menu.generalSettingsModal.closeBtn().click();
+  });
+
+  it("should show premium modal for scenes", () => {
+    Menu.menuButton().click();
+    Menu.options.generalSettings().click();
+    cy.get("#premium-badge-scenes").click();
+    cy.get("#premium-modal").should("be.visible");
+    getElementWithClassName("premiumModal__title").should("contain.text", "Exclusive Scenes");
+    cy.get("#premium-modal-close-icon").click();
+    cy.get("#premium-modal").should("not.be.visible");
+
+    // Close general settings modal
     Menu.generalSettingsModal.closeBtn().click();
   });
 

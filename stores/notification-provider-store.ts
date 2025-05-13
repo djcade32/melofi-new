@@ -1,4 +1,5 @@
 import { NotificationType } from "@/types/general";
+import { sendNotification } from "@/utils/general";
 import { create } from "zustand";
 
 export interface NotificationProviderState {
@@ -25,6 +26,11 @@ const useNotificationProviderStore = create<NotificationProviderState>((set, get
   },
   addNotification: (notification: NotificationType) => {
     set((state) => ({ notificationQueue: [...state.notificationQueue, notification] }));
+    if (notification.type === "alarm" || notification.type === "achievement") {
+      notification.title
+        ? sendNotification(notification.title, { body: notification.message })
+        : sendNotification(notification.message, {});
+    }
   },
   removeNotification: () => {
     set((state) => ({ notificationQueue: state.notificationQueue.slice(1) }));

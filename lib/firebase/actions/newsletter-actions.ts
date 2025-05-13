@@ -2,7 +2,9 @@ import { doc, setDoc } from "firebase/firestore";
 import { getFirebaseDB } from "../firebaseClient";
 import { User } from "firebase/auth";
 import { subscribeToNewsletter } from "@/lib/brevo/actions";
+import { createLogger } from "@/utils/logger";
 
+const Logger = createLogger("Newsletter Actions");
 const db = getFirebaseDB();
 
 // Add user to newsletter db
@@ -16,7 +18,7 @@ export const addUserToNewsletter = async (user: User, email: string) => {
     const usersDoc = doc(db, `newsletter/${uid}`);
     await setDoc(usersDoc, { email, isEmailVerified: false });
   } catch (error) {
-    console.log("Error adding user to newsletter db: ", error);
+    Logger.error(`Error adding user to newsletter db: ${error}`);
     throw error;
   }
 };
@@ -35,7 +37,7 @@ export const changeUserEmailVerificationStatus = async (
     await setDoc(usersDoc, { email, isEmailVerified });
     isEmailVerified && subscribeToNewsletter(email, "melofi_signup");
   } catch (error) {
-    console.log("Error changing user email verification status in newsletter db: ", error);
+    Logger.error(`Error changing user email verification status in newsletter db: ${error}`);
     throw error;
   }
 };

@@ -24,9 +24,9 @@ const Banner = ({ announcement }: BannerProps) => {
 
   return (
     <div className={styles.banner__container} style={{ display: isActive() ? "flex" : "none" }}>
-      <p className={styles.banner__text}>{announcement?.text}</p>
-      <p onClick={handleClick} className={styles.banner__cta}>
-        {announcement?.cta}
+      <p className={styles.banner__text}>
+        {announcement?.text}
+        <span className={styles.banner__cta}> {announcement?.cta}</span>
       </p>
     </div>
   );

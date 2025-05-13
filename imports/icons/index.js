@@ -37,6 +37,11 @@ import {
   BsGlobe,
   BsDatabaseFillCheck,
   BsDatabaseFillX,
+  BsCircle,
+  BsCheckCircleFill,
+  BsFillTrophyFill,
+  BsFillFileEarmarkCodeFill,
+  BsFillFileEarmarkMusicFill,
 } from "react-icons/bs";
 import {
   IoVolumeMedium,
@@ -263,4 +268,9 @@ export {
   BsDatabaseFillCheck,
   BsDatabaseFillX,
   FaDownload,
+  BsCircle,
+  BsCheckCircleFill,
+  BsFillTrophyFill,
+  BsFillFileEarmarkCodeFill,
+  BsFillFileEarmarkMusicFill,
 };

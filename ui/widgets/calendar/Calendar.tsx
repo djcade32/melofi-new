@@ -8,6 +8,9 @@ import CalendarsListView from "./views/calendarsListView/CalendarsListView";
 import useAppStore from "@/stores/app-store";
 import { addSecondsToCurrentTime } from "@/utils/time";
 import { dateInPast } from "@/utils/date";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("Calendar Widget");
 
 const Calendar = () => {
   const date = new Date();
@@ -60,7 +63,7 @@ const Calendar = () => {
       };
       setGoogleCalendarUser(googleCalendarUser);
     },
-    onError: (error) => console.log("Login Failed:", error),
+    onError: (error) => Logger.error("Login Failed:", error),
     scope:
       "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events",
   });

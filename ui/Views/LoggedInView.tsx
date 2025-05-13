@@ -33,11 +33,11 @@ import useYoutubeStore from "@/stores/widgets/youtube-store";
 import Toolbar from "../components/toolbar/Toolbar";
 import useSceneStore from "@/stores/scene-store";
 import MenuModal from "../modals/menuModal/MenuModal";
-import SupportCreatorBanner from "../components/supportCreatorBanner/SupportCreatorBanner";
 import PremiumModal from "../modals/premiumModal/PremiumModal";
 import Timer from "../widgets/timer/Timer";
 import useTimerStore from "@/stores/widgets/timer-store";
-import WelcomeModal from "../modals/welcomeModal/WelcomeModal";
+import TimeDisplay from "../components/timeDisplay/TimeDisplay";
+import useAppStore from "@/stores/app-store";
 
 const LoggedInView = () => {
   const { musicSource } = useMixerStore();
@@ -51,6 +51,7 @@ const LoggedInView = () => {
   const { isYoutubeOpen } = useYoutubeStore();
   const { sceneModalOpen } = useSceneStore();
   const { isTimerOpen } = useTimerStore();
+  const { appSettings } = useAppStore();
 
   return (
     <div>
@@ -61,9 +62,8 @@ const LoggedInView = () => {
       <MixerModal />
       {musicSource === MusicSource.MELOFI && <NowPlaying />}
       <QuoteDisplay />
-      <SupportCreatorBanner />
       <PremiumModal />
-      <WelcomeModal />
+      {appSettings.showMiddleClock && <TimeDisplay />}
 
       {/* Widgets */}
       <ComponentLoader component={<Alarms />} isComponentOpen={isAlarmsOpen} />

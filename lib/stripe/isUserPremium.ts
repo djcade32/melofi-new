@@ -2,6 +2,8 @@ import { UserMembership } from "@/enums/general";
 import { getFirebaseAuth } from "../firebase/firebaseClient";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, getFirestore, orderBy, query, where } from "firebase/firestore";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("isUserPremium");
 
 const auth = getFirebaseAuth();
 
@@ -41,7 +43,7 @@ export default function isUserPremium(): Promise<UserMembership> {
 
         resolve(decodedToken.claims?.stripeRole as UserMembership | "free");
       } catch (error) {
-        console.error("Error getting token:", error);
+        Logger.error("Error getting token:", error);
         resolve("free");
       }
     });

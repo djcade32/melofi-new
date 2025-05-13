@@ -1,5 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { getFirebaseDB } from "../firebaseClient";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Auth Getters");
 
 const db = getFirebaseDB();
 
@@ -13,7 +15,7 @@ export const getUserFromUserDb = async (uid: string) => {
     const user = await getDoc(userDoc);
     return user.exists() ? user.data() : null;
   } catch (error) {
-    console.log("Error getting user from user db: ", error);
+    Logger.error("Error getting user from user db: ", error);
     throw error;
   }
 };

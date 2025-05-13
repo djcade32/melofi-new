@@ -4,6 +4,9 @@ import { Scene } from "@/types/general";
 import useTemplatesStore from "./widgets/templates-store";
 import useUserStatsStore from "./user-stats-store";
 import useUserStore from "./user-store";
+import useAppStore from "./app-store";
+import { createLogger } from "@/utils/logger";
+const Logger = createLogger("Scene Store");
 
 export interface SceneState {
   currentScene: Scene;
@@ -22,6 +25,15 @@ const useSceneStore = create<SceneState>((set) => ({
 
   getCurrentScene: () => {
     const { isPremiumUser } = useUserStore.getState();
+    const { sceneRouletteEnabled } = useAppStore.getState().appSettings;
+    if (sceneRouletteEnabled) {
+      // Filter out premium scenes if the user is not a premium user
+      const filteredScenes = isPremiumUser ? scenes.filter((scene) => !scene.premium) : scenes;
+      const randomScene = filteredScenes[Math.floor(Math.random() * filteredScenes.length)];
+      set({ currentScene: randomScene });
+      localStorage.setItem("currentScene", JSON.stringify(randomScene));
+      return;
+    }
 
     const currentScene = localStorage.getItem("currentScene");
     if (currentScene) {
@@ -43,7 +55,7 @@ const useSceneStore = create<SceneState>((set) => ({
     try {
       useUserStatsStore.getState().updateSceneCounts(newScene.name);
     } catch (error) {
-      console.log("Error updating scene counts: ", error);
+      Logger.error("Error updating scene counts: ", error);
     }
   },
 

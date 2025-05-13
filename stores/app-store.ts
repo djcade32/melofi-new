@@ -11,17 +11,21 @@ import useWidgetsStore from "./widgets-store";
 import { updateAppSettings } from "@/lib/firebase/actions/app-settings";
 import useUserStore from "./user-store";
 import { getUserFromUserDb } from "@/lib/firebase/getters/auth-getters";
-import { Logger } from "@/classes/Logger";
 import useToolsStore from "./tools-store";
 import useNotificationProviderStore from "./notification-provider-store";
 import { BiWifi, BiWifiOff } from "@/imports/icons";
 import useIndexedDBStore from "./indexedDB-store";
+import { createLogger } from "@/utils/logger";
+
+const Logger = createLogger("App Store");
 
 export interface AppState {
   isFullscreen: boolean;
   isOnline: boolean;
   appSettings: AppSettings;
   showPremiumModal: PremiumModalTypes | null;
+  showStartModal: boolean;
+  loading: boolean;
 
   toggleFullscreen: (boolean: boolean) => void;
   setIsOnline: (boolean: boolean) => void;
@@ -32,10 +36,14 @@ export interface AppState {
   setCalendarHoverEffectEnabled: (boolean: boolean) => void;
   setTodoListHoverEffectEnabled: (boolean: boolean) => void;
   setDailyQuoteEnabled: (boolean: boolean) => void;
+  setShowMiddleClock: (boolean: boolean) => void;
+  setSceneRouletteEnabled: (boolean: boolean) => void;
   fetchAppSettings: () => Promise<void>;
   setAppSettings: (appSettings: AppSettings, userId: string | null) => void;
   setShowPremiumModal: (modal: PremiumModalTypes | null) => void;
   removePremiumFeatures: () => void;
+  setShowStartModal: (boolean: boolean) => void;
+  setLoading: (loading: boolean) => void;
 }
 
 const useAppStore = create<AppState>((set, get) => ({
@@ -49,8 +57,20 @@ const useAppStore = create<AppState>((set, get) => ({
     calendarHoverEffectEnabled: true,
     todoListHoverEffectEnabled: true,
     showDailyQuote: true,
+    sceneRouletteEnabled: false,
+    showMiddleClock: false,
   },
   showPremiumModal: null,
+  showStartModal: true,
+  loading: true,
+
+  setLoading: (loading) => {
+    set(() => ({ loading }));
+  },
+
+  setShowStartModal: (boolean) => {
+    set(() => ({ showStartModal: boolean }));
+  },
 
   toggleFullscreen: (boolean) => {
     screenfull.toggle();
@@ -60,14 +80,14 @@ const useAppStore = create<AppState>((set, get) => ({
   setIsOnline: (boolean) => {
     const { addNotification } = useNotificationProviderStore.getState();
     if (boolean) {
-      Logger.getInstance().info("Melofi is online.");
+      Logger.info("Melofi is online.");
       addNotification({
         message: "Melofi is online.",
         type: "success",
         icon: BiWifi,
       });
     } else {
-      Logger.getInstance().error("Melofi is offline.");
+      Logger.error("Melofi is offline.");
       addNotification({
         message: "Melofi is offline.",
         type: "normal",
@@ -163,6 +183,36 @@ const useAppStore = create<AppState>((set, get) => ({
     set(() => ({ appSettings: newAppSettings }));
   },
 
+  setShowMiddleClock: (boolean) => {
+    const { currentUser, isUserLoggedIn } = useUserStore.getState();
+    const { indexedDB } = useIndexedDBStore.getState();
+    const newAppSettings = {
+      ...get().appSettings,
+      showMiddleClock: boolean,
+      userUid: currentUser?.authUser?.uid || "",
+    };
+    localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
+    isUserLoggedIn &&
+      currentUser?.authUser?.uid &&
+      updateAppSettings(currentUser?.authUser?.uid, newAppSettings, indexedDB);
+    set(() => ({ appSettings: newAppSettings }));
+  },
+
+  setSceneRouletteEnabled: (boolean: boolean) => {
+    const { currentUser, isUserLoggedIn } = useUserStore.getState();
+    const { indexedDB } = useIndexedDBStore.getState();
+    const newAppSettings = {
+      ...get().appSettings,
+      sceneRouletteEnabled: boolean,
+      userUid: currentUser?.authUser?.uid || "",
+    };
+    localStorage.setItem("app_settings", JSON.stringify(newAppSettings));
+    isUserLoggedIn &&
+      currentUser?.authUser?.uid &&
+      updateAppSettings(currentUser?.authUser?.uid, newAppSettings, indexedDB);
+    set(() => ({ appSettings: newAppSettings }));
+  },
+
   fetchAppSettings: async () => {
     const appSettings = localStorage.getItem("app_settings");
     // check if AppSettings type is correct
@@ -182,12 +232,12 @@ const useAppStore = create<AppState>((set, get) => ({
 
     if (currentUserUid) {
       if (appSettings && currentUserUid === localAppSettings.userUid) {
-        Logger.getInstance().info("App settings in local storage");
+        Logger.debug.info("App settings in local storage");
         set(() => ({
           appSettings: { userUid: currentUserUid, ...JSON.parse(appSettings) },
         }));
       } else {
-        Logger.getInstance().info("No app settings in local storage fetch from db");
+        Logger.debug.info("No app settings in local storage fetch from db");
         try {
           const { isOnline } = useAppStore.getState();
           if (isOnline) {
@@ -197,17 +247,17 @@ const useAppStore = create<AppState>((set, get) => ({
             }
           } else {
             const { indexedDB } = useIndexedDBStore.getState();
-            Logger.getInstance().info("Melofi is offline. Fetching app settings from indexedDB");
+            Logger.debug.info("Melofi is offline. Fetching app settings from indexedDB");
             const appSettings = await indexedDB?.get("appSettings", currentUserUid);
 
             if (appSettings) {
               useAppStore.getState().setAppSettings(appSettings, currentUserUid);
             } else {
-              console.log("No app settings found in indexedDB");
+              Logger.debug.info("No app settings found in indexedDB");
             }
           }
         } catch (error) {
-          Logger.getInstance().error(`Error fetching app settings: ${error}`);
+          Logger.error(`Error fetching app settings: ${error}`);
         }
       }
     } else {
@@ -236,6 +286,7 @@ const useAppStore = create<AppState>((set, get) => ({
         oldAppSettings.calendar.calendarHoverEffectEnabled = appSettings.calendarHoverEffectEnabled;
         oldAppSettings.todo.todoListHoverEffectEnabled = appSettings.todoListHoverEffectEnabled;
         oldAppSettings.quote.showDailyQuote = appSettings.showDailyQuote;
+        oldAppSettings.clock.showMiddleClock = appSettings.showMiddleClock;
         oldAppSettings._lastSynced = new Date().toISOString();
         return oldAppSettings;
       });

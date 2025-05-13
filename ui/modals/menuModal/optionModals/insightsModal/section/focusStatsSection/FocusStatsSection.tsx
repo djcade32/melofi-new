@@ -77,7 +77,10 @@ const FocusStatsSection = () => {
     <div className={styles.focusStatsSection__container}>
       {!isPremiumUser && (
         <div className={styles.focusStatsSection__premium_container}>
-          <PremiumBadge onClick={() => setShowPremiumModal("focus_stats")} />
+          <PremiumBadge
+            id="premium-badge-focus-stats"
+            onClick={() => setShowPremiumModal("focus_stats")}
+          />
           <p className={styles.focusStatsSection__premium_text}>
             Total focus time, best days, and more—upgrade to see it all. 🔥
           </p>
@@ -139,7 +142,11 @@ const FocusStatsSection = () => {
           />
           <StatDisplay
             label="Tasks"
-            stat={isPremiumUser ? focusStats?.tasksCompleted || 0 : dummyFocusStats.tasksCompleted}
+            stat={
+              isPremiumUser
+                ? focusStats?.tasksCompleted?.length || 0
+                : dummyFocusStats.tasksCompleted
+            }
           />
         </div>
         <div className={styles.focusStatsSection_stats_container}>

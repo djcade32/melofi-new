@@ -14,16 +14,23 @@ export const ERROR_MESSAGES = {
   NO_INTERNET_CONNECTION: "No internet connection",
 };
 
-export type NotificationTypes = "success" | "error" | "normal" | "alarm" | "copy_to_clipboard";
+export type NotificationTypes =
+  | "success"
+  | "error"
+  | "normal"
+  | "alarm"
+  | "copy_to_clipboard"
+  | "achievement";
 
 export type MenuOptionNames =
   | "Account"
   | "Insights"
   | "General Settings"
   | "Leave Feedback"
-  | "Support"
   | "Share With Friends"
   | "Melofi Desktop"
+  | "Change Log"
+  | "Submit Song"
   | "About Melofi"
   | "Logout";
 
@@ -39,6 +46,23 @@ export type PremiumModalTypes =
   | "scenes"
   | "focus_stats"
   | "youtube"
+  | "achievements"
   | "spotify";
 
 export type UserMembership = "free" | "premium" | "lifetime";
+
+export type AchievementTypes =
+  | "Focus Master 🧘‍♂️"
+  | "Pomodoro Pro 🍅"
+  | "Marathon Focus 🏃‍♂️"
+  | "Productivity Week 📅"
+  | "Night Owl 🌙"
+  | "Early Bird 🌅"
+  | "Scene Explorer 🎨"
+  | "Habit Builder 🔄"
+  | "Focus Legend ⭐"
+  | "Note Taker Master 📝"
+  | "Note Taker Extraordinaire 📝"
+  | "Timekeeper ⏰"
+  | "Pomodoro Champion 🏆"
+  | "Deep Focus Streak 🔥";

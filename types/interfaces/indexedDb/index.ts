@@ -2,6 +2,7 @@ import { SceneCounts, Task } from "@/types/general";
 import { PomodoroTimerStats, PomodoroTimerTask } from "../pomodoro_timer";
 import { Alarm } from "../alarms";
 import { Template } from "../templates";
+import { AchievementTypes } from "@/enums/general";
 
 export interface IndexedDBAppSettings {
   alarm: { alarmSoundEnabled: boolean };
@@ -9,7 +10,9 @@ export interface IndexedDBAppSettings {
   inActivityThreshold: { inActivityThreshold: number };
   pomodoro: { pomodoroTimerSoundEnabled: boolean };
   quote: { showDailyQuote: boolean };
+  clock: { showMiddleClock: boolean };
   todo: { todoListHoverEffectEnabled: boolean };
+  sceneRoulette: { sceneRouletteEnabled: boolean };
   userUid: string | null;
   _lastSynced: string;
 }
@@ -19,6 +22,7 @@ export interface IndexedDBUserStats {
   pomodoroTimer: PomodoroTimerStats | undefined;
   notes: { totalNotesCreated: number | undefined };
   sceneCounts: SceneCounts | null | undefined;
+  achievements: { achievements: AchievementTypes[] | undefined };
   _lastSynced: string;
 }
 
