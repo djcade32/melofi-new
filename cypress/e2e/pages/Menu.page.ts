@@ -10,13 +10,13 @@ export class Menu {
   static backdrop = () => cy.get("#menu-modal-backdrop");
 
   static options = {
-    account: () => cy.get(menuModalSelector).contains("Account"),
+    account: () => cy.get(menuModalSelector).contains("Sign In"),
     insights: () => cy.get(menuModalSelector).contains("Insights"),
     generalSettings: () => cy.get(menuModalSelector).contains("General Settings"),
     leaveFeedback: () => cy.get(menuModalSelector).contains("Leave Feedback"),
     about: () => cy.get(menuModalSelector).contains("About Melofi"),
     share: () => cy.get(menuModalSelector).contains("Share With Friends"),
-    logout: () => cy.get(menuModalSelector).contains("Logout"),
+    logout: () => cy.get(menuModalSelector).contains("Sign Out"),
   };
 
   static accountModal = {
