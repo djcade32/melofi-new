@@ -38,6 +38,28 @@ describe("Premium Features", () => {
     getElementWithClassName("premiumModal__title").should("contain.text", "Track Your Focus");
     cy.get("#premium-modal-close-icon").click();
     cy.get("#premium-modal").should("not.be.visible");
+  });
+
+  it("should show premium modal for achievements section in insights modal", () => {
+    Menu.insightsModal.achievementsSection.container().trigger("mouseover");
+    getElementWithClassName("achievementsSection__premium_button").first().click();
+    cy.get("#premium-modal").should("be.visible");
+    getElementWithClassName("premiumModal__title").should(
+      "contain.text",
+      "Celebrate Your Progress"
+    );
+    cy.get("#premium-modal-close-icon").click();
+    cy.get("#premium-modal").should("not.be.visible");
+
+    // Open premium modal through premium badge
+    getElementWithClassName("premiumBadge__container").click();
+    cy.get("#premium-modal").should("be.visible");
+    getElementWithClassName("premiumModal__title").should(
+      "contain.text",
+      "Celebrate Your Progress"
+    );
+    cy.get("#premium-modal-close-icon").click();
+    cy.get("#premium-modal").should("not.be.visible");
 
     // Close insights modal
     Menu.insightsModal.closeBtn().click();

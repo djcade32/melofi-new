@@ -62,6 +62,9 @@ export class Menu {
     focusSection: {
       container: () => getElementWithClassName("focusStatsSection__container"),
     },
+    achievementsSection: {
+      container: () => getElementWithClassName("achievementsSection__container"),
+    },
   };
 
   static generalSettingsModal = {
