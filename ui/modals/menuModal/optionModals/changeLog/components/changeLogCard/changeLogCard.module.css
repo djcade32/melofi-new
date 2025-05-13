@@ -32,9 +32,18 @@
   margin-bottom: 5px;
 }
 
+.changeLogCard__latest {
+  font-size: 14px;
+  padding: 5px 10px;
+  background-color: var(--color-effect-opacity);
+  border-radius: 5px;
+  color: var(--color-white) !important;
+}
+
 .changeLogCard__version h1,
 .changeLogCard__version h3 {
   font-weight: 500;
+  padding: 0;
 }
 
 .changeLogCard__version p {

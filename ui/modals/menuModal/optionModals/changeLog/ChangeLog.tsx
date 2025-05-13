@@ -28,6 +28,7 @@ const ChangeLog = () => {
             newFeatures={changeLog.newFeatures}
             improvements={changeLog.improvements}
             bugFixes={changeLog.bugFixes}
+            latest={index === 0}
           />
         ))}
       </div>
