@@ -7,6 +7,7 @@ interface ChangeLogCardProps {
   newFeatures?: string[];
   improvements?: string[];
   bugFixes?: string[];
+  latest?: boolean;
 }
 
 const changeLogCard = ({
@@ -15,12 +16,16 @@ const changeLogCard = ({
   newFeatures,
   improvements,
   bugFixes,
+  latest,
 }: ChangeLogCardProps) => {
   return (
     <div className={styles.changeLogCard__card}>
       <div className={styles.changeLogCard__card_circle} />
       <div className={styles.changeLogCard__version}>
-        <h1>v {version}</h1>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <h1>v {version}</h1>
+          {latest && <p className={styles.changeLogCard__latest}>Latest</p>}
+        </div>
         <p>{date}</p>
       </div>
 
