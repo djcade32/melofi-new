@@ -207,6 +207,22 @@ const PremiumModal = () => {
             />
           </>
         );
+      case "achievements":
+        return (
+          <>
+            <p className={styles.premiumModal__title}>Celebrate Your Progress</p>
+            <p className={styles.premiumModal__description}>
+              See how far you've come and stay motivated on your focus journey.
+            </p>
+            <Image
+              src="/assets/premium-pics/achievements-premium-pic.png"
+              alt="Premium Modal"
+              width={215}
+              height={215}
+              unoptimized={!isOnline}
+            />
+          </>
+        );
       default:
         return null;
     }
