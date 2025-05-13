@@ -29,6 +29,7 @@ export interface WidgetsState {
   focusWidget: (name: string) => void;
   zIndexForFocus: () => number;
   closePremiumWidgets: () => void;
+  closeAllWidgets: () => Promise<void>;
 }
 
 const useWidgetsStore = create<WidgetsState>((set, get) => ({
@@ -128,6 +129,19 @@ const useWidgetsStore = create<WidgetsState>((set, get) => ({
     usePomodoroTimerStore.getState().setIsPomodoroTimerOpen(false);
     useAlarmsStore.getState().setIsAlarmsOpen(false);
     useYoutubeStore.getState().setIsYoutubeOpen(false);
+  },
+
+  closeAllWidgets: async () => {
+    useCalendarStore.getState().toggleCalendar(false);
+    useTodoListStore.getState().setIsTodoListOpen(false);
+    useNotesStore.getState().setIsNotesOpen(false);
+    usePomodoroTimerStore.getState().setIsPomodoroTimerOpen(false);
+    useCalculatorStore.getState().setIsCalculatorOpen(false);
+    useAlarmsStore.getState().setIsAlarmsOpen(false);
+    useTemplatesStore.getState().setIsTemplatesOpen(false);
+    useYoutubeStore.getState().setIsYoutubeOpen(false);
+    useMixerStore.getState().toggleMixerModal(false);
+    useTimerStore.getState().setIsTimerOpen(false);
   },
 
   getWidgetZIndex: (name) => {

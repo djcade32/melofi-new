@@ -14,6 +14,7 @@ import NotificationProvider from "@/providers/notificationProvider/NotificationP
 import AppContextProvider from "@/contexts/AppContext";
 import { usePathname } from "next/navigation";
 import { GoogleAnalytics } from "nextjs-google-analytics";
+import OnboardingTourContextProvider from "@/contexts/OnboardingTourContext";
 
 export default function Home() {
   const pathname = usePathname();
@@ -32,22 +33,24 @@ export default function Home() {
 
       <GoogleOAuthProvider clientId="922776747697-hbq7p19u2jmjjb1ksf4s0h95mmiu4pht.apps.googleusercontent.com">
         <NotificationProvider>
-          <AuthProvider>
-            <AppContextProvider>
-              <div
-                id="melofi-app"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  flex: 1,
-                  // Could cause issues. Added to prevent unwanted scrollbars
-                  overflow: "hidden",
-                }}
-              >
-                <LoggedInView />
-              </div>
-            </AppContextProvider>
-          </AuthProvider>
+          <OnboardingTourContextProvider>
+            <AuthProvider>
+              <AppContextProvider>
+                <div
+                  id="melofi-app"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    flex: 1,
+                    // Could cause issues. Added to prevent unwanted scrollbars
+                    overflow: "hidden",
+                  }}
+                >
+                  <LoggedInView />
+                </div>
+              </AppContextProvider>
+            </AuthProvider>
+          </OnboardingTourContextProvider>
         </NotificationProvider>
       </GoogleOAuthProvider>
     </>
