@@ -3,12 +3,13 @@ import { PiCrownSimpleFill } from "react-icons/pi";
 import styles from "./premiumBadge.module.css";
 
 interface PremiumBadgeProps {
+  id?: string;
   onClick?: () => void;
 }
 
-const PremiumBadge = ({ onClick }: PremiumBadgeProps) => {
+const PremiumBadge = ({ id, onClick }: PremiumBadgeProps) => {
   return (
-    <div className={styles.premiumBadge__container} onClick={onClick}>
+    <div id={id} className={styles.premiumBadge__container} onClick={onClick}>
       <PiCrownSimpleFill color="var(--color-effect-opacity" size={15} />
       <p>PREMIUM</p>
     </div>

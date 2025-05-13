@@ -90,7 +90,10 @@ const AchievementsSection = () => {
     <div className={styles.achievementsSection__container}>
       {!isPremiumUser && (
         <div className={styles.achievementsSection__premium_container}>
-          <PremiumBadge onClick={() => setShowPremiumModal("achievements")} />
+          <PremiumBadge
+            id="premium-badge-achievements"
+            onClick={() => setShowPremiumModal("achievements")}
+          />
           <p className={styles.achievementsSection__premium_text}>
             View your achievements and celebrate every milestone.
           </p>
