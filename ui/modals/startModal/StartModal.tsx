@@ -5,17 +5,20 @@ import Link from "next/link";
 import useAppStore from "@/stores/app-store";
 import useMusicPlayerStore from "@/stores/music-player-store";
 import { createLogger } from "@/utils/logger";
+import { useOnboardingTourContext } from "@/contexts/OnboardingTourContext";
 
 const Logger = createLogger("Start Modal");
 
 const StartModal = () => {
   const { showStartModal, setShowStartModal } = useAppStore();
+  const { startOnboarding } = useOnboardingTourContext();
   const { setIsPlaying } = useMusicPlayerStore();
 
   const onStartClick = () => {
     setShowStartModal(false);
     setIsPlaying(true);
     askingForPermission();
+    startOnboarding();
   };
 
   const askingForPermission = () => {

@@ -5,6 +5,7 @@ import useUserStore from "@/stores/user-store";
 import useWidgetsStore from "@/stores/widgets-store";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { createLogger } from "@/utils/logger";
+import { useOnboardingTourContext } from "./OnboardingTourContext";
 
 const Logger = createLogger("App Context");
 
@@ -28,6 +29,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const { currentUser } = useUserStore();
   const { indexedDB, initializeIndexedDB, syncWidgetData, pushAllDataToFirebase } =
     useIndexedDBStore();
+  const { tourIsActive } = useOnboardingTourContext();
 
   const [isSleep, setIsSleep] = useState(false);
   const [userUid, setUserUid] = useState<string | null>(null);
@@ -42,7 +44,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
     initLocalDB();
     // Get the open widgets from local storage and open them
     const widgets = fetchOpenWidgets();
-    toggleOpenWidgets(widgets);
+    !tourIsActive && toggleOpenWidgets(widgets);
     setLoading(false);
   }, []);
 
@@ -72,6 +74,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   let timeout: NodeJS.Timeout;
   useEffect(() => {
+    if (tourIsActive) return;
     const { inActivityThreshold } = appSettings;
 
     timeout = setTimeout(() => {
@@ -108,7 +111,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       document.removeEventListener("mousedown", onMouseMove);
       clearTimeout(timeout);
     };
-  }, [appSettings.inActivityThreshold]);
+  }, [appSettings.inActivityThreshold, tourIsActive]);
 
   return (
     <AppContext.Provider

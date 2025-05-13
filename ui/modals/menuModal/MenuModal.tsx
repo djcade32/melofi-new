@@ -53,7 +53,7 @@ const MenuModal = memo(() => {
   const options: MenuOption[] = [
     {
       id: "menu-option-account",
-      label: "Account",
+      label: isUserLoggedIn ? "Account" : "Sign In",
       icon: <FaUserAlt size={20} color="var(--color-white)" />,
       onClick: () => {
         handleMenuClick("Account");
@@ -137,7 +137,7 @@ const MenuModal = memo(() => {
     },
     {
       id: "menu-option-logout",
-      label: "Logout",
+      label: "Sign Out",
       icon: <PiSignOutBold size={20} color="var(--color-white)" />,
       onClick: async () => {
         await signUserOut();
