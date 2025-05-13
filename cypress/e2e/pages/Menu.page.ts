@@ -10,7 +10,8 @@ export class Menu {
   static backdrop = () => cy.get("#menu-modal-backdrop");
 
   static options = {
-    account: () => cy.get(menuModalSelector).contains("Sign In"),
+    account: (loggedIn: boolean = true) =>
+      cy.get(menuModalSelector).contains(loggedIn ? "Account" : "Sign In"),
     insights: () => cy.get(menuModalSelector).contains("Insights"),
     generalSettings: () => cy.get(menuModalSelector).contains("General Settings"),
     leaveFeedback: () => cy.get(menuModalSelector).contains("Leave Feedback"),

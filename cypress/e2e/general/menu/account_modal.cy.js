@@ -47,7 +47,7 @@ describe("Testing Account Modal", () => {
         loggedIn: true,
       });
       Menu.menuButton().click();
-      Menu.options.account().click();
+      Menu.options.account(false).click();
     });
 
     it("Should open the account modal and show sign up form", () => {
