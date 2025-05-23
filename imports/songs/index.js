@@ -36,8 +36,18 @@ import flyingDoodles_chauSara from "../../public/assets/songs/flyingDoodles_chau
 import sleepermane_raindance from "../../public/assets/songs/sleepermane_raindance.mp3";
 import lilac_gMills from "../../public/assets/songs/lilac_gMills.mp3";
 import peacefulSleep_noSpirit from "../../public/assets/songs/peacefulSleep_noSpirit.mp3";
+import brokenLight_betterdayz_middmoon from "../../public/assets/songs/brokenLight_betterdayz_x_middmoon.mp3";
+import goneWithTheWaves_betterdayz_middmoon from "../../public/assets/songs/goneWithTheWaves_betterdayz_x_middmoon.mp3";
+import haKetFix_betterdayz from "../../public/assets/songs/haKetFix_betterdayz.mp3";
+import morningCoffeAndMeWithoutYou_betterdayz from "../../public/assets/songs/morningCoffeAndMeWithoutYou_betterdayz.mp3";
+import theseGoodOldDays_betterdayz from "../../public/assets/songs/theseGoodOldDays_betterdayz.mp3";
 
 export {
+  brokenLight_betterdayz_middmoon,
+  goneWithTheWaves_betterdayz_middmoon,
+  haKetFix_betterdayz,
+  morningCoffeAndMeWithoutYou_betterdayz,
+  theseGoodOldDays_betterdayz,
   theRidge_allemIverson,
   illMeetYouAtTheStation_glimlip_louk,
   laube_mondoLoops_kanisan,
