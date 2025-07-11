@@ -75,7 +75,7 @@ const ToolbarWidgetButtons = () => {
         icon={GiTomato}
         onClick={() => handleWidgetButtonPress(() => setIsPomodoroTimerOpen(!isPomodoroTimerOpen))}
         active={isPomodoroTimerOpen}
-        premiumWidget
+        // premiumWidget
       />
       <ToolbarButton
         id="templates"
@@ -83,7 +83,7 @@ const ToolbarWidgetButtons = () => {
         icon={HiTemplate}
         onClick={() => handleWidgetButtonPress(() => setIsTemplatesOpen(!isTemplatesOpen))}
         active={isTemplatesOpen}
-        premiumWidget
+        // premiumWidget
       />
       <ToolbarButton
         id="calculator"
@@ -105,7 +105,7 @@ const ToolbarWidgetButtons = () => {
         icon={IoAlarm}
         onClick={() => handleWidgetButtonPress(() => setIsAlarmsOpen(!isAlarmsOpen))}
         active={isAlarmsOpen}
-        premiumWidget
+        // premiumWidget
       />
       <ToolbarButton
         id="watch-youtube"
@@ -113,7 +113,7 @@ const ToolbarWidgetButtons = () => {
         icon={IoLogoYoutube}
         onClick={() => handleWidgetButtonPress(() => setIsYoutubeOpen(!isYoutubeOpen))}
         active={isYoutubeOpen}
-        premiumWidget
+        // premiumWidget
       />
     </div>
   );
