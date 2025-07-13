@@ -11,7 +11,7 @@ const QuoteDisplay = () => {
   const { quote, getQuote } = useQuoteDisplayStore();
   const { isSleep } = useAppContext();
   const { appSettings } = useAppStore();
-  const { isPremiumUser } = useUserStore();
+  // const { isPremiumUser } = useUserStore();
 
   const scheduleQuoteUpdate = () => {
     const now = new Date();
@@ -37,7 +37,8 @@ const QuoteDisplay = () => {
 
   return (
     <>
-      {appSettings.showDailyQuote && isPremiumUser && (
+      {/* {appSettings.showDailyQuote && isPremiumUser && ( */}
+      {appSettings.showDailyQuote && (
         <div
           className={`${styles.quoteDisplay__container} ${
             isSleep ? styles.slide_down : styles.slide_up

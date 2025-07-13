@@ -22,23 +22,23 @@ const dummyFocusStats = {
 
 const FocusStatsSection = () => {
   const { getTodaysFocusStats, getAllFocusStats, getBestFocusDay } = useInsightsStore();
-  const { setShowPremiumModal } = useAppStore();
-  const { isPremiumUser } = useUserStore();
-  const { selectedOption } = useMenuStore();
+  // const { setShowPremiumModal } = useAppStore();
+  const { isPremiumUser, isUserLoggedIn } = useUserStore();
+  const { selectedOption, setSelectedOption } = useMenuStore();
   const [focusTimePeriod, setFocusTimePeriod] = useState("Today");
   const [focusStats, setFocusStats] = useState<Partial<FocusDay> | null>(null);
   const [bestFocusDay, setBestFocusDay] = useState<string>("");
   const isOpenState = selectedOption === "Insights";
 
   useMemo(() => {
-    if (!isPremiumUser) return;
+    if (!isUserLoggedIn) return;
     if (!isOpenState) return;
     const fetchFocusStats = () => {
       const stats = getTodaysFocusStats();
       setFocusStats(stats);
     };
     fetchFocusStats();
-  }, [isOpenState, isPremiumUser]);
+  }, [isOpenState, isUserLoggedIn]);
 
   useEffect(() => {
     setBestFocusDay(getBestFocusDayString() || "No best focus day");
@@ -64,7 +64,7 @@ const FocusStatsSection = () => {
   };
 
   const getBestFocusDayString = () => {
-    if (!isPremiumUser) return dummyFocusStats.bestFocusDay;
+    if (!isUserLoggedIn) return dummyFocusStats.bestFocusDay;
     const day = getBestFocusDay();
     if (!day) return "No best focus day";
     const { date, focusTime } = day;
@@ -75,11 +75,12 @@ const FocusStatsSection = () => {
   };
   return (
     <div className={styles.focusStatsSection__container}>
-      {!isPremiumUser && (
+      {!isUserLoggedIn && (
         <div className={styles.focusStatsSection__premium_container}>
           <PremiumBadge
             id="premium-badge-focus-stats"
-            onClick={() => setShowPremiumModal("focus_stats")}
+            onClick={() => setSelectedOption("Account")}
+            // onClick={() => setShowPremiumModal("focus_stats")}
           />
           <p className={styles.focusStatsSection__premium_text}>
             Total focus time, best days, and more—upgrade to see it all. 🔥
@@ -90,7 +91,8 @@ const FocusStatsSection = () => {
             containerClassName={styles.focusStatsSection__premium_button}
             hoverClassName={styles.focusStatsSection__premium_button_hover}
             textClassName={styles.focusStatsSection__premium_button_text}
-            onClick={() => setShowPremiumModal("focus_stats")}
+            onClick={() => setSelectedOption("Account")}
+            // onClick={() => setShowPremiumModal("focus_stats")}
           />
         </div>
       )}
@@ -121,7 +123,7 @@ const FocusStatsSection = () => {
           <StatDisplay
             label="Focus"
             stat={
-              isPremiumUser
+              isUserLoggedIn
                 ? getFocusStatTimeString(focusStats?.focusTime)
                 : dummyFocusStats.focusTime
             }
@@ -129,7 +131,7 @@ const FocusStatsSection = () => {
           <StatDisplay
             label="Break"
             stat={
-              isPremiumUser
+              isUserLoggedIn
                 ? getFocusStatTimeString(focusStats?.breakTime)
                 : dummyFocusStats.breakTime
             }
@@ -137,13 +139,15 @@ const FocusStatsSection = () => {
           <StatDisplay
             label="Sessions"
             stat={
-              isPremiumUser ? focusStats?.sessionsCompleted || 0 : dummyFocusStats.sessionsCompleted
+              isUserLoggedIn
+                ? focusStats?.sessionsCompleted || 0
+                : dummyFocusStats.sessionsCompleted
             }
           />
           <StatDisplay
             label="Tasks"
             stat={
-              isPremiumUser
+              isUserLoggedIn
                 ? focusStats?.tasksCompleted?.length || 0
                 : dummyFocusStats.tasksCompleted
             }

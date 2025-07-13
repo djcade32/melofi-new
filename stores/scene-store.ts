@@ -24,12 +24,12 @@ const useSceneStore = create<SceneState>((set) => ({
   allScenes: scenes,
 
   getCurrentScene: () => {
-    const { isPremiumUser } = useUserStore.getState();
+    // const { isPremiumUser } = useUserStore.getState();
     const { sceneRouletteEnabled } = useAppStore.getState().appSettings;
     if (sceneRouletteEnabled) {
       // Filter out premium scenes if the user is not a premium user
-      const filteredScenes = isPremiumUser ? scenes.filter((scene) => !scene.premium) : scenes;
-      const randomScene = filteredScenes[Math.floor(Math.random() * filteredScenes.length)];
+      // const filteredScenes = isPremiumUser ? scenes.filter((scene) => !scene.premium) : scenes;
+      const randomScene = scenes[Math.floor(Math.random() * scenes.length)];
       set({ currentScene: randomScene });
       localStorage.setItem("currentScene", JSON.stringify(randomScene));
       return;
@@ -38,10 +38,10 @@ const useSceneStore = create<SceneState>((set) => ({
     const currentScene = localStorage.getItem("currentScene");
     if (currentScene) {
       const parsedScene = JSON.parse(currentScene);
-      if (parsedScene.premium && !isPremiumUser) {
-        set({ currentScene: scenes[0] });
-        return;
-      }
+      // if (parsedScene.premium && !isPremiumUser) {
+      //   set({ currentScene: scenes[0] });
+      //   return;
+      // }
       set({ currentScene: parsedScene });
     }
   },

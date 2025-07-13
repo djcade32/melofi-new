@@ -256,7 +256,7 @@ const AccountModalSignedInUser = ({
           </div>
         </div>
 
-        {!loadingManageSubscription ? (
+        {/* {!loadingManageSubscription ? (
           isPremiumUser && (
             <div
               className={styles.accountModal__manage_subscription}
@@ -270,7 +270,7 @@ const AccountModalSignedInUser = ({
           <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
             <LoadingSpinner showBackground={false} />
           </div>
-        )}
+        )} */}
 
         <div
           className={`${styles.accountModal__section} ${styles.accountModal__danger_zone}`}

@@ -19,7 +19,7 @@ const dummyWeeklyFocusStats = [
 
 const MostProductiveDayChart = () => {
   const { getWeeklyFocusStats } = useInsightsStore();
-  const { isPremiumUser } = useUserStore();
+  const { isPremiumUser, isUserLoggedIn } = useUserStore();
 
   const labelFormatter = (value: number) => {
     if (value === 0) return "";
@@ -33,7 +33,8 @@ const MostProductiveDayChart = () => {
       <p className={styles.mostProductiveDayChart__label}>📅 Most Productive Day of the Week</p>
       <ResponsiveContainer width="100%" height={250}>
         <BarChart
-          data={isPremiumUser ? getWeeklyFocusStats() : dummyWeeklyFocusStats}
+          data={isUserLoggedIn ? getWeeklyFocusStats() : dummyWeeklyFocusStats}
+          // data={isPremiumUser ? getWeeklyFocusStats() : dummyWeeklyFocusStats}
           margin={{ top: 25, right: 0, left: 0, bottom: 20 }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#444" />

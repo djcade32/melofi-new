@@ -8,6 +8,7 @@ import useUserStore from "@/stores/user-store";
 import PremiumBadge from "@/ui/components/premiumBadge/PremiumBadge";
 import Button from "@/ui/components/shared/button/Button";
 import useAppStore from "@/stores/app-store";
+import useMenuStore from "@/stores/menu-store";
 
 const ACHIEVEMENTS_LIST: Achievement[] = [
   {
@@ -70,13 +71,14 @@ const ACHIEVEMENTS_LIST: Achievement[] = [
 
 const AchievementsSection = () => {
   const { achievements } = useUserStatsStore();
-  const { isPremiumUser } = useUserStore();
+  const { isPremiumUser, isUserLoggedIn } = useUserStore();
   const { setShowPremiumModal } = useAppStore();
+  const { setSelectedOption } = useMenuStore();
 
   const [userAchievements, setUserAchievements] = useState<AchievementTypes[]>([]);
   const [achievementsList, setAchievementsList] = useState<Achievement[]>([]);
   useEffect(() => {
-    if (!isPremiumUser) {
+    if (!isUserLoggedIn) {
       // Only show the first 4 achievements for non-premium users
       setAchievementsList(ACHIEVEMENTS_LIST.slice(0, 4));
       setUserAchievements(["Note Taker Extraordinaire 📝", "Pomodoro Pro 🍅"]);
@@ -84,15 +86,16 @@ const AchievementsSection = () => {
     }
     setUserAchievements(achievements);
     setAchievementsList(ACHIEVEMENTS_LIST);
-  }, [achievements, isPremiumUser]);
+  }, [achievements, isUserLoggedIn]);
 
   return (
     <div className={styles.achievementsSection__container}>
-      {!isPremiumUser && (
+      {!isUserLoggedIn && (
         <div className={styles.achievementsSection__premium_container}>
           <PremiumBadge
             id="premium-badge-achievements"
-            onClick={() => setShowPremiumModal("achievements")}
+            onClick={() => setSelectedOption("Account")}
+            // onClick={() => setShowPremiumModal("achievements")}
           />
           <p className={styles.achievementsSection__premium_text}>
             View your achievements and celebrate every milestone.
@@ -103,7 +106,8 @@ const AchievementsSection = () => {
             containerClassName={styles.achievementsSection__premium_button}
             hoverClassName={styles.achievementsSection__premium_button_hover}
             textClassName={styles.achievementsSection__premium_button_text}
-            onClick={() => setShowPremiumModal("achievements")}
+            onClick={() => setSelectedOption("Account")}
+            // onClick={() => setShowPremiumModal("achievements")}
           />
         </div>
       )}

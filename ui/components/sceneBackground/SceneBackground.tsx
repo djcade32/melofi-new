@@ -26,7 +26,8 @@ const SceneBackground = () => {
 
   useEffect(() => {
     getCurrentScene();
-  }, [appSettings.sceneRouletteEnabled, isPremiumUser]);
+  }, [appSettings.sceneRouletteEnabled]);
+  // }, [appSettings.sceneRouletteEnabled, isPremiumUser]);
 
   return (
     <div>

@@ -2,7 +2,7 @@ import { defineConfig } from "cypress";
 const isCI = process.env.CI === "true";
 // Have to run these tests locally
 
-const testToSkip = ["**/general/rotating_logo.cy.js"];
+const testToSkip = ["**/general/rotating_logo.cy.js", "**/features/premium_features.cy.ts"];
 // const testToSkip = [
 //   "**/auth/*.cy.js",
 //   "**/widgets/*.cy.js",
