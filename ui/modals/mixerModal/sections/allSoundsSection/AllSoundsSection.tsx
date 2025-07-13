@@ -10,7 +10,7 @@ import useUserStore from "@/stores/user-store";
 const AllSoundsSection = () => {
   const { currentScene } = useSceneStore();
   const { getOtherSounds, mixerSoundsConfig } = useMixerStore();
-  const { isPremiumUser } = useUserStore();
+  const { isPremiumUser, isUserLoggedIn } = useUserStore();
 
   const [otherSounds, setOtherSounds] = useState<Sound[] | undefined>(undefined);
 
@@ -18,7 +18,8 @@ const AllSoundsSection = () => {
     setOtherSounds(getOtherSounds(currentScene));
   }, [currentScene, mixerSoundsConfig]);
 
-  const soundIsDisabled = (sound: Sound) => sound.premium && !isPremiumUser;
+  const soundIsDisabled = (sound: Sound) => sound.premium && !isUserLoggedIn;
+  // const soundIsDisabled = (sound: Sound) => sound.premium && !isPremiumUser;
 
   return (
     <div className={styles.allSoundsSection__container}>
@@ -27,7 +28,8 @@ const AllSoundsSection = () => {
         {otherSounds?.map((sound) => (
           <Tooltip
             key={sound.name}
-            text={soundIsDisabled(sound) ? "Upgrade to use all sounds" : undefined}
+            text={soundIsDisabled(sound) ? "Sign in to use all sounds" : undefined}
+            // text={soundIsDisabled(sound) ? "Upgrade to use all sounds" : undefined}
             disabled={!soundIsDisabled(sound)}
             noFlex
             disableCloseOnClick

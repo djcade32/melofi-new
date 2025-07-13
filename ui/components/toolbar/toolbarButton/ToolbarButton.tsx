@@ -9,6 +9,7 @@ import { PiCrownSimpleFill } from "@/imports/icons";
 import useUserStore from "@/stores/user-store";
 import useAppStore from "@/stores/app-store";
 import { getPremiumModalType } from "@/utils/general";
+import useMenuStore from "@/stores/menu-store";
 
 interface ToolbarButtonProps {
   id: string;
@@ -27,10 +28,11 @@ const ToolbarButton = ({
   active,
   premiumWidget = false,
 }: ToolbarButtonProps) => {
-  const { setShowPremiumModal } = useAppStore();
+  // const { setShowPremiumModal } = useAppStore();
   const { isVertical, toggleTools } = useToolsStore();
   const [isHovered, setIsHovered] = useState(false);
-  const { isPremiumUser } = useUserStore();
+  const { isPremiumUser, isUserLoggedIn } = useUserStore();
+  const { setSelectedOption } = useMenuStore();
 
   const getIconColor = () => {
     if (active && !isHovered) {
@@ -40,12 +42,14 @@ const ToolbarButton = ({
   };
 
   const showPremiumIcon = () => {
-    return premiumWidget && !isPremiumUser;
+    // return premiumWidget && !isPremiumUser;
+    return premiumWidget && !isUserLoggedIn;
   };
 
   const handleOnClick = () => {
     if (showPremiumIcon()) {
-      setShowPremiumModal(getPremiumModalType(label));
+      // setShowPremiumModal(getPremiumModalType(label));
+      setSelectedOption("Account");
       toggleTools(false);
     } else {
       onClick();

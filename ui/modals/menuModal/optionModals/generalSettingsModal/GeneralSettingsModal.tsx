@@ -41,7 +41,7 @@ const GeneralSettingsModal = () => {
     setSceneRouletteEnabled,
     setShowMiddleClock,
   } = useAppStore();
-  const { isPremiumUser } = useUserStore();
+  const { isPremiumUser, isUserLoggedIn } = useUserStore();
   const isOpen = selectedOption === "General Settings";
   const [delayOption, setDelayOption] = useState<LongMenuOption>(delayOptions[0]);
 
@@ -185,16 +185,17 @@ const GeneralSettingsModal = () => {
           <div className={styles.generalSettingsModal__setting_container}>
             <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
               <p>Show Daily Quotes</p>
-              {!isPremiumUser && (
+              {!isUserLoggedIn && (
                 <PremiumBadge
                   id="premium-badge-show-quotes"
-                  onClick={() => setShowPremiumModal("show_quotes")}
+                  onClick={() => setSelectedOption("Account")}
+                  // onClick={() => setShowPremiumModal("show_quotes")}
                 />
               )}
             </div>
             <Switch
-              disabled={!isPremiumUser}
-              checked={isPremiumUser && appSettings.showDailyQuote}
+              disabled={!isUserLoggedIn}
+              checked={isUserLoggedIn && appSettings.showDailyQuote}
               onChange={() => setDailyQuoteEnabled(!appSettings.showDailyQuote)}
             />
           </div>
@@ -227,16 +228,17 @@ const GeneralSettingsModal = () => {
           <div className={styles.generalSettingsModal__setting_container}>
             <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
               <p>Scene Roulette</p>
-              {!isPremiumUser && (
+              {!isUserLoggedIn && (
                 <PremiumBadge
                   id="premium-badge-scenes"
-                  onClick={() => setShowPremiumModal("scenes")}
+                  onClick={() => setSelectedOption("Account")}
+                  // onClick={() => setShowPremiumModal("scenes")}
                 />
               )}
             </div>
             <Switch
-              disabled={!isPremiumUser}
-              checked={isPremiumUser && appSettings.sceneRouletteEnabled}
+              disabled={!isUserLoggedIn}
+              checked={isUserLoggedIn && appSettings.sceneRouletteEnabled}
               onChange={() => setSceneRouletteEnabled(!appSettings.sceneRouletteEnabled)}
             />
           </div>

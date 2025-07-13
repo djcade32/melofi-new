@@ -6,6 +6,7 @@ import useUserStore from "@/stores/user-store";
 import { PiCrownSimpleFill } from "@/imports/icons";
 import useAppStore from "@/stores/app-store";
 import { useOnboardingTourContext } from "@/contexts/OnboardingTourContext";
+import useMenuStore from "@/stores/menu-store";
 
 interface SceneThumbnailProps {
   scene: Scene;
@@ -19,11 +20,12 @@ const iconProps = {
 
 const SceneThumbnail = ({ scene, setSelectedScene }: SceneThumbnailProps) => {
   const { currentScene, toggleSceneModal } = useSceneStore();
-  const { isPremiumUser } = useUserStore();
-  const { setShowPremiumModal } = useAppStore();
+  const { isPremiumUser, isUserLoggedIn } = useUserStore();
+  // const { setShowPremiumModal } = useAppStore();
+  const { setSelectedOption } = useMenuStore();
   const { tourIsActive, moveToNextStep } = useOnboardingTourContext();
 
-  const showPremiumIcon = scene.premium && !isPremiumUser;
+  const showPremiumIcon = scene.premium && !isUserLoggedIn;
 
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -49,7 +51,8 @@ const SceneThumbnail = ({ scene, setSelectedScene }: SceneThumbnailProps) => {
 
   const handleThumbnailClick = () => {
     if (showPremiumIcon) {
-      setShowPremiumModal("scenes");
+      setSelectedOption("Account");
+      // setShowPremiumModal("scenes");
       return;
     }
     setSelectedScene(scene);

@@ -7,13 +7,15 @@ import { Playlist } from "@/types/interfaces/mixer";
 import useUserStore from "@/stores/user-store";
 import Button from "@/ui/components/shared/button/Button";
 import useAppStore from "@/stores/app-store";
+import useMenuStore from "@/stores/menu-store";
 
 const playlist = [Study, Relax, Sleepy];
 
 const PlaylistSection = () => {
   const { setCurrentPlaylist, currentPlaylist, shufflePlaylist } = useMusicPlayerStore();
-  const { isPremiumUser } = useUserStore();
+  const { isPremiumUser, isUserLoggedIn } = useUserStore();
   const { setShowPremiumModal } = useAppStore();
+  const { setSelectedOption } = useMenuStore();
 
   const handlePlayListButtonPress = (playlist: Playlist) => {
     if (currentPlaylist.id === playlist.id) return;
@@ -24,7 +26,8 @@ const PlaylistSection = () => {
     <div className={styles.playListSection__container}>
       <div
         className={`${styles.playListSection__premium_container} ${
-          !isPremiumUser && styles.not_premium_user
+          !isUserLoggedIn && styles.not_premium_user
+          // !isPremiumUser && styles.not_premium_user
         }`}
       >
         <Button
@@ -33,13 +36,15 @@ const PlaylistSection = () => {
           containerClassName={styles.playListSection__premium_button}
           hoverClassName={styles.playListSection__premium_button_hover}
           textClassName={styles.playListSection__premium_button_text}
-          onClick={() => setShowPremiumModal("mixer")}
+          // onClick={() => setShowPremiumModal("mixer")}
+          onClick={() => setSelectedOption("Account")}
         />
         <p>More moods, more music, more focus. Upgrade now! 🚀</p>
       </div>
       <div
         className={`${styles.playListSection__playlist_buttons} ${
-          !isPremiumUser && styles.not_premium_user
+          !isUserLoggedIn && styles.not_premium_user
+          // !isPremiumUser && styles.not_premium_user
         }`}
       >
         {playlist.map((playlist) => (
