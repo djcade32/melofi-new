@@ -9,7 +9,7 @@ import useUserStore from "@/stores/user-store";
 const SceneSoundsSection = () => {
   const { currentScene } = useSceneStore();
   const { getSceneSounds, mixerSoundsConfig } = useMixerStore();
-  const { isPremiumUser } = useUserStore();
+  const { isPremiumUser, isUserLoggedIn } = useUserStore();
 
   const [sceneSounds, setSceneSounds] = useState<Sound[] | undefined>(undefined);
 
@@ -17,7 +17,8 @@ const SceneSoundsSection = () => {
     setSceneSounds(getSceneSounds(currentScene));
   }, [currentScene, mixerSoundsConfig]);
 
-  const soundIsDisabled = (sound: Sound) => sound.premium && !isPremiumUser;
+  const soundIsDisabled = (sound: Sound) => sound.premium && !isUserLoggedIn;
+  // const soundIsDisabled = (sound: Sound) => sound.premium && !isPremiumUser;
 
   return (
     <div className={styles.sceneSoundsSection__container}>

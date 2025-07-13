@@ -45,7 +45,7 @@ export default function LandingPage() {
       <Hero />
       <About />
       <Features />
-      <Pricing />
+      {/* <Pricing /> */}
       <Contact />
       <Footer />
     </div>

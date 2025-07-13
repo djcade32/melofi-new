@@ -17,6 +17,7 @@ import { wait } from "@/utils/general";
 import { useAppContext } from "@/contexts/AppContext";
 import useUserStore from "@/stores/user-store";
 import useAppStore from "@/stores/app-store";
+import useMenuStore from "@/stores/menu-store";
 
 const Toolbar = () => {
   const nodeRef = useRef<HTMLDivElement | null>(null);
@@ -34,8 +35,9 @@ const Toolbar = () => {
     setOriginalDockedPosition,
   } = useToolsStore();
   const { isSleep } = useAppContext();
-  const { isPremiumUser } = useUserStore();
+  const { isPremiumUser, isUserLoggedIn } = useUserStore();
   const { setShowPremiumModal, appSettings } = useAppStore();
+  const { setSelectedOption } = useMenuStore();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -73,15 +75,18 @@ const Toolbar = () => {
         <CgArrowsExpandDownRight size={20} color="var(--color-primary-opacity)" />
       ),
       onClick: () => {
-        if (!isPremiumUser) {
-          setShowPremiumModal("toolbar_settings");
+        // if (!isPremiumUser) {
+        if (!isUserLoggedIn) {
+          setSelectedOption("Account");
+          // setShowPremiumModal("toolbar_settings");
           handleClose();
           return;
         }
         toggleUndocked(!isUndocked);
         handleClose();
       },
-      showPremiumIcon: isPremiumUser === false,
+      showPremiumIcon: isUserLoggedIn === false,
+      // showPremiumIcon: isPremiumUser === false,
     },
     {
       id: "menu-option-2",
@@ -92,15 +97,17 @@ const Toolbar = () => {
         <LuGalleryVertical size={20} color="var(--color-primary-opacity)" />
       ),
       onClick: () => {
-        if (!isPremiumUser) {
-          setShowPremiumModal("toolbar_settings");
+        // if (!isPremiumUser) {
+        if (!isUserLoggedIn) {
+          setSelectedOption("Account");
+          // setShowPremiumModal("toolbar_settings");
           handleClose();
           return;
         }
         toggleVertical(!isVertical);
         handleClose();
       },
-      showPremiumIcon: isPremiumUser === false,
+      showPremiumIcon: isUserLoggedIn === false,
     },
   ];
 

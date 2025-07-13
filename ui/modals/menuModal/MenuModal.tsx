@@ -169,7 +169,8 @@ const MenuModal = memo(() => {
     if (!showLogoutOption) {
       optionsToShow = optionsToShow.filter((option) => option.id !== "menu-option-logout");
     }
-    if (isElectron() || membershipType !== "lifetime") {
+    // if (isElectron() || membershipType !== "lifetime") {
+    if (isElectron()) {
       optionsToShow = optionsToShow.filter((option) => option.id !== "menu-option-download");
     }
     return optionsToShow;

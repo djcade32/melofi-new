@@ -53,7 +53,8 @@ const useUserStore = create<UserState>((set, get) => ({
   isUserLoggedIn: false,
   currentUser: undefined,
   userStats: undefined,
-  isPremiumUser: undefined,
+  // isPremiumUser: undefined,
+  isPremiumUser: true,
   membershipType: "free",
 
   getCurrentUserUid: () => {
