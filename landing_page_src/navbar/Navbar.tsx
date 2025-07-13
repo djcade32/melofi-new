@@ -5,7 +5,8 @@ import styles from "./navbar.module.css";
 import { IoMenuOutline, IoCloseOutline } from "@/imports/icons";
 import { capitalizeFirstLetter } from "@/utils/strings";
 
-const links = ["Home", "About", "Features", "Pricing", "Contact"];
+const links = ["Home", "About", "Features", "Contact"];
+// const links = ["Home", "About", "Features", "Pricing", "Contact"];
 
 interface NavbarProps {
   bumpDown?: boolean;
