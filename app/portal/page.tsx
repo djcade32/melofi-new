@@ -4,7 +4,6 @@ import { GoogleAnalytics } from "nextjs-google-analytics";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import AuthModal from "@/portal_src/authModal/AuthModal";
-import Image from "next/image";
 import NotificationProvider from "@/providers/notificationProvider/NotificationProvider";
 import useUserStore from "@/stores/user-store";
 import { MelofiUser } from "@/types/general";
@@ -66,7 +65,7 @@ export default function PortalPage() {
       >
         <GoogleAnalytics trackPageViews gaMeasurementId="G-J2YND7L37W" />
 
-        <Image
+        <img
           src="/assets/logos/logo-black.png"
           alt="Melofi logo"
           width={122}

@@ -24,7 +24,7 @@ const About = () => {
         </p>
       </motion.div>
       <div>
-        <Image
+        <img
           className={styles.about__image}
           src="/assets/landing-page/about.png"
           alt="about"
