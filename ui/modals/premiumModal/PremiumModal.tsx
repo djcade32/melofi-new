@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./premiumModal.module.css";
 import Modal from "@/ui/components/shared/modal/Modal";
-import Image from "next/image";
 import Button from "@/ui/components/shared/button/Button";
 import useAppStore from "@/stores/app-store";
 import { createCheckoutSession } from "@/lib/stripe/createCheckoutSession";
@@ -31,7 +30,6 @@ const PremiumModal = () => {
   const { currentUser } = useUserStore();
   const [content, setContent] = useState<React.ReactNode>(null);
   const [isYearly, setIsYearly] = useState(true);
-  const isOnline = typeof window !== "undefined" ? navigator.onLine : true;
 
   useEffect(() => {
     setContent(getContent());
@@ -47,12 +45,11 @@ const PremiumModal = () => {
               Take full control of your sound with all playlists, ambient layers, and seamless
               Spotify integration.
             </p>
-            <Image
+            <img
               src="/assets/premium-pics/mixer-modal-premium-pic.png"
               alt="Premium Modal"
               width={350}
               height={196.88}
-              unoptimized={!isOnline}
             />
           </>
         );
@@ -64,12 +61,11 @@ const PremiumModal = () => {
               Unlock the Pomodoro timer to stay focused, manage breaks, and get more
               done—distraction-free.
             </p>
-            <Image
+            <img
               src="/assets/premium-pics/pomodoro-timer-premium-pic.png"
               alt="Premium Modal"
               width={261.33}
               height={196}
-              unoptimized={!isOnline}
             />
           </>
         );
@@ -81,12 +77,11 @@ const PremiumModal = () => {
               Unlock Templates to save and switch between your favorite Melofi setups—scenes, and
               sounds.
             </p>
-            <Image
+            <img
               src="/assets/premium-pics/templates-premium-pic.png"
               alt="Premium Modal"
               width={215}
               height={215}
-              unoptimized={!isOnline}
             />
           </>
         );
@@ -98,12 +93,11 @@ const PremiumModal = () => {
               Unlock the YouTube widget to watch videos while staying in the zone—seamless,
               distraction-free focus.
             </p>
-            <Image
+            <img
               src="/assets/premium-pics/youtube-premium-pic.png"
               alt="Premium Modal"
               width={355.56}
               height={200}
-              unoptimized={!isOnline}
             />
           </>
         );
@@ -115,12 +109,11 @@ const PremiumModal = () => {
               Unlock toolbar customization to change its orientation or undock it for a setup that
               fits your flow.
             </p>
-            <Image
+            <img
               src="/assets/premium-pics/toolbar-settings-premium-pic.png"
               alt="Premium Modal"
               width={266.67}
               height={200}
-              unoptimized={!isOnline}
             />
           </>
         );
@@ -132,12 +125,11 @@ const PremiumModal = () => {
               Unlock detailed focus stats—track your best days, total focus time, breaks, and more
               to optimize your productivity.
             </p>
-            <Image
+            <img
               src="/assets/premium-pics/focus-stats-premium-pic-1.png"
               alt="Premium Modal"
               width={333.33}
               height={200}
-              unoptimized={!isOnline}
             />
           </>
         );
@@ -148,12 +140,11 @@ const PremiumModal = () => {
             <p className={styles.premiumModal__description}>
               Unlock a collection of motivational quotes to keep you inspired and in the zone.
             </p>
-            <Image
+            <img
               src="/assets/premium-pics/quotes-premium-pic.png"
               alt="Premium Modal"
               width={400}
               height={200}
-              unoptimized={!isOnline}
             />
           </>
         );
@@ -165,12 +156,11 @@ const PremiumModal = () => {
               Unlock Spotify integration to paste any playlist URL and enjoy your perfect focus
               soundtrack right in Melofi.
             </p>
-            <Image
+            <img
               src="/assets/premium-pics/spotify-premium-pic.png"
               alt="Premium Modal"
               width={355.56}
               height={200}
-              unoptimized={!isOnline}
             />
           </>
         );
@@ -182,12 +172,11 @@ const PremiumModal = () => {
               Upgrade to Premium to access a collection of immersive scenes that set the perfect
               mood for focus and relaxation.
             </p>
-            <Image
+            <img
               src="/assets/premium-pics/scenes-premium-pic.png"
               alt="Premium Modal"
               width={320}
               height={200}
-              unoptimized={!isOnline}
             />
           </>
         );
@@ -198,12 +187,11 @@ const PremiumModal = () => {
             <p className={styles.premiumModal__description}>
               Set custom alerts and stay in control of your time and focus.
             </p>
-            <Image
+            <img
               src="/assets/premium-pics/alarms-premium-pic.png"
               alt="Premium Modal"
               width={215}
               height={215}
-              unoptimized={!isOnline}
             />
           </>
         );
@@ -214,12 +202,11 @@ const PremiumModal = () => {
             <p className={styles.premiumModal__description}>
               See how far you've come and stay motivated on your focus journey.
             </p>
-            <Image
+            <img
               src="/assets/premium-pics/achievements-premium-pic.png"
               alt="Premium Modal"
               width={215}
               height={215}
-              unoptimized={!isOnline}
             />
           </>
         );

@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./musicSourceSection.module.css";
 import MusicSourceButton from "./musicSourceButton/MusicSourceButton";
-import melofiLogo from "@/public/assets/logos/logo-white.png";
 import { BsSpotify } from "@/imports/icons";
 import useMixerStore from "@/stores/mixer-store";
 import { MusicSource } from "@/enums/general";
@@ -15,7 +14,7 @@ const MusicSourceSection = () => {
       <MusicSourceButton
         id={`music-source-button-${MusicSource.MELOFI}`}
         label="Melofi"
-        imgSrc={melofiLogo}
+        imgSrc="/assets/logos/logo-white.png"
         isActive={musicSource === MusicSource.MELOFI}
         onClick={() => setMusicSource(MusicSource.MELOFI)}
       />

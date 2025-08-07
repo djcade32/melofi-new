@@ -2,8 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./rotatingLogo.module.css";
-import Image from "next/image";
-import logo from "@/public/assets/logos/melofi-logo.png";
 
 const RotatingLogo = () => {
   const [rotationDirection, setRotationDirection] = useState("0"); // Keep track of current rotation angle
@@ -28,7 +26,7 @@ const RotatingLogo = () => {
       }`}
       onClick={handleClick}
     >
-      <Image src={logo} alt="melofi logo" width={122} height={122} priority />
+      <img src="/assets/logos/melofi-logo.png" alt="melofi logo" width={122} height={122} />
     </div>
   );
 };
